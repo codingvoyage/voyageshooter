@@ -11,6 +11,17 @@ package spaceinvaders;
 public class ScriptManager {
     
     
+    public ScriptManager() 
+    {
+        
+        
+    }
+    
+    public Script getScriptAtID(int scriptIDnumber) 
+    {
+        //Refers to the arraylist, find the one with scriptIDnumber
+        return null;
+    }
     
     
 }

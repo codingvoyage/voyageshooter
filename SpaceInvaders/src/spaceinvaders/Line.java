@@ -92,4 +92,9 @@ public class Line {
         return getParameter(index).getDoubleValue();
     }
     
+    //Of course, the user should be able to tell how many Parameters there are
+    public int getParameterCount()
+    {
+        return parameterList.size();
+    }
 }

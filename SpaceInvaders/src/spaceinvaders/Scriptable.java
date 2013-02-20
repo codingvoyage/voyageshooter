@@ -9,8 +9,10 @@ package spaceinvaders;
  * @author Edmund
  */
 public interface Scriptable {
-    int lineNumber = 0;
-    int scriptFileID = 0;
+   
+    int getLineNumber();
+    int getScriptID();
+    boolean isRunning();
     
 
 }
