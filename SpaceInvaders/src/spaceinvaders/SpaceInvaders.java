@@ -6,8 +6,11 @@ package spaceinvaders;
 
 /**
  * Space Invaders Game
+ * A simple space invaders game
+ * 
  * @author Brian Yang
  * @author Edmund Qiu
+ * @version 0.1
  */
 public class SpaceInvaders {
 
@@ -15,7 +18,6 @@ public class SpaceInvaders {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        System.out.print("Hello world!");
+        
     }
 }
