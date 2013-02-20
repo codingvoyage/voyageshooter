@@ -20,6 +20,13 @@ public class SpaceInvaders extends BasicGame {
 
     public void init(GameContainer gc) throws SlickException {
         //This initializes stuff
+        gc.setMinimumLogicUpdateInterval(20);
+        
+        
+        
+        
+        
+        
     }
 
     public void update(GameContainer gc, int delta) throws SlickException {
@@ -31,6 +38,14 @@ public class SpaceInvaders extends BasicGame {
         //with the drawing of each frame go HERE
         
         g.drawString("We are Team Coding Voyage!", 100, 100);
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
     public static void main(String[] args) throws SlickException
