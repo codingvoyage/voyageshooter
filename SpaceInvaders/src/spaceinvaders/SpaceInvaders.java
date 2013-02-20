@@ -21,15 +21,18 @@ public class SpaceInvaders extends BasicGame {
     }
 
     public void init(GameContainer gc) throws SlickException {
-
+        //This initializes stuff
     }
 
     public void update(GameContainer gc, int delta) throws SlickException {
-
+        //This part handles game logic
     }
 
     public void render(GameContainer gc, Graphics g) throws SlickException {
-       g.drawString("Hello World", 100, 100);
+        //Any and all graphics/rendering functions which should be called
+        //with the drawing of each frame go HERE
+        
+        g.drawString("Hello World", 100, 100);
     }
 
     public static void main(String[] args) throws SlickException
