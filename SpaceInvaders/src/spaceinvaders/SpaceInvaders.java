@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package spaceinvaders;
 
 import org.newdawn.slick.*;
@@ -14,10 +11,11 @@ import org.newdawn.slick.*;
  * @author Edmund Qiu
  * @version 0.1
  */
+
 public class SpaceInvaders extends BasicGame {
 
     public SpaceInvaders() {
-       super("Hello World");
+       super("We are Team Coding Voyage!");
     }
 
     public void init(GameContainer gc) throws SlickException {
@@ -32,14 +30,14 @@ public class SpaceInvaders extends BasicGame {
         //Any and all graphics/rendering functions which should be called
         //with the drawing of each frame go HERE
         
-        g.drawString("Hello World", 100, 100);
+        g.drawString("We are Team Coding Voyage!", 100, 100);
     }
 
     public static void main(String[] args) throws SlickException
     {
        AppGameContainer app = new AppGameContainer(new SpaceInvaders());
 
-       app.setDisplayMode(800, 600, false);
+       app.setDisplayMode(1024, 768, false);
        app.start();
     }
 }
