@@ -24,7 +24,7 @@ public class SpaceInvaders extends BasicGame {
         //This initializes stuff
         gc.setMinimumLogicUpdateInterval(20);
         
-        myRandomScript = new Script("copy.txt");
+        myRandomScript = new Script("script.txt");
         
     }
 

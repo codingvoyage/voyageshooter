@@ -58,8 +58,9 @@ public class Script {
                     //formatted Parameters
                     Line formattedLineObject = formatLine(myNextLine);
                     
-                    //Add this to the master list of Lines
-                    lineList.add(formattedLineObject);
+                    if (formattedLineObject != null)
+                        //Add this to the master list of Lines
+                        lineList.add(formattedLineObject);
                     
                 }
             }
@@ -193,12 +194,25 @@ public class Script {
                 //Unfortunately, the process will be slightly more complicated. 
                 
                 //First off, if the doneWithCommandID is false, then this
-                //MUST BE the commandID
+                //MUST BE the commandID UNLESS IT IS '--' WHICH DENOTES THAT
+                //IT IS A COMMENT, for which we move on to the next line 
+                //immediately.
                 if (!doneWithCommandID)
                 {
-                    formattedLine = new Line();
-                    formattedLine.setCommandID(findCommandID(currentToken));
-                    doneWithCommandID = true;
+                    //IS IT NOT A COMMENT??
+                    if (!currentToken.equals("--"))
+                    {
+                        formattedLine = new Line();
+                        formattedLine.setCommandID(findCommandID(currentToken));
+                        doneWithCommandID = true;
+                    } 
+                    else //So it was a comment!
+                    {
+                        areWeDone = true;
+                        //What happens now is that the formatLine method will
+                        //return a null, and the code will see that if it's a
+                        //null, it just moves on. Hence, comments are ignored.
+                    }
                 } 
                 else
                 //Otherwise, yeah now we have to determine whether this is a 
@@ -248,7 +262,8 @@ public class Script {
         }
         
         //If it's still null, something's really wrong
-        assert (formattedLine != null);
+        //assert (formattedLine != null);
+        //Actually if it's null, then it's a comment!
         return formattedLine;
     }
     
