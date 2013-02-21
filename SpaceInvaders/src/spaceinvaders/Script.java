@@ -75,8 +75,10 @@ public class Script {
     //line from String to proper Line object
     private Line formatLine(String unformattedLine)
     {
-
-        //The first... 
+        //This is the actual Line object that we're going to construct, modify
+        //and return. I'm not initializing it, because that should be done
+        //in the following piece of code. If I messed up, then let the program
+        //crash so that I will know.
         Line formattedLine = null;
         
         //currentIndex refers to the index of the currently examined 
@@ -294,6 +296,14 @@ public class Script {
         catch(NumberFormatException e) {}
         
         //What the hell. Alright. It's a string. Just make it so
+        //No really, in fact it might play an important role in that what if
+        //we have a function Compare GreaterEquals var1 var2. In this case,
+        //although Compare is the command, the rest are special. Compare would
+        //check first what kind of comparison to make, which GreaterEquals 
+        //denotes. But we want to reserve the "  " for names which have
+        //real strings, most prominently what we plan the state names to be.
+        //SetNewState "Doing50BearAssCollection" "YES". These aren't additional
+        //information for the interpreter... these are literals for the engine.
         return 4;
                     
     }
