@@ -2,7 +2,6 @@
 package spaceinvaders;
 
 import org.newdawn.slick.*;
-
 /**
  * Space Invaders Game
  * A simple space invaders game
@@ -14,6 +13,9 @@ import org.newdawn.slick.*;
 
 public class SpaceInvaders extends BasicGame {
 
+    Script myRandomScript;
+        
+    
     public SpaceInvaders() {
        super("We are Team Coding Voyage!");
     }
@@ -22,10 +24,7 @@ public class SpaceInvaders extends BasicGame {
         //This initializes stuff
         gc.setMinimumLogicUpdateInterval(20);
         
-        
-        
-        
-        
+        myRandomScript = new Script("text.txt");
         
     }
 
@@ -40,10 +39,19 @@ public class SpaceInvaders extends BasicGame {
         g.drawString("We are Team Coding Voyage!", 100, 100);
         
         
+        //Wow. it worked.
+        //Okay, time to show that it worked.
+        //myRandomScript
         
+        int linesToPrint = myRandomScript.getLineCount();
         
+        for (int i = 0; i < linesToPrint; i++)
+        {
+            g.drawString(myRandomScript.getLine(i).toString(), 100, 200 + 20*i);
+            //g.drawString("hai", 100, 200 + 50*i);
         
-        
+            
+        }
         
         
     }

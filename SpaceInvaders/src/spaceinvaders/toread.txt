@@ -1,0 +1,10 @@
+http://gamedev.stackexchange.com/questions/2482/tips-for-implementing-mmo-quest-mechanics
+http://www.gamedev.net/topic/470755-rpg-engine-design-using-component-entity-subsystems/
+http://stackoverflow.com/questions/133214/is-there-a-typical-state-machine-implementation-pattern
+https://www.google.com/search?q=how+fast+is+java+map&oq=how+fast+is+java+map&aqs=chrome.0.57j62l3.2579&sourceid=chrome&ie=UTF-8#hl=en&sugexp=les%3B&gs_rn=3&gs_ri=psy-ab&gs_mss=fastest%20java%20m&pq=how%20fast%20is%20java%20map&cp=17&gs_id=1z&xhr=t&q=fastest+java+map+implementations&es_nrs=true&pf=p&tbo=d&sclient=psy-ab&oq=fastest+java+map+&gs_l=&pbx=1&bav=on.2,or.r_gc.r_pw.r_qf.&bvm=bv.42553238,d.dmQ&fp=80e8cd9516256c13&biw=960&bih=477
+
+http://www.dummies.com/how-to/content/what-is-plsql-good-for.html
+http://www.sqlcourse.com/select_answers.html
+http://jobsearchtech.about.com/gi/o.htm?zi=1/XJ&zTi=1&sdn=jobsearchtech&cdn=careers&tm=9276&f=00&su=p284.13.342.ip_p554.23.342.ip_&tt=11&bt=0&bts=0&zu=http%3A//www.informit.com/library/library.aspx%3Fb%3DSTY_Sql_24hours
+http://cplus.about.com/od/thebusinessofsoftware/a/whatissql.htm
+http://docs.oracle.com/javase/6/docs/api/java/io/Serializable.html
