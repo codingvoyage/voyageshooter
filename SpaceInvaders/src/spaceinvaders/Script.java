@@ -231,14 +231,18 @@ public class Script {
                             formattedLine.addParameter(currentToken);
                             break;
                     }
-                }
+                    
+                //This is the end bracket for the part which determined
+                //the type of currentToken. That lets us pass it to Line
+                //in an appropriate fashion.
+                } 
                 
-                
-                
+            //This is the end bracket for the ENTIRE part which acts whenever
+            //the currently indexed character is or is NOT a quotation mark
             }
             
-            
-            
+        //This is the end bracket for the entire while loop. Basically, it
+        //hits the end of the while loop with each token that gets extracted
         }
         
         //If it's still null, something's really wrong
@@ -258,6 +262,11 @@ public class Script {
         return 1337;
     }
     
+    //I realized that it would be super-unwieldy to place the code which
+    //checks what type the token is in the loop, so I made it a private
+    //function. Another neat thing is that the fact it's a function means
+    //we have a sort of an early-out mechanism when determining what kind of
+    //token it is. For example if it's "true", a 1 gets returned immediately.
     private int getCurrentType(String token)
     {
         //Alright, first we attempt to see if it's "true" or "false"
