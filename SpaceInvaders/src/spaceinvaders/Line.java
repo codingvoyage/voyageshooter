@@ -23,6 +23,13 @@ public class Line {
         parameterList = new ArrayList<Parameter>();
     }
     
+    public Line()
+    {
+        //My way of saying you done goof'd
+        this.commandID = -1;
+        parameterList = new ArrayList<Parameter>();
+    }
+    
     //Setters and getters for commandID
     public void setCommandID(int newCommandID) 
     {
@@ -34,42 +41,6 @@ public class Line {
         return commandID;
     }
     
-    
-    //For debugging
-    public String toString()
-    {
-        //First, it's the command ID
-        String returnThis = Integer.toString(commandID);
-        
-        //Now add all of the parameters, if applicable
-        for (int i = 0; i < parameterList.size(); i++)
-        {
-            //Add a space..
-            returnThis += " ";
-            
-            //Add the parameter
-            //Now this depends on the type it is...
-            Parameter currentParameter = getParameter(i);
-            int parameterType = currentParameter.getStoredType();
-            switch (parameterType)
-            {
-                case 1:
-                    returnThis += currentParameter.getStringValue();
-                    break;
-                case 2:
-                    returnThis += currentParameter.getIntegerValue();
-                    break;
-                case 3:
-                    returnThis += currentParameter.getBooleanValue();
-                    break;
-                case 4:
-                    returnThis += currentParameter.getDoubleValue();
-                    break;
-            }
-        }
-        
-        return returnThis;
-    }
     
     //Adds a new parameter which contains the indicated value
     public void addParameter(int newIntegerParameter) 
@@ -113,6 +84,11 @@ public class Line {
         return getParameter(index).getDoubleValue();
     }
     
+    public int getParameterType(int index)
+    {
+        return getParameter(index).getStoredType();
+    }
+    
     //Of course, the user should be able to tell how many Parameters there are
     public int getParameterCount()
     {
@@ -129,5 +105,41 @@ public class Line {
     //the Parameter objects; interactions should only happen through Line
     private Parameter getParameter(int index) {
         return parameterList.get(index);
+    }
+    
+    //For debugging, changing the whole Line into a String.
+    public String toString()
+    {
+        //First, it's the command ID
+        String returnThis = Integer.toString(commandID);
+        
+        //Now add all of the parameters, if applicable
+        for (int i = 0; i < parameterList.size(); i++)
+        {
+            //Add a space..
+            returnThis += " ";
+            
+            //Add the parameter
+            //Now this depends on the type it is...
+            Parameter currentParameter = getParameter(i);
+            int parameterType = currentParameter.getStoredType();
+            switch (parameterType)
+            {
+                case 1:
+                    returnThis += currentParameter.getStringValue();
+                    break;
+                case 2:
+                    returnThis += currentParameter.getIntegerValue();
+                    break;
+                case 3:
+                    returnThis += currentParameter.getBooleanValue();
+                    break;
+                case 4:
+                    returnThis += currentParameter.getDoubleValue();
+                    break;
+            }
+        }
+        
+        return returnThis;
     }
 }
