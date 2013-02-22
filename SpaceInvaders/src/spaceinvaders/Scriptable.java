@@ -8,6 +8,7 @@ public interface Scriptable {
    
     int getLineNumber();
     void setLineNumber(int newLineNumber);
+    
     int getScriptID();
     boolean isRunning();
     

@@ -45,7 +45,8 @@ public class Line {
     //Adds a new parameter which contains the indicated value
     public void addParameter(int newIntegerParameter) 
     {
-        addParameter(new Parameter(newIntegerParameter));
+        //It just gets cast into a double when stored
+        addParameter(new Parameter((double)newIntegerParameter));
     }
     
     public void addParameter(String newStringParameter) 
@@ -71,7 +72,8 @@ public class Line {
     
     public int getIntegerParameter(int index)
     {
-        return getParameter(index).getIntegerValue();
+        //You use this when you are certain that it's an int
+        return (int)getParameter(index).getDoubleValue();
     }
     
     public boolean getBooleanParameter(int index)
@@ -129,12 +131,9 @@ public class Line {
                     returnThis += currentParameter.getStringValue();
                     break;
                 case 2:
-                    returnThis += currentParameter.getIntegerValue();
-                    break;
-                case 3:
                     returnThis += currentParameter.getBooleanValue();
                     break;
-                case 4:
+                case 3:
                     returnThis += currentParameter.getDoubleValue();
                     break;
             }

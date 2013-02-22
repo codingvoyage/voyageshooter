@@ -242,11 +242,7 @@ public class Script {
                             formattedLine.addParameter(
                                     Double.parseDouble(currentToken));
                             break;
-                        case 3: //integer
-                            formattedLine.addParameter(
-                                    Integer.parseInt(currentToken));
-                            break;
-                        case 4: //give up. String
+                        case 3: //give up. String
                             formattedLine.addParameter(currentToken);
                             break;
                     }
@@ -306,27 +302,15 @@ public class Script {
             return 1;
         else if (token.equals("false"))
             return 0;
-        
                    
         //If we're still here, let's try to convert it to a double...
         try
         {
-            //If we even get here, then it worked. It's a double!
+            //Then it worked. It's a double!
             double dummyVal = Double.parseDouble(token);
             return 2;
         }
         catch(NumberFormatException e) {}
-        
-        
-        //Alright, if we're here, then it's not a double! Try integer.
-        try
-        {
-            //If we even get here, then it worked. It's an integer!
-            int dummyVal = Integer.parseInt(token);
-            return 3;
-        }
-        catch(NumberFormatException e) {}
-        
         
         //What the hell. Alright. It's a string. Just make it so
         //No really, in fact it might play an important role in that what if
@@ -337,7 +321,7 @@ public class Script {
         //real strings, most prominently what we plan the state names to be.
         //SetNewState "Doing50BearAssCollection" "YES". These aren't additional
         //information for the interpreter... these are literals for the engine.
-        return 4;
+        return 3;
                     
     }
 }

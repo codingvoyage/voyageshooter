@@ -13,6 +13,9 @@ public class ScriptReader
 {
     private ScriptManager scr;
     
+    //These will get changed every time act(Scriptable s, double deltaTime)
+    //is called. It makes it convenient since now the ScriptReader methods
+    //do not have to be passed this every time.
     private Scriptable currentScriptable;
     private double currentDeltaTime;
     
@@ -46,13 +49,14 @@ public class ScriptReader
         //execution
         if (currentScriptable.isRunning()) 
         {
-            //The only two commands we have like this are
-            //wait and move
+            //Will we continue running the same command?
             boolean doesContinue = continuesRunning(currentLine);
+            
+            //This only gets called when we JUST finished the current command
             if (!doesContinue) 
             {
-                //So it's false. Do not continue running, move on
-                //to the next line too!
+                //So since we're not staying on the same command, we now move on
+                //to the next line!
                 currentScriptable.setLineNumber(
                         currentScriptable.getLineNumber() + 1);
             }
@@ -61,22 +65,29 @@ public class ScriptReader
         //Now, if by now there is no command already in execution, then...
         if (!currentScriptable.isRunning()) 
         {
-            System.out.println("Aha, there's nothing being executed so far...");
-            //Now we keep going from line to line...
-            boolean doWeStop = false;
-            while (!doWeStop) 
+            
+            //We will go from line to line
+            boolean doWeContinue = true;
+            while (doWeContinue) 
             {
-                //Execute the next command
-               
                 //First, get the current Line of the current Script
+                //This is kind of a mouthful, so first it gets the ScriptID
+                //from the class implementing Scriptable, and then grabs from
+                //the ScriptManager, using that scriptID, the Script object
+                //itself, and then finally, from that Script object the program
+                //retrieves the line which is located at the line number
+                //specified in the class implementing Scriptable.
                 Line thisLine = scr.getScriptAtID(currentScriptable.getScriptID()).
                         getLine(currentScriptable.getLineNumber());
                 
-                doWeStop = executeCommand(thisLine);
+                //Now that we have the line, we execute it.
+                doWeContinue = executeCommand(thisLine);
                 
                 //Now, if we aren't halting, then after the line is over, 
                 //move on to the next line! UNLESS it was a goto statement!
-                if (!doWeStop && (thisLine.getCommandID() != 1)) 
+                //Of course, if it is a goto statement, it will remain a
+                //"Yes we continue!" but without switching lines
+                if (doWeContinue && (thisLine.getCommandID() != 1)) 
                 {
                     System.out.println("Next line!");
                     currentScriptable.setLineNumber(
@@ -84,20 +95,25 @@ public class ScriptReader
                 }
                 else 
                 {
-                    
+                    //Well, we DID stop then, and so we DON'T want to move on
+                    //to the next line...
                 }
                 
-            }
-            
-            
-        }
+            } //End of the while loop which basically continues to execute the
+            //next command until it reaches a command which takes time to do
+          
+        } //This is the end of the if-statement that executes commands. It will
+        //only get called if there isn't a command in progress already for
+        //the given script
         
-        
-        
-        
-    }
+    } //This is the end of the entire act(Scriptable s, double deltaTime) method
     
-    //The boolean it returns indicates whether it should continue running
+    
+    //continuesRunning basically asks currentScriptable whether it has completed
+    //its task. If it still has not, then continuesRunning returns a TRUE, as in
+    //"yes, since the task isn't complete, DO CONTINUE TO RUN". If the class
+    //instead indicates that it has completed its task, then continuesRunning
+    //will return false.
     private boolean continuesRunning(Line currentLine)
     {
         boolean result = true;
@@ -116,9 +132,17 @@ public class ScriptReader
         return result;
     }
     
+    
+    //Now, there are two types of commands - ones which occupy time
+    //or ones which are executed immediately. When executeCommand goes
+    //through and discovers what the command does, it will return a boolean
+    //which indicates whether to continue to the next line. TRUE means 
+    //"YES, we do continue" and FALSE means "FALSE, this is the last command!" 
     public boolean executeCommand(Line currentLine)
     {
-        boolean stopAfterThis = false;
+        //By default it's true, unless the command is the type that makes it
+        //false
+        boolean continueExecuting = true;
         
         switch (currentLine.getCommandID())
         {
@@ -127,11 +151,10 @@ public class ScriptReader
                 
                 System.out.println("Let's start waiting for " + thisLong + " milliseconds!!");
                 currentScriptable.beginWait(thisLong);
-                stopAfterThis = true;
+                continueExecuting = false;
                 break;
             case 1: //GOTO, huh?
-                int newLine = (int)currentLine.getDoubleParameter(0);
-                
+                int newLine = currentLine.getIntegerParameter(0);
                 currentScriptable.setLineNumber(newLine);
                 break;
             case 2:
@@ -143,16 +166,18 @@ public class ScriptReader
                 System.out.println("Alright we don't have code for facing a direction yet.");
                 break;
             case 11:
+                //Moving
                 System.out.println("Starting to walk....");
                 double pixelsToWalk = currentLine.getDoubleParameter(0);
                 ((Entity)currentScriptable).beginMove(pixelsToWalk);
-                stopAfterThis = true;
-                //Moving
+                continueExecuting = false;
                 break;
                 
             
         }
-        return stopAfterThis;
+        
+        //Returns whether to continue loading more commands
+        return continueExecuting;
     }
     
 }

@@ -15,7 +15,6 @@ public class Parameter {
     
     //Stores the actual value
     private String s;
-    private int i;
     private boolean b;
     private double d;
   
@@ -26,22 +25,16 @@ public class Parameter {
         whichType = 1;
     }
     
-    public Parameter(int newInteger)
-    {
-        setIntegerValue(newInteger);
-        whichType = 2;
-    }
-    
     public Parameter(boolean newBoolean)
     {
         setBooleanValue(newBoolean);
-        whichType = 3;
+        whichType = 2;
     }
     
     public Parameter(double newDouble)
     {
         setDoubleValue(newDouble);;
-        whichType = 4;
+        whichType = 3;
     }
     
     //Returns the type stored
@@ -54,11 +47,6 @@ public class Parameter {
     public String getStringValue() 
     {
         return s;
-    }
-    
-    public int getIntegerValue()
-    {
-        return i;
     }
     
     public boolean getBooleanValue()
@@ -78,11 +66,6 @@ public class Parameter {
         s = newString;
     }
     
-    public void setIntegerValue(int newInteger)
-    {
-        i = newInteger;
-    }
-    
     public void setBooleanValue(boolean newBoolean)
     {
         b = newBoolean;
@@ -94,3 +77,13 @@ public class Parameter {
     }
     
 }
+
+
+/*
+ * If I ever support doubles, then let this be what is used to check...
+ *
+ * private static Pattern doublePattern = Pattern.compile("-?\\d+(\\.\\d*)?");
+ * public boolean isDouble(String string) {
+ *      return doublePattern.matcher(string).matches();
+ * }
+ */ 
