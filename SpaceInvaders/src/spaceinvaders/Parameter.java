@@ -11,36 +11,36 @@ public class Parameter {
      * 3 for boolean
      * 4 for double
      */
-    int whichType;
+    private int whichType;
     
     //Stores the actual value
-    String s;
-    int i;
-    boolean b;
-    double d;
+    private String s;
+    private int i;
+    private boolean b;
+    private double d;
   
-    
+    //Here are all the constructors of the different supported types...
     public Parameter(String newString)
     {
-        s = newString;
+        setStringValue(newString);
         whichType = 1;
     }
     
     public Parameter(int newInteger)
     {
-        i = newInteger;
+        setIntegerValue(newInteger);
         whichType = 2;
     }
     
     public Parameter(boolean newBoolean)
     {
-        b = newBoolean;
+        setBooleanValue(newBoolean);
         whichType = 3;
     }
     
     public Parameter(double newDouble)
     {
-        d = newDouble;
+        setDoubleValue(newDouble);;
         whichType = 4;
     }
     
@@ -50,6 +50,7 @@ public class Parameter {
     }
     
     //Returns the corresponding value
+    //All the getters come below
     public String getStringValue() 
     {
         return s;
@@ -69,6 +70,27 @@ public class Parameter {
     {
         return d;
     }
+
+    //Sets the Parameter's variable to the provided value
+    //All the setters come below 
+    public void setStringValue(String newString) 
+    {
+        s = newString;
+    }
     
+    public void setIntegerValue(int newInteger)
+    {
+        i = newInteger;
+    }
+    
+    public void setBooleanValue(boolean newBoolean)
+    {
+        b = newBoolean;
+    }
+    
+    public void setDoubleValue(double newDouble)
+    {
+        d = newDouble;
+    }
     
 }

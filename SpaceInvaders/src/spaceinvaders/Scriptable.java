@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package spaceinvaders;
 
 /**
@@ -11,8 +7,11 @@ package spaceinvaders;
 public interface Scriptable {
    
     int getLineNumber();
+    void setLineNumber(int newLineNumber);
     int getScriptID();
     boolean isRunning();
     
+    public void beginWait(double millisecondsToWait);
+    public boolean continueWait(double delta);
 
 }

@@ -11,9 +11,9 @@ import java.util.ArrayList;
  * @author Edmund
  */
 public class Line {
-    int commandID;
+    private int commandID;
     //String commandName;
-    ArrayList<Parameter> parameterList;
+    private ArrayList<Parameter> parameterList;
     
     //Constructors
     

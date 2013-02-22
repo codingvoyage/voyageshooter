@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Edmund
  */
 public class Script {
-    ArrayList<Line> lineList;
+    private ArrayList<Line> lineList;
     
     public Script(String filename)
     {
@@ -58,6 +58,9 @@ public class Script {
                     //formatted Parameters
                     Line formattedLineObject = formatLine(myNextLine);
                     
+                    //If it's null, then that means it hit a comment and 
+                    //decided to ignore the line. Otherwise, maybe it screwed
+                    //up. Then just ignore the line. 
                     if (formattedLineObject != null)
                         //Add this to the master list of Lines
                         lineList.add(formattedLineObject);
@@ -273,9 +276,21 @@ public class Script {
         //Maybe I'll write something which will automate
         //this later, but for now, we'll just have our key here
         
-        if (commandName.equals("Whatever"))
+        if (commandName.equalsIgnoreCase("wait"))
             return 0;
+        if (commandName.equalsIgnoreCase("goto"))
+            return 1;
+        if (commandName.equalsIgnoreCase("branch"))
+            return 2;
         
+        
+        if (commandName.equalsIgnoreCase("face"))
+            return 10;
+        if (commandName.equalsIgnoreCase("move"))
+            return 11;
+        
+        
+        //Couldn't find a match!!
         return 1337;
     }
     
@@ -292,6 +307,7 @@ public class Script {
         else if (token.equals("false"))
             return 0;
         
+                   
         //If we're still here, let's try to convert it to a double...
         try
         {
@@ -300,7 +316,8 @@ public class Script {
             return 2;
         }
         catch(NumberFormatException e) {}
-                        
+        
+        
         //Alright, if we're here, then it's not a double! Try integer.
         try
         {
@@ -309,6 +326,7 @@ public class Script {
             return 3;
         }
         catch(NumberFormatException e) {}
+        
         
         //What the hell. Alright. It's a string. Just make it so
         //No really, in fact it might play an important role in that what if

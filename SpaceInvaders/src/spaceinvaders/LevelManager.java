@@ -12,6 +12,7 @@ public class LevelManager implements Scriptable {
     private int scriptID;
     private int currentLineNumber;
     private boolean inProgress;
+    private double waitTempInfo;
     
     public LevelManager()
     {
@@ -41,5 +42,30 @@ public class LevelManager implements Scriptable {
         return inProgress;
     }
     
+    public void setLineNumber(int newLineNumber) 
+    {
+        currentLineNumber = newLineNumber;
+    }
+    
+    public boolean continueWait(double delta)
+    {
+        waitTempInfo -= delta;
+        
+        if (waitTempInfo < 0)
+        {
+            //Oh, so we're done waiting. Great.
+            inProgress = false;
+            return false;
+        }
+        
+        //Alright, we still have milliseconds left to wait. Keep giong
+        return true;
+    }
+    
+    public void beginWait(double millisecondsToWait)
+    {
+        waitTempInfo = millisecondsToWait;
+        inProgress = true;
+    }
   
 }
