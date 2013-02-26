@@ -105,7 +105,8 @@ public class Line {
     //Returns the Parameter object at the selected index
     //This is kept separate so that the user never has to deal with
     //the Parameter objects; interactions should only happen through Line
-    private Parameter getParameter(int index) {
+    //CHANGE OF PLANS, having public access is better for the Scripting engine
+    public Parameter getParameter(int index) {
         return parameterList.get(index);
     }
     

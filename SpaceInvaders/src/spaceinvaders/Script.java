@@ -272,18 +272,23 @@ public class Script {
         //Maybe I'll write something which will automate
         //this later, but for now, we'll just have our key here
         
+        //Let's have several core functions be from 0-9
         if (commandName.equalsIgnoreCase("wait"))
             return 0;
         if (commandName.equalsIgnoreCase("goto"))
             return 1;
-        if (commandName.equalsIgnoreCase("branch"))
-            return 2;
         
-        
-        if (commandName.equalsIgnoreCase("face"))
+        //Let's have memory functions be from 10-19
+        if (commandName.equalsIgnoreCase("createVariable"))
             return 10;
-        if (commandName.equalsIgnoreCase("move"))
+        if (commandName.equalsIgnoreCase("setVariable"))
             return 11;
+        
+        //Let's have Displayable control stuff go from 50-70
+        if (commandName.equalsIgnoreCase("face"))
+            return 50;
+        if (commandName.equalsIgnoreCase("move"))
+            return 51;
         
         
         //Couldn't find a match!!

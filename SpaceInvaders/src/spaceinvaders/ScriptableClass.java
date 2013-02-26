@@ -111,6 +111,13 @@ public abstract class ScriptableClass implements Scriptable {
         memoryBox.put(identifier, value);
     }
     
+    public void newVariable(String identifier) 
+    {
+        //Scripter, it's YOUR FAULT if it crashes because you fail to
+        //initialize the variable! LOL
+        memoryBox.put(identifier, null);
+    }
+    
     public Parameter getVariable(String identifier) 
     {
         return memoryBox.get(identifier);

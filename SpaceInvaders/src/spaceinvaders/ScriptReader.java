@@ -123,7 +123,7 @@ public class ScriptReader
             case 0: //Waiting
                 result = currentScriptable.continueWait(currentDeltaTime);
                 break;
-            case 11: //Moving... something only an Entity could do
+            case 51: //Moving... something only an Entity could do
                 result = ((Entity)currentScriptable).continueMove(currentDeltaTime);
                 break;
             
@@ -146,6 +146,7 @@ public class ScriptReader
         
         switch (currentLine.getCommandID())
         {
+            //Remember, core functions are from 0-9. 
             case 0:
                 double thisLong = currentLine.getDoubleParameter(0);
                 
@@ -154,18 +155,60 @@ public class ScriptReader
                 continueExecuting = false;
                 break;
             case 1: //GOTO, huh?
-                int newLine = currentLine.getIntegerParameter(0);
-                currentScriptable.setLineNumber(newLine);
+                int newLineIndex = currentLine.getIntegerParameter(0);
+                currentScriptable.setLineNumber(newLineIndex);
                 break;
             case 2:
                 
                 //We'll leave this out for now...
                 break;
-            case 10:
+                
+            //The memory functions go here
+            
+            //createVariable variableType identifier (Optional value)
+            case 10: //CreateVariable
+                //This isn't used because we can directly pull the Parameter
+                //object from the line, but it's still best to make it clear!
+                String variableType = currentLine.getStringParameter(0);
+                
+                //The name of the variable.
+                String variableIdentifier = currentLine.getStringParameter(1);
+                
+                //Check if the there is that third, optional value
+                //Obviously, if that number is equal to or greater than 3, we
+                //can access that third parameter
+                int lineParameterCount = currentLine.getParameterCount();
+                if (lineParameterCount >= 3)
+                {
+                    //So they decided to declare and initialize.
+                    Parameter initParameter = currentLine.getParameter(2);
+                    currentScriptable.setVariable(variableIdentifier,
+                            initParameter);
+                }
+                else 
+                {
+                    //They decided to declare a variable without initialization
+                    currentScriptable.newVariable(variableIdentifier);
+                }
+                break;
+                
+            //setVariable identifier newValue
+            case 11:
+                
+                //The name of the variable.
+                String variableIdentifier = currentLine.getStringParameter(0);
+                
+                String variableIdentifier = currentLine.getStringParameter(1);
+                
+                
+                NOTE TO SELF: TEST THIS PART
+                
+            //The manipulation of the locations of Displayables goes here    
+            case 50:
                 //Facing a direction
                 System.out.println("Alright we don't have code for facing a direction yet.");
                 break;
-            case 11:
+            case 51:
                 //Moving
                 System.out.println("Starting to walk....");
                 double pixelsToWalk = currentLine.getDoubleParameter(0);
