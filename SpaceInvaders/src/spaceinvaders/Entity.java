@@ -5,7 +5,7 @@
 package spaceinvaders;
 
 /**
- *
+ * @author Bakesale
  * @author Edmund
  */
 public class Entity extends ScriptableClass
