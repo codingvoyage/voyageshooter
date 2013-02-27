@@ -147,7 +147,7 @@ public class ScriptReader
         switch (currentLine.getCommandID())
         {
             //Remember, core functions are from 0-9. 
-            case 0:
+            case 0: //wait
                 double thisLong = currentLine.getDoubleParameter(0);
                 
                 System.out.println("Let's start waiting for " + thisLong + " milliseconds!!");
@@ -195,13 +195,7 @@ public class ScriptReader
             //setVariable identifier newValue
             case 11:
                 
-                //The name of the variable.
-                String variableIdentifier = currentLine.getStringParameter(0);
                 
-                String variableIdentifier = currentLine.getStringParameter(1);
-                
-                
-                NOTE TO SELF: TEST THIS PART
                 
             //The manipulation of the locations of Displayables goes here    
             case 50:

@@ -29,6 +29,8 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection = new ScriptManager();
         scriptCollection.loadScript("script.txt", 0);
         scriptCollection.loadScript("shortdemo.txt", 1);
+        scriptCollection.loadScript("toread.txt", 2);
+        
         
         //Initialize ScriptReader, passing it the ScriptManager handle
         scriptReader = new ScriptReader(scriptCollection);
@@ -53,7 +55,7 @@ public class SpaceInvaders extends BasicGame {
         //Okay, time to show that it worked.
         //myRandomScript
         
-        Script sampleScript = scriptCollection.getScriptAtID(1);
+        Script sampleScript = scriptCollection.getScriptAtID(2);
         int linesToPrint = sampleScript.getLineCount();
         
         for (int i = 0; i < linesToPrint; i++)
