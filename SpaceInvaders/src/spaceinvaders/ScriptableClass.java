@@ -26,6 +26,8 @@ public abstract class ScriptableClass implements Scriptable {
         this.scriptID = newScriptID;
         currentLineNumber = 0;
         inProgress = false;
+        
+        memoryBox = new HashMap<String, Parameter>();
     }
     
     
@@ -34,6 +36,8 @@ public abstract class ScriptableClass implements Scriptable {
         this.scriptID = -1;
         currentLineNumber = 0;
         inProgress = false;
+        
+        memoryBox = new HashMap<String, Parameter>();
     }
     
     public void beginWait(double millisecondsToWait)

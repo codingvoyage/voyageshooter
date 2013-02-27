@@ -170,14 +170,20 @@ public class ScriptReader
                 //This isn't used because we can directly pull the Parameter
                 //object from the line, but it's still best to make it clear!
                 String variableType = currentLine.getStringParameter(0);
+                //System.out.println(variableType);
+                
                 
                 //The name of the variable.
                 String variableIdentifier = currentLine.getStringParameter(1);
+                
+                //System.out.println(variableIdentifier);
                 
                 //Check if the there is that third, optional value
                 //Obviously, if that number is equal to or greater than 3, we
                 //can access that third parameter
                 int lineParameterCount = currentLine.getParameterCount();
+                
+                //System.out.println(lineParameterCount);
                 if (lineParameterCount >= 3)
                 {
                     //So they decided to declare and initialize.
@@ -216,5 +222,14 @@ public class ScriptReader
         //Returns whether to continue loading more commands
         return continueExecuting;
     }
+    
+    
+    
+    /**************************************************************************
+    ***************************************************************************
+    ********************ALL THE INDIVIDUAL METHODS GO HERE*********************
+    ***************************************************************************
+    **************************************************************************/
+    
     
 }
