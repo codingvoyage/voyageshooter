@@ -89,7 +89,7 @@ public class ScriptReader
                 //"Yes we continue!" but without switching lines
                 if (doWeContinue && (thisLine.getCommandID() != 1)) 
                 {
-                    System.out.println("Next line!");
+                    //System.out.println("Next line!");
                     currentScriptable.setLineNumber(
                         currentScriptable.getLineNumber() + 1);
                 }
@@ -150,7 +150,7 @@ public class ScriptReader
             case 0: //wait
                 double thisLong = currentLine.getDoubleParameter(0);
                 
-                System.out.println("Let's start waiting for " + thisLong + " milliseconds!!");
+                //System.out.println("Let's start waiting for " + thisLong + " milliseconds!!");
                 currentScriptable.beginWait(thisLong);
                 continueExecuting = false;
                 break;
@@ -204,6 +204,13 @@ public class ScriptReader
             case 11:
                 
                 
+            //Print a variable, for debugging
+            case 15:
+                String variableID = currentLine.getStringParameter(0);
+                Parameter myP = currentScriptable.getVariable(variableID);
+                
+                System.out.println(myP.toString());
+                break;
                 
             //The manipulation of the locations of Displayables goes here    
             case 50:

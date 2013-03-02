@@ -55,7 +55,7 @@ public abstract class ScriptableClass implements Scriptable {
         if (progressTemp.getDoubleValue() < 0)
         {
             //Oh, so we're done waiting. Great.
-            System.out.println("Finished waiting!");
+            //System.out.println("Finished waiting!");
             inProgress = false;
             return false;
         }

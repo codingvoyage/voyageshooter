@@ -32,6 +32,7 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection.loadScript("script.txt", 0);
         scriptCollection.loadScript("shortdemo.txt", 1);
         scriptCollection.loadScript("toread.txt", 2);
+        scriptCollection.loadScript("ROCKET MOTTO.txt", 3);
         
         
         
@@ -52,19 +53,19 @@ public class SpaceInvaders extends BasicGame {
         //Any and all graphics/rendering functions which should be called
         //with the drawing of each frame go HERE
         
-        g.drawString("We are Team Coding Voyage!", 100, 100);
+        g.drawString("We are Team Coding Voyage!", 100, 50);
         
         
         //Wow. it worked.
         //Okay, time to show that it worked.
         //myRandomScript
         
-        Script sampleScript = scriptCollection.getScriptAtID(2);
+        Script sampleScript = scriptCollection.getScriptAtID(3);
         int linesToPrint = sampleScript.getLineCount();
         
         for (int i = 0; i < linesToPrint; i++)
         {
-            g.drawString(sampleScript.getLine(i).toString(), 100, 200 + 20*i);     
+            g.drawString(sampleScript.getLine(i).toString(), 100, 100 + 16*i);     
         }
         
     }

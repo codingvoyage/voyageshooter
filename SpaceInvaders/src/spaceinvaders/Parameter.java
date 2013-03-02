@@ -76,6 +76,22 @@ public class Parameter {
         d = newDouble;
     }
     
+    public String toString() 
+    {
+        String returnedString = null;
+        switch (getStoredType())
+        {
+            case 1:
+                return getStringValue();
+            case 2:
+                return Boolean.toString(getBooleanValue());
+            case 3:
+                return Double.toString(getDoubleValue());
+        }
+        
+        //null....
+        return returnedString; 
+    }
 }
 
 

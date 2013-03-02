@@ -20,7 +20,7 @@ public class Entity extends ScriptableClass
     //Basic entity class for testing purposes.
     public Entity()
     {
-        super(2);
+        super(3);
         
         xcoordinate = 200;
         ycoordinate = 200;

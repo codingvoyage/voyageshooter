@@ -125,19 +125,7 @@ public class Line {
             //Add the parameter
             //Now this depends on the type it is...
             Parameter currentParameter = getParameter(i);
-            int parameterType = currentParameter.getStoredType();
-            switch (parameterType)
-            {
-                case 1:
-                    returnThis += currentParameter.getStringValue();
-                    break;
-                case 2:
-                    returnThis += currentParameter.getBooleanValue();
-                    break;
-                case 3:
-                    returnThis += currentParameter.getDoubleValue();
-                    break;
-            }
+            returnThis += currentParameter.toString();
         }
         
         return returnThis;

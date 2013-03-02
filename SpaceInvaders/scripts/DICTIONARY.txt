@@ -7,6 +7,7 @@ function 3
 -- From 10-19 will have to do with data
 createVariable 10
 setVariable 11
+print 15
 
 -- From 50-59 are stuff specific to Entities
 face 50
