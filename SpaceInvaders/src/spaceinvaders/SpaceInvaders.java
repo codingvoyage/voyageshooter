@@ -35,8 +35,6 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection.loadScript("ROCKET MOTTO.txt", 3);
         
         
-        
-        
         //Initialize ScriptReader, passing it the ScriptManager handle
         scriptReader = new ScriptReader(scriptCollection);
         

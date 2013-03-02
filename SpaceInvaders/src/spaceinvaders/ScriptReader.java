@@ -148,9 +148,11 @@ public class ScriptReader
         {
             //Remember, core functions are from 0-9. 
             case 0: //wait
+                
                 double thisLong = currentLine.getDoubleParameter(0);
                 
                 //System.out.println("Let's start waiting for " + thisLong + " milliseconds!!");
+                
                 currentScriptable.beginWait(thisLong);
                 continueExecuting = false;
                 break;
@@ -169,35 +171,7 @@ public class ScriptReader
             
             //createVariable variableType identifier (Optional value)
             case 10: //CreateVariable
-                //This isn't used because we can directly pull the Parameter
-                //object from the line, but it's still best to make it clear!
-                String variableType = currentLine.getStringParameter(0);
-                //System.out.println(variableType);
-                
-                
-                //The name of the variable.
-                String variableIdentifier = currentLine.getStringParameter(1);
-                
-                //System.out.println(variableIdentifier);
-                
-                //Check if the there is that third, optional value
-                //Obviously, if that number is equal to or greater than 3, we
-                //can access that third parameter
-                int lineParameterCount = currentLine.getParameterCount();
-                
-                //System.out.println(lineParameterCount);
-                if (lineParameterCount >= 3)
-                {
-                    //So they decided to declare and initialize.
-                    Parameter initParameter = currentLine.getParameter(2);
-                    currentScriptable.setVariable(variableIdentifier,
-                            initParameter);
-                }
-                else 
-                {
-                    //They decided to declare a variable without initialization
-                    currentScriptable.newVariable(variableIdentifier);
-                }
+                createVariable(currentLine);
                 break;
                 
             //setVariable identifier newValue
@@ -206,10 +180,7 @@ public class ScriptReader
                 
             //Print a variable, for debugging
             case 15:
-                String variableID = currentLine.getStringParameter(0);
-                Parameter myP = currentScriptable.getVariable(variableID);
-                
-                System.out.println(myP.toString());
+                printVariable(currentLine);
                 break;
                 
             //The manipulation of the locations of Displayables goes here    
@@ -240,6 +211,48 @@ public class ScriptReader
     ********************ALL THE INDIVIDUAL METHODS GO HERE*********************
     ***************************************************************************
     **************************************************************************/
+    
+    
+    
+    private void createVariable(Line currentLine)
+    {
+        //This isn't used because we can directly pull the Parameter
+        //object from the line, but it's still best to make it clear!
+        String variableType = currentLine.getStringParameter(0);
+        //System.out.println(variableType);
+
+
+        //The name of the variable.
+        String variableIdentifier = currentLine.getStringParameter(1);
+
+        //System.out.println(variableIdentifier);
+
+        //Check if the there is that third, optional value
+        //Obviously, if that number is equal to or greater than 3, we
+        //can access that third parameter
+        int lineParameterCount = currentLine.getParameterCount();
+
+        //System.out.println(lineParameterCount);
+        if (lineParameterCount >= 3)
+        {
+            //So they decided to declare and initialize.
+            Parameter initParameter = currentLine.getParameter(2);
+            currentScriptable.setVariable(variableIdentifier,
+                    initParameter);
+        }
+        else 
+        {
+            //They decided to declare a variable without initialization
+            currentScriptable.newVariable(variableIdentifier);
+        }
+    }
+    
+    private void printVariable(Line currentLine)
+    {
+        String variableID = currentLine.getStringParameter(0);
+        Parameter myP = currentScriptable.getVariable(variableID);
+        System.out.println(myP.toString());
+    }
     
     
 }
