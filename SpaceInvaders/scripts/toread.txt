@@ -1,0 +1,8 @@
+createVariable integer "Bakesale" 53
+
+LABEL [repeat] --------------------
+
+wait 5000
+move 300
+wait 2000
+goto [repeat]

@@ -155,7 +155,9 @@ public class ScriptReader
                 continueExecuting = false;
                 break;
             case 1: //GOTO, huh?
-                int newLineIndex = currentLine.getIntegerParameter(0);
+                Script currentScript = scr.getScriptAtID(currentScriptable.getScriptID());
+                String theLabel = currentLine.getStringParameter(0);
+                int newLineIndex = currentScript.getLabelIndexOnLineList(theLabel);
                 currentScriptable.setLineNumber(newLineIndex);
                 break;
             case 2:
@@ -222,6 +224,7 @@ public class ScriptReader
         //Returns whether to continue loading more commands
         return continueExecuting;
     }
+    
     
     
     

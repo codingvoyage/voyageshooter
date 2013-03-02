@@ -1,6 +1,7 @@
 package spaceinvaders;
 
 import org.newdawn.slick.*;
+import java.util.HashMap;
 /**
  * Space Invaders Game
  * A (maybe not so) simple space invaders game
@@ -26,10 +27,13 @@ public class SpaceInvaders extends BasicGame {
         //This initializes stuff
         gc.setMinimumLogicUpdateInterval(20);
         
+        //Initialize the ScriptManager
         scriptCollection = new ScriptManager();
         scriptCollection.loadScript("script.txt", 0);
         scriptCollection.loadScript("shortdemo.txt", 1);
         scriptCollection.loadScript("toread.txt", 2);
+        
+        
         
         
         //Initialize ScriptReader, passing it the ScriptManager handle
@@ -62,10 +66,6 @@ public class SpaceInvaders extends BasicGame {
         {
             g.drawString(sampleScript.getLine(i).toString(), 100, 200 + 20*i);     
         }
-        
-        
-        
-        
         
     }
 
