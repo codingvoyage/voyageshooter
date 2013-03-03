@@ -9,9 +9,9 @@ package spaceinvaders;
 public class Parameter {
     /* Can hold either a String, an integer, a boolean, or a double
      * 1 for String
-     * 2 for integer
-     * 3 for boolean
-     * 4 for double
+     * 2 for boolean
+     * 3 for double
+     * 4 for double array
      */
     private int whichType;
     
