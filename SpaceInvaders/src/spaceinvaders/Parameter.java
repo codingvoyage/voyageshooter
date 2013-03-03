@@ -7,7 +7,7 @@ package spaceinvaders;
  * @author Bakesale
  */
 public class Parameter {
-    /* Can hold either a String, an integer, a boolean, or a double
+    /* 
      * 1 for String
      * 2 for boolean
      * 3 for double
@@ -36,13 +36,13 @@ public class Parameter {
     
     public Parameter(double newDouble)
     {
-        setDoubleValue(newDouble);;
+        setDoubleValue(newDouble);
         whichType = 3;
     }
     
     public Parameter(double[] newDoubleArray)
     {
-        setDoubleArrayValue(newDoubleArray);;
+        setDoubleArrayValue(newDoubleArray);
         whichType = 4;
     }
     
