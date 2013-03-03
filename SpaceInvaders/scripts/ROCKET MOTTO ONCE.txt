@@ -1,0 +1,54 @@
+-- Here, we store each string in a variable
+
+createVariable String "teamrocket1" "Prepare for trouble!"
+createVariable String "teamrocket2" "Make it double!"
+createVariable String "teamrocket3" "To protect the world from devastation!"
+createVariable String "teamrocket4" "To unite all peoples within our nation!"
+createVariable String "teamrocket5" "To denounce the evils of truth and love!"
+createVariable String "teamrocket6" "To extend our reach to the stars above!"
+createVariable String "teamrocket7" "Jessie!"
+createVariable String "teamrocket8" "James!"
+createVariable String "teamrocket9" "Team Rocket, blast off at the speed of light!"
+createVariable String "teamrocket10" "Surrender now, or prepare to fight!"
+createVariable String "teamrocket11" "Meowth! That's right!"
+createVariable String "we'redone" "Thanks for listening, folks!"
+
+LABEL [loop] ----------------------------------------------------------------
+
+
+print "teamrocket1"
+wait 1500
+
+print "teamrocket2"
+wait 1500
+
+print "teamrocket3"
+wait 1500
+
+print "teamrocket4"
+wait 1500
+
+print "teamrocket5"
+wait 1500
+
+print "teamrocket6"
+wait 1500
+
+print "teamrocket7"
+wait 1500
+
+print "teamrocket8"
+wait 1500
+
+print "teamrocket9"
+wait 1500
+
+print "teamrocket10"
+wait 1500
+
+print "teamrocket11"
+wait 1500
+
+print "we'redone"
+
+endthread

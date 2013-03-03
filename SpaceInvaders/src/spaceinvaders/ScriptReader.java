@@ -17,6 +17,7 @@ public class ScriptReader
     //is called. It makes it convenient since now the ScriptReader methods
     //do not have to be passed this every time.
     private Scriptable currentScriptable;
+    private Thread currentThread;
     private double currentDeltaTime;
     
     public ScriptReader(ScriptManager scriptManagerHandle) 
@@ -29,14 +30,18 @@ public class ScriptReader
         
     }
     
-    public void act(Scriptable s, double deltaTime)
+    public void act(Thread t, double deltaTime)
     {
-        this.currentDeltaTime = deltaTime;
-        this.currentScriptable = s;
+        currentDeltaTime = deltaTime;
+        currentThread = t;
         
-        //We need to know what line of what script the Scriptable is on
-        int currentLineNumber = currentScriptable.getLineNumber();
-        int currentScriptID = currentScriptable.getScriptID();
+        //Get Scriptable Object
+        currentScriptable = currentThread.getScriptable();
+        
+        //We need to know what line of what script the Thread is on
+        int currentLineNumber = currentThread.getLineNumber();
+        int currentScriptID = currentThread.getScriptID();
+        
         
         //Now we call ScriptManager to have it return a reference to the
         //Script class which currentScriptID refers to
@@ -47,7 +52,7 @@ public class ScriptReader
         
         //Now, our response depends on whether there is a command already in 
         //execution
-        if (currentScriptable.isRunning()) 
+        if (currentThread.isRunning()) 
         {
             //Will we continue running the same command?
             boolean doesContinue = continuesRunning(currentLine);
@@ -57,13 +62,14 @@ public class ScriptReader
             {
                 //So since we're not staying on the same command, we now move on
                 //to the next line!
-                currentScriptable.setLineNumber(
-                        currentScriptable.getLineNumber() + 1);
+                
+                currentThread.setLineNumber(
+                        currentThread.getLineNumber() + 1);
             }
         }
         
         //Now, if by now there is no command already in execution, then...
-        if (!currentScriptable.isRunning()) 
+        if (!currentThread.isRunning()) 
         {
             
             //We will go from line to line
@@ -77,8 +83,8 @@ public class ScriptReader
                 //itself, and then finally, from that Script object the program
                 //retrieves the line which is located at the line number
                 //specified in the class implementing Scriptable.
-                Line thisLine = scr.getScriptAtID(currentScriptable.getScriptID()).
-                        getLine(currentScriptable.getLineNumber());
+                Line thisLine = scr.getScriptAtID(currentThread.getScriptID()).
+                        getLine(currentThread.getLineNumber());
                 
                 //Now that we have the line, we execute it.
                 doWeContinue = executeCommand(thisLine);
@@ -90,8 +96,8 @@ public class ScriptReader
                 if (doWeContinue && (thisLine.getCommandID() != 1)) 
                 {
                     //System.out.println("Next line!");
-                    currentScriptable.setLineNumber(
-                        currentScriptable.getLineNumber() + 1);
+                    currentThread.setLineNumber(
+                        currentThread.getLineNumber() + 1);
                 }
                 else 
                 {
@@ -157,18 +163,24 @@ public class ScriptReader
                 continueExecuting = false;
                 break;
             case 1: //GOTO, huh?
-                Script currentScript = scr.getScriptAtID(currentScriptable.getScriptID());
+                Script currentScript = scr.getScriptAtID(currentThread.getScriptID());
                 String theLabel = currentLine.getStringParameter(0);
                 int newLineIndex = currentScript.getLabelIndexOnLineList(theLabel);
-                currentScriptable.setLineNumber(newLineIndex);
+                currentThread.setLineNumber(newLineIndex);
                 break;
             case 2:
                 
                 //We'll leave this out for now...
                 break;
                 
+            //This thread is done
+            case 9:
+                currentThread.markForDeletion();
+                //Ending the thread obviously means that you DON'T go to the next line
+                continueExecuting = false;
+                break;
             //The memory functions go here
-            
+               
             //createVariable variableType identifier (Optional value)
             case 10: //CreateVariable
                 createVariable(currentLine);

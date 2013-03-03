@@ -20,7 +20,7 @@ public class Entity extends ScriptableClass
     //Basic entity class for testing purposes.
     public Entity()
     {
-        super(3);
+        super();
         
         xcoordinate = 200;
         ycoordinate = 200;
@@ -48,7 +48,7 @@ public class Entity extends ScriptableClass
         {
             System.out.println("We're done walking.");
             //Oh, so we're done moving. Great.
-            setRunningState(false);
+            mainThread.setRunningState(false);
             return false;
         }
         
@@ -59,7 +59,7 @@ public class Entity extends ScriptableClass
     public void beginMove(double pixelsToMove)
     {
         setTemporaryParameter(new Parameter(pixelsToMove));
-        setRunningState(true);
+        mainThread.setRunningState(true);
     }
     
     

@@ -8,12 +8,7 @@ import java.util.HashMap;
  */
 public abstract class ScriptableClass implements Scriptable {
     
-    //Which script are we running, and what line are we on?
-    private int scriptID;
-    private int currentLineNumber;
-    
-    //Whether the Scriptable is in the middle of the indicated command
-    private boolean inProgress;
+    protected Thread mainThread;
     
     //Basically, a catch all variable usable by the current method 
     private Parameter progressTemp;
@@ -21,11 +16,12 @@ public abstract class ScriptableClass implements Scriptable {
     //Holds the variables declared by the Scriptable in the scripting engine
     private HashMap<String, Parameter> memoryBox;
     
+    
     public ScriptableClass(int newScriptID) 
     {
-        this.scriptID = newScriptID;
-        currentLineNumber = 0;
-        inProgress = false;
+        mainThread.setScriptID(newScriptID);
+        mainThread.setLineNumber(0);
+        mainThread.setRunningState(false);
         
         memoryBox = new HashMap<String, Parameter>();
     }
@@ -33,17 +29,23 @@ public abstract class ScriptableClass implements Scriptable {
     
     public ScriptableClass() 
     {
-        this.scriptID = -1;
-        currentLineNumber = 0;
-        inProgress = false;
-        
         memoryBox = new HashMap<String, Parameter>();
+    }
+    
+    public void setMainThread(Thread t)
+    {
+        mainThread = t;
+    }
+    
+    public Thread getMainThread()
+    {
+        return mainThread;
     }
     
     public void beginWait(double millisecondsToWait)
     {
         progressTemp = new Parameter(millisecondsToWait);
-        inProgress = true;
+        mainThread.setRunningState(true);
     }
     
     public boolean continueWait(double delta)
@@ -56,7 +58,7 @@ public abstract class ScriptableClass implements Scriptable {
         {
             //Oh, so we're done waiting. Great.
             //System.out.println("Finished waiting!");
-            inProgress = false;
+            mainThread.setRunningState(false);
             return false;
         }
         
@@ -64,39 +66,7 @@ public abstract class ScriptableClass implements Scriptable {
         return true;
     }
     
-    //Accessors and mutators for the line number on the script
-    public void setLineNumber(int newLineNumber)
-    {
-        currentLineNumber = newLineNumber;
-    }
-   
-    public int getLineNumber()
-    {
-        return currentLineNumber;
-    }
-    
-    //Accessors and mutators for ScriptID
-    protected void setScriptID(int newScriptID)
-    {
-        scriptID = newScriptID;
-    }
-    
-    public int getScriptID()
-    {
-        return scriptID;
-    }
-    
-    //Running state, or basically, is the script in the middle of executing
-    //some command
-    public boolean isRunning()
-    {
-        return inProgress;
-    }
-    
-    protected void setRunningState(boolean progress)
-    {
-        inProgress = progress;
-    }
+  
     
     //Accessors and mutators for the temporary variable
     protected void setTemporaryParameter(Parameter newParameter) 

@@ -3,6 +3,7 @@ wait 0
 goto 1
 label 2
 function 3
+endthread 9
 
 -- From 10-19 will have to do with data
 createVariable 10

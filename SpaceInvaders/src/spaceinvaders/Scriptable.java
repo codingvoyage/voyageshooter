@@ -5,16 +5,6 @@ package spaceinvaders;
  * @author Edmund
  */
 public interface Scriptable {
-    //Line number on Script
-    public int getLineNumber();
-    public void setLineNumber(int newLineNumber);
-    
-    //Which script on the ScriptManager class's array?
-    public int getScriptID();
-    
-    //Progress state
-    public boolean isRunning();
-    
     //Waiting
     public void beginWait(double millisecondsToWait);
     public boolean continueWait(double delta);
