@@ -1,8 +1,10 @@
 package spaceinvaders;
 
 /**
- *
+ * Parameter
+ * 
  * @author Edmund
+ * @author Bakesale
  */
 public class Parameter {
     /* Can hold either a String, an integer, a boolean, or a double
@@ -17,6 +19,7 @@ public class Parameter {
     private String s;
     private boolean b;
     private double d;
+    private double[] da;
   
     //Here are all the constructors of the different supported types...
     public Parameter(String newString)
@@ -35,6 +38,12 @@ public class Parameter {
     {
         setDoubleValue(newDouble);;
         whichType = 3;
+    }
+    
+    public Parameter(double[] newDoubleArray)
+    {
+        setDoubleArrayValue(newDoubleArray);;
+        whichType = 4;
     }
     
     //Returns the type stored
@@ -58,6 +67,11 @@ public class Parameter {
     {
         return d;
     }
+    
+    public double[] getDoubleArrayValue()
+    {
+        return da;
+    }
 
     //Sets the Parameter's variable to the provided value
     //All the setters come below 
@@ -76,17 +90,32 @@ public class Parameter {
         d = newDouble;
     }
     
+    public void setDoubleArrayValue(double[] newDoubleArray)
+    {
+        da = newDoubleArray;
+    }
+    
     public String toString() 
     {
         String returnedString = null;
         switch (getStoredType())
         {
-            case 1:
+            case 1: // String
                 return getStringValue();
-            case 2:
+            case 2: // boolean
                 return Boolean.toString(getBooleanValue());
-            case 3:
+            case 3: // double
                 return Double.toString(getDoubleValue());
+            case 4: // double[]
+                String array = "{";
+                for(double val : da ) {
+                    array += val + ", ";
+                }
+                // Oh no, we'll have a fence-post error. Let's remove the trailing comma and space.
+                array = array.substring(0, array.length() - 2);
+                array += "}";
+                
+                return array;
         }
         
         //null....
