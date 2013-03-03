@@ -1,7 +1,7 @@
 Voyage Shooter
 =============
 
-A very simple shooting game
+A (no longer so) simple shooting game
 
 Team Coding Voyage's first project!
 
