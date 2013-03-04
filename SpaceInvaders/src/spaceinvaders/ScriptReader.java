@@ -12,6 +12,7 @@ package spaceinvaders;
 public class ScriptReader
 {
     private ScriptManager scr;
+    private ThreadManager threadManager;
     
     //These will get changed every time act(Scriptable s, double deltaTime)
     //is called. It makes it convenient since now the ScriptReader methods
@@ -29,6 +30,13 @@ public class ScriptReader
         scr = scriptManagerHandle;
         
     }
+    
+    public void setThreadHandle(ThreadManager threadManagerHandle)
+    {
+        threadManager = threadManagerHandle;
+    }
+            
+            
     
     public void act(Thread t, double deltaTime)
     {
@@ -127,7 +135,7 @@ public class ScriptReader
         switch (currentLine.getCommandID())
         {
             case 0: //Waiting
-                result = currentScriptable.continueWait(currentDeltaTime);
+                result = currentThread.continueWait(currentDeltaTime);
                 break;
             case 51: //Moving... something only an Entity could do
                 result = ((Entity)currentScriptable).continueMove(currentDeltaTime);
@@ -159,7 +167,7 @@ public class ScriptReader
                 
                 //System.out.println("Let's start waiting for " + thisLong + " milliseconds!!");
                 
-                currentScriptable.beginWait(thisLong);
+                currentThread.beginWait(thisLong);
                 continueExecuting = false;
                 break;
             case 1: //GOTO, huh?
@@ -171,6 +179,28 @@ public class ScriptReader
             case 2:
                 
                 //We'll leave this out for now...
+                break;
+                
+            case 7: //new Thread
+                //newThread scriptID 
+                
+                int scriptID = (int)currentLine.getDoubleParameter(0);
+                String scriptName = currentLine.getStringParameter(1);
+                
+                //Create a new thread with that scriptID, giving it scriptName
+                Thread newThread = new Thread(scriptID);
+                    newThread.setName(scriptName);
+                    newThread.setLineNumber(0);
+                    newThread.setRunningState(false);
+                    newThread.setScriptable(currentScriptable);
+                
+                threadManager.addThread(newThread);
+                break;
+                
+            case 8:
+                //kill Thread.
+                String targetThread = currentLine.getStringParameter(0);
+                threadManager.markForDeletion(targetThread);
                 break;
                 
             //This thread is done
@@ -193,6 +223,11 @@ public class ScriptReader
             //Print a variable, for debugging
             case 15:
                 printVariable(currentLine);
+                break;
+                
+            //Prints the provided Parameter
+            case 16:
+                printLine(currentLine);
                 break;
                 
             //The manipulation of the locations of Displayables goes here    
@@ -264,6 +299,12 @@ public class ScriptReader
         String variableID = currentLine.getStringParameter(0);
         Parameter myP = currentScriptable.getVariable(variableID);
         System.out.println(myP.toString());
+    }
+    
+    private void printLine(Line currentLine)
+    {
+        String toBePrinted = currentLine.getStringParameter(0);
+        System.out.println(toBePrinted);
     }
     
     

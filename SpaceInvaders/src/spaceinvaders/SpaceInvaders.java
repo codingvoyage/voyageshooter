@@ -21,7 +21,7 @@ public class SpaceInvaders extends BasicGame {
     //Our testing
     Entity testEntity;
     
-    ArrayList<Thread> threadCollection;
+    ThreadManager threadManager;
     
     
     public SpaceInvaders() {
@@ -39,28 +39,34 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection.loadScript("toread.txt", 2);
         scriptCollection.loadScript("ROCKET MOTTO.txt", 3); 
         scriptCollection.loadScript("ROCKET MOTTO ONCE.txt", 4); 
-       
+        scriptCollection.loadScript("Loader.txt", 5);   
+        
+  
         //Initialize ScriptReader, passing it the ScriptManager handle
         scriptReader = new ScriptReader(scriptCollection);
+        
+        //Initialize the collection of threads
+        threadManager = new ThreadManager(scriptReader);
+        
+        scriptReader.setThreadHandle(threadManager);
         
         //Create our test entity
         testEntity = new Entity();
         
         //Create a thread which governs this entity with Script #4
-        Thread entityThread = new Thread(4);
+        Thread entityThread = new Thread(5);
         
         //Set the main thread of the entity to this thread.
         testEntity.setMainThread(entityThread);
         
         //Set the details of the thread
         entityThread.setLineNumber(0);
+        entityThread.setName("main");
         entityThread.setRunningState(false);
         entityThread.setScriptable(testEntity);
         
-        //Initialize the collection of threads, placing this thread in it
-        threadCollection = new ArrayList<Thread>();
-        threadCollection.add(entityThread);
-       
+        //Add this thread to the collection of threads
+        threadManager.addThread(entityThread);
         
         
     }
@@ -70,32 +76,7 @@ public class SpaceInvaders extends BasicGame {
         //new threads, upon which you should examine this carefully to make
         //sure that there aren't massive off-by-one-errors.
         
-        boolean continueStepping = !threadCollection.isEmpty();
-        int index = 0;
-        while (continueStepping)
-        {
-            //Should any threads be deleted right now?
-            if (threadCollection.get(index).isMarkedForDeletion())
-            {
-                threadCollection.remove(index);
-                //index is unchanged, since everything shifts back by one
-            }
-            else 
-            //Otherwise, just act on it.
-            {
-                scriptReader.act(threadCollection.get(index), delta);
-                index++;
-            }
-            
-            //Stop when we've reached the last thread.
-            if (index == threadCollection.size()) {
-                continueStepping = false;
-            }
-        }
-        
-        
-        
-        
+        threadManager.act(delta);
         
     }
 

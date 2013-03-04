@@ -1,0 +1,18 @@
+-- creates a new thread with the script ID 4, which is the team rocket motto one
+newThread 4 "rocket thread"
+
+wait 10000
+
+-- now WE'RE GOING TO INTERRUPT TEAM ROCKET
+
+printline "PIIIIIIIIIIIIIIIIII KKKAAAAAAAAAAAAAAAAAAA"
+wait 500
+printline "CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU"
+
+killthread "rocket thread"
+
+printline "Team rocket's thread died" 
+printline "Good job everyone. Over and out."
+
+-- ends this one
+endThread

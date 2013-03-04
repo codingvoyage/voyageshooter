@@ -6,7 +6,7 @@ import java.util.HashMap;
  *
  * @author Edmund
  */
-public abstract class ScriptableClass implements Scriptable {
+public class ScriptableClass implements Scriptable {
     
     protected Thread mainThread;
     
@@ -34,6 +34,7 @@ public abstract class ScriptableClass implements Scriptable {
     
     public void setMainThread(Thread t)
     {
+        
         mainThread = t;
     }
     
@@ -41,32 +42,6 @@ public abstract class ScriptableClass implements Scriptable {
     {
         return mainThread;
     }
-    
-    public void beginWait(double millisecondsToWait)
-    {
-        progressTemp = new Parameter(millisecondsToWait);
-        mainThread.setRunningState(true);
-    }
-    
-    public boolean continueWait(double delta)
-    {
-        //Update the temporary value with the delta time
-        progressTemp.setDoubleValue(
-                progressTemp.getDoubleValue() - delta);
-        
-        if (progressTemp.getDoubleValue() < 0)
-        {
-            //Oh, so we're done waiting. Great.
-            //System.out.println("Finished waiting!");
-            mainThread.setRunningState(false);
-            return false;
-        }
-        
-        //Alright, we still have milliseconds left to wait. Keep going
-        return true;
-    }
-    
-  
     
     //Accessors and mutators for the temporary variable
     protected void setTemporaryParameter(Parameter newParameter) 

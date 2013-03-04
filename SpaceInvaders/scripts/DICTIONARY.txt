@@ -3,12 +3,19 @@ wait 0
 goto 1
 label 2
 function 3
+newthread 7
+killthread 8
 endthread 9
 
 -- From 10-19 will have to do with data
 createVariable 10
 setVariable 11
+
+
 print 15
+
+-- printLine prints the string provided
+printline 16
 
 -- From 50-59 are stuff specific to Entities
 face 50

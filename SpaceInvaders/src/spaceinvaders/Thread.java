@@ -26,6 +26,12 @@ public class Thread {
     //Is this thread ready to die?
     private boolean markedForDeletion;
     
+    //For waiting, which totally SHOULD be a thread function
+    private double waitMilliseconds;
+    
+    //Identifier
+    private String name;
+    
     
     public Thread(int scriptID) 
     {
@@ -88,6 +94,41 @@ public class Thread {
     protected void setRunningState(boolean progress)
     {
         inProgress = progress;
+    }
+    
+    //Accessors and mutators for the name
+    public void setName(String newName)
+    {
+        name = newName;
+    }
+   
+    public String getName()
+    {
+        return name;
+    }
+    
+    //Waiting
+    public void beginWait(double millisecondsToWait)
+    {
+        waitMilliseconds = millisecondsToWait;
+        setRunningState(true);
+    }
+    
+    public boolean continueWait(double delta)
+    {
+        //Update the temporary value with the delta time
+        waitMilliseconds -= delta;
+        
+        if (waitMilliseconds < 0)
+        {
+            //Oh, so we're done waiting. Great.
+            //System.out.println("Finished waiting!");
+            setRunningState(false);
+            return false;
+        }
+        
+        //Alright, we still have milliseconds left to wait. Keep going
+        return true;
     }
     
     

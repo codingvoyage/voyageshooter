@@ -5,9 +5,6 @@ package spaceinvaders;
  * @author Edmund
  */
 public interface Scriptable {
-    //Waiting
-    public void beginWait(double millisecondsToWait);
-    public boolean continueWait(double delta);
     
     //Memory manipulation
     public void newVariable(String identifier);
