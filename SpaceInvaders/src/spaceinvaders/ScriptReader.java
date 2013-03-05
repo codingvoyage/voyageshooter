@@ -162,11 +162,7 @@ public class ScriptReader
         {
             //Remember, core functions are from 0-9. 
             case 0: //wait
-                
                 double thisLong = currentLine.getDoubleParameter(0);
-                
-                //System.out.println("Let's start waiting for " + thisLong + " milliseconds!!");
-                
                 currentThread.beginWait(thisLong);
                 continueExecuting = false;
                 break;
@@ -222,12 +218,7 @@ public class ScriptReader
                 
             //Print a variable, for debugging
             case 15:
-                printVariable(currentLine);
-                break;
-                
-            //Prints the provided Parameter
-            case 16:
-                printLine(currentLine);
+                print(currentLine);
                 break;
                 
             //The manipulation of the locations of Displayables goes here    
@@ -263,14 +254,9 @@ public class ScriptReader
     
     private void createVariable(Line currentLine)
     {
-        //This isn't used because we can directly pull the Parameter
-        //object from the line, but it's still best to make it clear!
-        String variableType = currentLine.getStringParameter(0);
-        //System.out.println(variableType);
-
 
         //The name of the variable.
-        String variableIdentifier = currentLine.getStringParameter(1);
+        String variableIdentifier = currentLine.getStringParameter(0);
 
         //System.out.println(variableIdentifier);
 
@@ -280,12 +266,32 @@ public class ScriptReader
         int lineParameterCount = currentLine.getParameterCount();
 
         //System.out.println(lineParameterCount);
-        if (lineParameterCount >= 3)
+        if (lineParameterCount >= 2)
         {
             //So they decided to declare and initialize.
-            Parameter initParameter = currentLine.getParameter(2);
-            currentScriptable.setVariable(variableIdentifier,
-                    initParameter);
+            Parameter initParameter = currentLine.getParameter(1);
+            
+            //Are they initializing from the literal, or the 
+            //variable named by the literal?
+            if (initParameter.isIdentifier())
+            {
+                //Is an identifier, so set the Variable equal to what
+                //the initParameter refers to...
+                Parameter referencedParam = 
+                        currentScriptable.getVariable(initParameter.getStringValue());
+                
+                currentScriptable.setVariable(variableIdentifier,
+                        referencedParam);
+                
+            }
+            else 
+            {
+                //It's a literal.
+                currentScriptable.setVariable(variableIdentifier,
+                        initParameter);
+            }
+            
+            
         }
         else 
         {
@@ -294,18 +300,28 @@ public class ScriptReader
         }
     }
     
-    private void printVariable(Line currentLine)
+    private void print(Line currentLine)
     {
-        String variableID = currentLine.getStringParameter(0);
-        Parameter myP = currentScriptable.getVariable(variableID);
-        System.out.println(myP.toString());
+        Parameter toBePrinted = currentLine.getParameter(0);
+        
+        if (toBePrinted.isIdentifier())
+        {
+            //It prints what the identifier references
+            Parameter message = currentScriptable.
+                    getVariable(toBePrinted.getStringValue());
+            System.out.println(message.toString());
+            
+        }
+        else
+        {
+            //Instead, it prints the literal
+            String message = toBePrinted.getStringValue();
+            System.out.println(message);
+        }
+        
     }
     
-    private void printLine(Line currentLine)
-    {
-        String toBePrinted = currentLine.getStringParameter(0);
-        System.out.println(toBePrinted);
-    }
+    
     
     
 }
