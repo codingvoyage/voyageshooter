@@ -280,8 +280,8 @@ public class Script {
                             formattedLine.addParameter(
                                     Double.parseDouble(currentToken));
                             break;
-                        case 3: //give up. String
-                            formattedLine.addParameter(currentToken);
+                        case 3: //An identifier
+                            formattedLine.addIdentifierParameter(currentToken);
                             break;
                     }
 
@@ -343,15 +343,7 @@ public class Script {
         }
         catch(NumberFormatException e) {}
 
-        //What the hell. Alright. It's a string. Just make it so
-        //No really, in fact it might play an important role in that what if
-        //we have a function Compare GreaterEquals var1 var2. In this case,
-        //although Compare is the command, the rest are special. Compare would
-        //check first what kind of comparison to make, which GreaterEquals
-        //denotes. But we want to reserve the "  " for names which have
-        //real strings, most prominently what we plan the state names to be.
-        //SetNewState "Doing50BearAssCollection" "YES". These aren't additional
-        //information for the interpreter... these are literals for the engine.
+        //It's an identifier instead
         return 3;
 
     }

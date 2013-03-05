@@ -29,7 +29,7 @@ public class ThreadManager {
         Thread t;
         
         //While you haven't found it and we are still under the size limit
-        while (!targetFound && ( index < threadCollection.size() ))
+        while (!targetFound && ( index < getThreadCount() ))
         {
             t = threadCollection.get(index);
             
@@ -50,26 +50,34 @@ public class ThreadManager {
     {
         boolean continueStepping = !threadCollection.isEmpty();
         int index = 0;
+        Thread currentThread;
         while (continueStepping)
         {
+            //Get current thread...
+            currentThread = threadCollection.get(index);
             //Should any threads be deleted right now?
-            if (threadCollection.get(index).isMarkedForDeletion())
+            if (currentThread.isMarkedForDeletion())
             {
                 threadCollection.remove(index);
                 //index is unchanged, since everything shifts back by one
+                //we'll be on track for the next one by NOT MOVING
             }
             else 
             //Otherwise, just act on it.
             {
-                scriptReader.act(threadCollection.get(index), delta);
+                scriptReader.act(currentThread, delta);
                 index++;
             }
             
             //Stop when we've reached the last thread.
-            if (index == threadCollection.size()) {
+            if (index == getThreadCount()) {
                 continueStepping = false;
             }
         }
     }
     
+    public int getThreadCount()
+    {
+        return threadCollection.size();
+    }
 }

@@ -14,8 +14,10 @@ setVariable 11
 
 print 15
 
--- printLine prints the string provided
-printline 16
+callfunction 20
+
+return 25
+
 
 -- From 50-59 are stuff specific to Entities
 face 50

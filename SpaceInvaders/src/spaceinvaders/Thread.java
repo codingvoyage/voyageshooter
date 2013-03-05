@@ -1,7 +1,7 @@
 package spaceinvaders;
 
 import java.util.HashMap;
-
+import java.util.Stack;
 /**
  *
  * @author Edmund
@@ -29,14 +29,22 @@ public class Thread {
     //For waiting, which totally SHOULD be a thread function
     private double waitMilliseconds;
     
-    //Identifier
+    //Identifier, the name of which basically allows us to find the thread
+    //and kill it or something. 
     private String name;
+    
+    //For jumping back to whence we came
+    private Stack functionStack;
+    
     
     
     public Thread(int scriptID) 
     {
         setScriptID(scriptID);
         markedForDeletion = false;
+        
+        functionStack = new Stack();
+        
     }
     
     
@@ -132,4 +140,40 @@ public class Thread {
     }
     
     
+    
+    //Stack stuff!
+    
+    public void makeReturnPoint()
+    {
+        lineAndIDPair foo = new lineAndIDPair(getScriptID(), getLineNumber());
+        functionStack.push(foo);
+    }
+    
+    public void restoreLastReturnPoint()
+    {
+        lineAndIDPair foo = (lineAndIDPair)functionStack.pop();
+            setScriptID(foo.getScriptID());
+            setLineNumber(foo.getCurrentLine());
+    }
+    
+    private class lineAndIDPair
+    {
+        private int scriptID;
+        private int currentLine;
+        lineAndIDPair(int newScriptID, int newCurrentLine)
+        {
+            scriptID = newScriptID;
+            currentLine = newCurrentLine;
+        }
+        
+        int getScriptID()
+        {
+            return scriptID;
+        }
+                
+        int getCurrentLine()
+        {
+            return currentLine;
+        }
+    }
 }

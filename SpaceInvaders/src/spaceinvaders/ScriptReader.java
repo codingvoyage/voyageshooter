@@ -215,6 +215,16 @@ public class ScriptReader
             //setVariable identifier newValue
             case 11:
                 
+            //Calling a function is whacky stuff.
+            case 20:
+                callScriptFunction(currentLine);
+                
+                break;
+                
+            case 25:
+                returnFromFunction(currentLine);
+                break;
+                
                 
             //Print a variable, for debugging
             case 15:
@@ -321,7 +331,69 @@ public class ScriptReader
         
     }
     
+    private void callFunction(Line currentLine)
+    {
+        //callFunction [that'smyshit] param1 param2 param3 --> returned1 returned2
+        
+        //Where is the label of [that'smyshit]
+        
+        //Set the current place to that line, same script
+        
+        //But BEFORE setting the currentplace to that line, first 
+        
+        
+        
+    }
     
+    //callFunction [that'smyshit] param1 param2 param3 --> returned1 returned2
+    private void callScriptFunction(Line currentLine)
+    {
+        //callFunction 5 [that'smyshit] param1 param2 param3 --> returned1 returned2
+        
+        //Get the Script object that 5 refers to
+        int scriptID = currentLine.getIntegerParameter(0);
+        Script jumpedScript = scr.getScriptAtID(scriptID);
+        
+        //Now find the line number that [that'smyshit] is to be found
+        String labelName = currentLine.getStringParameter(1);
+        
+        //System.out.println(jumpedScript.getLine(2));
+        
+        
+        int lineNumber = jumpedScript.getLabelIndexOnLineList(labelName);
+        
+        //But BEFORE setting the currentplace to that line, first store the
+        //old script ID and old line number for returning purposes
+        currentThread.makeReturnPoint();
+        
+        //Set the current place to that line, that script
+        currentThread.setLineNumber(lineNumber);
+        currentThread.setScriptID(scriptID);
+        
+        //MAKE THE PARAMETERS WORK LATER
+        
+    }
+    
+    private void callThreadFunction(Line currentLine)
+    {
+        //callFunction 5 [that'smyshit] param1 param2 param3 --> returned1 returned2
+        
+        //Where is the label of [that'smyshit]
+        
+        //Set the current place to that line, same script
+        
+        //But BEFORE setting the currentplace to that line, first 
+        
+        
+        
+    }
+    
+    private void returnFromFunction(Line currentLine)
+    {
+        currentThread.restoreLastReturnPoint();
+        
+        
+    }
     
     
 }

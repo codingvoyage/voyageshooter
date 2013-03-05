@@ -17,24 +17,31 @@ public class Parameter {
     private String s;
     private boolean b;
     private double d;
+    
+    //Is this Parameter used as an identifier for a variable under Scripting?
+    private boolean isIdentifier;
   
     //Here are all the constructors of the different supported types...
     public Parameter(String newString)
     {
         setStringValue(newString);
         whichType = 1;
+        setIdentifier(false);
     }
     
     public Parameter(boolean newBoolean)
     {
         setBooleanValue(newBoolean);
         whichType = 2;
+        setIdentifier(false);
+        
     }
     
     public Parameter(double newDouble)
     {
         setDoubleValue(newDouble);;
         whichType = 3;
+        setIdentifier(false);
     }
     
     //Returns the type stored
@@ -92,8 +99,17 @@ public class Parameter {
         //null....
         return returnedString; 
     }
-}
+    
+    public boolean isIdentifier() 
+    { 
+        return isIdentifier;
+    }
 
+    public void setIdentifier(boolean isIdentifier)
+    {
+        this.isIdentifier = isIdentifier;
+    }
+}
 
 /*
  * If I ever support doubles, then let this be what is used to check...

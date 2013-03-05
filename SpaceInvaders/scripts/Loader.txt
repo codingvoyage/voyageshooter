@@ -5,14 +5,36 @@ wait 10000
 
 -- now WE'RE GOING TO INTERRUPT TEAM ROCKET
 
-printline "PIIIIIIIIIIIIIIIIII KKKAAAAAAAAAAAAAAAAAAA"
-wait 500
-printline "CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU"
+-- print "PIIIIIIIIIIIIIIIIII KKKAAAAAAAAAAAAAAAAAAA"
+-- wait 500
+-- print "CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU"
 
-killthread "rocket thread"
+-- killthread "rocket thread"
 
-printline "Team rocket's thread died" 
-printline "Good job everyone. Over and out."
+-- print "Team rocket's thread died" 
+-- print "Good job everyone. Over and out."
 
 -- ends this one
 endThread
+
+
+-- Testing, testing lol
+function [double]
+
+print "Make it double!"
+wait 1500
+
+-- Now call something from the same script!
+callFunction 5 [world]
+
+return
+
+
+
+
+function [world]
+
+print "To protect the world from devastation!"
+wait 1500
+
+return
