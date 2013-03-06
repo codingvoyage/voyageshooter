@@ -54,6 +54,13 @@ public class Line {
         addParameter(new Parameter(newStringParameter));
     }
     
+    public void addIdentifierParameter(String newStringParameter)
+    {
+        Parameter identifierParameter = new Parameter(newStringParameter);
+        identifierParameter.setIdentifier(true);
+        addParameter(identifierParameter);
+    }
+    
     public void addParameter(boolean newBooleanParameter) 
     {
         addParameter(new Parameter(newBooleanParameter));
@@ -63,6 +70,7 @@ public class Line {
     {
         addParameter(new Parameter(newDoubleParameter));
     }
+    
     
     //Returns the value of the parameter at the indicated index
     public String getStringParameter(int index)

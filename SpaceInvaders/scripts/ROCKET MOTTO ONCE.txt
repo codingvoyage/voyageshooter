@@ -1,54 +1,66 @@
 -- Here, we store each string in a variable
 
-createVariable String "teamrocket1" "Prepare for trouble!"
-createVariable String "teamrocket2" "Make it double!"
-createVariable String "teamrocket3" "To protect the world from devastation!"
-createVariable String "teamrocket4" "To unite all peoples within our nation!"
-createVariable String "teamrocket5" "To denounce the evils of truth and love!"
-createVariable String "teamrocket6" "To extend our reach to the stars above!"
-createVariable String "teamrocket7" "Jessie!"
-createVariable String "teamrocket8" "James!"
-createVariable String "teamrocket9" "Team Rocket, blast off at the speed of light!"
-createVariable String "teamrocket10" "Surrender now, or prepare to fight!"
-createVariable String "teamrocket11" "Meowth! That's right!"
-createVariable String "we'redone" "Thanks for listening, folks!"
+createVariable "teamrocket1" "Prepare for trouble!"
+
+-- Creates a variable called temporaryVar which is set to "Make it double!"
+createVariable "temporaryVar" "Make it double!"
+
+-- Creates a variable called teamrocket2, which is set to the same as whatever
+-- temporaryVar refers to, which is "Make it double!"
+createVariable "teamrocket2" temporaryVar
+
+createVariable "teamrocket3" "To protect the world from devastation!"
+createVariable "teamrocket4" "To unite all peoples within our nation!"
+createVariable "teamrocket5" "To denounce the evils of truth and love!"
+createVariable "teamrocket6" "To extend our reach to the stars above!"
+createVariable "teamrocket7" "Jessie!"
+createVariable "teamrocket8" "James!"
+createVariable "teamrocket9" "Team Rocket, blast off at the speed of light!"
+createVariable "teamrocket10" "Surrender now, or prepare to fight!"
+createVariable "teamrocket11" "Meowth! That's right!"
+createVariable "we'redone" "Thanks for listening, folks!"
 
 LABEL [loop] ----------------------------------------------------------------
 
-
-print "teamrocket1"
+-- "teamrocket1"
+print "Prepare for trouble!" 
 wait 1500
 
-print "teamrocket2"
+
+callFunction 5 [double]
+
+-- print teamrocket2
+-- wait 1500
+
+-- print teamrocket3
+-- wait 1500
+
+print teamrocket4
 wait 1500
 
-print "teamrocket3"
+print teamrocket5
 wait 1500
 
-print "teamrocket4"
+print teamrocket6
 wait 1500
 
-print "teamrocket5"
+print teamrocket7
 wait 1500
 
-print "teamrocket6"
+print teamrocket8
 wait 1500
 
-print "teamrocket7"
+print teamrocket9
 wait 1500
 
-print "teamrocket8"
+print teamrocket10
 wait 1500
 
-print "teamrocket9"
+print teamrocket11
 wait 1500
 
-print "teamrocket10"
-wait 1500
+print we'redone
 
-print "teamrocket11"
-wait 1500
-
-print "we'redone"
+goto [loop]
 
 endthread

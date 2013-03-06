@@ -1,7 +1,7 @@
 package spaceinvaders;
 
 import java.util.HashMap;
-
+import java.util.Stack;
 /**
  *
  * @author Edmund
@@ -26,11 +26,25 @@ public class Thread {
     //Is this thread ready to die?
     private boolean markedForDeletion;
     
+    //For waiting, which totally SHOULD be a thread function
+    private double waitMilliseconds;
+    
+    //Identifier, the name of which basically allows us to find the thread
+    //and kill it or something. 
+    private String name;
+    
+    //For jumping back to whence we came
+    private Stack functionStack;
+    
+    
     
     public Thread(int scriptID) 
     {
         setScriptID(scriptID);
         markedForDeletion = false;
+        
+        functionStack = new Stack();
+        
     }
     
     
@@ -90,5 +104,76 @@ public class Thread {
         inProgress = progress;
     }
     
+    //Accessors and mutators for the name
+    public void setName(String newName)
+    {
+        name = newName;
+    }
+   
+    public String getName()
+    {
+        return name;
+    }
     
+    //Waiting
+    public void beginWait(double millisecondsToWait)
+    {
+        waitMilliseconds = millisecondsToWait;
+        setRunningState(true);
+    }
+    
+    public boolean continueWait(double delta)
+    {
+        //Update the temporary value with the delta time
+        waitMilliseconds -= delta;
+        
+        if (waitMilliseconds < 0)
+        {
+            //Oh, so we're done waiting. Great.
+            //System.out.println("Finished waiting!");
+            setRunningState(false);
+            return false;
+        }
+        
+        //Alright, we still have milliseconds left to wait. Keep going
+        return true;
+    }
+    
+    
+    
+    //Stack stuff!
+    
+    public void makeReturnPoint()
+    {
+        lineAndIDPair foo = new lineAndIDPair(getScriptID(), getLineNumber());
+        functionStack.push(foo);
+    }
+    
+    public void restoreLastReturnPoint()
+    {
+        lineAndIDPair foo = (lineAndIDPair)functionStack.pop();
+            setScriptID(foo.getScriptID());
+            setLineNumber(foo.getCurrentLine());
+    }
+    
+    private class lineAndIDPair
+    {
+        private int scriptID;
+        private int currentLine;
+        lineAndIDPair(int newScriptID, int newCurrentLine)
+        {
+            scriptID = newScriptID;
+            currentLine = newCurrentLine;
+        }
+        
+        int getScriptID()
+        {
+            return scriptID;
+        }
+                
+        int getCurrentLine()
+        {
+            return currentLine;
+        }
+    }
 }

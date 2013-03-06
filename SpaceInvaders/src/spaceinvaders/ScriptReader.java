@@ -12,6 +12,7 @@ package spaceinvaders;
 public class ScriptReader
 {
     private ScriptManager scr;
+    private ThreadManager threadManager;
     
     //These will get changed every time act(Scriptable s, double deltaTime)
     //is called. It makes it convenient since now the ScriptReader methods
@@ -29,6 +30,13 @@ public class ScriptReader
         scr = scriptManagerHandle;
         
     }
+    
+    public void setThreadHandle(ThreadManager threadManagerHandle)
+    {
+        threadManager = threadManagerHandle;
+    }
+            
+            
     
     public void act(Thread t, double deltaTime)
     {
@@ -127,7 +135,7 @@ public class ScriptReader
         switch (currentLine.getCommandID())
         {
             case 0: //Waiting
-                result = currentScriptable.continueWait(currentDeltaTime);
+                result = currentThread.continueWait(currentDeltaTime);
                 break;
             case 51: //Moving... something only an Entity could do
                 result = ((Entity)currentScriptable).continueMove(currentDeltaTime);
@@ -154,12 +162,8 @@ public class ScriptReader
         {
             //Remember, core functions are from 0-9. 
             case 0: //wait
-                
                 double thisLong = currentLine.getDoubleParameter(0);
-                
-                //System.out.println("Let's start waiting for " + thisLong + " milliseconds!!");
-                
-                currentScriptable.beginWait(thisLong);
+                currentThread.beginWait(thisLong);
                 continueExecuting = false;
                 break;
             case 1: //GOTO, huh?
@@ -171,6 +175,28 @@ public class ScriptReader
             case 2:
                 
                 //We'll leave this out for now...
+                break;
+                
+            case 7: //new Thread
+                //newThread scriptID 
+                
+                int scriptID = (int)currentLine.getDoubleParameter(0);
+                String scriptName = currentLine.getStringParameter(1);
+                
+                //Create a new thread with that scriptID, giving it scriptName
+                Thread newThread = new Thread(scriptID);
+                    newThread.setName(scriptName);
+                    newThread.setLineNumber(0);
+                    newThread.setRunningState(false);
+                    newThread.setScriptable(currentScriptable);
+                
+                threadManager.addThread(newThread);
+                break;
+                
+            case 8:
+                //kill Thread.
+                String targetThread = currentLine.getStringParameter(0);
+                threadManager.markForDeletion(targetThread);
                 break;
                 
             //This thread is done
@@ -189,10 +215,20 @@ public class ScriptReader
             //setVariable identifier newValue
             case 11:
                 
+            //Calling a function is whacky stuff.
+            case 20:
+                callScriptFunction(currentLine);
+                
+                break;
+                
+            case 25:
+                returnFromFunction(currentLine);
+                break;
+                
                 
             //Print a variable, for debugging
             case 15:
-                printVariable(currentLine);
+                print(currentLine);
                 break;
                 
             //The manipulation of the locations of Displayables goes here    
@@ -228,14 +264,9 @@ public class ScriptReader
     
     private void createVariable(Line currentLine)
     {
-        //This isn't used because we can directly pull the Parameter
-        //object from the line, but it's still best to make it clear!
-        String variableType = currentLine.getStringParameter(0);
-        //System.out.println(variableType);
-
 
         //The name of the variable.
-        String variableIdentifier = currentLine.getStringParameter(1);
+        String variableIdentifier = currentLine.getStringParameter(0);
 
         //System.out.println(variableIdentifier);
 
@@ -245,12 +276,32 @@ public class ScriptReader
         int lineParameterCount = currentLine.getParameterCount();
 
         //System.out.println(lineParameterCount);
-        if (lineParameterCount >= 3)
+        if (lineParameterCount >= 2)
         {
             //So they decided to declare and initialize.
-            Parameter initParameter = currentLine.getParameter(2);
-            currentScriptable.setVariable(variableIdentifier,
-                    initParameter);
+            Parameter initParameter = currentLine.getParameter(1);
+            
+            //Are they initializing from the literal, or the 
+            //variable named by the literal?
+            if (initParameter.isIdentifier())
+            {
+                //Is an identifier, so set the Variable equal to what
+                //the initParameter refers to...
+                Parameter referencedParam = 
+                        currentScriptable.getVariable(initParameter.getStringValue());
+                
+                currentScriptable.setVariable(variableIdentifier,
+                        referencedParam);
+                
+            }
+            else 
+            {
+                //It's a literal.
+                currentScriptable.setVariable(variableIdentifier,
+                        initParameter);
+            }
+            
+            
         }
         else 
         {
@@ -259,11 +310,89 @@ public class ScriptReader
         }
     }
     
-    private void printVariable(Line currentLine)
+    private void print(Line currentLine)
     {
-        String variableID = currentLine.getStringParameter(0);
-        Parameter myP = currentScriptable.getVariable(variableID);
-        System.out.println(myP.toString());
+        Parameter toBePrinted = currentLine.getParameter(0);
+        
+        if (toBePrinted.isIdentifier())
+        {
+            //It prints what the identifier references
+            Parameter message = currentScriptable.
+                    getVariable(toBePrinted.getStringValue());
+            System.out.println(message.toString());
+            
+        }
+        else
+        {
+            //Instead, it prints the literal
+            String message = toBePrinted.getStringValue();
+            System.out.println(message);
+        }
+        
+    }
+    
+    private void callFunction(Line currentLine)
+    {
+        //callFunction [that'smyshit] param1 param2 param3 --> returned1 returned2
+        
+        //Where is the label of [that'smyshit]
+        
+        //Set the current place to that line, same script
+        
+        //But BEFORE setting the currentplace to that line, first 
+        
+        
+        
+    }
+    
+    //callFunction [that'smyshit] param1 param2 param3 --> returned1 returned2
+    private void callScriptFunction(Line currentLine)
+    {
+        //callFunction 5 [that'smyshit] param1 param2 param3 --> returned1 returned2
+        
+        //Get the Script object that 5 refers to
+        int scriptID = currentLine.getIntegerParameter(0);
+        Script jumpedScript = scr.getScriptAtID(scriptID);
+        
+        //Now find the line number that [that'smyshit] is to be found
+        String labelName = currentLine.getStringParameter(1);
+        
+        //System.out.println(jumpedScript.getLine(2));
+        
+        
+        int lineNumber = jumpedScript.getLabelIndexOnLineList(labelName);
+        
+        //But BEFORE setting the currentplace to that line, first store the
+        //old script ID and old line number for returning purposes
+        currentThread.makeReturnPoint();
+        
+        //Set the current place to that line, that script
+        currentThread.setLineNumber(lineNumber);
+        currentThread.setScriptID(scriptID);
+        
+        //MAKE THE PARAMETERS WORK LATER
+        
+    }
+    
+    private void callThreadFunction(Line currentLine)
+    {
+        //callFunction 5 [that'smyshit] param1 param2 param3 --> returned1 returned2
+        
+        //Where is the label of [that'smyshit]
+        
+        //Set the current place to that line, same script
+        
+        //But BEFORE setting the currentplace to that line, first 
+        
+        
+        
+    }
+    
+    private void returnFromFunction(Line currentLine)
+    {
+        currentThread.restoreLastReturnPoint();
+        
+        
     }
     
     
