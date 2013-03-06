@@ -1,0 +1,16 @@
+
+
+
+-- Alright so now that the parsing part of the engine works
+-- I'm going to write a simple script which will demonstrate the
+-- basic aspects of the function, kind of like a proof
+-- of concept. It's going to be sweet and simple
+
+wait 4000
+move 1000
+GOTO 0 
+
+
+-- That's it.
+
+
