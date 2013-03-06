@@ -1,9 +1,11 @@
 package spaceinvaders;
 
+/*
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import com.google.gson.*;
+*/
 
 /**
  * Entity 
@@ -19,7 +21,7 @@ public class Entity extends ScriptableClass
     double ycoordinate;
     double vx;
     double vy;
-    BufferedReader json;
+   //BufferedReader json;
     
     
     //Basic entity class for testing purposes.
@@ -27,6 +29,7 @@ public class Entity extends ScriptableClass
     {
         super();
         
+        /*
         // create a new Gson (JSON in Java) object
         Gson gson = new Gson();
         
@@ -35,6 +38,7 @@ public class Entity extends ScriptableClass
         } catch(IOException e) { // Oh no, JSON file does not exist!
             e.printStackTrace();
         }
+        */
         
         xcoordinate = 200;
         ycoordinate = 200;
