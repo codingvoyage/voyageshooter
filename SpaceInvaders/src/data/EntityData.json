@@ -1,0 +1,14 @@
+/* 
+ * Entity Data
+ * Stores the data for every single possible type of entity
+ * Special unnamed entities are not stored here
+ */
+
+{
+    "enemy": {
+        "basic1" : {
+            "bullet" : 1,
+            "attack" : 1
+        }
+    }
+}
