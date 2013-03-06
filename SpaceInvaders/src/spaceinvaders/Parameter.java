@@ -19,6 +19,7 @@ public class Parameter {
     private String s;
     private boolean b;
     private double d;
+    private double[] da;
     
     //Is this Parameter used as an identifier for a variable under Scripting?
     private boolean isIdentifier;
@@ -43,6 +44,13 @@ public class Parameter {
     {
         setDoubleValue(newDouble);
         whichType = 3;
+        setIdentifier(false);
+    }
+    
+    public Parameter(double[] newDoubleArray)
+    {
+        setDoubleArrayValue(newDoubleArray);
+        whichType = 4;
         setIdentifier(false);
     }
     
