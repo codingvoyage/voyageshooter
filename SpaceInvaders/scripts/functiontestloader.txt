@@ -1,0 +1,23 @@
+newThread 10 "testthread"
+
+label [loop]
+
+wait 2500
+
+print "hello hello"
+print "hmmm"
+
+wait 2500
+
+
+
+callthreadfunction "testthread" [try] -->
+
+
+print "asdfasdf"
+
+
+goto [loop]
+
+
+endthread

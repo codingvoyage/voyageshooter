@@ -1,0 +1,16 @@
+label [keepwaiting]
+
+wait 10000
+
+print "hello!!"
+
+goto [keepwaiting]
+
+
+
+function [try]
+print "tickle my ballz"
+print "tickle my ballz"
+print "tickle my ballz"
+print "tickle my ballz"
+return
