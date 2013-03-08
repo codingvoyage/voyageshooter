@@ -1,9 +1,5 @@
 package spaceinvaders;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import com.google.gson.*;
 
 /**
  * Entity 
@@ -15,11 +11,11 @@ import com.google.gson.*;
 public class Entity extends ScriptableClass
 {
     
-    double xcoordinate;
-    double ycoordinate;
-    double vx;
-    double vy;
-   BufferedReader json;
+    private double x;
+    private double y;
+    private double vx;
+    private double vy;
+    private String name;
     
     
     //Basic entity class for testing purposes.
@@ -27,22 +23,20 @@ public class Entity extends ScriptableClass
     {
         super();
         
-        // create a new Gson (JSON in Java) object
-        Gson gson = new Gson();
-        
-        try {
-            json = new BufferedReader(new FileReader("src/data/EntityData.json")); // read the JSON file
-            System.out.println("It works!");
-        } catch(IOException e) { // Oh no, JSON file does not exist!
-            e.printStackTrace();
-            System.out.println("Failure");
-        }
-        
-        xcoordinate = 200;
-        ycoordinate = 200;
-        vx = 0.2;
-        vy = 0.0;
-        
+        // Default values if the entity isn't built with JSON
+        x = 200;
+        y = 200;
+        vx = 10;
+        vy = 0;
+        name = "The Greatest Entity on Earth";
+    }
+    
+    /*
+     * Get Name
+     * @return the entity's name
+     */
+    public String getName() {
+        return name;
     }
     
     /**
@@ -50,7 +44,7 @@ public class Entity extends ScriptableClass
      * @return the entity's x-coordinate
      */    
     public double getX() {
-        return xcoordinate;
+        return x;
     }
 
     /**
@@ -58,14 +52,30 @@ public class Entity extends ScriptableClass
      * @return the entity's y-coordinate
      */    
     public double getY() {
-        return ycoordinate;
+        return y;
     }
+    
+     /**
+     * Get X velocity
+     * @return the entity's x velocity
+     */    
+    public double getXVelocity() {
+        return vx;
+    }   
+    
+     /**
+     * Get Y velocity
+     * @return the entity's y velocity
+     */    
+    public double getYVelocity() {
+        return vy;
+    }   
     
     
     public boolean continueMove(double delta)
     {
-        xcoordinate += vx * delta;
-        ycoordinate += vy * delta;
+        x += vx * delta;
+        y += vy * delta;
         
         double movedDistance = Math.abs((vx * delta) + (vy * delta));
         
@@ -133,8 +143,8 @@ public class Entity extends ScriptableClass
         double w = (Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2)))/radius;
         
         // determine coordinates of the orbiter
-        xcoordinate = origin.getX() + radius * Math.cos(radians);
-        ycoordinate = origin.getY() + radius * Math.sin(radians);
+        x = origin.getX() + radius * Math.cos(radians);
+        y = origin.getY() + radius * Math.sin(radians);
         
         // the angle needs to change
         if (getTemporaryParameter().getDoubleArrayValue()[2] == 0.0) { // clockwise

@@ -4,6 +4,10 @@ import org.newdawn.slick.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 
+import com.google.gson.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Space Invaders Game
@@ -100,7 +104,7 @@ public class SpaceInvaders extends BasicGame {
         
     }
 
-    public static void main(String[] args) throws SlickException
+    public static void main(String[] args) throws SlickException, IOException
     {
        AppGameContainer app = new AppGameContainer(new SpaceInvaders());
 
@@ -111,9 +115,24 @@ public class SpaceInvaders extends BasicGame {
        //the frames displayed per second to around 60. We DON'T want frames
        //being drawn 2000 times per second.
        
-       app.start();
+      // app.start();
        
-       // temporary entity JSON reading test
-       Entity bakesale = new Entity();
+        BufferedReader read = new BufferedReader(new FileReader("src/data/EntityData.json"));
+        
+        Gson gson = new Gson();
+        Entity ent = gson.fromJson(read, Entity.class);
+ 
+        read.close(); // we passed the Json to Gson already so no need to keep the file open
+        
+        System.out.println("X Coordinate: " + ent.getX());
+        System.out.println("Y Coordinate: " + ent.getY());
+        System.out.println("X Velocity: " + ent.getXVelocity());
+        System.out.println("Y Velocity: " + ent.getYVelocity());
+        System.out.println("Name: " + ent.getName());
+        
+        //System.out.println("ent.getDateOfBirth() = " + ent.getDateOfBirth());
+        
+    
+       
     }
 }
