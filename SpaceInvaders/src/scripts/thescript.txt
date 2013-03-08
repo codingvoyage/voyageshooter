@@ -1,0 +1,5 @@
+ 
+label [keepwaitinglol]
+wait 10000
+print "10 seconds elapsed"
+goto [keepwaitinglol]

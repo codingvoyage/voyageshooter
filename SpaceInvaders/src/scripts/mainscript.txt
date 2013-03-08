@@ -1,0 +1,16 @@
+newthread 10 "mythread" 
+
+label [goto]
+
+wait 2000
+
+print "alright we're going to try to jump to the function on mythread"
+
+-- callfunction 
+
+goto [goto]
+
+endthread
+
+
+
