@@ -15,6 +15,7 @@ setVariable 11
 print 15
 
 callfunction 20
+callthreadfunction 21
 
 return 25
 

@@ -1,4 +1,4 @@
-newthread 10 "mythread" 
+newthread 10 "mythread"
 
 label [goto]
 
@@ -14,3 +14,7 @@ endthread
 
 
 
+function [anothertest]
+print "YESSS IT WORKS HOLY CRAP"
+PRINT "ahhhhhhhhhhh"
+return
