@@ -7,6 +7,9 @@ import java.util.Stack;
  * @author Edmund
  */
 public class Thread {
+    //Base scriptID, the one which is on the top and its "main".
+    public final int baseScriptID;
+    
     //Which script are we running, and what line are we on?
     private int scriptID;
     private int currentLineNumber;
@@ -33,40 +36,56 @@ public class Thread {
     //and kill it or something. 
     private String name;
     
-    //For jumping back to whence we came
-    private Stack functionStack;
+    //For jumping back to whence we came 
+    //private
+    Stack functionStack;
+    
+    //For functions
+    Thread currentThreadLayer;
     
     
     
     public Thread(int scriptID) 
     {
-        setScriptID(scriptID);
-        markedForDeletion = false;
+        currentThreadLayer = this;
         
-        functionStack = new Stack();
+        currentThreadLayer.markedForDeletion = false;
         
+        currentThreadLayer.setScriptID(scriptID);
+        baseScriptID = scriptID;
+        
+        currentThreadLayer.functionStack = new Stack();
+        currentThreadLayer.memoryBox = new HashMap<String, Parameter>();
+    }
+    
+    public boolean atBaseThread()
+    {
+        if (currentThreadLayer == this)
+            return true;
+        else
+            return false;
     }
     
     
     public void markForDeletion() 
     { 
-        markedForDeletion = true;
+        currentThreadLayer.markedForDeletion = true;
     }
     
     public boolean isMarkedForDeletion()
     {
-        return markedForDeletion;
+        return currentThreadLayer.markedForDeletion;
     }
     
     //Accessors and mutators for the mannequin Scriptable
     public void setScriptable(Scriptable scriptableObj)
     {
-        linkedScriptable = scriptableObj;
+        currentThreadLayer.linkedScriptable = scriptableObj;
     }
    
     public Scriptable getScriptable()
     {
-        return linkedScriptable;
+        return currentThreadLayer.linkedScriptable;
     }   
     
     
@@ -76,7 +95,7 @@ public class Thread {
         currentLineNumber = newLineNumber;
     }
    
-    public int getLineNumber()
+    public int getCurrentLine()
     {
         return currentLineNumber;
     }
@@ -84,12 +103,12 @@ public class Thread {
     //Accessors and mutators for ScriptID
     protected void setScriptID(int newScriptID)
     {
-        scriptID = newScriptID;
+        currentThreadLayer.scriptID = newScriptID;
     }
-    
+   
     public int getScriptID()
     {
-        return scriptID;
+        return currentThreadLayer.scriptID;
     }
     
     //Running state, or basically, is the script in the middle of executing
@@ -101,37 +120,37 @@ public class Thread {
     
     protected void setRunningState(boolean progress)
     {
-        inProgress = progress;
+        currentThreadLayer.inProgress = progress;
     }
     
     //Accessors and mutators for the name
     public void setName(String newName)
     {
-        name = newName;
+        currentThreadLayer.name = newName;
     }
    
     public String getName()
     {
-        return name;
+        return currentThreadLayer.name;
     }
     
     //Waiting
     public void beginWait(double millisecondsToWait)
     {
-        waitMilliseconds = millisecondsToWait;
-        setRunningState(true);
+        currentThreadLayer.waitMilliseconds = millisecondsToWait;
+        currentThreadLayer.setRunningState(true);
     }
     
     public boolean continueWait(double delta)
     {
         //Update the temporary value with the delta time
-        waitMilliseconds -= delta;
+        currentThreadLayer.waitMilliseconds -= delta;
         
-        if (waitMilliseconds < 0)
+        if (currentThreadLayer.waitMilliseconds < 0)
         {
             //Oh, so we're done waiting. Great.
             //System.out.println("Finished waiting!");
-            setRunningState(false);
+            currentThreadLayer.setRunningState(false);
             return false;
         }
         
@@ -139,31 +158,91 @@ public class Thread {
         return true;
     }
     
+    //Memory/variable magic
+    public void setVariable(String identifier, Parameter value) 
+    {
+        currentThreadLayer.memoryBox.put(identifier, value);
+    }
     
+    public void newVariable(String identifier) 
+    {
+        //Scripter, it's YOUR FAULT if it crashes because you fail to
+        //initialize the variable! LOL
+        currentThreadLayer.memoryBox.put(identifier, null);
+    }
     
+    public Parameter getVariable(String identifier) 
+    {
+        return currentThreadLayer.memoryBox.get(identifier);
+    }
+    
+    public void deleteVariable(String identifier)
+    {
+        currentThreadLayer.memoryBox.remove(identifier);
+    }
+    
+    public HashMap<String, Parameter> getMemoryBox()
+    {
+        return currentThreadLayer.memoryBox;
+    }
+    
+    public void setMemoryBox(HashMap<String, Parameter> newMemoryBox)
+    {
+        currentThreadLayer.memoryBox = newMemoryBox;
+    }
+
     //Stack stuff!
     
+            
+            
+            
     public void makeReturnPoint()
     {
-        lineAndIDPair foo = new lineAndIDPair(getScriptID(), getLineNumber());
+        System.out.println("We are a creating a return point: " 
+                + "at scriptID " + currentThreadLayer.getScriptID() + ". " + 
+                "The line we're saving is " + currentThreadLayer.getCurrentLine() + 
+                ".");
+        returnPoint foo = new returnPoint(currentThreadLayer.getScriptID(), 
+                currentThreadLayer.getCurrentLine(), 
+                currentThreadLayer, currentThreadLayer.memoryBox);
+        
         functionStack.push(foo);
+        
     }
     
     public void restoreLastReturnPoint()
     {
-        lineAndIDPair foo = (lineAndIDPair)functionStack.pop();
+        
+        returnPoint foo = (returnPoint)functionStack.pop();
+        
+        
+       System.out.println("omg");
+       System.out.println("restoring to ID #" + foo.getScriptID() +
+               " and lastLine is " + foo.getLastLine());
+       
             setScriptID(foo.getScriptID());
-            setLineNumber(foo.getCurrentLine());
+            setLineNumber(foo.getLastLine());
+            currentThreadLayer = foo.getLastThread();
+            
+            System.out.println(currentThreadLayer.getName() + " is the name of the"
+                    + "current thread layer now! The one we jump back to...");
+            currentThreadLayer.memoryBox = foo.getMemoryBox();
     }
     
-    private class lineAndIDPair
+    private class returnPoint
     {
         private int scriptID;
-        private int currentLine;
-        lineAndIDPair(int newScriptID, int newCurrentLine)
+        private int lastLine;
+        private Thread lastThread;
+        private HashMap<String, Parameter> memoryBox;
+        
+        returnPoint(int newScriptID, int newCurrentLine, Thread lastThread, 
+                HashMap<String, Parameter> lastMemoryBox)
         {
             scriptID = newScriptID;
-            currentLine = newCurrentLine;
+            lastLine = newCurrentLine;
+            memoryBox = lastMemoryBox;
+            this.lastThread = lastThread;
         }
         
         int getScriptID()
@@ -171,9 +250,20 @@ public class Thread {
             return scriptID;
         }
                 
-        int getCurrentLine()
+        int getLastLine()
         {
-            return currentLine;
+            return lastLine;
         }
+        
+        Thread getLastThread()
+        {
+            return lastThread;
+        }
+        
+        HashMap<String, Parameter> getMemoryBox()
+        {
+            return memoryBox;
+        }
+        
     }
 }

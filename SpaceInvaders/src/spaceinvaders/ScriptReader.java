@@ -1,5 +1,7 @@
 package spaceinvaders;
 
+import java.util.HashMap;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -47,9 +49,10 @@ public class ScriptReader
         currentScriptable = currentThread.getScriptable();
         
         //We need to know what line of what script the Thread is on
-        int currentLineNumber = currentThread.getLineNumber();
+        int currentLineNumber = currentThread.getCurrentLine();
         int currentScriptID = currentThread.getScriptID();
         
+        if (currentThread.getName().equals("main") && currentScriptID == 10 ) System.out.println("Hi!!");
         
         //Now we call ScriptManager to have it return a reference to the
         //Script class which currentScriptID refers to
@@ -62,6 +65,8 @@ public class ScriptReader
         //execution
         if (currentThread.isRunning()) 
         {
+            
+                
             //Will we continue running the same command?
             boolean doesContinue = continuesRunning(currentLine);
             
@@ -72,13 +77,15 @@ public class ScriptReader
                 //to the next line!
                 
                 currentThread.setLineNumber(
-                        currentThread.getLineNumber() + 1);
+                        currentThread.getCurrentLine() + 1);
             }
         }
         
         //Now, if by now there is no command already in execution, then...
         if (!currentThread.isRunning()) 
         {
+            
+            
             
             //We will go from line to line
             boolean doWeContinue = true;
@@ -92,11 +99,16 @@ public class ScriptReader
                 //retrieves the line which is located at the line number
                 //specified in the class implementing Scriptable.
                 Line thisLine = scr.getScriptAtID(currentThread.getScriptID()).
-                        getLine(currentThread.getLineNumber());
+                        getLine(currentThread.getCurrentLine());
                 
                 //Now that we have the line, we execute it.
                 doWeContinue = executeCommand(thisLine);
                 
+                
+                if  (!currentThread.functionStack.isEmpty())
+                    System.out.println(currentThread.getCurrentLine() + " is the current line"
+                            + "of the current thread we're on...");
+                    
                 //Now, if we aren't halting, then after the line is over, 
                 //move on to the next line! UNLESS it was a goto statement!
                 //Of course, if it is a goto statement, it will remain a
@@ -105,7 +117,9 @@ public class ScriptReader
                 {
                     //System.out.println("Next line!");
                     currentThread.setLineNumber(
-                        currentThread.getLineNumber() + 1);
+                        currentThread.getCurrentLine() + 1);
+                
+                
                 }
                 else 
                 {
@@ -173,7 +187,8 @@ public class ScriptReader
                 currentThread.setLineNumber(newLineIndex);
                 break;
             case 2:
-                
+                System.out.println(currentThread.getCurrentLine() + " is the current line "
+                            + "of the current thread we're on... which is " + currentThread.getName());
                 //We'll leave this out for now...
                 break;
                 
@@ -218,8 +233,12 @@ public class ScriptReader
             //Calling a function is whacky stuff.
             case 20:
                 callScriptFunction(currentLine);
-                
                 break;
+                
+            case 21:
+                callThreadFunction(currentLine);
+                break;
+                
                 
             case 25:
                 returnFromFunction(currentLine);
@@ -288,16 +307,16 @@ public class ScriptReader
                 //Is an identifier, so set the Variable equal to what
                 //the initParameter refers to...
                 Parameter referencedParam = 
-                        currentScriptable.getVariable(initParameter.getStringValue());
+                        currentScriptable.getMainThread().getVariable(initParameter.getStringValue());
                 
-                currentScriptable.setVariable(variableIdentifier,
+                currentScriptable.getMainThread().setVariable(variableIdentifier,
                         referencedParam);
                 
             }
             else 
             {
                 //It's a literal.
-                currentScriptable.setVariable(variableIdentifier,
+                currentScriptable.getMainThread().setVariable(variableIdentifier,
                         initParameter);
             }
             
@@ -306,7 +325,7 @@ public class ScriptReader
         else 
         {
             //They decided to declare a variable without initialization
-            currentScriptable.newVariable(variableIdentifier);
+            currentScriptable.getMainThread().newVariable(variableIdentifier);
         }
     }
     
@@ -317,7 +336,7 @@ public class ScriptReader
         if (toBePrinted.isIdentifier())
         {
             //It prints what the identifier references
-            Parameter message = currentScriptable.
+            Parameter message = currentScriptable.getMainThread().
                     getVariable(toBePrinted.getStringValue());
             System.out.println(message.toString());
             
@@ -354,12 +373,10 @@ public class ScriptReader
         int scriptID = currentLine.getIntegerParameter(0);
         Script jumpedScript = scr.getScriptAtID(scriptID);
         
-        //Now find the line number that [that'smyshit] is to be found
+        //Basically, extracting the label [that'smyshit]
         String labelName = currentLine.getStringParameter(1);
         
-        //System.out.println(jumpedScript.getLine(2));
-        
-        
+        //Now find the line number that [that'smyshit] is located on
         int lineNumber = jumpedScript.getLabelIndexOnLineList(labelName);
         
         //But BEFORE setting the currentplace to that line, first store the
@@ -370,29 +387,111 @@ public class ScriptReader
         currentThread.setLineNumber(lineNumber);
         currentThread.setScriptID(scriptID);
         
+        
         //MAKE THE PARAMETERS WORK LATER
         
     }
     
     private void callThreadFunction(Line currentLine)
     {
-        //callFunction 5 [that'smyshit] param1 param2 param3 --> returned1 returned2
-        
+        //callFunction "threadname" [that'smyshit] param1 param2 param3 --> returned1 returned2
+       
         //Where is the label of [that'smyshit]
         
-        //Set the current place to that line, same script
+        //Get the Thread object which threadname refers to
+        String threadName = currentLine.getStringParameter(0);
         
-        //But BEFORE setting the currentplace to that line, first 
+        System.out.println(threadName + " i am jumping to");
+        
+        Thread jumpedThread = threadManager.getThreadAtName(threadName);
+        
+        //Basically, extracting the label [that'smyshit]
+        String labelName = currentLine.getStringParameter(1);
+        
+        System.out.println("jumping to label called " + labelName);
+
+                
+        //Alright, this gets complicated.
+        //Thread --> what is its first script ID number?
+        //Go find that Script object at the scriptID
+        //Get the label index
+        int threadScriptID = jumpedThread.baseScriptID;
+        
+        System.out.println(threadScriptID + " is the ID of the thread I'm jumping TO");
+        
+        Script jumpedScript = scr.getScriptAtID(threadScriptID);
+        int newLine = jumpedScript.getLabelIndexOnLineList(labelName);
+        
+        System.out.println("I am jumping onto line " + newLine);
         
         
+        
+        //But BEFORE setting the currentplace to that line, first store the
+        //old script ID and old line number for returning purposes
+        currentThread.makeReturnPoint();
+        
+        //Set the current place to that line, that script
+        currentThread.setLineNumber(newLine);
+        currentThread.setScriptID(threadScriptID);
+        
+        //From the parameters, create a new memory box...
+        HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
+        //First we need to place the parameters, so starting from 
+        //callFunction "threadname" [that'smyshit] param1 param2 param3 --> returned1 returned2
+        //                                          ^ index 2, we search for the
+        //--> label that denotes that we're done.
+        
+        
+        //But here's the thing. We need to know what to make its identifier.
+        //In order to do that, we need to go all the way to the line we're jumping
+        //to and getting a copy of their line object.
+        Line functionLine = jumpedScript.getLineAtLabel(labelName);
+        //function [nameblah] param1identifier param2identifier ...
+        
+        int searchIndex = 2;
+        boolean found = false;
+        while (!found)
+        {
+            Parameter currentParameter = currentLine.getParameter(searchIndex);
+            
+            //Now, is it -->? So if its type is 1 which means it's a String it
+            //would show up as, and it's actually --> ... 
+            if ( (currentParameter.getStoredType() == 1) &&
+                    (currentParameter.getStringValue().equals("-->")))
+            {
+                
+                System.out.println("We found the --> thing LOL");
+                found = true;
+            }
+            else
+            {
+                //Alright, if it isn't then we can add it to the memory box
+                
+                String ourIdentifier = functionLine.getStringParameter(searchIndex - 1);
+                System.out.println(ourIdentifier + " is the current identifier we add");
+                
+                newMemoryBox.put(ourIdentifier, currentParameter);
+                
+            }
+            
+            
+        }
+        
+        System.out.println("Memorybox is size" + newMemoryBox.size());
+        
+        //Set it to the new Memory box. TO DO LATER
+        currentThread.setMemoryBox(newMemoryBox);
+                
+        //Finally, pass the new currentThread in use...
+        currentThread.currentThreadLayer = jumpedThread;
+        
+        //MAKE THE PARAMETERS WORK LATER
         
     }
     
     private void returnFromFunction(Line currentLine)
     {
         currentThread.restoreLastReturnPoint();
-        
-        
     }
     
     

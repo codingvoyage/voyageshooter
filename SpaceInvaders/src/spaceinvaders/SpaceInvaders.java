@@ -41,6 +41,10 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection.loadScript("ROCKET MOTTO ONCE.txt", 4); 
         scriptCollection.loadScript("Loader.txt", 5);   
         
+        
+        scriptCollection.loadScript("functiontestloader.txt", 9);   
+        scriptCollection.loadScript("thescript.txt", 10);   
+        
   
         //Initialize ScriptReader, passing it the ScriptManager handle
         scriptReader = new ScriptReader(scriptCollection);
@@ -54,7 +58,7 @@ public class SpaceInvaders extends BasicGame {
         testEntity = new Entity();
         
         //Create a thread which governs this entity with Script #4
-        Thread entityThread = new Thread(5);
+        Thread entityThread = new Thread(9);
         
         //Set the main thread of the entity to this thread.
         testEntity.setMainThread(entityThread);
