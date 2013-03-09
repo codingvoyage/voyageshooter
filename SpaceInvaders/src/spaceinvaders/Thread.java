@@ -99,7 +99,7 @@ public class Thread {
         return inProgress;
     }
     
-    protected void setRunningState(boolean progress)
+    public void setRunningState(boolean progress)
     {
         inProgress = progress;
     }

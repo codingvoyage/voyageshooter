@@ -1,5 +1,6 @@
 package spaceinvaders;
 
+import spaceinvaders.entity.Entity;
 import org.newdawn.slick.*;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -117,13 +118,14 @@ public class SpaceInvaders extends BasicGame {
        
       // app.start();
        
-        BufferedReader read = new BufferedReader(new FileReader("src/data/EntityData.json"));
+        BufferedReader read = new BufferedReader(new FileReader("src/spaceinvaders/data/EntityData.json"));
         
         Gson gson = new Gson();
         Entity ent = gson.fromJson(read, Entity.class);
  
         read.close(); // we passed the Json to Gson already so no need to keep the file open
         
+        System.out.println("ID: " + ent.getID());
         System.out.println("X Coordinate: " + ent.getX());
         System.out.println("Y Coordinate: " + ent.getY());
         System.out.println("X Velocity: " + ent.getXVelocity());

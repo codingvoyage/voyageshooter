@@ -1,4 +1,7 @@
-package spaceinvaders;
+package spaceinvaders.entity;
+
+import spaceinvaders.Parameter;
+import spaceinvaders.ScriptableClass;
 
 
 /**
@@ -11,6 +14,7 @@ package spaceinvaders;
 public class Entity extends ScriptableClass
 {
     
+    private int id;
     private double x;
     private double y;
     private double vx;
@@ -24,11 +28,20 @@ public class Entity extends ScriptableClass
         super();
         
         // Default values if the entity isn't built with JSON
+        id = 1337;
         x = 200;
         y = 200;
         vx = 10;
         vy = 0;
         name = "The Greatest Entity on Earth";
+    }
+    
+    /*
+     * Get ID
+     * @return the entity's ID
+     */
+    public int getID() {
+        return id;
     }
     
     /*
