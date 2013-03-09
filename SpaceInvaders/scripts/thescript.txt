@@ -1,16 +1,10 @@
-label [keepwaiting]
-
+label [keepwaitinglol]
 wait 10000
+print "10 seconds elapsed"
+goto [keepwaitinglol]
 
-print "hello!!"
-
-goto [keepwaiting]
-
-
-
-function [try]
-print "tickle my ballz"
-print "tickle my ballz"
-print "tickle my ballz"
-print "tickle my ballz"
+function [myfunction] 
+print "hello!!!"
+print "we reached the function on thescript"
+callthreadfunction "main" [anothertest] -->
 return

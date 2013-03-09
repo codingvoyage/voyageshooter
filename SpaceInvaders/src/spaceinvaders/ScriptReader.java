@@ -52,8 +52,6 @@ public class ScriptReader
         int currentLineNumber = currentThread.getCurrentLine();
         int currentScriptID = currentThread.getScriptID();
         
-        if (currentThread.getName().equals("main") && currentScriptID == 10 ) System.out.println("Hi!!");
-        
         //Now we call ScriptManager to have it return a reference to the
         //Script class which currentScriptID refers to
         Script currentScript = scr.getScriptAtID(currentScriptID);
@@ -404,6 +402,8 @@ public class ScriptReader
         System.out.println(threadName + " i am jumping to");
         
         Thread jumpedThread = threadManager.getThreadAtName(threadName);
+        
+        
         
         //Basically, extracting the label [that'smyshit]
         String labelName = currentLine.getStringParameter(1);

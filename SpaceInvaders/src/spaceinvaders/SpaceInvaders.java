@@ -1,4 +1,4 @@
-package spaceinvaders;
+    package spaceinvaders;
 
 import org.newdawn.slick.*;
 import java.util.HashMap;
@@ -41,11 +41,13 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection.loadScript("ROCKET MOTTO ONCE.txt", 4); 
         scriptCollection.loadScript("Loader.txt", 5);   
         
+        scriptCollection.loadScript("mainscript.txt", 9);   
         
-        scriptCollection.loadScript("functiontestloader.txt", 9);   
+        
         scriptCollection.loadScript("thescript.txt", 10);   
         
   
+        System.out.println("asdf");
         //Initialize ScriptReader, passing it the ScriptManager handle
         scriptReader = new ScriptReader(scriptCollection);
         

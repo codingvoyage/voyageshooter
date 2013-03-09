@@ -103,7 +103,7 @@ public class Thread {
     //Accessors and mutators for ScriptID
     protected void setScriptID(int newScriptID)
     {
-        currentThreadLayer.scriptID = newScriptID;
+        scriptID = newScriptID;
     }
    
     public int getScriptID()
@@ -129,6 +129,7 @@ public class Thread {
         currentThreadLayer.name = newName;
     }
    
+    //maybe make a "base thread" name
     public String getName()
     {
         return currentThreadLayer.name;
@@ -208,15 +209,24 @@ public class Thread {
         
         functionStack.push(foo);
         
+        
     }
     
     public void restoreLastReturnPoint()
     {
         
+       System.out.println("omg we're returning");
+       
+       if (functionStack.isEmpty()) 
+       {
+           
+        System.out.println("oh fuck");
+       }
+       
+       
         returnPoint foo = (returnPoint)functionStack.pop();
         
         
-       System.out.println("omg");
        System.out.println("restoring to ID #" + foo.getScriptID() +
                " and lastLine is " + foo.getLastLine());
        
