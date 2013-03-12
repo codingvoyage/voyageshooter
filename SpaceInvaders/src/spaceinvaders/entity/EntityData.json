@@ -1,0 +1,39 @@
+{
+    "enemies": [
+        {
+            "name" : "Minion",
+            "id" : 0,
+            "description" : "Weak minions sent from the land of 'Wut??'",
+            "attack" : 0
+        },
+        {
+            "name" : "Bakesale Monster",
+            "id" : 1,
+            "description" : "The final powerful boss. The true identity of the mastermind behind all these evil ships.",
+            "attack" : 9002
+        }
+    ],
+
+    "weapons": [
+        {
+            "name" : "Water Gun",
+            "id" : 0,
+            "description" : "In what galaxy is it logical to use water guns to attack spaceships?",
+            "attack" : 0.0001
+        },
+        {
+            "name" : "Bomb Formula 9001",
+            "id" : 1,
+            "description" : "A small and powerful bullet that explodes on impact. Simply the best weapon in any galaxy.",
+            "attack" : 9001
+        }
+    ],
+
+    "misc": [
+        {
+            "name" : "Asteroid",
+            "id" : 0,
+            "description" : "Random floating rocks. Avoid at all costs! Your ship is flying too fast and will crash!"
+        }
+    ]
+}

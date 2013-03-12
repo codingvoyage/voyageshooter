@@ -1,7 +1,6 @@
 package spaceinvaders.entity;
 
-import spaceinvaders.Parameter;
-import spaceinvaders.ScriptableClass;
+import spaceinvaders.script.*;
 
 
 /**
@@ -11,10 +10,10 @@ import spaceinvaders.ScriptableClass;
  * @author Brian Yang
  * @author Edmund
  */
-public class Entity extends ScriptableClass
+public class Entity extends ScriptableClass implements Movable
 {
     
-    private int id;
+   // private int id;
     private double x;
     private double y;
     private double vx;
@@ -28,7 +27,7 @@ public class Entity extends ScriptableClass
         super();
         
         // Default values if the entity isn't built with JSON
-        id = 1337;
+        //id = 1337;
         x = 200;
         y = 200;
         vx = 10;
@@ -41,7 +40,7 @@ public class Entity extends ScriptableClass
      * @return the entity's ID
      */
     public int getID() {
-        return id;
+        return 0;
     }
     
     /*
@@ -147,7 +146,7 @@ public class Entity extends ScriptableClass
         double radius = getTemporaryParameter().getDoubleArrayValue()[1];
         
         // temporary entity - represents the origin entity (such as the player)
-        Entity origin = new Entity();
+        Enemy origin = new Enemy();
         
         // convert degrees to radians
         double radians = angle * (Math.PI / 180);
@@ -156,8 +155,8 @@ public class Entity extends ScriptableClass
         double w = (Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2)))/radius;
         
         // determine coordinates of the orbiter
-        x = origin.getX() + radius * Math.cos(radians);
-        y = origin.getY() + radius * Math.sin(radians);
+       // x = origin.getX() + radius * Math.cos(radians);
+       // y = origin.getY() + radius * Math.sin(radians);
         
         // the angle needs to change
         if (getTemporaryParameter().getDoubleArrayValue()[2] == 0.0) { // clockwise
