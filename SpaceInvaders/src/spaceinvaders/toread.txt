@@ -1,6 +1,0 @@
-createVariable integer "Bakesale" 53
-wait 5000
-move 300
-wait 2000
-goto 1
-
