@@ -3,8 +3,6 @@ package spaceinvaders.script;
 import spaceinvaders.entity.*;
 
 import org.newdawn.slick.*;
-import java.util.HashMap;
-import java.util.ArrayList;
 
 import com.google.gson.*;
 import java.io.BufferedReader;
@@ -106,46 +104,41 @@ public class SpaceInvaders extends BasicGame {
         
     }
 
-    public static void main(String[] args) throws SlickException, IOException
-    {
-       AppGameContainer app = new AppGameContainer(new SpaceInvaders());
-
-       app.setDisplayMode(1024, 768, false);
-       app.setAlwaysRender(true);
-       app.setTargetFrameRate(60);
-       //This is important. I found out that with this command, it will limit
-       //the frames displayed per second to around 60. We DON'T want frames
-       //being drawn 2000 times per second.
-       
-      // app.start();
-       
-       
-        BufferedReader read = new BufferedReader(new FileReader("src/spaceinvaders/entity/EntityData.json"));
- 
-        
+    public static void main(String[] args) throws SlickException, IOException {
         /*
-        System.out.println("ID: " + ent.getID());
-        System.out.println("X Coordinate: " + ent.getX());
-        System.out.println("Y Coordinate: " + ent.getY());
-        System.out.println("X Velocity: " + ent.getXVelocity());
-        System.out.println("Y Velocity: " + ent.getYVelocity());
-        System.out.println("Name: " + ent.getName());
+         * Start Game Window Construction
+         */
         
-        //System.out.println("ent.getDateOfBirth() = " + ent.getDateOfBirth());
-        */
+        AppGameContainer app = new AppGameContainer(new SpaceInvaders());
 
-        // Now do the magic.
-        Entities data = new Gson().fromJson(read, Entities.class);
+        app.setDisplayMode(1024, 768, false);
+        app.setAlwaysRender(true);
+        app.setTargetFrameRate(60);
+        //This is important. I found out that with this command, it will limit
+        //the frames displayed per second to around 60. We DON'T want frames
+        //being drawn 2000 times per second.
+
+        // Temporarily commented out to test entities
+        // app.start();
+
+        /*
+         * Start JSON Entities
+         */
+
+        JsonReader reader = new JsonReader("src/spaceinvaders/entity/EntityData.json");
+        if(reader.readJson()) {
+            
+            Entities data = reader.getEntities();
+            // Show it.
+            System.out.println(data);
+
+            System.out.println(data.getEnemyCount());
+            System.out.println(data.getWeaponCount());
+            System.out.println(data.getMiscCount());
         
-        read.close(); // we passed the Json to Gson already so no need to keep the file open
-        
-        // Show it.
-        System.out.println(data);
-        
-        System.out.println(data.getEnemyCount());
-        System.out.println(data.getWeaponCount());
-        System.out.println(data.getMiscCount());
-    
+        } else {
+            System.out.println("JSON failed!");
+        }
        
     }
 }

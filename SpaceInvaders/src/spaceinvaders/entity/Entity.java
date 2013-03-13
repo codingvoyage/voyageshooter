@@ -10,20 +10,17 @@ import spaceinvaders.script.*;
  * @author Brian Yang
  * @author Edmund
  */
-public class Entity extends ScriptableClass implements Movable
-{
+public class Entity extends ScriptableClass {
     
    // private int id;
     private double x;
     private double y;
     private double vx;
     private double vy;
-    private String name;
     
     
     //Basic entity class for testing purposes.
-    public Entity()
-    {
+    public Entity() {
         super();
         
         // Default values if the entity isn't built with JSON
@@ -32,23 +29,7 @@ public class Entity extends ScriptableClass implements Movable
         y = 200;
         vx = 10;
         vy = 0;
-        name = "The Greatest Entity on Earth";
-    }
-    
-    /*
-     * Get ID
-     * @return the entity's ID
-     */
-    public int getID() {
-        return 0;
-    }
-    
-    /*
-     * Get Name
-     * @return the entity's name
-     */
-    public String getName() {
-        return name;
+        
     }
     
     /**
@@ -84,8 +65,7 @@ public class Entity extends ScriptableClass implements Movable
     }   
     
     
-    public boolean continueMove(double delta)
-    {
+    public boolean continueMove(double delta) {
         x += vx * delta;
         y += vy * delta;
         
@@ -110,8 +90,7 @@ public class Entity extends ScriptableClass implements Movable
         return true;
     }
     
-    public void beginMove(double pixelsToMove)
-    {
+    public void beginMove(double pixelsToMove) {
         setTemporaryParameter(new Parameter(pixelsToMove));
         mainThread.setRunningState(true);
     }

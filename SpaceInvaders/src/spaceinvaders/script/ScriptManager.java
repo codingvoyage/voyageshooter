@@ -43,7 +43,7 @@ public class ScriptManager {
         HashMap<String, Integer> newDictionary = new HashMap<String, Integer>();
         
         try {
-            FileReader reader = new FileReader("scripts/" + dictionaryFilename);
+            FileReader reader = new FileReader("src/spaceinvaders/script/scripts/" + dictionaryFilename);
             Scanner in = new Scanner(reader);
 
             while (in.hasNextLine())
