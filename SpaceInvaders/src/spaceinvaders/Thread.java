@@ -160,19 +160,16 @@ public class Thread {
     //Memory/variable magic
     public void setVariable(String identifier, Parameter value) 
     {
-        //Scripter, it's YOUR FAULT if it crashes because you fail to
-        //initialize the variable! LOL
-        
         //Basically, here's the rule. When we're in a function, all variables
         //end up being LOCAL. 
         if (functionLayer > 0)
         {
-            temporaryVariables.put(identifier, null);
+            temporaryVariables.put(identifier, value);
         }
         else
         {
             //Otherwise, place the variable in the main memory
-            memoryBox.put(identifier, null);
+            memoryBox.put(identifier, value);
         }
     }
     
