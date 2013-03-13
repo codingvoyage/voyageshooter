@@ -425,8 +425,6 @@ public class ScriptReader
         currentThread.setLineNumber(newLine);
         currentThread.setScriptID(threadScriptID);
         
-        //From the parameters, create a new memory box...
-        HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
         //First we need to place the parameters, so starting from 
         //callFunction "threadname" [act] param1 param2 param3 --> returned1 returned2
         //                                  ^ index 2, we search for the
@@ -439,65 +437,89 @@ public class ScriptReader
         Line functionLine = jumpedScript.getLineAtLabel(labelName);
         //function [nameblah] param1identifier param2identifier ...
         
-        int searchIndex = 2;
-        boolean found = false;
-        while (!found)
+        
+        ArrayList<String> returnKeys = new ArrayList<String>();
+        
+        //From the parameters, create a new memory box...
+        HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
+        
+        
+        if (currentLine.getParameterCount() <= 2)
+        {
+            //In this case, the 
+        
+        }
+        else 
         {
             
-            //Ah, the break statement in the while loop. Problem? Problem? 
-            //Problem? Anyway the point of this is to allow us to just
-            //leave out the --> if we want to pass it nothing.
-            if (searchIndex >= functionLine.getParameterCount())
-                break;
             
-            //Get the current Parameter on the loop, referenced by searchIndex
-            Parameter currentParameter = currentLine.getParameter(searchIndex);
-            
-            //Now, is it -->? So if its type is 1 which means it's a String it
-            //would show up as, and it's actually --> ... 
-            if ( (currentParameter.getStoredType() == 1) &&
+            boolean isArrowReached = false;
+            int searchIndex = 2;
+            while (searchIndex < getParameterCount())
+            {
+                
+                //Our current Parameter at searchIndex
+                Parameter currentParameter = currentLine.getParameter(searchIndex);
+                
+                //See if the currently indexed thing is a -->
+                if ( (currentParameter.getStoredType() == 1) &&
                     (currentParameter.getStringValue().equals("-->")))
-            {
-                //System.out.println("We found the --> thing LOL");
-                found = true;
-            }
-            else
-            {
-                //Alright, if it isn't then we can add it to the memory box
-                String ourIdentifier = functionLine.getStringParameter(searchIndex - 1);
-                System.out.println(ourIdentifier + " is the current identifier we add, with the meaning "
-                        + currentParameter);
-                
-                //But hold on a second. currentParameter could be a literal, or it
-                //could be an identifier to something else.
-                
-                if (currentParameter.isIdentifier())
                 {
-                    //Alright, then we put whatever it refers to
-                    Parameter identifiedParam = currentThread.getVariable(
-                            currentParameter.toString());
+                    //If so, then now we have reached the arrow
+                    isArrowReached = true;
                     
-                    newMemoryBox.put(ourIdentifier, identifiedParam);
+                    //Now at this point we do not do anything and we go on to
+                    //the next thing
                 }
-                else 
+                else
                 {
-                    //So it was a literal.
-                    newMemoryBox.put(ourIdentifier, currentParameter);
+                    //So we have reached something meaningful. Now, our
+                    //response depends on whether the arrow has been reached yet
+                    
+                    if (isArrowReached)
+                    {
+                        //So it's a return, so add the Parameter's name to the
+                        //return thing
+                        String nameOfReturn = currentLine.getParameter(i).getStringValue();
+                        returnKeys.add(nameOfReturn);
+                    }
+                    else
+                    {
+                        //We are adding to the memorybox
+                        
+                        //Get the name that the variable will be referred as
+                        String ourIdentifier = functionLine.getStringParameter(searchIndex - 1);
+                        System.out.println(ourIdentifier + " is the current identifier we add, with the meaning "
+                                + currentParameter);
+                        
+                        //But hold on a second. currentParameter could be a literal, or it
+                        //could be an identifier to something else.
+                        if (currentParameter.isIdentifier())
+                        {
+                            //Alright, then we put whatever it refers to
+                            Parameter identifiedParam = currentThread.getVariable(
+                                    currentParameter.toString());
+                            
+                            newMemoryBox.put(ourIdentifier, identifiedParam);
+                        }
+                        else 
+                        {
+                            //So it was a literal.
+                            newMemoryBox.put(ourIdentifier, currentParameter);
+                        }
+                    }
                 }
+                
+                
+                //Increment searchIndex
                 searchIndex++;
             }
+            
+            
         }
         
-        //Whelp, now that we're done with finding the -->, we can also now
-        //find all the other stuff
-//        String[] passMePLZ = new String[functionLine.getParameterCount() - searchIndex];
-//        
-//        for (int i = searchIndex; i < functionLine.getParameterCount(); i++)
-//        {
-//            passMePLZ[i] = currentLine.getParameter(i).getStringValue();
-//        }
-        
-        
+        //Now convert returnKeys to an array
+        String[] WAJIFEOJAWOPFJEIAFJEIAW returnKeys.toArray();
         
         System.out.println("Local Memorybox is size" + newMemoryBox.size());
         
