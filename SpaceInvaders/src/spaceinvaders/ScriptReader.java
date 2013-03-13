@@ -37,8 +37,6 @@ public class ScriptReader
     {
         threadManager = threadManagerHandle;
     }
-            
-            
     
     public void act(Thread t, double deltaTime)
     {
@@ -103,9 +101,9 @@ public class ScriptReader
                 doWeContinue = executeCommand(thisLine);
                 
                 
-                if  (!currentThread.functionStack.isEmpty())
-                    System.out.println(currentThread.getCurrentLine() + " is the current line"
-                            + "of the current thread we're on...");
+               // if  (!currentThread.functionStack.isEmpty())
+               //     System.out.println(currentThread.getCurrentLine() + " is the current line"
+               //             + "of thread " + currentThread.getName());
                     
                 //Now, if we aren't halting, then after the line is over, 
                 //move on to the next line! UNLESS it was a goto statement!
@@ -158,7 +156,6 @@ public class ScriptReader
         return result;
     }
     
-    
     //Now, there are two types of commands - ones which occupy time
     //or ones which are executed immediately. When executeCommand goes
     //through and discovers what the command does, it will return a boolean
@@ -185,29 +182,18 @@ public class ScriptReader
                 currentThread.setLineNumber(newLineIndex);
                 break;
             case 2:
-                System.out.println(currentThread.getCurrentLine() + " is the current line "
-                            + "of the current thread we're on... which is " + currentThread.getName());
+                //System.out.println(currentThread.getCurrentLine() + " is the current line "
+                //            + "of the current thread we're on... which is " + currentThread.getName());
                 //We'll leave this out for now...
                 break;
                 
             case 7: //new Thread
                 //newThread scriptID 
-                
-                int scriptID = (int)currentLine.getDoubleParameter(0);
-                String scriptName = currentLine.getStringParameter(1);
-                
-                //Create a new thread with that scriptID, giving it scriptName
-                Thread newThread = new Thread(scriptID);
-                    newThread.setName(scriptName);
-                    newThread.setLineNumber(0);
-                    newThread.setRunningState(false);
-                    newThread.setScriptable(currentScriptable);
-                
-                threadManager.addThread(newThread);
+                createNewThread(currentLine);
                 break;
                 
+            //killThread by marking the target thread for deletion.
             case 8:
-                //kill Thread.
                 String targetThread = currentLine.getStringParameter(0);
                 threadManager.markForDeletion(targetThread);
                 break;
@@ -218,34 +204,37 @@ public class ScriptReader
                 //Ending the thread obviously means that you DON'T go to the next line
                 continueExecuting = false;
                 break;
-            //The memory functions go here
                
             //createVariable variableType identifier (Optional value)
-            case 10: //CreateVariable
+            case 10:
                 createVariable(currentLine);
                 break;
                 
             //setVariable identifier newValue
             case 11:
-                
-            //Calling a function is whacky stuff.
-            case 20:
-                callScriptFunction(currentLine);
+                //Has not been implemented yet
                 break;
-                
-            case 21:
-                callThreadFunction(currentLine);
-                break;
-                
-                
-            case 25:
-                returnFromFunction(currentLine);
-                break;
-                
                 
             //Print a variable, for debugging
             case 15:
                 print(currentLine);
+                break;
+                
+            //This is like calling a static function.
+            case 20:
+                callScriptFunction(currentLine);
+                break;
+                
+            //Case 21 works with calling the function
+            //located in another thread.
+            case 21:
+                callThreadFunction(currentLine);
+                break;
+                
+            //The return statement. Returns the thread
+            //to its previous layer.
+            case 25:
+                returnFromFunction(currentLine);
                 break;
                 
             //The manipulation of the locations of Displayables goes here    
@@ -253,6 +242,7 @@ public class ScriptReader
                 //Facing a direction
                 System.out.println("Alright we don't have code for facing a direction yet.");
                 break;
+                
             case 51:
                 //Moving
                 System.out.println("Starting to walk....");
@@ -276,7 +266,6 @@ public class ScriptReader
     ********************ALL THE INDIVIDUAL METHODS GO HERE*********************
     ***************************************************************************
     **************************************************************************/
-    
     
     
     private void createVariable(Line currentLine)
@@ -348,6 +337,21 @@ public class ScriptReader
         
     }
     
+    private void createNewThread(Line currentLine) 
+    {
+        int scriptID = (int)currentLine.getDoubleParameter(0);
+        String scriptName = currentLine.getStringParameter(1);
+
+        //Create a new thread with that scriptID, giving it scriptName
+        Thread newThread = new Thread(scriptID);
+            newThread.setName(scriptName);
+            newThread.setLineNumber(0);
+            newThread.setRunningState(false);
+            newThread.setScriptable(currentScriptable);
+
+        threadManager.addThread(newThread);
+    }
+    
     private void callFunction(Line currentLine)
     {
         //callFunction [that'smyshit] param1 param2 param3 --> returned1 returned2
@@ -392,39 +396,26 @@ public class ScriptReader
     
     private void callThreadFunction(Line currentLine)
     {
-        //callFunction "threadname" [that'smyshit] param1 param2 param3 --> returned1 returned2
+        //callFunction "threadname" [act] param1 param2 ... --> returned1 returned2 ...
        
-        //Where is the label of [that'smyshit]
-        
         //Get the Thread object which threadname refers to
         String threadName = currentLine.getStringParameter(0);
-        
-        System.out.println(threadName + " i am jumping to");
-        
         Thread jumpedThread = threadManager.getThreadAtName(threadName);
         
-        
-        
-        //Basically, extracting the label [that'smyshit]
+        //Basically, extracting the label [act]
         String labelName = currentLine.getStringParameter(1);
-        
-        System.out.println("jumping to label called " + labelName);
+        //System.out.println("jumping to label called " + labelName);
 
-                
         //Alright, this gets complicated.
         //Thread --> what is its first script ID number?
         //Go find that Script object at the scriptID
         //Get the label index
         int threadScriptID = jumpedThread.baseScriptID;
-        
-        System.out.println(threadScriptID + " is the ID of the thread I'm jumping TO");
+        //System.out.println(threadScriptID + " is the ID of the thread I'm jumping TO");
         
         Script jumpedScript = scr.getScriptAtID(threadScriptID);
         int newLine = jumpedScript.getLabelIndexOnLineList(labelName);
-        
-        System.out.println("I am jumping onto line " + newLine);
-        
-        
+        //System.out.println("I am jumping onto line " + newLine);
         
         //But BEFORE setting the currentplace to that line, first store the
         //old script ID and old line number for returning purposes
@@ -437,8 +428,8 @@ public class ScriptReader
         //From the parameters, create a new memory box...
         HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
         //First we need to place the parameters, so starting from 
-        //callFunction "threadname" [that'smyshit] param1 param2 param3 --> returned1 returned2
-        //                                          ^ index 2, we search for the
+        //callFunction "threadname" [act] param1 param2 param3 --> returned1 returned2
+        //                                  ^ index 2, we search for the
         //--> label that denotes that we're done.
         
         
@@ -452,6 +443,14 @@ public class ScriptReader
         boolean found = false;
         while (!found)
         {
+            
+            //Ah, the break statement in the while loop. Problem? Problem? 
+            //Problem? Anyway the point of this is to allow us to just
+            //leave out the --> if we want to pass it nothing.
+            if (searchIndex >= functionLine.getParameterCount())
+                break;
+            
+            //Get the current Parameter on the loop, referenced by searchIndex
             Parameter currentParameter = currentLine.getParameter(searchIndex);
             
             //Now, is it -->? So if its type is 1 which means it's a String it
@@ -459,38 +458,71 @@ public class ScriptReader
             if ( (currentParameter.getStoredType() == 1) &&
                     (currentParameter.getStringValue().equals("-->")))
             {
-                
-                System.out.println("We found the --> thing LOL");
+                //System.out.println("We found the --> thing LOL");
                 found = true;
             }
             else
             {
                 //Alright, if it isn't then we can add it to the memory box
-                
                 String ourIdentifier = functionLine.getStringParameter(searchIndex - 1);
-                System.out.println(ourIdentifier + " is the current identifier we add");
+                System.out.println(ourIdentifier + " is the current identifier we add, with the meaning "
+                        + currentParameter);
                 
-                newMemoryBox.put(ourIdentifier, currentParameter);
+                //But hold on a second. currentParameter could be a literal, or it
+                //could be an identifier to something else.
                 
+                if (currentParameter.isIdentifier())
+                {
+                    //Alright, then we put whatever it refers to
+                    Parameter identifiedParam = currentThread.getVariable(
+                            currentParameter.toString());
+                    
+                    newMemoryBox.put(ourIdentifier, identifiedParam);
+                }
+                else 
+                {
+                    //So it was a literal.
+                    newMemoryBox.put(ourIdentifier, currentParameter);
+                }
+                searchIndex++;
             }
-            
-            
         }
         
-        System.out.println("Memorybox is size" + newMemoryBox.size());
+        //Whelp, now that we're done with finding the -->, we can also now
+        //find all the other stuff
+//        String[] passMePLZ = new String[functionLine.getParameterCount() - searchIndex];
+//        
+//        for (int i = searchIndex; i < functionLine.getParameterCount(); i++)
+//        {
+//            passMePLZ[i] = currentLine.getParameter(i).getStringValue();
+//        }
+        
+        
+        
+        System.out.println("Local Memorybox is size" + newMemoryBox.size());
         
         //Set it to the new Memory box. TO DO LATER
-        currentThread.setMemoryBox(newMemoryBox);
+        currentThread.setLocalMemoryBox(newMemoryBox);
                 
-        //Finally, pass the new currentThread in use...
-        currentThread.currentThreadLayer = jumpedThread;
-        
-        //MAKE THE PARAMETERS WORK LATER
+        //Then, let's not forget that the thread now needs to have access
+        //to the jumpedThread's memoryBox...
+        currentThread.setMemoryBox(jumpedThread.getMemoryBox());
         
     }
     
     private void returnFromFunction(Line currentLine)
     {
+        //So before we hit "restoreLastReturnPoint()", we need to rescue
+        //the values which are returned. 
+        
+        //return val1 param2 val3
+        //So basically you can get the values of the thread to be returned
+        //easily from the currentLine object. Easy. BUT what about
+        //their destination's names? This is found in Thread
+        
+        
+        
+        
         currentThread.restoreLastReturnPoint();
     }
     

@@ -24,13 +24,6 @@ public class ThreadManager {
     
     public Thread getThreadAtName(String targetThread)
     {
-        
-        for (Thread t: threadCollection)
-        {
-            System.out.println(t.getName());
-        }
-        
-        
         for (Thread t: threadCollection)
         {
             if (t.getName().equals(targetThread))

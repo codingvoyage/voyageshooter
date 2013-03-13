@@ -1,3 +1,6 @@
+newthread 12 "thescriptsthread"
+
+
 label [keepwaitinglol]
 wait 10000
 print "10 seconds elapsed"
@@ -5,6 +8,9 @@ goto [keepwaitinglol]
 
 function [myfunction] 
 print "hello!!!"
-print "we reached the function on thescript"
-callthreadfunction "main" [anothertest] -->
+Print "we reached the function on thescript"
+
+
+callthreadfunction "thescriptsthread" [print] "one" "two" "three"
+
 return

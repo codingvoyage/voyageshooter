@@ -1,4 +1,4 @@
-newthread 10 "mythread"
+newthread 10 "mythread" 
 
 label [goto]
 
@@ -6,15 +6,19 @@ wait 2000
 
 print "alright we're going to try to jump to the function on mythread"
 
-callthreadfunction "mythread" [myfunction] -->
+callthreadfunction "mythread" [myfunction]
 
 goto [goto]
+
+
+killthread "mythread"
+killthread "thescriptsthread"
+
+print "everything died. go home, children"
 
 endthread
 
 
-
-function [anothertest]
-print "YESSS IT WORKS HOLY CRAP"
-PRINT "ahhhhhhhhhhh"
+function [mainfunction]
+print "EVEN THIS!!"
 return
