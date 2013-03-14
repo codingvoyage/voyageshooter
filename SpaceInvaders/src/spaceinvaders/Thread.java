@@ -42,7 +42,7 @@ public class Thread {
     private Stack functionStack;
     
     //Keep track of how many functions deep we are
-    private int functionLayer;
+    public  int functionLayer;
     
     private String[] functionReturns;
     
@@ -57,7 +57,6 @@ public class Thread {
         baseScriptID = scriptID;
         
         memoryBox = new HashMap<String, Parameter>();
-        
         
         functionStack = new Stack();
         functionLayer = 0;
@@ -185,7 +184,7 @@ public class Thread {
         //When the caller wants to get the Parameter referred to by identifier,
         //we don't know if it's located in temporary memory or main memory.
         //Hence, just look for it in temporary first (if applicable)
-        
+
         if (functionLayer > 0)
         {
             Parameter tryTempMemory = temporaryVariables.get(identifier);
@@ -204,7 +203,9 @@ public class Thread {
         else 
         {
             //We're on the main, so don't bother with temporary memory
-            return memoryBox.get(identifier);
+            
+             return memoryBox.get(identifier);
+            
         }
     }
     
@@ -244,8 +245,6 @@ public class Thread {
         
         functionStack.push(foo);
         
-        //We need to go deeper
-        functionLayer++;
     }
     
     public void restoreLastReturnPoint()
@@ -263,9 +262,6 @@ public class Thread {
             
         //System.out.println(getName() + " is the name of the"
         //+ "current thread layer now! The one we jump back to...");
-            
-        //Non, je ne regrette rien
-        functionLayer--;
     }
     
     public void setFunctionReturns(String[] toReturn)
@@ -277,6 +273,21 @@ public class Thread {
     {
         return functionReturns;
     }
+    
+    public void increaseFunctionLayer()
+    {
+        //We need to go deeper
+        functionLayer++;
+    }
+    
+    public void decreaseFunctionLayer()
+    {
+        //Non, je ne regrette rien
+        functionLayer--;
+    }
+    
+    
+    
     
     private class returnPoint
     {

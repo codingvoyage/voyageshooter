@@ -1,0 +1,32 @@
+print "AUXILIARY THREAD CREATED"
+
+wait 3000
+
+createVariable "return1" "TEST COMPLETE"
+createVariable "return2" "AYE SIR IT WORKS"
+createVariable "return3" "SUCCESS, SO MUCH WIN!!"
+createVariable "leet" 1337
+label [loop]
+
+wait 5000
+
+
+goto [loop]
+
+endthread
+
+
+
+function [getvars] uselessvar
+
+print " "
+print " "
+print "However, there is a nuance of the test that has to"
+print "be done. From this thread, I will call a script file."
+print " "
+print " "
+-- callfunction 19 [voila]
+print " "
+print " "
+
+return return1 return2 return3 leet

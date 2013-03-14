@@ -1,6 +1,7 @@
 package spaceinvaders;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /*
  * To change this template, choose Tools | Templates
@@ -294,16 +295,16 @@ public class ScriptReader
                 //Is an identifier, so set the Variable equal to what
                 //the initParameter refers to...
                 Parameter referencedParam = 
-                        currentScriptable.getMainThread().getVariable(initParameter.getStringValue());
+                        currentThread.getVariable(initParameter.getStringValue());
                 
-                currentScriptable.getMainThread().setVariable(variableIdentifier,
+                currentThread.setVariable(variableIdentifier,
                         referencedParam);
                 
             }
             else 
             {
                 //It's a literal.
-                currentScriptable.getMainThread().setVariable(variableIdentifier,
+                currentThread.setVariable(variableIdentifier,
                         initParameter);
             }
             
@@ -312,7 +313,7 @@ public class ScriptReader
         else 
         {
             //They decided to declare a variable without initialization
-            currentScriptable.getMainThread().newVariable(variableIdentifier);
+            currentThread.newVariable(variableIdentifier);
         }
     }
     
@@ -320,11 +321,17 @@ public class ScriptReader
     {
         Parameter toBePrinted = currentLine.getParameter(0);
         
+            System.out.println(currentThread.getName());
+            System.out.println(currentThread.functionLayer);
+            
         if (toBePrinted.isIdentifier())
         {
             //It prints what the identifier references
-            Parameter message = currentScriptable.getMainThread().
+            
+            System.out.println("CMON GUY");
+            Parameter message = currentThread.
                     getVariable(toBePrinted.getStringValue());
+            if (message == null) System.out.println("oh...");
             System.out.println(message.toString());
             
         }
@@ -389,8 +396,91 @@ public class ScriptReader
         currentThread.setLineNumber(lineNumber);
         currentThread.setScriptID(scriptID);
         
+        //But here's the thing. We need to know what to make its identifier.
+        //In order to do that, we need to go all the way to the line we're jumping
+        //to and getting a copy of their line object.
+        Line functionLine = jumpedScript.getLineAtLabel(labelName);
+        //function [nameblah] param1identifier param2identifier ...
         
-        //MAKE THE PARAMETERS WORK LATER
+        ArrayList<String> returnKeys = new ArrayList<String>();
+        
+        //From the parameters, create a new memory box...
+        HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
+       
+        if (currentLine.getParameterCount() <= 2)
+        {
+            //In this case, don't do anything 
+        }
+        else 
+        {
+            boolean isArrowReached = false;
+            int searchIndex = 2;
+            while (searchIndex < currentLine.getParameterCount())
+            {
+                //Our current Parameter at searchIndex
+                Parameter currentParameter = currentLine.getParameter(searchIndex);
+                
+                //See if the currently indexed thing is a -->
+                if ( (currentParameter.getStoredType() == 1) &&
+                    (currentParameter.getStringValue().equals("-->")))
+                {
+                    //If so, then now we have reached the arrow
+                    isArrowReached = true;
+                    
+                    //We go on to next parameter
+                }
+                else
+                {
+                    //So we have reached something meaningful. Now, our
+                    //response depends on whether the arrow has been reached yet
+                    
+                    if (isArrowReached)
+                    {
+                        //So it's a return, so add the Parameter's name to the
+                        //return thing
+                        String nameOfReturn = currentLine.getParameter(searchIndex).getStringValue();
+                        returnKeys.add(nameOfReturn);
+                    }
+                    else
+                    {
+                        //We are adding to the memorybox
+                        
+                        //Get the name that the variable will be referred as
+                        String ourIdentifier = functionLine.getStringParameter(searchIndex - 1);
+                        
+                        //But hold on a second. currentParameter could be a literal, or it
+                        //could be an identifier to something else.
+                        if (currentParameter.isIdentifier())
+                        {
+                            //System.out.println("Aha, so " + ourIdentifier + )
+                            //Alright, then we put whatever it refers to
+                            Parameter identifiedParam = currentThread.getVariable(
+                                    currentParameter.toString());
+                            
+                            newMemoryBox.put(ourIdentifier, identifiedParam);
+                        }
+                        else 
+                        {
+                            //So it was a literal.
+                            newMemoryBox.put(ourIdentifier, currentParameter);
+                        }
+                    }
+                }
+                //Increment searchIndex
+                searchIndex++;
+            }
+            
+        }
+        
+        //Now convert returnKeys to an array
+        String[] returnKeyArray = new String[returnKeys.size()];
+        returnKeys.toArray(returnKeyArray);
+        
+        currentThread.setFunctionReturns(returnKeyArray);
+        currentThread.setMemoryBox(new HashMap<String, Parameter>());
+        currentThread.setLocalMemoryBox(newMemoryBox);
+        currentThread.increaseFunctionLayer();
+        
         
     }
     
@@ -401,11 +491,13 @@ public class ScriptReader
         //Get the Thread object which threadname refers to
         String threadName = currentLine.getStringParameter(0);
         Thread jumpedThread = threadManager.getThreadAtName(threadName);
+    
+        HashMap<String, Parameter> jumpedBox = jumpedThread.getMemoryBox();
+        
         
         //Basically, extracting the label [act]
         String labelName = currentLine.getStringParameter(1);
-        //System.out.println("jumping to label called " + labelName);
-
+        
         //Alright, this gets complicated.
         //Thread --> what is its first script ID number?
         //Go find that Script object at the scriptID
@@ -425,18 +517,11 @@ public class ScriptReader
         currentThread.setLineNumber(newLine);
         currentThread.setScriptID(threadScriptID);
         
-        //First we need to place the parameters, so starting from 
-        //callFunction "threadname" [act] param1 param2 param3 --> returned1 returned2
-        //                                  ^ index 2, we search for the
-        //--> label that denotes that we're done.
-        
-        
         //But here's the thing. We need to know what to make its identifier.
         //In order to do that, we need to go all the way to the line we're jumping
         //to and getting a copy of their line object.
         Line functionLine = jumpedScript.getLineAtLabel(labelName);
         //function [nameblah] param1identifier param2identifier ...
-        
         
         ArrayList<String> returnKeys = new ArrayList<String>();
         
@@ -446,16 +531,13 @@ public class ScriptReader
         
         if (currentLine.getParameterCount() <= 2)
         {
-            //In this case, the 
-        
+            //In this case do nothing.
         }
         else 
         {
-            
-            
             boolean isArrowReached = false;
             int searchIndex = 2;
-            while (searchIndex < getParameterCount())
+            while (searchIndex < currentLine.getParameterCount())
             {
                 
                 //Our current Parameter at searchIndex
@@ -468,8 +550,7 @@ public class ScriptReader
                     //If so, then now we have reached the arrow
                     isArrowReached = true;
                     
-                    //Now at this point we do not do anything and we go on to
-                    //the next thing
+                    //We go on to next parameter
                 }
                 else
                 {
@@ -480,7 +561,7 @@ public class ScriptReader
                     {
                         //So it's a return, so add the Parameter's name to the
                         //return thing
-                        String nameOfReturn = currentLine.getParameter(i).getStringValue();
+                        String nameOfReturn = currentLine.getParameter(searchIndex).getStringValue();
                         returnKeys.add(nameOfReturn);
                     }
                     else
@@ -489,8 +570,6 @@ public class ScriptReader
                         
                         //Get the name that the variable will be referred as
                         String ourIdentifier = functionLine.getStringParameter(searchIndex - 1);
-                        System.out.println(ourIdentifier + " is the current identifier we add, with the meaning "
-                                + currentParameter);
                         
                         //But hold on a second. currentParameter could be a literal, or it
                         //could be an identifier to something else.
@@ -509,44 +588,64 @@ public class ScriptReader
                         }
                     }
                 }
-                
-                
                 //Increment searchIndex
                 searchIndex++;
             }
-            
-            
         }
         
+        //System.out.println("Local Memorybox is size" + newMemoryBox.size());
+        
         //Now convert returnKeys to an array
-        String[] WAJIFEOJAWOPFJEIAFJEIAW returnKeys.toArray();
+        String[] returnKeyArray = new String[returnKeys.size()];
+        returnKeys.toArray(returnKeyArray);
         
-        System.out.println("Local Memorybox is size" + newMemoryBox.size());
-        
-        //Set it to the new Memory box. TO DO LATER
+        currentThread.setFunctionReturns(returnKeyArray);
+        currentThread.setMemoryBox(jumpedBox);
         currentThread.setLocalMemoryBox(newMemoryBox);
-                
-        //Then, let's not forget that the thread now needs to have access
-        //to the jumpedThread's memoryBox...
-        currentThread.setMemoryBox(jumpedThread.getMemoryBox());
+        currentThread.increaseFunctionLayer();
         
     }
     
+    
+    //return val1 param2 val3
     private void returnFromFunction(Line currentLine)
     {
-        //So before we hit "restoreLastReturnPoint()", we need to rescue
-        //the values which are returned. 
+        System.out.println("we are returning...");
         
-        //return val1 param2 val3
-        //So basically you can get the values of the thread to be returned
-        //easily from the currentLine object. Easy. BUT what about
-        //their destination's names? This is found in Thread
+        //Remember how we passed the returned variables' names?
+        //Now we retrieve them
+        String[] returnKeys = currentThread.getFunctionReturns();
+
+        //Before restoreLastReturnPoint(), retain the values which
+        //need to be retained
         
+        Parameter[] parameters = new Parameter[returnKeys.length];
         
+        for (int i = 0; i < returnKeys.length; i++)
+        {
+            parameters[i] = currentThread.getVariable(
+                    currentLine.getStringParameter(i));
+        }
         
-        
+        //Return, and also decrease the function layer
         currentThread.restoreLastReturnPoint();
+        currentThread.decreaseFunctionLayer();
+        
+        //Now add those retained variables to the current thread
+        //layer's memory.
+        
+        System.out.println("Before setting variables:" +
+                currentThread.getMemoryBox().toString());
+        for (int i = 0; i < returnKeys.length; i++)
+        {
+            System.out.println("I set " + returnKeys[i] +
+                    " to equal " + parameters[i].getStringValue());
+            currentThread.setVariable(returnKeys[i], parameters[i]);
+        }
+        
+        
+        System.out.println("After setting variables:" +
+                currentThread.getMemoryBox().toString());
+        
     }
-    
-    
 }
