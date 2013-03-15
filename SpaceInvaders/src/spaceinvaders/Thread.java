@@ -32,13 +32,10 @@ public class Thread {
     private boolean markedForDeletion;
     
     
-    //Holds the memory
-    //For Threads tied with Entities, set it equal to the Entity's 
-    //memoryBox so that memory can be shared between Threads.
-    //For Threads not tied with Entities, set it to an individual memoryBox
+    /** Holds the variables of the main part of this Thread. */
     private HashMap<String, Parameter> memoryBox;
     
-    
+    /** Holds the variables of the current function of this Thread. */
     private HashMap<String, Parameter> temporaryVariables;
     
     
