@@ -3,16 +3,16 @@ newThread 4 "rocket thread"
 
 wait 10000
 
--- now WE'RE GOING TO INTERRUPT TEAM ROCKET
+now WE'RE GOING TO INTERRUPT TEAM ROCKET
 
--- print "PIIIIIIIIIIIIIIIIII KKKAAAAAAAAAAAAAAAAAAA"
--- wait 500
--- print "CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU"
+print "PIIIIIIIIIIIIIIIIII KKKAAAAAAAAAAAAAAAAAAA"
+ wait 500
+print "CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU"
 
--- killthread "rocket thread"
+ killthread "rocket thread"
 
--- print "Team rocket's thread died" 
--- print "Good job everyone. Over and out."
+ print "Team rocket's thread died" 
+ print "Good job everyone. Over and out."
 
 -- ends this one
 endThread

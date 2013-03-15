@@ -48,6 +48,7 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection.loadScript("AUXTHREAD.txt", 17); 
         scriptCollection.loadScript("MASTERTEST.txt", 18); 
         scriptCollection.loadScript("AUXSCRIPT.txt", 19);
+        scriptCollection.loadScript("SECONDTHREAD.txt", 15);
         
   
         //Initialize ScriptReader, passing it the ScriptManager handle
@@ -63,7 +64,7 @@ public class SpaceInvaders extends BasicGame {
         
         //Create a thread which governs this entity with Script #4
         Thread entityThread = new Thread(18);
-        
+        //18
         //Set the main thread of the entity to this thread.
         testEntity.setMainThread(entityThread);
         

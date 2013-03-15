@@ -241,7 +241,8 @@ public class Thread {
         returnPoint foo = new returnPoint(getScriptID(), 
                 getCurrentLine(), 
                 memoryBox,
-                temporaryVariables);
+                temporaryVariables,
+                functionReturns);
         
         functionStack.push(foo);
         
@@ -259,7 +260,7 @@ public class Thread {
         //Retrieve the main memory and function memory which we left off...
         memoryBox = foo.getMemoryBox();
         temporaryVariables = foo.getTemporaryMemoryBox();
-            
+        functionReturns = foo.getFunctionReturns();
         //System.out.println(getName() + " is the name of the"
         //+ "current thread layer now! The one we jump back to...");
     }
@@ -295,15 +296,20 @@ public class Thread {
         private int lastLine;
         private HashMap<String, Parameter> memoryBox;
         private HashMap<String, Parameter> temporaryVariables;
-                
+        private String[] functionReturns;        
+        
         returnPoint(int newScriptID, int newCurrentLine, 
                 HashMap<String, Parameter> lastMemoryBox, 
-                HashMap<String, Parameter> lastTemporaryVarBox)
+                HashMap<String, Parameter> lastTemporaryVarBox,
+                String[] lastFunctionReturns)
         {
+            
             scriptID = newScriptID;
             lastLine = newCurrentLine;
             memoryBox = lastMemoryBox;
             temporaryVariables = lastTemporaryVarBox;
+            functionReturns = lastFunctionReturns;
+            
         }
         
         int getScriptID()
@@ -324,6 +330,11 @@ public class Thread {
         HashMap<String, Parameter> getTemporaryMemoryBox()
         {
             return temporaryVariables;
+        }
+        
+        private String[] getFunctionReturns()
+        {
+            return functionReturns;
         }
         
     }

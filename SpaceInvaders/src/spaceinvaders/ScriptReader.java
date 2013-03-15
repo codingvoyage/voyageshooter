@@ -321,17 +321,12 @@ public class ScriptReader
     {
         Parameter toBePrinted = currentLine.getParameter(0);
         
-            System.out.println(currentThread.getName());
-            System.out.println(currentThread.functionLayer);
-            
         if (toBePrinted.isIdentifier())
         {
             //It prints what the identifier references
-            
-            System.out.println("CMON GUY");
             Parameter message = currentThread.
                     getVariable(toBePrinted.getStringValue());
-            if (message == null) System.out.println("oh...");
+            
             System.out.println(message.toString());
             
         }
@@ -586,11 +581,13 @@ public class ScriptReader
                             //So it was a literal.
                             newMemoryBox.put(ourIdentifier, currentParameter);
                         }
-                    }
+                    }   //if (isArrowReached)
                 }
+                
                 //Increment searchIndex
                 searchIndex++;
-            }
+                
+            } //while (searchIndex < currentLine.getParameterCount())
         }
         
         //System.out.println("Local Memorybox is size" + newMemoryBox.size());
@@ -610,8 +607,6 @@ public class ScriptReader
     //return val1 param2 val3
     private void returnFromFunction(Line currentLine)
     {
-        System.out.println("we are returning...");
-        
         //Remember how we passed the returned variables' names?
         //Now we retrieve them
         String[] returnKeys = currentThread.getFunctionReturns();
@@ -633,19 +628,12 @@ public class ScriptReader
         
         //Now add those retained variables to the current thread
         //layer's memory.
-        
-        System.out.println("Before setting variables:" +
-                currentThread.getMemoryBox().toString());
         for (int i = 0; i < returnKeys.length; i++)
         {
             System.out.println("I set " + returnKeys[i] +
-                    " to equal " + parameters[i].getStringValue());
+                    " to equal " + parameters[i].toString());
             currentThread.setVariable(returnKeys[i], parameters[i]);
         }
-        
-        
-        System.out.println("After setting variables:" +
-                currentThread.getMemoryBox().toString());
         
     }
 }

@@ -41,6 +41,8 @@ print "Creating second thread!"
 
 newThread 17 "auxthread"
 
+newThread 15 "anotherthread"
+
 print "We have created the auxiliary thread"
 print "WAITING 5 SECONDS GO"
 
@@ -58,6 +60,7 @@ print msg3
 print msg4
 
 killthread auxthread
+killthread anotherthread
 
 endthread
 
