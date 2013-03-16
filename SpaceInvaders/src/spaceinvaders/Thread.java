@@ -7,35 +7,40 @@ import java.util.Stack;
  * @author Edmund
  */
 public class Thread {
-    //Base scriptID, the one which is on the top and its "main".
+    /** The identifier name of this Thread object */
+    private String name;
+    
+    /** The script which this Thread is currently running */
+    private int scriptID;
+    
+    /** The "main" scriptID for this Thread. */
     public final int baseScriptID;
     
-    //Which script are we running, and what line are we on?
-    private int scriptID;
+    /** The current line of the current script this Thread is on */
     private int currentLineNumber;
     
-    //Whether the Scriptable is in the middle of the indicated command
+    /** Whether the Scriptable is in the middle of the indicated command */
     private boolean inProgress;
     
-    //Holds the memory
-    //For Threads tied with Entities, set it equal to the Entity's 
-    //memoryBox so that memory can be shared between Threads.
-    //For Threads not tied with Entities, set it to an individual memoryBox
-    private HashMap<String, Parameter> memoryBox;
-    private HashMap<String, Parameter> temporaryVariables;
-    
-    //This is the mannequin which the Thread object holds onto
+    /** A reference to the Scriptable class which this Thread may control */
     private Scriptable linkedScriptable;
     
-    //Is this thread ready to die?
-    private boolean markedForDeletion;
-    
-    //For waiting, which totally SHOULD be a thread function
+    /** The number of milliseconds this Thread has left to wait. */
     private double waitMilliseconds;
     
-    //Identifier, the name of which basically allows us to find the thread
-    //and kill it or something. 
-    private String name;
+    /** Indicates whether this Thread is ready to die. */
+    private boolean markedForDeletion;
+    
+    
+    /** Holds the variables of the main part of this Thread. */
+    private HashMap<String, Parameter> memoryBox;
+    
+    /** Holds the variables of the current function of this Thread. */
+    private HashMap<String, Parameter> temporaryVariables;
+    
+    
+    
+    
     
     //For jumping back to whence we came 
     //private
@@ -63,18 +68,29 @@ public class Thread {
     }
     
     
-    
+    /**
+     * Marks this Thread for deletion, indicating that it
+     * should no longer run.
+     */
     public void markForDeletion() 
     { 
         markedForDeletion = true;
     }
     
+    
+    /**
+     * Returns whether this Thread has been killed or not
+     * @return whether this Thread is marked for deletion.
+     */
     public boolean isMarkedForDeletion()
     {
         return markedForDeletion;
     }
     
-    //Accessors and mutators for the mannequin Scriptable
+    
+    /**
+     * Accessors and mutators for the mannequin Scriptable
+     */
     public void setScriptable(Scriptable scriptableObj)
     {
         linkedScriptable = scriptableObj;

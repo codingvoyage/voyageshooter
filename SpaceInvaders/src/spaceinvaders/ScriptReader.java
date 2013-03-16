@@ -216,6 +216,15 @@ public class ScriptReader
                 //Has not been implemented yet
                 break;
                 
+            case 12:
+                //if statement
+                
+                break;
+                
+            case 13:
+                
+                break;
+                
             //Print a variable, for debugging
             case 15:
                 print(currentLine);
@@ -238,6 +247,14 @@ public class ScriptReader
                 returnFromFunction(currentLine);
                 break;
                 
+            case 30:
+                mergeString(currentLine);
+                break;
+                
+            case 31:
+                evaluate(currentLine);
+                break;
+                
             //The manipulation of the locations of Displayables goes here    
             case 50:
                 //Facing a direction
@@ -258,8 +275,6 @@ public class ScriptReader
         //Returns whether to continue loading more commands
         return continueExecuting;
     }
-    
-    
     
     
     /**************************************************************************
@@ -338,6 +353,15 @@ public class ScriptReader
         }
         
     }
+    
+    
+    private void mergeString(Line currentLine)
+    {
+        //concat ___ ___ ___ ... ___ --> final
+        
+        
+    }
+                
     
     private void createNewThread(Line currentLine) 
     {
@@ -636,4 +660,158 @@ public class ScriptReader
         }
         
     }
+    
+    public void evaluate(Line currentLine)
+    {
+        Parameter result = simpleEvaluate(currentLine, 0,
+                currentLine.getParameterCount() - 3);
+        
+        currentThread.setVariable(
+                currentLine.getStringParameter(currentLine.getParameterCount() - 1),
+                result);
+    }
+//    public Parameter evaluateExpression(Line l, int front, int back) 
+//    {
+//        
+//        
+//        
+//        
+//        return 
+//    }
+    
+    public Parameter simpleEvaluate(Line l, int front, int back)
+    {
+        //We expect it to be in format __ __ __
+        Parameter p1 = l.getParameter(front);
+        Parameter p2 = l.getParameter(back);
+        
+        //System.out.println(p1.toString());
+        //System.out.println(p2.toString());
+        
+        //If either of the Parameters are identifiers, then load their
+        //identified value and replace them.
+        if (p1.isIdentifier())
+            p1 = currentThread.getVariable(p1.getStringValue());
+        if (p2.isIdentifier())
+            p2 = currentThread.getVariable(p2.getStringValue());
+        
+        //Get the name of the operation
+        Parameter opCode = l.getParameter(front + 1);
+        String opCodeName = opCode.getStringValue();
+        
+        //System.out.println("The operation is " + opCode.toString());
+        
+        //What we will return
+        Parameter result;
+        
+        if (opCodeName.equals("+"))
+        {
+            //Hold on, this may be a string...
+            if (p1.getStoredType() == 1 || p2.getStoredType() == 1)
+            {
+                result = new Parameter(p1.toString() + p2.toString());
+            }
+            else 
+            {
+                //Oh, so it's just a normal double we're adding
+                result = new Parameter(p1.getDoubleValue() + p2.getDoubleValue());
+            }
+            
+            return result;
+        }   
+        else if (opCodeName.equals("-"))
+        {
+            result = new Parameter(p1.getDoubleValue() - p2.getDoubleValue());
+            return result;
+        }
+        else if (opCodeName.equals("*"))
+        {
+            result = new Parameter(p1.getDoubleValue() * p2.getDoubleValue());
+            return result;
+        }
+        else if (opCodeName.equals("/"))
+        {
+            result = new Parameter(p1.getDoubleValue() / p2.getDoubleValue());
+            return result;
+        }
+        else if (opCodeName.equals("%"))
+        {
+            result = new Parameter(p1.getDoubleValue() % p2.getDoubleValue());
+            return result;
+        }
+        
+        //Alright, now that we've eliminated the option of 
+        //doing addition, ect, we're doing comparisons.
+        if (opCodeName.equals("=="))
+        {
+            if (p1.getStoredType() == 1)
+            {
+                //Then we are comparing Strings
+                result = new Parameter(p1.getStringValue().equals(p2.getStringValue()));
+                return result;
+            }
+            if (p1.getStoredType() == 2)
+            {
+                //Then we are comparing booleans
+                result = new Parameter(p1.getBooleanValue() == p2.getBooleanValue());
+                return result;
+            }
+            if (p1.getStoredType() == 3)
+            {
+                //Then we are comparing doubles
+                result = new Parameter(p1.getDoubleValue() == p2.getDoubleValue());
+                return result;
+            }
+        }
+        if (opCodeName.equals("!="))
+        {
+            if (p1.getStoredType() == 1)
+            {
+                //Then we are comparing Strings
+                result = new Parameter(!p1.getStringValue().equals(p2.getStringValue()));
+                return result;
+            }
+            if (p1.getStoredType() == 2)
+            {
+                //Then we are comparing booleans
+                result = new Parameter(p1.getBooleanValue() != p2.getBooleanValue());
+                return result;
+            }
+            if (p1.getStoredType() == 3)
+            {
+                //Then we are comparing doubles
+                result = new Parameter(p1.getDoubleValue() != p2.getDoubleValue());
+                return result;
+            }
+        }
+        else if (opCodeName.equals("<"))
+        {
+            //We can only be comparing doubles
+            result = new Parameter(p1.getDoubleValue() < p2.getDoubleValue());
+            return result;
+        }
+        else if (opCodeName.equals("<="))
+        {
+            //We can only be comparing doubles
+            result = new Parameter(p1.getDoubleValue() <= p2.getDoubleValue());
+            return result;
+        }
+        else if (opCodeName.equals(">"))
+        {
+            result = new Parameter(p1.getDoubleValue() > p2.getDoubleValue());
+            return result;
+        }
+        else if (opCodeName.equals(">="))
+        {
+            result = new Parameter(p1.getDoubleValue() >= p2.getDoubleValue());
+            return result;
+        }
+
+        //Crash the program on purpose now
+        int bomb = 0;
+        System.out.println("DROPPING THE NUKE");
+        return new Parameter(1/bomb);
+        
+    }
+    
 }
