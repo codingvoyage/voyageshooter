@@ -1,5 +1,5 @@
 -- creates a new thread with the script ID 4, which is the team rocket motto one
--- newThread 4 "rocket thread"
+newThread 4 "rocket thread"
 
 wait 10000
 
