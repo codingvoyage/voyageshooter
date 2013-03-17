@@ -1,13 +1,7 @@
 package spaceinvaders.script;
 
 import spaceinvaders.entity.*;
-
 import org.newdawn.slick.*;
-
-import com.google.gson.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 
 /**
  * Space Invaders Game
@@ -27,11 +21,19 @@ public class SpaceInvaders extends BasicGame {
     
     ThreadManager threadManager;
     
-    
+    /**
+     * Construct a new game
+     */
     public SpaceInvaders() {
        super("We are Team Coding Voyage!");
     }
 
+    /**
+     * Initialize the game container and start the scripting engine
+     * @param gc the new game container
+     * @throws SlickException something went wrong with the Slick engine
+     */
+    @Override
     public void init(GameContainer gc) throws SlickException {
         //This initializes stuff
         gc.setMinimumLogicUpdateInterval(20);
@@ -75,6 +77,13 @@ public class SpaceInvaders extends BasicGame {
         
     }
 
+    /**
+     * Update the screen
+     * @param gc the game container
+     * @param delta time interval
+     * @throws SlickException something went horribly wrong with Slick
+     */
+    @Override
     public void update(GameContainer gc, int delta) throws SlickException {
         //Should work UNTIL we start having the ability to create
         //new threads, upon which you should examine this carefully to make
@@ -84,6 +93,13 @@ public class SpaceInvaders extends BasicGame {
         
     }
 
+    /**
+     * Render the game window
+     * @param gc the game container
+     * @param g the graphics engine
+     * @throws SlickException something went horribly wrong with Slick
+     */
+    @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
         //Any and all graphics/rendering functions which should be called
         //with the drawing of each frame go HERE
@@ -104,7 +120,13 @@ public class SpaceInvaders extends BasicGame {
         
     }
 
-    public static void main(String[] args) throws SlickException, IOException {
+    /**
+     * The main method<br/>
+     * Create the game window and start the game!
+     * @param args command line arguments
+     * @throws SlickException something went horribly wrong with Slick
+     */
+    public static void main(String[] args) throws SlickException {
         /*
          * Start Game Window Construction
          */
@@ -125,20 +147,36 @@ public class SpaceInvaders extends BasicGame {
          * Start JSON Entities
          */
 
-        JsonReader reader = new JsonReader("src/spaceinvaders/entity/EntityData.json");
+        JsonReader<Entities> reader = new JsonReader<Entities>(Entities.class, "src/spaceinvaders/entity/EntityData.json");
         if(reader.readJson()) {
             
-            Entities data = reader.getEntities();
+            Entities data = reader.getObject();
             // Show it.
             System.out.println(data);
 
+            System.out.println();
+            
+            System.out.println("Entity Counts:");
             System.out.println(data.getEnemyCount());
             System.out.println(data.getWeaponCount());
             System.out.println(data.getMiscCount());
+            
+            System.out.println();
+            
+            System.out.println("Getting Entity Description by calling their Name");
+            System.out.println(data.getEnemy("Minion").getDescription());
+            System.out.println(data.getEnemy("I don't exist").getDescription());
+            System.out.println(data.getWeapon("Water Gun").getDescription());
+            System.out.println(data.getMisc("Asteroid").getDescription());
+            
+            System.out.println();
+            
+            System.out.println("Getting Entity Description by calling their ID");
+            System.out.println(data.getEnemy(0).getDescription());
+            System.out.println(data.getEnemy(9000).getDescription());
+            System.out.println(data.getWeapon(0).getDescription());
+            System.out.println(data.getMisc(0).getDescription());
         
-        } else {
-            System.out.println("JSON failed!");
         }
-       
     }
 }

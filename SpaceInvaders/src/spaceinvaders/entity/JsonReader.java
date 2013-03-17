@@ -6,26 +6,36 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Reads Json Data Files with the GSON Library
+ * Reads JSON Data Files with the GSON Library<br/><br/>
+ * Assumes the following JSON format:<br/><br/>
+ * <code>
+ * { "type1": [ { "value1" : "value", "value2" : "value" } ], "type2": [ { "value1" : "value", "value2" : "value" } ] }
+ * </code><br/>
+ * <ul>
+ * <li>The entire JSON file will be passed to a parent class (Object T)</li>
+ * <li>Every child value will be treated as instance variables</li>
+ * <li>Child arrays will be treated as ArrayLists of type object (specified in the instance field that declares the List).</li>
+ * </ul>
  * @author Brian Yang
  */
-public class JsonReader {
+public class JsonReader<T> {
     
-    /**
-     * JSON filepath
-     */
+    /** JSON file path */
     private String file;
     
-    /**
-     * Parsed group of entities
-     */
-    private Entities data;
+    /** The type of object that JSON is being parsed into */
+    private Class<T> type;
+    
+    /** The final parsed object */
+    private T data;
     
     /**
      * Construct a new JsonReader for Entities
+     * @param type the type of Object that JSON is being parsed into
      * @param file path of JSON file
      */
-    public JsonReader(String file) {
+    public JsonReader(Class<T> type, String file) {
+        this.type = type;
         this.file = file;
     }
     
@@ -40,7 +50,7 @@ public class JsonReader {
             BufferedReader read = new BufferedReader(new FileReader(file));
 
             // pass the file to Gson and create a group of Entities from that
-            data = new Gson().fromJson(read, Entities.class);
+            data = new Gson().fromJson(read, type);
             read.close();
             
         } catch(IOException e) {
@@ -55,10 +65,10 @@ public class JsonReader {
     }
     
     /**
-     * Accessors for Entities group
-     * @return the parsed Entities
+     * Accessors for the final object
+     * @return the parsed Object
      */
-    public Entities getEntities() {
+    public T getObject() {
         return data;
     }
 }
