@@ -147,10 +147,10 @@ public class SpaceInvaders extends BasicGame {
          * Start JSON Entities
          */
 
-        JsonReader<Entities> reader = new JsonReader<Entities>(Entities.class, "src/spaceinvaders/entity/EntityData.json");
+        JsonReader<EntityGroup> reader = new JsonReader<EntityGroup>(EntityGroup.class, "src/spaceinvaders/entity/EntityData.json");
         if(reader.readJson()) {
             
-            Entities data = reader.getObject();
+            EntityGroup data = reader.getObject();
             // Show it.
             System.out.println(data);
 
