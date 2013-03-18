@@ -670,14 +670,34 @@ public class ScriptReader
                 currentLine.getStringParameter(currentLine.getParameterCount() - 1),
                 result);
     }
-//    public Parameter evaluateExpression(Line l, int front, int back) 
-//    {
-//        
-//        
-//        
-//        
-//        return 
-//    }
+    
+    
+    public Parameter evaluateExpression(Line l, int front, int back) 
+    {
+        
+        return 
+    }
+    
+    public int findCorrespondingBracket(Line l, int currentBracketLoc, int stepDirection)
+    {
+        //StepDirection = 1 forward, stepDirection = -1 backwards...
+        boolean found = false;
+        int additionalLayers = 0;
+        int index = currentBracketLoc;
+        int totalParameters = l.getParameterCount();
+        
+        //Keep going if we haven't found it, and we haven't reached the last one already
+        while (!found && (index < totalParameters))
+        {
+            //All we're looking for are [ and ] 
+            if (l.getParameterType(index) == 1)
+            {
+                
+            }
+        }
+        
+        
+    }
     
     public Parameter simpleEvaluate(Line l, int front, int back)
     {
