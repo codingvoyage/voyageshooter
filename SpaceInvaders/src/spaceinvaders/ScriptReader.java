@@ -682,6 +682,7 @@ public class ScriptReader
     {
         //StepDirection = 1 forward, stepDirection = -1 backwards...
         boolean found = false;
+        
         int additionalLayers = 0;
         int index = currentBracketLoc;
         int totalParameters = l.getParameterCount();
@@ -692,9 +693,28 @@ public class ScriptReader
             //All we're looking for are [ and ] 
             if (l.getParameterType(index) == 1)
             {
-                
+                if (l.getStringParameter(index).equals("["))
+                {
+                    //Alright, one more to go then
+                    additionalLayers++;
+                } 
+                else if (l.getStringParameter(index).equals("]"))
+                {
+                    if (additionalLayers > 0)
+                    {
+                        additionalLayers--;
+                        
+                    }
+                    else
+                    {
+                        //Alright, now we found it for good.
+                        return index;
+                    }
+                }
             }
         }
+        
+        return -1; //We failed.
         
         
     }
