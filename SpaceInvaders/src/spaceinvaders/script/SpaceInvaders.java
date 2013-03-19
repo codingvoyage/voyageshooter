@@ -172,31 +172,6 @@ public class SpaceInvaders extends BasicGame {
         if(reader.readJson()) {
             
             EntityGroup data = reader.getObject();
-            // Show it.
-            System.out.println(data);
-
-            System.out.println();
-            
-            System.out.println("Entity Counts:");
-            System.out.println(data.getEnemyCount());
-            System.out.println(data.getWeaponCount());
-            System.out.println(data.getMiscCount());
-            
-            System.out.println();
-            
-            System.out.println("Getting Entity Description by calling their Name");
-            System.out.println(data.getEnemy("Minion").getDescription());
-            System.out.println(data.getEnemy("I don't exist").getDescription());
-            System.out.println(data.getWeapon("Water Gun").getDescription());
-            System.out.println(data.getMisc("Asteroid").getDescription());
-            
-            System.out.println();
-            
-            System.out.println("Getting Entity Description by calling their ID");
-            System.out.println(data.getEnemy(0).getDescription());
-            System.out.println(data.getEnemy(9000).getDescription());
-            System.out.println(data.getWeapon(0).getDescription());
-            System.out.println(data.getMisc(0).getDescription());
         
         }
     }
