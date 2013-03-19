@@ -141,7 +141,7 @@ public class SpaceInvaders extends BasicGame {
         //being drawn 2000 times per second.
 
         // Temporarily commented out to test entities
-        // app.start();
+        app.start();
 
         /*
          * Start JSON Entities
