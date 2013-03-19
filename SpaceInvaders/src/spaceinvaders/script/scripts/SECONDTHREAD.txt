@@ -1,0 +1,11 @@
+label [gotohere]
+
+wait 5000
+
+goto [gotohere]
+
+
+
+function [act]
+print "WE HAVE DONE IT!1!!"
+return

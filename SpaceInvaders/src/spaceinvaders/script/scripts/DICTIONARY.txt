@@ -1,0 +1,30 @@
+-- From 0-9 will be very system-like things
+wait 0
+goto 1
+label 2
+function 3
+newthread 7
+killthread 8
+endthread 9
+
+-- From 10-19 will have to do with data
+createVariable 10
+setVariable 11
+
+if 12
+endif 13
+
+print 15
+
+
+callfunction 20
+callthreadfunction 21
+
+return 25
+
+concat 30
+evaluate 31
+
+-- From 50-59 are stuff specific to Entities
+face 50
+move 51
