@@ -676,6 +676,27 @@ public class ScriptReader
     
     public Parameter evaluateExpression(Line l, int front, int back) 
     {
+        //Get the thing at the first indexed Parameter
+        Parameter firstParam = l.getParameter(front);
+        
+        //If it is a "["...
+        if (firstParam.getStoredType() == Parameter.STRING
+                && firstParam.getStringValue().equals("["))
+        {
+            
+            
+            
+            
+            
+        }
+        else
+        {
+            //Alright, so this is not a "["
+            
+            
+        }
+        
+        
         
         return new Parameter("asfsfsd");
     }
@@ -702,10 +723,11 @@ public class ScriptReader
                 } 
                 else if (l.getStringParameter(index).equals("]"))
                 {
+                    //If we found a "]" then we have to see
+                    //if we have more to go first.
                     if (additionalLayers > 0)
                     {
                         additionalLayers--;
-                        
                     }
                     else
                     {
@@ -714,6 +736,9 @@ public class ScriptReader
                     }
                 }
             }
+            
+            //Don't forget
+            index++;
         }
         
         return -1; //We failed.
@@ -749,7 +774,7 @@ public class ScriptReader
         if (opCodeName.equals("+"))
         {
             //Hold on, this may be a string...
-            if (p1.getStoredType() == 1 || p2.getStoredType() == 1)
+            if (p1.getStoredType() == Parameter.STRING || p2.getStoredType() == Parameter.STRING)
             {
                 result = new Parameter(p1.toString() + p2.toString());
             }

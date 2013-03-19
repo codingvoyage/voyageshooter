@@ -7,13 +7,12 @@ package spaceinvaders.script;
  * @author Bakesale
  */
 public class Parameter {
-    /* 
-     * 1 for String
-     * 2 for boolean
-     * 3 for double
-     * 4 for double array
-     */
     private int whichType;
+    
+    public static final int STRING = 1;
+    public static final int BOOLEAN = 2;
+    public static final int DOUBLE = 3;
+    public static final int DOUBLE_ARRAY = 4;
     
     //Stores the actual value
     private String s;
@@ -28,14 +27,14 @@ public class Parameter {
     public Parameter(String newString)
     {
         setStringValue(newString);
-        whichType = 1;
+        whichType = STRING;
         setIdentifier(false);
     }
     
     public Parameter(boolean newBoolean)
     {
         setBooleanValue(newBoolean);
-        whichType = 2;
+        whichType = BOOLEAN;
         setIdentifier(false);
         
     }
@@ -43,14 +42,14 @@ public class Parameter {
     public Parameter(double newDouble)
     {
         setDoubleValue(newDouble);
-        whichType = 3;
+        whichType = DOUBLE;
         setIdentifier(false);
     }
     
     public Parameter(double[] newDoubleArray)
     {
         setDoubleArrayValue(newDoubleArray);
-        whichType = 4;
+        whichType = DOUBLE_ARRAY;
         setIdentifier(false);
     }
     
@@ -108,13 +107,13 @@ public class Parameter {
         String returnedString = null;
         switch (getStoredType())
         {
-            case 1: // String
+            case STRING: // String
                 return getStringValue();
-            case 2: // boolean
+            case BOOLEAN: // boolean
                 return Boolean.toString(getBooleanValue());
-            case 3: // double
+            case DOUBLE: // double
                 return Double.toString(getDoubleValue());
-            case 4: // double[]
+            case DOUBLE_ARRAY: // double[]
                 String array = "{";
                 for(double val : da ) {
                     array += val + ", ";
