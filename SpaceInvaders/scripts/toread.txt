@@ -1,0 +1,13 @@
+createVariable integer "Bakesale" 53
+createVariable boolean "MYBOOL" false
+createVariable String "teamrocket" "Prepare for trouble!!"
+
+LABEL [repeat] --------------------
+
+wait 5000
+move 300
+wait 2000
+print "Bakesale"
+print "MYBOOL"
+print "teamrocket"
+goto [repeat]
