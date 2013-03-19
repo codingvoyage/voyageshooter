@@ -4,13 +4,17 @@
             "name" : "Minion",
             "id" : 0,
             "description" : "Weak minions sent from the land of 'Wut??'",
-            "attack" : 0
+            "attack" : 0,
+            "vx" : 1.0,
+            "vy" : 1.0
         },
         {
             "name" : "Bakesale Monster",
             "id" : 1,
             "description" : "The final powerful boss. The true identity of the mastermind behind all these evil ships.",
-            "attack" : 9002
+            "attack" : 9002.0,
+            "vx" : 10.0,
+            "vy" : 10.0
         }
     ],
 
@@ -19,13 +23,17 @@
             "name" : "Water Gun",
             "id" : 0,
             "description" : "In what galaxy is it logical to use water guns to attack spaceships?",
-            "attack" : 0.0001
+            "attack" : 0.0001,
+            "vx" : 1.0,
+            "vy" : 1.0
         },
         {
             "name" : "Bomb Formula 9001",
             "id" : 1,
             "description" : "A small and powerful bullet that explodes on impact. Simply the best weapon in any galaxy.",
-            "attack" : 9001
+            "attack" : 9001.0,
+            "vx" : 100.0,
+            "vy" : 100.0
         }
     ],
 
@@ -33,7 +41,18 @@
         {
             "name" : "Asteroid",
             "id" : 0,
-            "description" : "Random floating rocks. Avoid at all costs! Your ship is flying too fast and will crash!"
+            "description" : "Random floating rocks. Avoid at all costs! Your ship is flying too fast and will crash!",
+            "vx" : 5.0,
+            "vy" : 5.0
+        }
+    ],
+            
+    "immovable" : [
+        {
+            "name" : "Floating Mine",
+            "id" : 0,
+            "description" : "A deadly floating mine created by an evil mastermind. Stay far away from these!",
+            "attack" : 999999.0
         }
     ]
 }

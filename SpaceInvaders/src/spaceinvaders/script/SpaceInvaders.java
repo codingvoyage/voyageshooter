@@ -162,7 +162,7 @@ public class SpaceInvaders extends BasicGame {
         //being drawn 2000 times per second.
 
         // Temporarily commented out to test entities
-        app.start();
+        // app.start();
 
         /*
          * Start JSON Entities
@@ -172,32 +172,36 @@ public class SpaceInvaders extends BasicGame {
         if(reader.readJson()) {
             
             EntityGroup data = reader.getObject();
-            // Show it.
-            System.out.println(data);
-
+            
+            /* Okay, now I'm going to call and control the entities */
+            
+            // Enemy - Bakesale Monster
             System.out.println();
-            
-            System.out.println("Entity Counts:");
-            System.out.println(data.getEnemyCount());
-            System.out.println(data.getWeaponCount());
-            System.out.println(data.getMiscCount());
-            
-            System.out.println();
-            
-            System.out.println("Getting Entity Description by calling their Name");
-            System.out.println(data.getEnemy("Minion").getDescription());
-            System.out.println(data.getEnemy("I don't exist").getDescription());
-            System.out.println(data.getWeapon("Water Gun").getDescription());
-            System.out.println(data.getMisc("Asteroid").getDescription());
+            Enemy bsMonster = data.getEnemy("Bakesale Monster");
+            System.out.println(
+                "Name : " + bsMonster.getName() + "\n" +
+                "Description : " + bsMonster.getDescription() + "\n" +
+                "ID : " + bsMonster.getId() + "\n" +
+                "Attack : " + bsMonster.getAttack()
+            );
             
             System.out.println();
-            
-            System.out.println("Getting Entity Description by calling their ID");
-            System.out.println(data.getEnemy(0).getDescription());
-            System.out.println(data.getEnemy(9000).getDescription());
-            System.out.println(data.getWeapon(0).getDescription());
-            System.out.println(data.getMisc(0).getDescription());
+            System.out.println("Giving Bakesale Monster coordinates: ");
+            bsMonster.place(5.0, 2.0);
+            System.out.println("Bakesale Monster is located at: " + bsMonster.getX() + ", " + bsMonster.getY());
         
+            System.out.println();
+            System.out.println("Just to check that calling by name is the same as calling by ID:");
+            System.out.println("Actual: " + data.getEnemy(1).equals(data.getEnemy("Bakesale Monster")));
+            System.out.println("Expected: true");
+            
+            System.out.println();
+            System.out.println("Preliminary testing of moving:");
+            bsMonster.beginMove(600);
+            while(bsMonster.continueMove(2)) {
+                System.out.println(bsMonster.getX() + ", " + bsMonster.getY());
+            }
+            System.out.println("Expected Final: " + (5.0 + 600.0/2) + ", " + (2.0 + 600.0/2));
         }
     }
 }

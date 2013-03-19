@@ -2,7 +2,6 @@ package spaceinvaders.entity;
 
 import spaceinvaders.script.*;
 
-
 /**
  * Entity 
  * Used by all entities
@@ -12,24 +11,18 @@ import spaceinvaders.script.*;
  */
 public class Entity extends ScriptableClass {
     
-   // private int id;
+    /** x coordinate */
     private double x;
+    /** y coordinate */
     private double y;
-    private double vx;
-    private double vy;
     
-    
-    //Basic entity class for testing purposes.
+    /**
+     * Calls ScriptableClass
+     * Entity will be declared as abstract in the future.
+     * All entities will be a certain sub-type.
+     */
     public Entity() {
         super();
-        
-        // Default values if the entity isn't built with JSON
-        //id = 1337;
-        x = 200;
-        y = 200;
-        vx = 10;
-        vy = 0;
-        
     }
     
     /**
@@ -48,24 +41,24 @@ public class Entity extends ScriptableClass {
         return y;
     }
     
-     /**
-     * Get X velocity
-     * @return the entity's x velocity
-     */    
-    public double getXVelocity() {
-        return vx;
-    }   
+    /**
+     * Place an entity at a certain location on the map
+     * @param x x coordinate
+     * @param y y coordinate
+     */
+    public void place(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
     
-     /**
-     * Get Y velocity
-     * @return the entity's y velocity
-     */    
-    public double getYVelocity() {
-        return vy;
-    }   
-    
-    
-    public boolean continueMove(double delta) {
+    /**
+     * Checks if the entity should continue moving (straight line)
+     * @param delta elapsed time between checks
+     * @param vx x velocity
+     * @param vy y velocity
+     * @return boolean indicating whether or not the entity should continue moving
+     */
+    public boolean continueMove(double delta, double vx, double vy) {
         x += vx * delta;
         y += vy * delta;
         
@@ -82,7 +75,7 @@ public class Entity extends ScriptableClass {
         {
             System.out.println("We're done walking.");
             //Oh, so we're done moving. Great.
-            mainThread.setRunningState(false);
+            //mainThread.setRunningState(false);
             return false;
         }
         
@@ -92,7 +85,7 @@ public class Entity extends ScriptableClass {
     
     public void beginMove(double pixelsToMove) {
         setTemporaryParameter(new Parameter(pixelsToMove));
-        mainThread.setRunningState(true);
+        //mainThread.setRunningState(true);
     }
     
     /**
@@ -117,9 +110,11 @@ public class Entity extends ScriptableClass {
     /**
      * Continue circular motion
      * @param delta the total time of the orbit
+     * @param vx x velocity
+     * @param vy y velocity
      * @return boolean indicating whether or not the orbit is complete
      */
-    public boolean continueOrbit(double delta) {
+    public boolean continueOrbit(double delta, double vx, double vy) {
         
         double angle = getTemporaryParameter().getDoubleArrayValue()[0];
         double radius = getTemporaryParameter().getDoubleArrayValue()[1];

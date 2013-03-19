@@ -151,7 +151,7 @@ public class ScriptReader
                 result = currentThread.continueWait(currentDeltaTime);
                 break;
             case 51: //Moving... something only an Entity could do
-                result = ((Entity)currentScriptable).continueMove(currentDeltaTime);
+                result = ((Movable)currentScriptable).continueMove(currentDeltaTime);
                 break;
             
         }
