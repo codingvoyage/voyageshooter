@@ -1,4 +1,4 @@
-package spaceinvaders;
+    package spaceinvaders;
 
 import org.newdawn.slick.*;
 import java.util.HashMap;
@@ -41,6 +41,15 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection.loadScript("ROCKET MOTTO ONCE.txt", 4); 
         scriptCollection.loadScript("Loader.txt", 5);   
         
+        scriptCollection.loadScript("mainscript.txt", 9);  
+        scriptCollection.loadScript("thescript.txt", 10);  
+        scriptCollection.loadScript("thirdscript.txt", 12);
+        
+        scriptCollection.loadScript("AUXTHREAD.txt", 17); 
+        scriptCollection.loadScript("MASTERTEST.txt", 18); 
+        scriptCollection.loadScript("AUXSCRIPT.txt", 19);
+        scriptCollection.loadScript("SECONDTHREAD.txt", 15);
+        
   
         //Initialize ScriptReader, passing it the ScriptManager handle
         scriptReader = new ScriptReader(scriptCollection);
@@ -55,7 +64,7 @@ public class SpaceInvaders extends BasicGame {
         
         //Create a thread which governs this entity with Script #4
         Thread entityThread = new Thread(5);
-        
+        //18
         //Set the main thread of the entity to this thread.
         testEntity.setMainThread(entityThread);
         
@@ -85,7 +94,7 @@ public class SpaceInvaders extends BasicGame {
         //with the drawing of each frame go HERE
         
         //Of course, our pride in our team!!
-        g.drawString("We are Team Coding Voyage!", 100, 50);
+        g.drawString("We are Team Coding Voyage!", 700, 50);
         
         //Pull up the script of the main thread of the entity
         Script sampleScript = scriptCollection.getScriptAtID(
@@ -95,7 +104,7 @@ public class SpaceInvaders extends BasicGame {
         //Print all the lines of sampleScript
         for (int i = 0; i < linesToPrint; i++)
         {
-            g.drawString(sampleScript.getLine(i).toString(), 100, 100 + 16*i);     
+            g.drawString(sampleScript.getLine(i).toString(), 100, 50 + 15*i);     
         }
         
     }
