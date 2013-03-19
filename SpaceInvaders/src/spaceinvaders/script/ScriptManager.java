@@ -21,6 +21,9 @@ public class ScriptManager {
     
     public final int SCRIPT_CAPACITY = 20;
     
+    /** path to scripts folder */
+    public final String SCRIPT_FOLDER = "src/spaceinvaders/script/scripts/";
+    
     public ScriptManager() 
     {
         //Let's make space for 20 scripts
@@ -43,7 +46,7 @@ public class ScriptManager {
         HashMap<String, Integer> newDictionary = new HashMap<String, Integer>();
         
         try {
-            FileReader reader = new FileReader("src/spaceinvaders/script/scripts/" + dictionaryFilename);
+            FileReader reader = new FileReader(SCRIPT_FOLDER + dictionaryFilename);
             Scanner in = new Scanner(reader);
 
             while (in.hasNextLine())

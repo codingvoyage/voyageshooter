@@ -34,7 +34,6 @@ public class ScriptableClass implements Scriptable {
     
     public void setMainThread(Thread t)
     {
-        
         mainThread = t;
     }
     
@@ -54,26 +53,4 @@ public class ScriptableClass implements Scriptable {
         return progressTemp;
     }
     
-    //Memory/variable magic
-    public void setVariable(String identifier, Parameter value) 
-    {
-        memoryBox.put(identifier, value);
-    }
-    
-    public void newVariable(String identifier) 
-    {
-        //Scripter, it's YOUR FAULT if it crashes because you fail to
-        //initialize the variable! LOL
-        memoryBox.put(identifier, null);
-    }
-    
-    public Parameter getVariable(String identifier) 
-    {
-        return memoryBox.get(identifier);
-    }
-    
-    public void deleteVariable(String identifier)
-    {
-        memoryBox.remove(identifier);
-    }
 }

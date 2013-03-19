@@ -7,58 +7,90 @@ import java.util.Stack;
  * @author Edmund
  */
 public class Thread {
-    //Which script are we running, and what line are we on?
-    private int scriptID;
-    private int currentLineNumber;
-    
-    //Whether the Scriptable is in the middle of the indicated command
-    private boolean inProgress;
-    
-    //Holds the memory
-    //For Threads tied with Entities, set it equal to the Entity's 
-    //memoryBox so that memory can be shared between Threads.
-    //For Threads not tied with Entities, set it to an individual memoryBox
-    private HashMap<String, Parameter> memoryBox;
-    
-    //This is the mannequin which the Thread object holds onto
-    private Scriptable linkedScriptable;
-    
-    //Is this thread ready to die?
-    private boolean markedForDeletion;
-    
-    //For waiting, which totally SHOULD be a thread function
-    private double waitMilliseconds;
-    
-    //Identifier, the name of which basically allows us to find the thread
-    //and kill it or something. 
+    /** The identifier name of this Thread object */
     private String name;
     
-    //For jumping back to whence we came
+    /** The script which this Thread is currently running */
+    private int scriptID;
+    
+    /** The "main" scriptID for this Thread. */
+    public final int baseScriptID;
+    
+    /** The current line of the current script this Thread is on */
+    private int currentLineNumber;
+    
+    /** Whether the Scriptable is in the middle of the indicated command */
+    private boolean inProgress;
+    
+    /** A reference to the Scriptable class which this Thread may control */
+    private Scriptable linkedScriptable;
+    
+    /** The number of milliseconds this Thread has left to wait. */
+    private double waitMilliseconds;
+    
+    /** Indicates whether this Thread is ready to die. */
+    private boolean markedForDeletion;
+    
+    
+    /** Holds the variables of the main part of this Thread. */
+    private HashMap<String, Parameter> memoryBox;
+    
+    /** Holds the variables of the current function of this Thread. */
+    private HashMap<String, Parameter> temporaryVariables;
+    
+    
+    
+    
+    
+    //For jumping back to whence we came 
+    //private
     private Stack functionStack;
+    
+    //Keep track of how many functions deep we are
+    public  int functionLayer;
+    
+    private String[] functionReturns;
+    
     
     
     
     public Thread(int scriptID) 
     {
-        setScriptID(scriptID);
         markedForDeletion = false;
         
-        functionStack = new Stack();
+        setScriptID(scriptID);
+        baseScriptID = scriptID;
         
+        memoryBox = new HashMap<String, Parameter>();
+        
+        functionStack = new Stack();
+        functionLayer = 0;
     }
     
     
+    /**
+     * Marks this Thread for deletion, indicating that it
+     * should no longer run.
+     */
     public void markForDeletion() 
     { 
         markedForDeletion = true;
     }
     
+    
+    /**
+     * Returns whether this Thread has been killed or not
+     * @return whether this Thread is marked for deletion.
+     */
     public boolean isMarkedForDeletion()
     {
         return markedForDeletion;
     }
     
-    //Accessors and mutators for the mannequin Scriptable
+    
+    /**
+     * Accessors and mutators for the mannequin Scriptable
+     */
     public void setScriptable(Scriptable scriptableObj)
     {
         linkedScriptable = scriptableObj;
@@ -76,7 +108,7 @@ public class Thread {
         currentLineNumber = newLineNumber;
     }
    
-    public int getLineNumber()
+    public int getCurrentLine()
     {
         return currentLineNumber;
     }
@@ -86,7 +118,7 @@ public class Thread {
     {
         scriptID = newScriptID;
     }
-    
+   
     public int getScriptID()
     {
         return scriptID;
@@ -110,6 +142,7 @@ public class Thread {
         name = newName;
     }
    
+    //maybe make a "base thread" name
     public String getName()
     {
         return name;
@@ -139,31 +172,160 @@ public class Thread {
         return true;
     }
     
+    //Memory/variable magic
+    public void setVariable(String identifier, Parameter value) 
+    {
+        //Basically, here's the rule. When we're in a function, all variables
+        //end up being LOCAL. 
+        if (functionLayer > 0)
+        {
+            temporaryVariables.put(identifier, value);
+        }
+        else
+        {
+            //Otherwise, place the variable in the main memory
+            memoryBox.put(identifier, value);
+        }
+    }
+    
+    public void newVariable(String identifier) 
+    {
+        //Declaring a new Variable without a value yet...
+        //That's just using setVariable, except with a null.
+        setVariable(identifier, null);
+    }
+    
+    public Parameter getVariable(String identifier) 
+    {
+        //When the caller wants to get the Parameter referred to by identifier,
+        //we don't know if it's located in temporary memory or main memory.
+        //Hence, just look for it in temporary first (if applicable)
+
+        if (functionLayer > 0)
+        {
+            Parameter tryTempMemory = temporaryVariables.get(identifier);
+            
+            //NOTICE how local variables shadow the instance fields in main.
+            if (tryTempMemory != null) {
+                //Ah, we found it. Return it.
+                return tryTempMemory;
+            }
+            else
+            {
+                //It must be in main memory
+                return memoryBox.get(identifier);
+            }
+        }
+        else 
+        {
+            //We're on the main, so don't bother with temporary memory
+            
+             return memoryBox.get(identifier);
+            
+        }
+    }
+    
+    public void deleteVariable(String identifier)
+    {
+        memoryBox.remove(identifier);
+    }
+    
+    public HashMap<String, Parameter> getMemoryBox()
+    {
+        return memoryBox;
+    }
+    
+    public void setMemoryBox(HashMap<String, Parameter> newMemoryBox)
+    {
+        memoryBox = newMemoryBox;
+    }
+    
+    public void setLocalMemoryBox(HashMap<String, Parameter> newTempVariables)
+    {
+        temporaryVariables = newTempVariables;
+    }
+
     
     
-    //Stack stuff!
-    
+    //Stack stuff! 
     public void makeReturnPoint()
     {
-        lineAndIDPair foo = new lineAndIDPair(getScriptID(), getLineNumber());
+        //System.out.println("We are a creating a return point: " 
+        //  + "at scriptID " + getScriptID() + ". " + 
+        //  "The line we're saving is " + getCurrentLine() + 
+        //  ".");
+        returnPoint foo = new returnPoint(getScriptID(), 
+                getCurrentLine(), 
+                memoryBox,
+                temporaryVariables,
+                functionReturns);
+        
         functionStack.push(foo);
+        
     }
     
     public void restoreLastReturnPoint()
     {
-        lineAndIDPair foo = (lineAndIDPair)functionStack.pop();
-            setScriptID(foo.getScriptID());
-            setLineNumber(foo.getCurrentLine());
+        //Get the last save return point.
+        returnPoint foo = (returnPoint)functionStack.pop();
+        
+        //Make sure you go to the line and ID which we left off...
+        setScriptID(foo.getScriptID());
+        setLineNumber(foo.getLastLine());
+        
+        //Retrieve the main memory and function memory which we left off...
+        memoryBox = foo.getMemoryBox();
+        temporaryVariables = foo.getTemporaryMemoryBox();
+        functionReturns = foo.getFunctionReturns();
+        //System.out.println(getName() + " is the name of the"
+        //+ "current thread layer now! The one we jump back to...");
     }
     
-    private class lineAndIDPair
+    public void setFunctionReturns(String[] toReturn)
+    {
+        functionReturns = toReturn;
+    }
+    
+    public String[] getFunctionReturns()
+    {
+        return functionReturns;
+    }
+    
+    public void increaseFunctionLayer()
+    {
+        //We need to go deeper
+        functionLayer++;
+    }
+    
+    public void decreaseFunctionLayer()
+    {
+        //Non, je ne regrette rien
+        functionLayer--;
+    }
+    
+    
+    
+    
+    private class returnPoint
     {
         private int scriptID;
-        private int currentLine;
-        lineAndIDPair(int newScriptID, int newCurrentLine)
+        private int lastLine;
+        private HashMap<String, Parameter> memoryBox;
+        private HashMap<String, Parameter> temporaryVariables;
+        private String[] functionReturns;        
+        
+        returnPoint(int newScriptID, int newCurrentLine, 
+                HashMap<String, Parameter> lastMemoryBox, 
+                HashMap<String, Parameter> lastTemporaryVarBox,
+                String[] lastFunctionReturns)
         {
+            
             scriptID = newScriptID;
-            currentLine = newCurrentLine;
+            lastLine = newCurrentLine;
+            memoryBox = lastMemoryBox;
+            temporaryVariables = lastTemporaryVarBox;
+            functionReturns = lastFunctionReturns;
+            
         }
         
         int getScriptID()
@@ -171,9 +333,25 @@ public class Thread {
             return scriptID;
         }
                 
-        int getCurrentLine()
+        int getLastLine()
         {
-            return currentLine;
+            return lastLine;
         }
+        
+        HashMap<String, Parameter> getMemoryBox()
+        {
+            return memoryBox;
+        }
+        
+        HashMap<String, Parameter> getTemporaryMemoryBox()
+        {
+            return temporaryVariables;
+        }
+        
+        private String[] getFunctionReturns()
+        {
+            return functionReturns;
+        }
+        
     }
 }

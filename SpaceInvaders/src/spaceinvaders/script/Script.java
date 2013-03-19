@@ -26,6 +26,9 @@ public class Script {
     private ArrayList<Line> lineList;
     private HashMap<String, Integer> labelMap;
     private HashMap<String, Integer> commandDictionary;
+    
+    /** path to scripts folder */
+    public final String SCRIPT_FOLDER = "src/spaceinvaders/script/scripts/";
 
     public Script(String filename, HashMap<String, Integer> commandDictionary)
     {
@@ -54,7 +57,7 @@ public class Script {
         try {
             //So like script.txt would end up being scripts/script.txt
             //which is where it should be...
-            FileReader reader = new FileReader("scripts/" + filename);
+            FileReader reader = new FileReader(SCRIPT_FOLDER + filename);
             Scanner in = new Scanner(reader);
 
             while (in.hasNextLine())

@@ -5,13 +5,24 @@ import org.newdawn.slick.*;
 
 /**
  * Space Invaders Game
- * A (maybe not so) simple space invaders game
+ * 
+ * An exciting space invaders game created 
+ * by two AP Computer Science students at 
+ * Hunter College High School
+ * 
+ * Copyright (c) 2013 Team Coding Voyage
+ *
+ * Licensed under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation.
  * 
  * @author Brian Yang
  * @author Edmund Qiu
- * @version 0.1
+ * @version 0.5
  */
 
+/**
+ * Creates, renders, and updates the actual game window
+ */
 public class SpaceInvaders extends BasicGame {
     ScriptManager scriptCollection;
     ScriptReader scriptReader;
@@ -47,6 +58,15 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection.loadScript("ROCKET MOTTO ONCE.txt", 4); 
         scriptCollection.loadScript("Loader.txt", 5);   
         
+        scriptCollection.loadScript("mainscript.txt", 9);  
+        scriptCollection.loadScript("thescript.txt", 10);  
+        scriptCollection.loadScript("thirdscript.txt", 12);
+        
+        scriptCollection.loadScript("AUXTHREAD.txt", 17); 
+        scriptCollection.loadScript("MASTERTEST.txt", 18); 
+        scriptCollection.loadScript("AUXSCRIPT.txt", 19);
+        scriptCollection.loadScript("SECONDTHREAD.txt", 15);
+        
   
         //Initialize ScriptReader, passing it the ScriptManager handle
         scriptReader = new ScriptReader(scriptCollection);
@@ -61,7 +81,7 @@ public class SpaceInvaders extends BasicGame {
         
         //Create a thread which governs this entity with Script #4
         Thread entityThread = new Thread(5);
-        
+        //18
         //Set the main thread of the entity to this thread.
         testEntity.setMainThread(entityThread);
         
@@ -76,6 +96,7 @@ public class SpaceInvaders extends BasicGame {
         
         
     }
+
 
     /**
      * Update the screen

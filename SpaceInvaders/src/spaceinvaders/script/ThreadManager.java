@@ -22,6 +22,22 @@ public class ThreadManager {
         threadCollection.add(newThread);
     }
     
+    public Thread getThreadAtName(String targetThread)
+    {
+        for (Thread t: threadCollection)
+        {
+            if (t.getName().equals(targetThread))
+            {
+                return t;
+            }
+        }
+        
+        //couldn't find...
+        
+        System.out.println("fuck");
+        return null;
+    }
+    
     public void markForDeletion(String targetThread)
     {
         boolean targetFound = false;
