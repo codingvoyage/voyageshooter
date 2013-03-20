@@ -151,7 +151,7 @@ public class ScriptReader
                 result = currentThread.continueWait(currentDeltaTime);
                 break;
             case 51: //Moving... something only an Entity could do
-                result = ((Movable)currentScriptable).continueMove(currentDeltaTime);
+                result = ((MovableEntity)currentScriptable).continueMove(currentDeltaTime);
                 break;
             
         }
@@ -267,7 +267,7 @@ public class ScriptReader
                 //Moving
                 System.out.println("Starting to walk....");
                 double pixelsToWalk = currentLine.getDoubleParameter(0);
-                ((Entity)currentScriptable).beginMove(pixelsToWalk);
+                ((MovableEntity)currentScriptable).beginMove(pixelsToWalk);
                 continueExecuting = false;
                 break;
                 

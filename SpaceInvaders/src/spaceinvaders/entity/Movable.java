@@ -1,21 +1,33 @@
 package spaceinvaders.entity;
 
 /**
- * Movable is implemented with all entities that can move
+ * Anything that can move on its own (without user control)
  * @author Brian Yang
  */
 public interface Movable {
-    /** The entity's current x-coordinate */
-    public double getX();
-    /** The entity's current y-coordinate */
-    public double getY();
     
-    /** The entity's current x-velocity */
-    public double getVx();
-    /** The entity's current y-velocity */
-    public double getVy();
-    
-    /** Checks whether the entity should continue moving */
+    /**
+     * Checks if the entity should continue moving (straight line)
+     * @param delta elapsed time between checks
+     * @return boolean indicating whether or not the entity should continue moving
+     */
     public boolean continueMove(double delta);
     
+     /**
+     * Starts the movement
+     * @param pixelsToMove how many pixels the entity should move
+     */
+    public void beginMove(double pixelsToMove);
+    
+    /**
+     * Get X velocity
+     * @return the entity's x velocity
+     */   
+    public double getVx();
+    
+    /**
+     * Get Y velocity
+     * @return the entity's y velocity
+     */    
+    public double getVy();
 }

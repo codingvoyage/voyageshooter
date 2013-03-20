@@ -19,6 +19,8 @@ public final class EntityGroup {
     public final ArrayList<Weapon> weapons;
     /** Lists all the Misc entities */
     public final ArrayList<Misc> misc;
+    /** Lists all the Immovable entities */
+    public final ArrayList<Immovable> immovable;
     
     /** Maps Enemy names to their ID */
     public final HashMap<String, Integer> enemyData;
@@ -26,8 +28,11 @@ public final class EntityGroup {
     public final HashMap<String, Integer> weaponData;
     /** Maps Misc entity names to their ID */
     public final HashMap<String, Integer> miscData;
+    /** Maps Immovable entity names to their ID */
+    public final HashMap<String, Integer> immovableData;
     
-    /** The ArrayList is only assigned values after the constructor is run, therefore we can't create the map here.<br/>
+    /** 
+     * The ArrayLists are only assigned values after the constructor is run, therefore we can't create the maps here.<br/>
      * The names are mapped to IDs the first time it is needed.
      */
     private boolean mapCreated;
@@ -41,11 +46,13 @@ public final class EntityGroup {
         enemies = new ArrayList<Enemy>();
         weapons = new ArrayList<Weapon>();
         misc = new ArrayList<Misc>();
+        immovable = new ArrayList<Immovable>();
         
         // initialize the HashMaps
         enemyData = new HashMap<String, Integer>();
         weaponData = new HashMap<String, Integer>();
         miscData = new HashMap<String, Integer>();
+        immovableData = new HashMap<String, Integer>();
         
         mapCreated = false;
     }
@@ -56,16 +63,18 @@ public final class EntityGroup {
      * @param weapons ArrayList of weapon entities
      * @param misc ArrayList of misc entities
      */
-    public EntityGroup(ArrayList<Enemy> enemies, ArrayList<Weapon> weapons, ArrayList<Misc> misc) {
+    public EntityGroup(ArrayList<Enemy> enemies, ArrayList<Weapon> weapons, ArrayList<Misc> misc, ArrayList<Immovable> immovable) {
         // default ArrayList - should be overwritten by the data file
         this.enemies = enemies;
         this.weapons = weapons;
         this.misc = misc;
+        this.immovable = immovable;
         
         // initialize the HashMaps
         enemyData = new HashMap<String, Integer>();
         weaponData = new HashMap<String, Integer>();
         miscData = new HashMap<String, Integer>();
+        immovableData = new HashMap<String, Integer>();
         
         mapCreated = false;
     }
@@ -85,6 +94,10 @@ public final class EntityGroup {
         
         for (Misc m : misc) {
             miscData.put(m.getName(), m.getId());
+        }
+        
+        for (Immovable i : immovable) {
+            immovableData.put(i.getName(), i.getId());
         }
         
         System.out.println("Hashmaps created");
@@ -135,6 +148,21 @@ public final class EntityGroup {
             return new Misc();
         }
     }
+        
+     /**
+     * Get Misc entity by Name
+     * @param name name of Immovable entity
+     * @return the requested Immovable entity
+     */
+    public Immovable getImmovable(String name) {
+        if(!mapCreated) createMap();
+        if(immovableData.containsKey(name)) {
+            return immovable.get(immovableData.get(name));
+        } else {
+            System.out.println("WARNING - No immovable entity exists with that name! Returning default immovable.");
+            return new Immovable();
+        }
+    }
       
     /**
      * Get Enemy by ID
@@ -142,7 +170,7 @@ public final class EntityGroup {
      * @return the requested Enemy
      */
     public Enemy getEnemy(int id) {
-        if(id < enemies.size()) {
+        if(id < enemies.size() && id > -1) {
             return enemies.get(id);
         } else {
             System.out.println("WARNING - Enemy id does not exist! Returning default enemy.");
@@ -156,7 +184,7 @@ public final class EntityGroup {
      * @return the requested Weapon
      */
     public Weapon getWeapon(int id) {
-        if(id < weapons.size()) {
+        if(id < weapons.size() && id > -1) {
             return weapons.get(id);
         } else {
             System.out.println("WARNING - Weapon id does not exist! Returning default weapon.");
@@ -170,11 +198,25 @@ public final class EntityGroup {
      * @return the requested Misc entity
      */
     public Misc getMisc(int id) {
-        if(id < misc.size()) {
+        if(id < misc.size() && id > -1) {
             return misc.get(id);
         } else {
             System.out.println("WARNING - Misc entity id does not exist! Returning default misc.");
             return new Misc();
+        }
+    }
+    
+    /**
+     * Get Immovable entity by ID
+     * @param id index/id of Immovable entity
+     * @return the requested Immovable entity
+     */
+    public Immovable getImmovable(int id) {
+        if(id < immovable.size() && id > -1) {
+            return immovable.get(id);
+        } else {
+            System.out.println("WARNING - Immovable entity id does not exist! Returning default misc.");
+            return new Immovable();
         }
     }
     
@@ -203,5 +245,14 @@ public final class EntityGroup {
     
     public int getMiscCount() {
         return misc.size();
+    }
+    
+    /**
+     * Misc Count
+     * @return the number of misc entities
+     */
+    
+    public int getImmovableCount() {
+        return immovable.size();
     }
 }

@@ -3,8 +3,9 @@
         {
             "name" : "Minion",
             "id" : 0,
-            "description" : "Weak minions sent from the land of 'Wut??'",
+            "description" : "Weak minions sent from some unknown land.",
             "attack" : 0,
+            "defense" : 1,
             "vx" : 1.0,
             "vy" : 1.0
         },
@@ -13,6 +14,7 @@
             "id" : 1,
             "description" : "The final powerful boss. The true identity of the mastermind behind all these evil ships.",
             "attack" : 9002.0,
+            "defense" : 9002.0,
             "vx" : 10.0,
             "vy" : 10.0
         }
@@ -52,7 +54,8 @@
             "name" : "Floating Mine",
             "id" : 0,
             "description" : "A deadly floating mine created by an evil mastermind. Stay far away from these!",
-            "attack" : 999999.0
+            "attack" : 999999.0,
+            "defense" : 999999.0
         }
     ]
 }

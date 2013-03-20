@@ -3,26 +3,94 @@ package spaceinvaders.entity;
 import spaceinvaders.script.*;
 
 /**
- * Entity 
- * Used by all entities
+ * An Entity is any object that appears on the map 
+ * that is not part of the menu, controls, or map itself
+ * 
+ * Will be declared as abstract later
  * 
  * @author Brian Yang
- * @author Edmund
+ * @author Edmund Qiu
  */
+
 public class Entity extends ScriptableClass {
     
+    /** Name of Entity */
+    private String name;
+    /** ID (index) of Entity */
+    private Integer id;
+    /** Description of Entity */
+    private String description;
     /** x coordinate */
     private double x;
     /** y coordinate */
     private double y;
     
     /**
-     * Calls ScriptableClass
-     * Entity will be declared as abstract in the future.
-     * All entities will be a certain sub-type.
+     * Calls ScriptableClass<br/>
+     * Instance fields should be set by a data file like JSON
      */
     public Entity() {
         super();
+        name = "You";
+        id = 0;
+        description = "I am you.";
+    }
+
+    /**
+     * Constructs a new Entity and calls ScriptableClass
+     * @param name name of Entity
+     * @param id id (index) of Entity
+     * @param description description of Entity
+     */
+    public Entity(String name, int id, String description) {
+        super();
+        this.name = name;
+        this.id = id;
+        this.description = description;
+    }
+        
+    /**
+     * Place an entity at a certain location on the map
+     * @param x x coordinate
+     * @param y y coordinate
+     */
+    public void place(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    /**
+     * Change coordinates
+     * @param x x-distance to move
+     * @param y y-distance to move
+     */
+    public void move(double x, double y) {
+        this.x += x;
+        this.y += y;
+    }
+    
+    /**
+     * Accessors for Name
+     * @return name of entity
+     */
+    public String getName() {
+        return name;
+    }
+    
+    /**
+     * Accessors for ID
+     * @return id (index) of entity
+     */
+    public int getId() {
+        return id;
+    }
+    
+    /**
+     * Accessors for Description
+     * @return description of entity
+     */
+    public String getDescription() {
+        return description;
     }
     
     /**
@@ -39,110 +107,6 @@ public class Entity extends ScriptableClass {
      */    
     public double getY() {
         return y;
-    }
-    
-    /**
-     * Place an entity at a certain location on the map
-     * @param x x coordinate
-     * @param y y coordinate
-     */
-    public void place(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-    
-    /**
-     * Checks if the entity should continue moving (straight line)
-     * @param delta elapsed time between checks
-     * @param vx x velocity
-     * @param vy y velocity
-     * @return boolean indicating whether or not the entity should continue moving
-     */
-    public boolean continueMove(double delta, double vx, double vy) {
-        x += vx * delta;
-        y += vy * delta;
-        
-        double movedDistance = Math.abs((vx * delta) + (vy * delta));
-        
-        Parameter tempParam = getTemporaryParameter();
-        tempParam.setDoubleValue(
-               tempParam.getDoubleValue() - 
-               movedDistance);
-        
-        setTemporaryParameter(tempParam);
-        
-        if (tempParam.getDoubleValue() < 0)
-        {
-            System.out.println("We're done walking.");
-            //Oh, so we're done moving. Great.
-            //mainThread.setRunningState(false);
-            return false;
-        }
-        
-        //Alright, we still have to move. Keep moving.
-        return true;
-    }
-    
-    public void beginMove(double pixelsToMove) {
-        setTemporaryParameter(new Parameter(pixelsToMove));
-        //mainThread.setRunningState(true);
-    }
-    
-    /**
-     * Circular motion
-     * Move the entity in an orbital path
-     * @param startAngle initial angle in degrees the orbit starts at (Think polar coordinates)
-     * @param radius radius of the orbital circle
-     * @param clockwise indicates whether the orbit is clockwise (0) or counterclockwise (anything else)
-     */
-    public void beginOrbit(double startAngle, double radius, double clockwise) {
-
-        // Create an array containing the angle, radius, and clockwise selection
-        double [] orbitParams = {startAngle, radius, clockwise};
-
-        // Store the angle and radius
-        setTemporaryParameter(new Parameter(orbitParams));
-
-        // Orbit is now running!
-        mainThread.setRunningState(true);
-    }
-    
-    /**
-     * Continue circular motion
-     * @param delta the total time of the orbit
-     * @param vx x velocity
-     * @param vy y velocity
-     * @return boolean indicating whether or not the orbit is complete
-     */
-    public boolean continueOrbit(double delta, double vx, double vy) {
-        
-        double angle = getTemporaryParameter().getDoubleArrayValue()[0];
-        double radius = getTemporaryParameter().getDoubleArrayValue()[1];
-        
-        // temporary entity - represents the origin entity (such as the player)
-        Enemy origin = new Enemy();
-        
-        // convert degrees to radians
-        double radians = angle * (Math.PI / 180);
-        
-        // convert tangential velocity (vx and vy) to angular velocity (w for omega)
-        double w = (Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2)))/radius;
-        
-        // determine coordinates of the orbiter
-       // x = origin.getX() + radius * Math.cos(radians);
-       // y = origin.getY() + radius * Math.sin(radians);
-        
-        // the angle needs to change
-        if (getTemporaryParameter().getDoubleArrayValue()[2] == 0.0) { // clockwise
-            angle += w;
-        } else { // counterclockwise
-            angle -= w;
-        }
-        
-        // implement the delta time, the checks (Are we done stuff), and everything else in this formula later :)
-                
-        // temporary only
-        return true;
     }
     
 }
