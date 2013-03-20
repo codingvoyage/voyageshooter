@@ -674,19 +674,56 @@ public class ScriptReader
     }
     
     
+    
+    //THIS NEEDS TO BE HEAVILY TESTED OH MY GOD THIS IS GOING TO NULLPOINTEREXCEPTION SO HARD
     public Parameter evaluateExpression(Line l, int front, int back) 
     {
+        //We are at our base case if _ _ _ front is two less than back
+        if (front == back - 2)
+        {
+            return simpleEvaluate(l, front, back);
+        }
+        
+        
+        //Alright, NOT at our base case. Continue splitting expression
+        //up into separate expressions
+        
         //Get the thing at the first indexed Parameter
         Parameter firstParam = l.getParameter(front);
+        
+        Parameter resultOnLeft;
+        Parameter resultOnRight;
         
         //If it is a "["...
         if (firstParam.getStoredType() == Parameter.STRING
                 && firstParam.getStringValue().equals("["))
         {
             
+            //Find the corresponding end bracket
+            int paramEnd = findCorrespondingBracket(l, front + 1, 1)
             
+            //Evaluate that expression
+            resultOnLeft = evaluateExpression(l, front + 1, paramEnd - 1);
             
+            //Alright, get the opCode...
+            Parameter opCode = l.getParameter(paramEnd + 1);
             
+            //Now perform the same "is it a [" check for the one after that...
+            if (l.getParameter(paramEnd + 2).getStoredType() == Parameter.STRING 
+                && l.getParameter(paramEnd + 2).getStringValue().equals("["))
+            {
+                int secondParamEnd = findCorrespondingBracket(l, paramEnd + 3, 1);
+                
+                resultOnRight = evaluateExpression(l, paramEnd + 3, secondParamEnd - 1);
+                
+            }
+            else
+            {
+                //It's simply that.
+                resultOnRight = l.getParameter(paramEnd + 2);
+            }
+            
+            return simpleEvaluate(resultOnLeft, opCode, resultOnRight);
             
         }
         else
@@ -694,10 +731,11 @@ public class ScriptReader
             //Alright, so this is not a "["
             
             
+            
         }
         
         
-        
+        //fail fail fail
         return new Parameter("asfsfsd");
     }
     
@@ -710,8 +748,9 @@ public class ScriptReader
         int index = currentBracketLoc;
         int totalParameters = l.getParameterCount();
         
-        //Keep going if we haven't found it, and we haven't reached the last one already
-        while (!found && (index < totalParameters))
+        //Keep going if we haven't found it, and we haven't reached the last one 
+        //already OR overshot the beginning
+        while (!found && (index < totalParameters || index >= 0))
         {
             //All we're looking for are [ and ] 
             if (l.getParameterType(index) == 1)
@@ -738,7 +777,7 @@ public class ScriptReader
             }
             
             //Don't forget
-            index++;
+            index += stepDirection;
         }
         
         return -1; //We failed.
@@ -746,15 +785,8 @@ public class ScriptReader
         
     }
     
-    public Parameter simpleEvaluate(Line l, int front, int back)
+    public Parameter simpleEvaluate(Parameter p1, Parameter opCode, Parameter p2)
     {
-        //We expect it to be in format __ __ __
-        Parameter p1 = l.getParameter(front);
-        Parameter p2 = l.getParameter(back);
-        
-        //System.out.println(p1.toString());
-        //System.out.println(p2.toString());
-        
         //If either of the Parameters are identifiers, then load their
         //identified value and replace them.
         if (p1.isIdentifier())
@@ -762,11 +794,8 @@ public class ScriptReader
         if (p2.isIdentifier())
             p2 = currentThread.getVariable(p2.getStringValue());
         
-        //Get the name of the operation
-        Parameter opCode = l.getParameter(front + 1);
-        String opCodeName = opCode.getStringValue();
         
-        //System.out.println("The operation is " + opCode.toString());
+        String opCodeName = opCode.getStringValue();
         
         //What we will return
         Parameter result;
@@ -878,6 +907,24 @@ public class ScriptReader
         int bomb = 0;
         System.out.println("DROPPING THE NUKE");
         return new Parameter(1/bomb);
+        
+    }
+    
+    
+    
+    public Parameter simpleEvaluate(Line l, int front, int back)
+    {
+        //We expect it to be in format __ __ __
+        Parameter p1 = l.getParameter(front);
+        Parameter p2 = l.getParameter(back);
+        
+        //System.out.println(p1.toString());
+        //System.out.println(p2.toString());
+        
+        //Get the name of the operation
+        Parameter opCode = l.getParameter(front + 1);
+        
+        return simpleEvaluate(p1, opCode, p2);
         
     }
     
