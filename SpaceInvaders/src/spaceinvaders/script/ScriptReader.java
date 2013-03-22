@@ -665,8 +665,11 @@ public class ScriptReader
     
     public void evaluate(Line currentLine)
     {
-        Parameter result = simpleEvaluate(currentLine, 0,
-                currentLine.getParameterCount() - 3);
+        //Parameter result = simpleEvaluate(currentLine, 0,
+        //        currentLine.getParameterCount() - 3);
+        
+        
+        Parameter result = evaluateExpression(currentLine, 0, currentLine.getParameterCount() - 3);
         
         currentThread.setVariable(
                 currentLine.getStringParameter(currentLine.getParameterCount() - 1),
@@ -684,7 +687,6 @@ public class ScriptReader
             return simpleEvaluate(l, front, back);
         }
         
-        
         //Alright, NOT at our base case. Continue splitting expression
         //up into separate expressions
         
@@ -700,7 +702,7 @@ public class ScriptReader
         {
             
             //Find the corresponding end bracket
-            int paramEnd = findCorrespondingBracket(l, front + 1, 1)
+            int paramEnd = findCorrespondingBracket(l, front + 1, 1);
             
             //Evaluate that expression
             resultOnLeft = evaluateExpression(l, front + 1, paramEnd - 1);
@@ -715,7 +717,6 @@ public class ScriptReader
                 int secondParamEnd = findCorrespondingBracket(l, paramEnd + 3, 1);
                 
                 resultOnRight = evaluateExpression(l, paramEnd + 3, secondParamEnd - 1);
-                
             }
             else
             {
@@ -728,15 +729,23 @@ public class ScriptReader
         }
         else
         {
-            //Alright, so this is not a "["
+            //Alright, this is not a "["...
+            //So on the left side of the equation is in fact the first parameter
+            resultOnLeft = firstParam;
             
+            //A opcode comes right after.
+            Parameter opCode = l.getParameter(front + 1);
             
+            //There must be an open bracket after, so find the close-bracket
+            //which corresponds to it, then do recursion
+            int secondParamEnd = findCorrespondingBracket(l, front + 3, 1);
+            resultOnRight = evaluateExpression(l, front + 3, secondParamEnd - 1);
+            
+            //Now that we have all components, evaluate normally.
+            return simpleEvaluate(resultOnLeft, opCode, resultOnRight);
             
         }
         
-        
-        //fail fail fail
-        return new Parameter("asfsfsd");
     }
     
     public int findCorrespondingBracket(Line l, int currentBracketLoc, int stepDirection)
@@ -799,6 +808,21 @@ public class ScriptReader
         
         //What we will return
         Parameter result;
+        
+        
+        if (p1.getStoredType() == Parameter.BOOLEAN)
+        {
+            if (opCodeName.equals("&&"))
+            {
+                result = new Parameter(p1.getBooleanValue() && p2.getBooleanValue());
+                return result;
+            }
+            else if (opCodeName.equals("||"))
+            {
+                result = new Parameter(p1.getBooleanValue() || p2.getBooleanValue());
+                return result;
+            }
+        }
         
         if (opCodeName.equals("+"))
         {
