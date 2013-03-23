@@ -2,6 +2,8 @@ package spaceinvaders.script;
 
 import spaceinvaders.entity.*;
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.*;
+import org.newdawn.slick.fills.GradientFill;
 
 /**
  * Space Invaders Game
@@ -12,7 +14,7 @@ import org.newdawn.slick.*;
  * 
  * Copyright (c) 2013 Team Coding Voyage
  *
- * Licensed under the terms of the GNU General Public License 
+ * Licensed under the terms of the GNU General Public License v3
  * as published by the Free Software Foundation.
  * 
  * @author Brian Yang
@@ -24,13 +26,56 @@ import org.newdawn.slick.*;
  * Creates, renders, and updates the actual game window
  */
 public class SpaceInvaders extends BasicGame {
+    /** All the scripts to be read */
     ScriptManager scriptCollection;
+    /** The actual script reader */
     ScriptReader scriptReader;
     
-    //Our testing
-    Entity testEntity;
-    
+    /** Manages all the scripting threads */
     ThreadManager threadManager;
+        
+    /** A test enemy entity that moves */
+    MovableEntity testEntity;
+    
+    /** The player spaceship */
+    Image ship;
+    /** The background */
+    Image space;
+    /** Test laser beam */
+    Rectangle beam;
+    
+    /** origin */
+    public static final double ORIGIN = 0.0;
+    /** horizontal resolution */
+    public static final int X_RESOLUTION = 1024;
+    /** vertical resolution */
+    public static final int Y_RESOLUTION = 768;
+    /** map boundary factor */
+    public static final float EDGE_FACTOR = 75.0f;
+    /** velocity conversion from miles to pixels */
+    public static final double VELOCITY_FACTOR = 0.01;
+    
+    /** rotation size */
+    public static final float ROTATION_SIZE = 0.2f;
+    /** step size */
+    public static final float STEP_SIZE = 0.4f;
+    /** back up size */
+    public static final float BACK_SIZE = 0.075f;
+    
+    /** Default x coordinates */
+    float x = 400;
+    /** Default y coordinates */
+    float y = 300;
+    /** Default scaling factor */
+    float scale = 1;
+    
+    /** TEMPORARY TEST VARIABLES */
+    Weapon laser;
+    boolean shooting = false;
+    double shootDir;
+    
+    /** Data for all entities */
+    private EntityGroup entities;
     
     /**
      * Construct a new game
@@ -49,52 +94,19 @@ public class SpaceInvaders extends BasicGame {
         //This initializes stuff
         gc.setMinimumLogicUpdateInterval(20);
         
-        //Initialize the ScriptManager
-        scriptCollection = new ScriptManager();
-        scriptCollection.loadScript("script.txt", 0);
-        scriptCollection.loadScript("shortdemo.txt", 1);
-        scriptCollection.loadScript("toread.txt", 2);
-        scriptCollection.loadScript("ROCKET MOTTO.txt", 3); 
-        scriptCollection.loadScript("ROCKET MOTTO ONCE.txt", 4); 
-        scriptCollection.loadScript("Loader.txt", 5);   
-        
-        scriptCollection.loadScript("mainscript.txt", 9);  
-        scriptCollection.loadScript("thescript.txt", 10);  
-        scriptCollection.loadScript("thirdscript.txt", 12);
-        
-        scriptCollection.loadScript("AUXTHREAD.txt", 17); 
-        scriptCollection.loadScript("MASTERTEST.txt", 18); 
-        scriptCollection.loadScript("AUXSCRIPT.txt", 19);
-        scriptCollection.loadScript("SECONDTHREAD.txt", 15);
-        
-  
-        //Initialize ScriptReader, passing it the ScriptManager handle
-        scriptReader = new ScriptReader(scriptCollection);
-        
-        //Initialize the collection of threads
-        threadManager = new ThreadManager(scriptReader);
-        
-        scriptReader.setThreadHandle(threadManager);
-        
-        //Create our test entity
-        testEntity = new Entity();
-        
-        //Create a thread which governs this entity with Script #4
-        Thread entityThread = new Thread(5);
-        //18
-        //Set the main thread of the entity to this thread.
-        testEntity.setMainThread(entityThread);
-        
-        //Set the details of the thread
-        entityThread.setLineNumber(0);
-        entityThread.setName("main");
-        entityThread.setRunningState(false);
-        entityThread.setScriptable(testEntity);
-        
-        //Add this thread to the collection of threads
-        threadManager.addThread(entityThread);
+        /* Load images */
+        beam = new Rectangle(-500, -500, 10, 10); // render off screen so its not visible yet
+        ship = new Image("src/spaceinvaders/images/spaceship.png");
+        space = new Image("src/spaceinvaders/images/bluestar.jpg");
         
         
+        /* load the data for all entities */     
+        if(loadEntities()) {
+            System.out.println("Entity data has successfully been loaded.");
+        } else {
+            /* The entities failed to load, therefore we will use the default entities */
+            System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
+        }
     }
 
 
@@ -110,8 +122,11 @@ public class SpaceInvaders extends BasicGame {
         //new threads, upon which you should examine this carefully to make
         //sure that there aren't massive off-by-one-errors.
         
-        threadManager.act(delta);
+       // threadManager.act(delta);
         
+        /** user keyboard control */
+        control(gc, delta);
+ 
     }
 
     /**
@@ -125,20 +140,14 @@ public class SpaceInvaders extends BasicGame {
         //Any and all graphics/rendering functions which should be called
         //with the drawing of each frame go HERE
         
-        //Of course, our pride in our team!!
-        g.drawString("We are Team Coding Voyage!", 100, 50);
+        space.draw(0,0);
+        ship.draw(x,y,scale);
+        ShapeFill filler = new GradientFill(0, 0, Color.red, 10, 10, Color.green, true);
+        g.fill(beam, filler);
         
-        //Pull up the script of the main thread of the entity
-        Script sampleScript = scriptCollection.getScriptAtID(
-                testEntity.getMainThread().getScriptID());
-        int linesToPrint = sampleScript.getLineCount();
-        
-        //Print all the lines of sampleScript
-        for (int i = 0; i < linesToPrint; i++)
-        {
-            g.drawString(sampleScript.getLine(i).toString(), 100, 100 + 16*i);     
-        }
-        
+        g.drawString("Player: " + x + ", " + y, 600, 25);
+        g.drawString("Bullet: " + beam.getX() + ", " + beam.getY(), 600, 40);
+
     }
 
     /**
@@ -154,54 +163,113 @@ public class SpaceInvaders extends BasicGame {
         
         AppGameContainer app = new AppGameContainer(new SpaceInvaders());
 
-        app.setDisplayMode(1024, 768, false);
+        app.setDisplayMode(X_RESOLUTION, Y_RESOLUTION, false);
         app.setAlwaysRender(true);
         app.setTargetFrameRate(60);
         //This is important. I found out that with this command, it will limit
         //the frames displayed per second to around 60. We DON'T want frames
         //being drawn 2000 times per second.
 
-        // Temporarily commented out to test entities
-        // app.start();
+        app.start();
 
-        /*
-         * Start JSON Entities
-         */
-
+    }
+    
+    /**
+     * Loads all entity data from a separate data file
+     * @return a boolean indicating whether or not the entity data have been successfully loaded
+     */
+    private boolean loadEntities() {
         JsonReader<EntityGroup> reader = new JsonReader<EntityGroup>(EntityGroup.class, "src/spaceinvaders/entity/EntityData.json");
         if(reader.readJson()) {
-            
-            EntityGroup data = reader.getObject();
-            
-            /* Okay, now I'm going to call and control the entities */
-            
-            // Enemy - Bakesale Monster
-            System.out.println();
-            Enemy bsMonster = data.getEnemy("Bakesale Monster");
-            System.out.println(
-                "Name : " + bsMonster.getName() + "\n" +
-                "Description : " + bsMonster.getDescription() + "\n" +
-                "ID : " + bsMonster.getId() + "\n" +
-                "Attack : " + bsMonster.getAttack()
-            );
-            
-            System.out.println();
-            System.out.println("Giving Bakesale Monster coordinates: ");
-            bsMonster.place(5.0, 2.0);
-            System.out.println("Bakesale Monster is located at: " + bsMonster.getX() + ", " + bsMonster.getY());
-        
-            System.out.println();
-            System.out.println("Just to check that calling by name is the same as calling by ID:");
-            System.out.println("Actual: " + data.getEnemy(1).equals(data.getEnemy("Bakesale Monster")));
-            System.out.println("Expected: true");
-            
-            System.out.println();
-            System.out.println("Preliminary testing of moving:");
-            bsMonster.beginMove(600);
-            while(bsMonster.continueMove(2)) {
-                System.out.println(bsMonster.getX() + ", " + bsMonster.getY());
-            }
-            System.out.println("Expected Final: " + (5.0 + 600.0/2) + ", " + (2.0 + 600.0/2));
+            entities = reader.getObject();
+            return true;
         }
+        entities = new EntityGroup();
+        return false;
+    }
+    
+    /**
+     * Player keyboard control<br/>
+     * Will be moved to the Entity package later
+     * @param gc the game container
+     * @param delta time interval 
+     */
+    private void control(GameContainer gc, int delta) throws SlickException {
+        Input input = gc.getInput();
+ 
+        /* rotate to the left */
+        if(input.isKeyDown(Input.KEY_LEFT)) {
+            ship.rotate(-ROTATION_SIZE * delta);
+        }
+ 
+        /* rotate to the right */
+        if(input.isKeyDown(Input.KEY_RIGHT)) {
+            ship.rotate(ROTATION_SIZE * delta);
+        }
+ 
+        /* move forward in current direction */
+        if(input.isKeyDown(Input.KEY_UP)) {
+            /* size for one single step */
+            float step = STEP_SIZE * delta;
+ 
+            /* which direction are we facing? */
+            float rotation = ship.getRotation();
+            
+            /* move the player */
+            if(x + step * Math.sin(Math.toRadians(rotation)) > ORIGIN - EDGE_FACTOR && x + step * Math.sin(Math.toRadians(rotation)) < X_RESOLUTION - EDGE_FACTOR) 
+                x += step * Math.sin(Math.toRadians(rotation));
+            if(y - step * Math.cos(Math.toRadians(rotation)) > ORIGIN - EDGE_FACTOR && y - step * Math.cos(Math.toRadians(rotation)) < Y_RESOLUTION - EDGE_FACTOR) 
+                y -= step * Math.cos(Math.toRadians(rotation));
+        }
+        
+        /* back up a bit */
+        if(input.isKeyDown(Input.KEY_DOWN)) {
+            /* size for one single back step */
+            float step = BACK_SIZE * delta;
+ 
+            /* which direction are we facing? */
+            float rotation = ship.getRotation() * -1;
+ 
+            /* move the player */
+            if(x + step * Math.sin(Math.toRadians(rotation)) > ORIGIN - EDGE_FACTOR && x + step * Math.sin(Math.toRadians(rotation)) < X_RESOLUTION - EDGE_FACTOR) 
+                x += step * Math.sin(Math.toRadians(rotation));
+            if(y + step * Math.cos(Math.toRadians(rotation)) > ORIGIN - EDGE_FACTOR && y + step * Math.cos(Math.toRadians(rotation)) < Y_RESOLUTION - EDGE_FACTOR) 
+                y += step * Math.cos(Math.toRadians(rotation));
+        }
+        
+        if(input.isKeyDown(Input.KEY_SPACE)) {
+            if(!shooting) fire();
+        }
+        
+        if(shooting) {
+            /* size for one single back step */
+            double step = laser.getVx() * VELOCITY_FACTOR * delta;
+            
+            beam.setX((float)(beam.getX() + step * Math.sin(shootDir)));
+            beam.setY((float)(beam.getY() - step * Math.cos(shootDir)));
+            if (beam.getX() > X_RESOLUTION + EDGE_FACTOR || beam.getX() < 0 - EDGE_FACTOR || beam.getY() > Y_RESOLUTION + EDGE_FACTOR || beam.getY() < 0 - EDGE_FACTOR) { // its off the map! stop the bullet!
+                /* Stop moving the bullet */
+                shooting = false;
+                /* Reset the bullet to the default location */
+                beam.setLocation(-500, -500);
+            }
+        }
+    }
+    
+    /**
+     * Firing a bullet from the player<br/>
+     * Uses Weapon data from EntityGroup<br/>
+     * Will be moved to the Entity package later (more specifically the Attacker interface)
+     */
+    private void fire() {
+        /* Use Bomb Formula 9001 */
+        laser = entities.getWeapon("Bomb Formula 9001");
+        
+        /* The graphics references will be included in the data file later, but for now... */
+        beam.setLocation(x + 115, y + 25);
+        /* Define the direction here and not update because once the bullet is fired, we want it to maintain direction */
+        shootDir = Math.toRadians(ship.getRotation());
+        shooting = true;
+        
     }
 }
