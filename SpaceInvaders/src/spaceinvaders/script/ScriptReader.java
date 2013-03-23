@@ -646,13 +646,14 @@ public class ScriptReader
         //The script object we are working with
         Script thisScript = scr.getScriptAtID(currentThread.getScriptID());
         
-        //But BEFORE setting the currentplace to that line, first store the
-        //old script ID and old line number for returning purposes
-        currentThread.makeReturnPoint();
         
         //Basically, extracting the label [act] and finding out where it is
         String labelName = currentLine.getStringParameter(0);
         int newLine = thisScript.getLabelIndexOnLineList(labelName);
+        
+        //But BEFORE setting the currentplace to that line, first store the
+        //old script ID and old line number for returning purposes
+        currentThread.makeReturnPoint();
         
         //Set the current place to that line, that script
         currentThread.setLineNumber(newLine);
@@ -682,7 +683,6 @@ public class ScriptReader
                 //Our current Parameter at searchIndex
                 Parameter currentParameter = currentLine.getParameter(searchIndex);
                 
-                System.out.println(currentParameter.toString());
                 //See if the currently indexed thing is a -->
                 if ( (currentParameter.getStoredType() == 1) &&
                     (currentParameter.getStringValue().equals("-->")))
@@ -711,6 +711,7 @@ public class ScriptReader
                         //Get the name that the variable will be referred as
                         //Note: it's searchIndex because that's what makes it line up perfectly
                         //between the two lines.
+                        
                         String ourIdentifier = functionLine.getStringParameter(searchIndex);
                         
                         //But hold on a second. currentParameter could be a literal, or it
@@ -722,11 +723,18 @@ public class ScriptReader
                                     currentParameter.toString());
                             
                             newMemoryBox.put(ourIdentifier, identifiedParam);
+//                            
+//                            System.out.println("So the identifier " + functionLine.getStringParameter(searchIndex)
+//                                + " will correspond with " + identifiedParam);
                         }
                         else 
                         {
                             //So it was a literal.
                             newMemoryBox.put(ourIdentifier, currentParameter);
+//                            
+//                            
+//                            System.out.println("So the identifier " + functionLine.getStringParameter(searchIndex)
+//                                + " will correspond with " + currentParameter);
                         }
                     }   //if (isArrowReached)
                 }
@@ -752,6 +760,11 @@ public class ScriptReader
     //return val1 param2 val3
     private void returnFromFunction(Line currentLine)
     {
+        for (int i = 0; i <currentLine.getParameterCount(); i++)
+        {
+            //System.out.println(currentLine.getParameter(i).toString());
+        }
+        
         //Remember how we passed the returned variables' names?
         //Now we retrieve them
         String[] returnKeys = currentThread.getFunctionReturns();
@@ -761,22 +774,32 @@ public class ScriptReader
         
         Parameter[] parameters = new Parameter[returnKeys.length];
         
+                
         for (int i = 0; i < returnKeys.length; i++)
         {
-            parameters[i] = currentThread.getVariable(
-                    currentLine.getStringParameter(i));
+            Parameter currentParam = currentLine.getParameter(i);
+            
+            //A literal, or a variable?
+            if (currentParam.isIdentifier())
+                parameters[i] = currentThread.getVariable(
+                        currentLine.getStringParameter(i));
+            else
+                parameters[i] = currentParam;
+            
         }
+        
         
         //Return, and also decrease the function layer
         currentThread.restoreLastReturnPoint();
         currentThread.decreaseFunctionLayer();
         
+        
         //Now add those retained variables to the current thread
         //layer's memory.
         for (int i = 0; i < returnKeys.length; i++)
         {
-            System.out.println("I set " + returnKeys[i] +
-                    " to equal " + parameters[i].toString());
+//            System.out.println("I set " + returnKeys[i] +
+//                    " to equal " + parameters[i].toString());
             currentThread.setVariable(returnKeys[i], parameters[i]);
         }
         
