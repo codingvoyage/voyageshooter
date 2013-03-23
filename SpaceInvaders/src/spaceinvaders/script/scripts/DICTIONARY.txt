@@ -17,7 +17,8 @@ endif 13
 print 15
 
 
-callfunction 20
+callfunction 19
+callscriptfunction 20
 callthreadfunction 21
 
 return 25

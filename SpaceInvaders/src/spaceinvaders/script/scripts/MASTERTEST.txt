@@ -14,7 +14,7 @@ createVariable "string3" "and printed"
 
 
 -- return1 should be the very next line
-callfunction 19 [demonstration] string1 string2 string3 --> return! return!!
+callscriptfunction 19 [demonstration] string1 string2 string3 --> return! return!!
 
 print return!
 print return!!

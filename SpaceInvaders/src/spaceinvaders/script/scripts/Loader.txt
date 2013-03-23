@@ -1,33 +1,40 @@
 -- creates a new thread with the script ID 4, which is the team rocket motto one
--- newThread 4 "rocket thread"
-
 
 
 
 createVariable "a" 5
 createVariable "b" 3
 createVariable "c" 8
+
 evaluate true && [ b > c ] --> resultado
 print resultado
 
--- ends this one
-endThread
 
+createVariable "counter" 0
 
-if a < [ c + d ] 
-
-    if [ b % c ] >= 5
-
-
-    endif
-
+label [LOOPPOINT]
+if [ counter < 10 ] != true
+    goto [LOOPFIN]
 endif
 
+print "HELLO"
 
+evaluate counter + 1 --> counter
+goto [LOOPPOINT]
+label [LOOPFIN]
 
+-- newThread 4 "rocket thread"
 
+callFunction [world]
 
+print "yeah..."
 
+callFunction [goobypls] 2 3 4 --> result
+
+print result
+
+-- ends this one
+endThread
 
 
 
@@ -55,7 +62,7 @@ print "Make it double!"
 wait 1500
 
 -- Now call something from the same script!
-callFunction 5 [world]
+callscriptfunction 5 [world]
 
 return
 
@@ -68,3 +75,12 @@ print "To protect the world from devastation!"
 wait 1500
 
 return
+
+function [goobypls] aa bb cc
+print aa
+print bb
+print cc
+print "GOOBY PLS"
+evaluate [ aa * bb ] * cc --> d
+print d
+return d

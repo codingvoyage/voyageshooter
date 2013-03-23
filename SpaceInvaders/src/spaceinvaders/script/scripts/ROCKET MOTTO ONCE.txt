@@ -27,7 +27,7 @@ print "Prepare for trouble!"
 wait 1500
 
 
-callFunction 5 [double]
+callscriptFunction 5 [double]
 
 -- print teamrocket2
 -- wait 1500

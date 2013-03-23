@@ -25,7 +25,7 @@ print "However, there is a nuance of the test that has to"
 print "be done. From this thread, I will call a script file."
 print " "
 print " "
-callfunction 19 [voila]
+callscriptfunction 19 [voila]
 
 callthreadfunction "anotherthread" [act]
 

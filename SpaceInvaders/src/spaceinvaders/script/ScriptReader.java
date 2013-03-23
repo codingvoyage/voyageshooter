@@ -215,12 +215,27 @@ public class ScriptReader
                 
             //setVariable identifier newValue
             case 11:
-                //Has not been implemented yet
+                setVariable(currentLine);
                 break;
-                
+               
+            //if statement
             case 12:
-                //if statement
+                //Evaluate line
+                Parameter result = evaluateExpression(currentLine,
+                        0, currentLine.getParameterCount() - 1);
                 
+                //if it evaluates to true, then program logic continues
+                //that's why we check if it's false, and then if it's false,
+                //we look for where we skip to.
+                if (result.getBooleanValue() == false)
+                {
+                    //findEndLimiter starts on the indexed line, so that's why we 
+                    //compensate by adding 1.
+                    int newLine = findEndLimiter(scr.getScriptAtID(currentThread.getScriptID()),
+                            "if", "endif", currentThread.getCurrentLine() + 1, 1);
+                    
+                    currentThread.setLineNumber(newLine);
+                }
                 break;
                 
             case 13:
@@ -230,6 +245,10 @@ public class ScriptReader
             //Print a variable, for debugging
             case 15:
                 print(currentLine);
+                break;
+                
+            case 19:
+                callFunction(currentLine);
                 break;
                 
             //This is like calling a static function.
@@ -250,7 +269,7 @@ public class ScriptReader
                 break;
                 
             case 30:
-                mergeString(currentLine);
+                //mergeString(currentLine);
                 break;
                 
             case 31:
@@ -334,6 +353,15 @@ public class ScriptReader
         }
     }
     
+    private void setVariable(Line currentLine)
+    {
+        String variableIdentifier = currentLine.getStringParameter(0);
+        Parameter referencedParam = currentLine.getParameter(1);
+        
+        currentThread.setVariable(variableIdentifier,
+                        referencedParam);
+    }
+    
     private void print(Line currentLine)
     {
         Parameter toBePrinted = currentLine.getParameter(0);
@@ -354,16 +382,7 @@ public class ScriptReader
             System.out.println(message);
         }
         
-    }
-    
-    
-    private void mergeString(Line currentLine)
-    {
-        //concat ___ ___ ___ ... ___ --> final
-        
-        
-    }
-                
+    }               
     
     private void createNewThread(Line currentLine) 
     {
@@ -380,24 +399,12 @@ public class ScriptReader
         threadManager.addThread(newThread);
     }
     
-    private void callFunction(Line currentLine)
-    {
-        //callFunction [that'smyshit] param1 param2 param3 --> returned1 returned2
-        
-        //Where is the label of [that'smyshit]
-        
-        //Set the current place to that line, same script
-        
-        //But BEFORE setting the currentplace to that line, first 
-        
-        
-        
-    }
     
-    //callFunction [that'smyshit] param1 param2 param3 --> returned1 returned2
+    
+    //callFunction [act] param1 param2 param3 --> returned1 returned2
     private void callScriptFunction(Line currentLine)
     {
-        //callFunction 5 [that'smyshit] param1 param2 param3 --> returned1 returned2
+        //callFunction 5 [act] param1 param2 param3 --> returned1 returned2
         
         //Get the Script object that 5 refers to
         int scriptID = currentLine.getIntegerParameter(0);
@@ -629,6 +636,118 @@ public class ScriptReader
         
     }
     
+    //The difference is that this callFunction is for the SAME script file
+    //I basically just took the more advanced callThreadFunction and
+    //modified it for this
+    private void callFunction(Line currentLine)
+    {
+        //callFunction [act] param1 param2 ... --> returned1 returned2 ...
+        
+        //The script object we are working with
+        Script thisScript = scr.getScriptAtID(currentThread.getScriptID());
+        
+        //But BEFORE setting the currentplace to that line, first store the
+        //old script ID and old line number for returning purposes
+        currentThread.makeReturnPoint();
+        
+        //Basically, extracting the label [act] and finding out where it is
+        String labelName = currentLine.getStringParameter(0);
+        int newLine = thisScript.getLabelIndexOnLineList(labelName);
+        
+        //Set the current place to that line, that script
+        currentThread.setLineNumber(newLine);
+        currentThread.setScriptID(currentThread.getScriptID());
+        
+        //But here's the thing. We need to know what to make its identifier.
+        //In order to do that, we need to go all the way to the line we're jumping
+        //to and getting a copy of their line object.
+        Line functionLine = thisScript.getLineAtLabel(labelName);
+        
+        //Find returnKeys too so we know where to put the values
+        ArrayList<String> returnKeys = new ArrayList<String>();
+        
+        //From the parameters, create a new memory box...
+        HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
+      
+        if (currentLine.getParameterCount() <= 1)
+        {
+            //In this case do nothing.
+        }
+        else 
+        {
+            boolean isArrowReached = false;
+            int searchIndex = 1;
+            while (searchIndex < currentLine.getParameterCount())
+            {
+                //Our current Parameter at searchIndex
+                Parameter currentParameter = currentLine.getParameter(searchIndex);
+                
+                System.out.println(currentParameter.toString());
+                //See if the currently indexed thing is a -->
+                if ( (currentParameter.getStoredType() == 1) &&
+                    (currentParameter.getStringValue().equals("-->")))
+                {
+                    //If so, then now we have reached the arrow
+                    isArrowReached = true;
+                    
+                    //We go on to next parameter
+                }
+                else
+                {
+                    //So we have reached something meaningful. Now, our
+                    //response depends on whether the arrow has been reached yet
+                    
+                    if (isArrowReached)
+                    {
+                        //So it's a return, so add the Parameter's name to the
+                        //return thing
+                        String nameOfReturn = currentLine.getParameter(searchIndex).getStringValue();
+                        returnKeys.add(nameOfReturn);
+                    }
+                    else
+                    {
+                        //We are adding to the memorybox
+                        
+                        //Get the name that the variable will be referred as
+                        //Note: it's searchIndex because that's what makes it line up perfectly
+                        //between the two lines.
+                        String ourIdentifier = functionLine.getStringParameter(searchIndex);
+                        
+                        //But hold on a second. currentParameter could be a literal, or it
+                        //could be an identifier to something else.
+                        if (currentParameter.isIdentifier())
+                        {
+                            //Alright, then we put whatever it refers to
+                            Parameter identifiedParam = currentThread.getVariable(
+                                    currentParameter.toString());
+                            
+                            newMemoryBox.put(ourIdentifier, identifiedParam);
+                        }
+                        else 
+                        {
+                            //So it was a literal.
+                            newMemoryBox.put(ourIdentifier, currentParameter);
+                        }
+                    }   //if (isArrowReached)
+                }
+                
+                //Increment searchIndex
+                searchIndex++;
+                
+            } //while (searchIndex < currentLine.getParameterCount())
+        }
+        
+        //Now convert returnKeys to an array
+        String[] returnKeyArray = new String[returnKeys.size()];
+        returnKeys.toArray(returnKeyArray);
+        
+        //Make all settings
+        currentThread.setFunctionReturns(returnKeyArray);
+        currentThread.setMemoryBox(currentThread.getMemoryBox());
+        currentThread.setLocalMemoryBox(newMemoryBox);
+        currentThread.increaseFunctionLayer();
+        
+    }
     
     //return val1 param2 val3
     private void returnFromFunction(Line currentLine)
@@ -675,8 +794,6 @@ public class ScriptReader
                 currentLine.getStringParameter(currentLine.getParameterCount() - 1),
                 result);
     }
-    
-    
     
     //THIS NEEDS TO BE HEAVILY TESTED OH MY GOD THIS IS GOING TO NULLPOINTEREXCEPTION SO HARD
     public Parameter evaluateExpression(Line l, int front, int back) 
@@ -750,7 +867,6 @@ public class ScriptReader
     
     public int findCorrespondingBracket(Line l, int currentBracketLoc, int stepDirection)
     {
-        //StepDirection = 1 forward, stepDirection = -1 backwards...
         boolean found = false;
         
         int additionalLayers = 0;
@@ -790,9 +906,51 @@ public class ScriptReader
         }
         
         return -1; //We failed.
-        
-        
     }
+    
+    public int findEndLimiter(Script currentScript, String openingLimiter, String closingLimiter, int start, int stepDirection)
+    {
+        boolean found = false;
+        int additionalLayers = 0;
+        int index = start;
+        
+        int totalParameters = currentScript.getLineCount();
+        int openingCommandID = currentScript.findCommandID(openingLimiter);
+        int closingCommandID = currentScript.findCommandID(closingLimiter);
+        
+        //Keep going if we haven't found it, and we haven't reached the last one 
+        //already OR overshot the beginning
+        while (!found && (index < totalParameters || index >= 0))
+        {
+            int currentCommandID = currentScript.getLine(index).getCommandID();
+            
+            if (currentCommandID == openingCommandID)
+            {
+                //Alright, one more to go then
+                additionalLayers++;
+            } 
+            else if (currentCommandID == closingCommandID)
+            {
+                //If we found one of them, then we have to see
+                //if we have more to go first.
+                if (additionalLayers > 0)
+                {
+                    additionalLayers--;
+                }
+                else
+                {
+                    //Alright, now we found it for good.
+                    return index;
+                }
+            }
+            
+            //Don't forget
+            index += stepDirection;
+        }
+        
+        return -1; //We failed somehow if we reached this
+    }
+    
     
     public Parameter simpleEvaluate(Parameter p1, Parameter opCode, Parameter p2)
     {

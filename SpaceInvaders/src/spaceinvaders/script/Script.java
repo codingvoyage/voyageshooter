@@ -307,7 +307,7 @@ public class Script {
         return formattedLine;
     }
 
-    private int findCommandID(String commandIDName)
+    public int findCommandID(String commandIDName)
     {
         commandIDName = commandIDName.toLowerCase();
         Integer commandID = commandDictionary.get(commandIDName);
