@@ -1,8 +1,40 @@
-callfunction [fibonacci] 31 --> result
-print "THE FINAL IS"
-print result
+print "This is a test of the Voyage scripting language"
+print "First, the program will call Fibonacci(33) and record the time elapsed"
+
+
+getSystemNanoTime a
+callfunction [fibonacci] 33 --> result
+getSystemNanoTime b
+
+evaluate b - a --> elapsedTime
+
+getSystemNanoTime c
+eval elapsedTime / 1000000000 --> benchmarkInSeconds
+getSystemNanoTime d
+
+print <-- "Fibonacci(33) equals " + result
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to compute"
+print <-- [ "or " + benchmarkInSeconds ] + " seconds." 
+print <-- [ "It took roughly " + [ d - c ] ] + " nanoseconds to perform the division"
+print "that converted from nanoseconds to seconds."
+
+
+print "time to test time for doing nothing"
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
 
 endthread 
+
+
+function [doNothing]
+
+print "hello"
+
+return
 
 function [fibonacci] number
 

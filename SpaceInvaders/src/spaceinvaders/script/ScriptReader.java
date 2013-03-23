@@ -289,6 +289,12 @@ public class ScriptReader
                 ((Entity)currentScriptable).beginMove(pixelsToWalk);
                 continueExecuting = false;
                 break;
+            case 80:
+                getSystemMilliTime(currentLine);
+                break;
+            case 81:
+                getSystemNanoTime(currentLine);
+                break;
                 
             
         }
@@ -297,6 +303,25 @@ public class ScriptReader
         return continueExecuting;
     }
     
+    
+    public void getSystemMilliTime(Line currentLine)
+    {
+        String variableIdentifier = currentLine.getStringParameter(0);
+        Parameter referencedParam = new Parameter(System.currentTimeMillis());
+        
+        
+        currentThread.setVariable(variableIdentifier,
+                        referencedParam);
+    }
+    
+     public void getSystemNanoTime(Line currentLine)
+    {
+        String variableIdentifier = currentLine.getStringParameter(0);
+        Parameter referencedParam = new Parameter(System.nanoTime());
+        
+        currentThread.setVariable(variableIdentifier,
+                        referencedParam);
+    }
     
     /**************************************************************************
     ***************************************************************************
@@ -366,21 +391,35 @@ public class ScriptReader
     {
         Parameter toBePrinted = currentLine.getParameter(0);
         
-        if (toBePrinted.isIdentifier())
+            
+        //We might evaluate something before printing the result
+        if (toBePrinted.getStoredType() == Parameter.STRING
+                && toBePrinted.getStringValue().equals("<--"))
         {
-            //It prints what the identifier references
-            Parameter message = currentThread.
-                    getVariable(toBePrinted.getStringValue());
-            
-            System.out.println(message.toString());
-            
+            Parameter result = evaluateExpression(currentLine, 1, currentLine.getParameterCount() - 1);
+            System.out.println(result.toString());
         }
         else
         {
-            //Instead, it prints the literal
-            String message = toBePrinted.getStringValue();
-            System.out.println(message);
+            //Then we're just printing the contents then...
+            if (toBePrinted.isIdentifier())
+            {
+                //It prints what the identifier references
+                Parameter message = currentThread.
+                        getVariable(toBePrinted.getStringValue());
+
+                System.out.println(message.toString());
+
+            }
+            else
+            {
+                //Instead, it prints the literal
+                String message = toBePrinted.getStringValue();
+                System.out.println(message);
+            }
         }
+       
+        
         
     }               
     
@@ -398,8 +437,6 @@ public class ScriptReader
 
         threadManager.addThread(newThread);
     }
-    
-    
     
     //callFunction [act] param1 param2 param3 --> returned1 returned2
     private void callScriptFunction(Line currentLine)
@@ -974,7 +1011,6 @@ public class ScriptReader
         return -1; //We failed somehow if we reached this
     }
     
-    
     public Parameter simpleEvaluate(Parameter p1, Parameter opCode, Parameter p2)
     {
         //If either of the Parameters are identifiers, then load their
@@ -1114,8 +1150,6 @@ public class ScriptReader
         return new Parameter(1/bomb);
         
     }
-    
-    
     
     public Parameter simpleEvaluate(Line l, int front, int back)
     {
