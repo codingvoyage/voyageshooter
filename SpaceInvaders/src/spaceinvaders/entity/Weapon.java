@@ -34,12 +34,39 @@ public class Weapon extends MovableEntity implements Attacker {
     }
     
     /**
+     * Fire
+     */
+    @Override
+    public void fire() {
+        // the actual bullet doesn't fire anything silly
+    }
+    
+    /**
+     * Fire from another entity
+     * @param x starting x coordinate
+     * @param y starting y coordinate
+     */
+    public void fire(float x, float y) {
+        
+    }
+    
+    /**
      * Accessors for Attack
      * @return attack of entity
      */
     @Override
     public double getAttack() {
         return attack;
+    }
+    
+        
+    /**
+     * Accessors for Weapon
+     * @return itself
+     */
+    @Override
+    public Weapon getWeapon() {
+        return this;
     }
 }
 

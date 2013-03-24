@@ -1,6 +1,7 @@
 package spaceinvaders.entity;
 
 import com.google.gson.*;
+import java.lang.reflect.Modifier;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -50,7 +51,8 @@ public class JsonReader<T> {
             BufferedReader read = new BufferedReader(new FileReader(file));
 
             // pass the file to Gson and create a group of Entities from that
-            data = new Gson().fromJson(read, type);
+            Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE).create();
+            data = gson.fromJson(read, type);
             read.close();
             
         } catch(IOException e) {

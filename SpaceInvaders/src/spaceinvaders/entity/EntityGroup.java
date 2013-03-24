@@ -1,5 +1,6 @@
 package spaceinvaders.entity;
 
+import org.newdawn.slick.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,53 +8,46 @@ import java.util.HashMap;
  * Entity Data Storage<br/>
  * Class holds a global list and HashMap of entities<br/><br/>
  * 
- * It is recommended, but not at all required, that entity data be loaded from a separate data file such as JSON
+ * It is recommended, but not at all required, that entity data be loaded from a separate data file such as JSON.<br/>
+ * Each game can only have one group of entities. This data is accessible by all classes.<br/>
+ * The data sets are private and there is intentionally no way to add to them. Data is loaded once in the beginning only and cannot be changed later.
  * @author Brian Yang
  */
 
 public final class EntityGroup {
     
     /** Lists all the Enemies */
-    public final ArrayList<Enemy> enemies;
+    private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     /** Lists all the Weapons */
-    public final ArrayList<Weapon> weapons;
+    private static ArrayList<Weapon> weapons = new ArrayList<Weapon>();
     /** Lists all the Misc entities */
-    public final ArrayList<Misc> misc;
+    private static ArrayList<Misc> misc = new ArrayList<Misc>();
     /** Lists all the Immovable entities */
-    public final ArrayList<Immovable> immovable;
+    private static ArrayList<Immovable> immovable = new ArrayList<Immovable>();
     
     /** Maps Enemy names to their ID */
-    public final HashMap<String, Integer> enemyData;
+    private static final HashMap<String, Integer> enemyData = new HashMap<String, Integer>();
     /** Maps Weapon names to their ID */
-    public final HashMap<String, Integer> weaponData;
+    private static final HashMap<String, Integer> weaponData = new HashMap<String, Integer>();
     /** Maps Misc entity names to their ID */
-    public final HashMap<String, Integer> miscData;
+    private static final HashMap<String, Integer> miscData = new HashMap<String, Integer>();
     /** Maps Immovable entity names to their ID */
-    public final HashMap<String, Integer> immovableData;
+    private static final HashMap<String, Integer> immovableData = new HashMap<String, Integer>();
+    
+    /** The graphics engine provided by Slick2D */
+    private static Graphics g;
     
     /** 
      * The ArrayLists are only assigned values after the constructor is run, therefore we can't create the maps here.<br/>
      * The names are mapped to IDs the first time it is needed.
      */
-    private boolean mapCreated;
+    private static boolean mapCreated;
     
     /**
      * Constructs a new set of entities using a data file<br/>
      * Should be called via a separate data file such as JSON
      */
     public EntityGroup() {
-        // default ArrayList - should be overwritten by the data file
-        enemies = new ArrayList<Enemy>();
-        weapons = new ArrayList<Weapon>();
-        misc = new ArrayList<Misc>();
-        immovable = new ArrayList<Immovable>();
-        
-        // initialize the HashMaps
-        enemyData = new HashMap<String, Integer>();
-        weaponData = new HashMap<String, Integer>();
-        miscData = new HashMap<String, Integer>();
-        immovableData = new HashMap<String, Integer>();
-        
         mapCreated = false;
     }
     
@@ -64,18 +58,12 @@ public final class EntityGroup {
      * @param misc ArrayList of misc entities
      */
     public EntityGroup(ArrayList<Enemy> enemies, ArrayList<Weapon> weapons, ArrayList<Misc> misc, ArrayList<Immovable> immovable) {
-        // default ArrayList - should be overwritten by the data file
-        this.enemies = enemies;
-        this.weapons = weapons;
-        this.misc = misc;
-        this.immovable = immovable;
-        
-        // initialize the HashMaps
-        enemyData = new HashMap<String, Integer>();
-        weaponData = new HashMap<String, Integer>();
-        miscData = new HashMap<String, Integer>();
-        immovableData = new HashMap<String, Integer>();
-        
+
+        /* This is horribly unelegant, but is the only way to have the ArrayLists be static final. */
+        EntityGroup.enemies = enemies;
+        EntityGroup.weapons = weapons;
+        EntityGroup.misc = misc;
+        EntityGroup.immovable = immovable;
         mapCreated = false;
     }
     
@@ -83,7 +71,7 @@ public final class EntityGroup {
      * Construct HashMaps for each type of entity<br/>
      * We don't want to have to refer to each entity by its ID/index number
      */
-    private void createMap() {
+    private static void createMap() {
         for(Enemy e : enemies) {
             enemyData.put(e.getName(), e.getId());
         }
@@ -105,11 +93,37 @@ public final class EntityGroup {
     }
 
     /**
+     * The graphics engine<br/>
+     * Passed by the render method<br/>
+     * To use the graphics engine, simply call <code>EntityGroup.getGraphics()</code>
+     */
+    public static void receiveGraphics(Graphics g) {
+        EntityGroup.g = g;
+    }
+    
+    /**
+     * Get the Graphics Engine
+     * @return graphics engine
+     */
+    public static Graphics getGraphics() {
+        return g;
+    }
+    
+    /**
+     * Render the graphics for all entities
+     */
+    public static void renderGraphics() {
+        for (Enemy e : enemies) {
+            e.renderGraphics(g);
+        }
+    }
+    
+    /**
      * Get Enemy by Name
      * @param name name of Enemy
      * @return the requested Enemy
      */
-    public Enemy getEnemy(String name) {
+    public static Enemy getEnemy(String name) {
         if(!mapCreated) createMap();
         if(enemyData.containsKey(name)) {
             return enemies.get(enemyData.get(name));
@@ -124,7 +138,7 @@ public final class EntityGroup {
      * @param name index/id of Weapon
      * @return the requested Weapon
      */
-    public Weapon getWeapon(String name) {
+    public static Weapon getWeapon(String name) {
         if(!mapCreated) createMap();
         if(weaponData.containsKey(name)) {
             return weapons.get(weaponData.get(name));
@@ -139,7 +153,7 @@ public final class EntityGroup {
      * @param name name of Misc entity
      * @return the requested Misc entity
      */
-    public Misc getMisc(String name) {
+    public static Misc getMisc(String name) {
         if(!mapCreated) createMap();
         if(miscData.containsKey(name)) {
             return misc.get(miscData.get(name));
@@ -154,7 +168,7 @@ public final class EntityGroup {
      * @param name name of Immovable entity
      * @return the requested Immovable entity
      */
-    public Immovable getImmovable(String name) {
+    public static Immovable getImmovable(String name) {
         if(!mapCreated) createMap();
         if(immovableData.containsKey(name)) {
             return immovable.get(immovableData.get(name));
@@ -169,7 +183,7 @@ public final class EntityGroup {
      * @param id index/id of Enemy
      * @return the requested Enemy
      */
-    public Enemy getEnemy(int id) {
+    public static Enemy getEnemy(int id) {
         if(id < enemies.size() && id > -1) {
             return enemies.get(id);
         } else {
@@ -183,7 +197,7 @@ public final class EntityGroup {
      * @param id index/id of Weapon
      * @return the requested Weapon
      */
-    public Weapon getWeapon(int id) {
+    public static Weapon getWeapon(int id) {
         if(id < weapons.size() && id > -1) {
             return weapons.get(id);
         } else {
@@ -211,7 +225,7 @@ public final class EntityGroup {
      * @param id index/id of Immovable entity
      * @return the requested Immovable entity
      */
-    public Immovable getImmovable(int id) {
+    public static Immovable getImmovable(int id) {
         if(id < immovable.size() && id > -1) {
             return immovable.get(id);
         } else {
@@ -225,7 +239,7 @@ public final class EntityGroup {
      * @return the number of enemy entities
      */
     
-    public int getEnemyCount() {
+    public static int getEnemyCount() {
         return enemies.size();
     }
     
@@ -234,7 +248,7 @@ public final class EntityGroup {
      * @return the number of weapon entities
      */
     
-    public int getWeaponCount() {
+    public static int getWeaponCount() {
         return weapons.size();
     }
     
@@ -243,7 +257,7 @@ public final class EntityGroup {
      * @return the number of misc entities
      */
     
-    public int getMiscCount() {
+    public static int getMiscCount() {
         return misc.size();
     }
     
@@ -252,7 +266,7 @@ public final class EntityGroup {
      * @return the number of misc entities
      */
     
-    public int getImmovableCount() {
+    public static int getImmovableCount() {
         return immovable.size();
     }
 }

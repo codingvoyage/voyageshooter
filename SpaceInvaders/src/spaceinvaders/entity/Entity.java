@@ -1,6 +1,8 @@
 package spaceinvaders.entity;
 
 import spaceinvaders.script.*;
+import org.newdawn.slick.*;
+import org.newdawn.slick.geom.*;
 
 /**
  * An Entity is any object that appears on the map 
@@ -20,10 +22,30 @@ public class Entity extends ScriptableClass {
     private Integer id;
     /** Description of Entity */
     private String description;
-    /** x coordinate */
-    private double x;
-    /** y coordinate */
-    private double y;
+    
+    /** Default x coordinates */
+    private float x = 400;
+    /** Default y coordinates */
+    private float y = 300;
+    /** Default scaling factor */
+    private float scale = 1;
+    
+    /** origin */
+    public static final double ORIGIN = 0.0;
+    
+    /** map boundary factor */
+    public static final float EDGE_FACTOR = 75.0f;
+    /** velocity conversion from miles to pixels */
+    public static final double VELOCITY_FACTOR = 0.01;
+    
+    /** rotation size */
+    public static final float ROTATION_SIZE = 0.2f;
+    /** step size */
+    public static final float STEP_SIZE = 0.4f;
+    /** back up size */
+    public static final float BACK_SIZE = 0.075f;
+    
+    private Rectangle image;
     
     /**
      * Calls ScriptableClass<br/>
@@ -54,7 +76,7 @@ public class Entity extends ScriptableClass {
      * @param x x coordinate
      * @param y y coordinate
      */
-    public void place(double x, double y) {
+    public void place(float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -97,7 +119,7 @@ public class Entity extends ScriptableClass {
      * Get X
      * @return the entity's x-coordinate
      */    
-    public double getX() {
+    public float getX() {
         return x;
     }
 
@@ -105,8 +127,15 @@ public class Entity extends ScriptableClass {
      * Get Y
      * @return the entity's y-coordinate
      */    
-    public double getY() {
+    public float getY() {
         return y;
     }
     
+    /** 
+     * Render graphics
+     */
+    public void renderGraphics(Graphics g) {
+        image = new Rectangle(-500, -500, 10, 10);
+        g.draw(image);
+    }
 }

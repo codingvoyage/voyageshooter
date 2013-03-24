@@ -1,48 +1,48 @@
 package spaceinvaders.entity;
 
 /**
- * Immovable Entities<br/>
- * Stores the entity data for all entities that can't move
+ * Player Entity<br/>
+ * Stores data and methods for the actual player
  * @author Brian Yang
  */
-public class Immovable extends Entity implements Attacker, Defender {
-
-    /** Base attack of Entity */
+public class Player extends MovableEntity implements Attacker, Defender {
+    
+    /** Player attack */
     private Double attack;
-    /** Base defense of Entity */
+    /** Player defense */
     private Double defense;
-    /** Weapon name used by Entity */
+    /** Player weapon name */
     private String weapons;
-    /** Weapon used by Entity */
+    /** Player weapon */
     private Weapon weapon;
+    /** Player lives */
+    private int lives;
     
     /**
-     * Constructs a new immovable entity using a data file
-     */    
-    public Immovable() {
-        // default values - should be ignored by the data file
-        super("Floating Mine", 1337, "A small but powerful floating mine that will obliterate anything that comes near it.");
-        attack = 99999.0; 
-        defense = 99999.0;
-        weapons = "Bomb";
-        weapon = new Weapon();
+     * New Game
+     */
+    public Player() {
+        super("Cool Guy", 1337, "A cool guy assigned on an even cooler mission.", 10.0, 10.0);
+        attack = 1.0;
+        defense = 1.0;
+        lives = 7;
+        weapons = "Rainbow Laser";
+        weapon = EntityGroup.getWeapon("Rainbow Laser");
     }
     
     /**
-     * Constructs a new enemy entity
+     * New Special Game
      * @param name name of entity
      * @param id index of entity
      * @param description description of entity
      * @param attack base attack of entity
      * @param defense base defense of entity
-     * @param weapons name of weapon used by entity
-     * @param vx x velocity
-     * @param vy y velocity
-     */     
-    public Immovable(String name, int id, String description, double attack, double defense, String weapons) {
-        super(name, id, description);
+     */
+    public Player(String name, int id, String description, double attack, double defense, String weapons, double vx, double vy) {
+        super(name, id, description, vx, vy);
         this.attack = attack;
         this.defense = defense;
+        lives = 7;
         this.weapons = weapons;
         weapon = EntityGroup.getWeapon(weapons);
     }
@@ -57,7 +57,7 @@ public class Immovable extends Entity implements Attacker, Defender {
     }  
     
     /**
-     * Accessors for Attack
+     * Accessors for Defense
      * @return attack of entity
      */
     @Override
@@ -65,6 +65,7 @@ public class Immovable extends Entity implements Attacker, Defender {
         return defense;
     } 
     
+        
     /**
      * Accessors for Weapon
      * @return weapon used by entity

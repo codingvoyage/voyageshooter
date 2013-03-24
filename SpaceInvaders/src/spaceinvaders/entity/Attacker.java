@@ -8,4 +8,8 @@ package spaceinvaders.entity;
 public interface Attacker {
     /** Base attack of entity */
     public double getAttack();
+    /** Entity's weapon */
+    public Weapon getWeapon();
+    /** Fire weapon */
+    public void fire();
 }

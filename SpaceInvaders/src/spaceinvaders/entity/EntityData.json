@@ -6,6 +6,7 @@
             "description" : "Weak minions sent from some unknown land.",
             "attack" : 0,
             "defense" : 1,
+            "weapons" : "Water Gun",
             "vx" : 1.0,
             "vy" : 1.0
         },
@@ -15,6 +16,7 @@
             "description" : "The final powerful boss. The true identity of the mastermind behind all these evil ships.",
             "attack" : 9002.0,
             "defense" : 9002.0,
+            "weapons" : "Bomb Formula 9001",
             "vx" : 10.0,
             "vy" : 10.0
         }
@@ -30,8 +32,16 @@
             "vy" : 1.0
         },
         {
-            "name" : "Bomb Formula 9001",
+            "name" : "Rainbow Laser",
             "id" : 1,
+            "description" : "Ohhh! Pretty colors!",
+            "attack" : 0.0001,
+            "vx" : 1.0,
+            "vy" : 1.0
+        },
+        {
+            "name" : "Bomb Formula 9001",
+            "id" : 2,
             "description" : "A small and powerful bullet that explodes on impact. Simply the best weapon in any galaxy.",
             "attack" : 9001.0,
             "vx" : 100.0,
