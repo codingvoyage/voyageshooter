@@ -855,7 +855,6 @@ public class ScriptReader
                 result);
     }
     
-    //THIS NEEDS TO BE HEAVILY TESTED OH MY GOD THIS IS GOING TO NULLPOINTEREXCEPTION SO HARD
     public Parameter evaluateExpression(Line l, int front, int back) 
     {
         //We are at our base case if _ _ _ front is two less than back

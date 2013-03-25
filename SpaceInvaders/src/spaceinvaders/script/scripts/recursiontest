@@ -2,24 +2,36 @@ print "This is a test of the Voyage scripting language"
 print "First, the program will call Fibonacci(33) and record the time elapsed"
 
 
+
 getSystemNanoTime a
-callfunction [fibonacci] 33 --> result
+callfunction [doNothing]
 getSystemNanoTime b
 
-evaluate b - a --> elapsedTime
-
-getSystemNanoTime c
-eval elapsedTime / 1000000000 --> benchmarkInSeconds
-getSystemNanoTime d
-
-print <-- "Fibonacci(33) equals " + result
-print <-- [ "it took " + [ b - a ] ] + " nanoseconds to compute"
-print <-- [ "or " + benchmarkInSeconds ] + " seconds." 
-print <-- [ "It took roughly " + [ d - c ] ] + " nanoseconds to perform the division"
-print "that converted from nanoseconds to seconds."
+print <-- [ "it took " + [ [ b - a ] / 1000000000 ] ] + " seconds to make the call"
 
 
-print "time to test time for doing nothing"
+
+createvariable "counter" 0
+
+label [loop]
+if counter > 10 
+    goto [endloop]
+endif
+
+getSystemNanoTime a
+callfunction [fibonacci] 20 --> result
+getSystemNanoTime b
+
+print <-- "the result is " + result
+print <-- [ "it took " + [ [ b - a ] / 1000000000 ] ] + " seconds to make the call"
+
+eval counter + 1 --> counter
+goto [loop]
+label [endloop]
+
+
+
+
 
 getSystemNanoTime a
 callfunction [doNothing]
@@ -27,12 +39,251 @@ getSystemNanoTime b
 
 print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
 
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+
+
 endthread 
 
 
 function [doNothing]
-
-print "hello"
 
 return
 
