@@ -49,6 +49,7 @@ public class ScriptReader
         //Get Scriptable Object
         currentScriptable = currentThread.getScriptable();
         
+        
         //We need to know what line of what script the Thread is on
         int currentLineNumber = currentThread.getCurrentLine();
         int currentScriptID = currentThread.getScriptID();
@@ -289,13 +290,27 @@ public class ScriptReader
                 ((MovableEntity)currentScriptable).beginMove(pixelsToWalk);
                 continueExecuting = false;
                 break;
+            case 55:
+                double newx = identifierCheck(currentLine, 0).getDoubleValue();
+                double newy = identifierCheck(currentLine, 1).getDoubleValue();
+                ((Entity)currentScriptable).place((float)newx, (float)newy);
+                break;
+                
+                
             case 80:
                 getSystemMilliTime(currentLine);
                 break;
             case 81:
                 getSystemNanoTime(currentLine);
                 break;
-                
+            case 82:
+                double min = identifierCheck(currentLine, 0).getDoubleValue();
+                double max = identifierCheck(currentLine, 1).getDoubleValue();
+                double randomNumber = min + (int)(Math.random() * ((max - min) + 1));
+                String identifier = currentLine.getStringParameter(3);
+                currentThread.setVariable(identifier,
+                            new Parameter(randomNumber));
+                break;
             
         }
         
@@ -329,6 +344,21 @@ public class ScriptReader
     ***************************************************************************
     **************************************************************************/
     
+     
+    private Parameter identifierCheck(Parameter iDunno)
+    {
+        if (iDunno.isIdentifier())
+        {
+            return currentThread.getVariable(iDunno.getStringValue());
+        }
+        return iDunno;
+    }
+    
+    private Parameter identifierCheck(Line currentLine, int indexOnLine)
+    {
+        Parameter iDunno = currentLine.getParameter(indexOnLine);
+        return identifierCheck(iDunno);
+    }
     
     private void createVariable(Line currentLine)
     {
@@ -336,39 +366,17 @@ public class ScriptReader
         //The name of the variable.
         String variableIdentifier = currentLine.getStringParameter(0);
 
-        //System.out.println(variableIdentifier);
-
-        //Check if the there is that third, optional value
-        //Obviously, if that number is equal to or greater than 3, we
-        //can access that third parameter
-        int lineParameterCount = currentLine.getParameterCount();
-
-        //System.out.println(lineParameterCount);
-        if (lineParameterCount >= 2)
+        //We're trying to check if we're initializing the variable
+        //as well as declaring it
+        if (currentLine.getParameterCount() >= 2)
         {
             //So they decided to declare and initialize.
             Parameter initParameter = currentLine.getParameter(1);
             
-            //Are they initializing from the literal, or the 
-            //variable named by the literal?
-            if (initParameter.isIdentifier())
-            {
-                //Is an identifier, so set the Variable equal to what
-                //the initParameter refers to...
-                Parameter referencedParam = 
-                        currentThread.getVariable(initParameter.getStringValue());
-                
-                currentThread.setVariable(variableIdentifier,
-                        referencedParam);
-                
-            }
-            else 
-            {
-                //It's a literal.
-                currentThread.setVariable(variableIdentifier,
-                        initParameter);
-            }
-            
+            //Now set variableIdentifier to either the literal or to the
+            //value pointed to by the identifier
+            currentThread.setVariable(variableIdentifier,
+                    identifierCheck(currentLine, 1));
             
         }
         else 

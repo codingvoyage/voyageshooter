@@ -36,7 +36,7 @@ public class Weapon extends MovableEntity implements Attacker {
     /**
      * Fire
      */
-    @Override
+    //@Override
     public void fire() {
         // the actual bullet doesn't fire anything silly
     }
@@ -64,7 +64,7 @@ public class Weapon extends MovableEntity implements Attacker {
      * Accessors for Weapon
      * @return itself
      */
-    @Override
+    //@Override
     public Weapon getWeapon() {
         return this;
     }

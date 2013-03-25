@@ -35,7 +35,7 @@ public class SpaceInvaders extends BasicGame {
     ThreadManager threadManager;
         
     /** A test enemy entity that moves */
-    Entity testEntity;
+    Enemy testEntity;
     
     /** horizontal resolution */
     public static final int X_RESOLUTION = 1024;
@@ -99,6 +99,7 @@ public class SpaceInvaders extends BasicGame {
         scriptCollection.loadScript("AUXSCRIPT.txt", 19);
         scriptCollection.loadScript("SECONDTHREAD.txt", 15);
         scriptCollection.loadScript("recursiontest", 13);
+        scriptCollection.loadScript("Enemy.txt", 30);
         
   
         //Initialize ScriptReader, passing it the ScriptManager handle
@@ -110,10 +111,12 @@ public class SpaceInvaders extends BasicGame {
         scriptReader.setThreadHandle(threadManager);
         
         //Create our test entity
-        testEntity = new Entity();
+        testEntity = EntityGroup.getEnemy("Minion");
         
         //Create a thread which governs this entity with Script #4
-        Thread entityThread = new Thread(13);
+        //Thread entityThread = new Thread(30);
+        
+        Thread entityThread = new Thread(30);
         //18 5
         //Set the main thread of the entity to this thread.
         testEntity.setMainThread(entityThread);
@@ -170,14 +173,14 @@ public class SpaceInvaders extends BasicGame {
         space.draw(0,0);
         
         // Test spawning an enemy
-        Enemy enemy = EntityGroup.getEnemy("Minion");
+        
         //System.out.println(EntityGroup.getEnemyCount());
         //System.out.println(enemy.getImagePath());
-        if (!enemy.spawn(300, 200)) {
+        if (!testEntity.spawn(testEntity.getX(), testEntity.getY())) {
             System.out.println("Well then, it looks like the enemy failed to spawn.");
         }
         
-        g.drawString("Bullet: " + enemy.getX() + ", " + enemy.getY(), 600, 40);
+        g.drawString("Bullet: " + testEntity.getX() + ", " + testEntity.getY(), 600, 40);
         g.drawString("This game is currently in testing and nothing should work properly.", 300, 50);
     }
 

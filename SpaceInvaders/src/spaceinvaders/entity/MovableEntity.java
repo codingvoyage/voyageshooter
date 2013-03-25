@@ -12,6 +12,14 @@ public abstract class MovableEntity extends Entity implements Movable {
     public Double vx;
     /** The entity's current y-velocity */
     public Double vy;
+     
+    /** origin */
+    public static final double ORIGIN = 0.0;
+    
+    /** map boundary factor */
+    public static final float EDGE_FACTOR = 75.0f;
+    /** velocity conversion from miles to pixels */
+    public static final double VELOCITY_FACTOR = 0.01;
     
     /**
      * Constructs a new MovableEntity
@@ -30,8 +38,8 @@ public abstract class MovableEntity extends Entity implements Movable {
      */
     public MovableEntity(String name, int id, String description, double vx, double vy) {
         super(name, id, description);
-        this.vx = vx;
-        this.vy = vy;
+        this.vx = vx * VELOCITY_FACTOR;
+        this.vy = vy * VELOCITY_FACTOR;
     }
     
     /**
@@ -56,7 +64,7 @@ public abstract class MovableEntity extends Entity implements Movable {
         {
             System.out.println("We're done walking.");
             //Oh, so we're done moving. Great.
-            //mainThread.setRunningState(false);
+            mainThread.setRunningState(false);
             return false;
         }
         
@@ -71,7 +79,7 @@ public abstract class MovableEntity extends Entity implements Movable {
     @Override
     public void beginMove(double pixelsToMove) {
         setTemporaryParameter(new Parameter(pixelsToMove));
-        //mainThread.setRunningState(true);
+        mainThread.setRunningState(true);
     }
     
     /**

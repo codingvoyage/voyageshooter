@@ -28,9 +28,9 @@ public class Entity extends ScriptableClass {
     private Image sprite;
        
     /** x coordinates */
-    private float x;
+    private float x = 400;
     /** y coordinates */
-    private float y = 300;
+    private float y = -400;
     /** Default scaling factor */
     private float scale = 0.5f;
     
@@ -39,14 +39,7 @@ public class Entity extends ScriptableClass {
     
     /** The Graphics engine */
     private Graphics g;
-    
-    /** origin */
-    public static final double ORIGIN = 0.0;
-    
-    /** map boundary factor */
-    public static final float EDGE_FACTOR = 75.0f;
-    /** velocity conversion from miles to pixels */
-    public static final double VELOCITY_FACTOR = 0.01;
+
     
     /** rotation size */
     public static final float ROTATION_SIZE = 0.2f;

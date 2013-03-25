@@ -10,6 +10,7 @@ getSystemNanoTime b
 print <-- [ "it took " + [ [ b - a ] / 1000000000 ] ] + " seconds to make the call"
 
 
+wait 5000
 
 createvariable "counter" 0
 
@@ -19,7 +20,7 @@ if counter > 10
 endif
 
 getSystemNanoTime a
-callfunction [fibonacci] 20 --> result
+callfunction [fibonacci] 28 --> result
 getSystemNanoTime b
 
 print <-- "the result is " + result

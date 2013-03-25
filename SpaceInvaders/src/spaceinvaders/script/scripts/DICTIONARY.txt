@@ -9,7 +9,10 @@ endthread 9
 
 -- From 10-19 will have to do with data
 createVariable 10
+var 10
+
 setVariable 11
+setvar 11
 
 if 12
 endif 13
@@ -31,6 +34,12 @@ eval 31
 -- From 50-59 are stuff specific to Entities
 face 50
 move 51
+place 55
+placeself 55
+newlocation 55
 
 getSystemMilliTime 80
 getSystemNanoTime 81
+random 82
+rand 82
+getrand 82

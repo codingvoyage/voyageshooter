@@ -1,0 +1,31 @@
+print "let's start to move!!"
+
+var SCREEN_X 1024
+var SCREEN_Y 768
+
+var index 0
+label [asdf]
+if index > 50
+goto [loopend]
+endif
+
+rand 0 1 --> number
+print number
+
+eval index + 1 --> index
+goto [asdf]
+label [loopend]
+
+
+
+label [loop]
+
+rand 0 SCREEN_X --> a   
+rand 0 SCREEN_Y --> b
+place a b
+
+wait 300
+
+goto [loop]
+
+endthread
