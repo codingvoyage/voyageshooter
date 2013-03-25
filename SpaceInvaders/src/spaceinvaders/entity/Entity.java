@@ -22,13 +22,23 @@ public class Entity extends ScriptableClass {
     private Integer id;
     /** Description of Entity */
     private String description;
-    
-    /** Default x coordinates */
-    private float x = 400;
-    /** Default y coordinates */
+    /** Image name of Entity */
+    private String image;
+    /** Actual image of Entity */
+    private Image sprite;
+       
+    /** x coordinates */
+    private float x;
+    /** y coordinates */
     private float y = 300;
     /** Default scaling factor */
     private float scale = 1;
+    
+    /** Image base */
+    private static final String IMAGE_PATH = "src/spaceinvaders/entity/images/";
+    
+    /** The Graphics engine */
+    private Graphics g;
     
     /** origin */
     public static final double ORIGIN = 0.0;
@@ -45,7 +55,7 @@ public class Entity extends ScriptableClass {
     /** back up size */
     public static final float BACK_SIZE = 0.075f;
     
-    private Rectangle image;
+    private Rectangle rect;
     
     /**
      * Calls ScriptableClass<br/>
@@ -131,11 +141,31 @@ public class Entity extends ScriptableClass {
         return y;
     }
     
+    /**
+     * Get the Image file name
+     * @return the entity's image file name
+     */
+    public String getImagePath() {
+        return IMAGE_PATH + image;
+    }
+    
     /** 
      * Render graphics
+     * @param g the graphics engine
      */
-    public void renderGraphics(Graphics g) {
-        image = new Rectangle(-500, -500, 10, 10);
-        g.draw(image);
+    public void renderGraphics(float x, float y) throws SlickException {
+        if(g == null)
+            EntityGroup.getGraphics();
+        if (sprite == null)
+            sprite = new Image(IMAGE_PATH + image);
+        sprite.draw(x, y);
+    }
+    
+    /**
+     * Spawn entity
+     */
+    public void spawn(float x, float y) throws SlickException {
+        renderGraphics(x, y);
+        // add this entity to the global active entity list
     }
 }

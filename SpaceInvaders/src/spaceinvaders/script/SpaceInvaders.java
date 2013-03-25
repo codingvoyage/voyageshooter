@@ -81,6 +81,10 @@ public class SpaceInvaders extends BasicGame {
             /* The entities failed to load, therefore we will use the default entities */
             System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
         }
+        
+                Enemy enemy = EntityGroup.getEnemy("Minion");
+        System.out.println(EntityGroup.getEnemyCount());
+        System.out.println(enemy.getImagePath());
     }
 
 

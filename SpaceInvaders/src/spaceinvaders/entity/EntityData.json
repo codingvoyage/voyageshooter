@@ -8,7 +8,8 @@
             "defense" : 1,
             "weapons" : "Water Gun",
             "vx" : 1.0,
-            "vy" : 1.0
+            "vy" : 1.0,
+            "image" : "enemy1.png"
         },
         {
             "name" : "Bakesale Monster",
@@ -18,7 +19,8 @@
             "defense" : 9002.0,
             "weapons" : "Bomb Formula 9001",
             "vx" : 10.0,
-            "vy" : 10.0
+            "vy" : 10.0,
+            "image" : "enemy2.png"
         }
     ],
 
