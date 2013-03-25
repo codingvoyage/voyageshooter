@@ -50,7 +50,7 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
     /**
      * Fire weapon 
      */
-    @Override
+    //@Override
     public void fire() {
         if(weapon == null) 
             weapon = EntityGroup.getWeapon(weapons);
@@ -81,7 +81,7 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
      * Accessors for Weapon
      * @return weapon used by entity
      */
-    @Override
+    //@Override
     public Weapon getWeapon() {
         return weapon;
     }
