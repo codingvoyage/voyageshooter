@@ -51,6 +51,7 @@ public class JsonReader<T> {
             BufferedReader read = new BufferedReader(new FileReader(file));
 
             // pass the file to Gson and create a group of Entities from that
+            // by default, Gson skips static fields, so we need to modify that
             Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE).create();
             data = gson.fromJson(read, type);
             read.close();

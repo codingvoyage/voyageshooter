@@ -32,10 +32,10 @@ public class Entity extends ScriptableClass {
     /** y coordinates */
     private float y = 300;
     /** Default scaling factor */
-    private float scale = 1;
+    private float scale = 0.5f;
     
     /** Image base */
-    private static final String IMAGE_PATH = "src/spaceinvaders/entity/images/";
+    private static final String IMAGE_PATH = "src/spaceinvaders/images/";
     
     /** The Graphics engine */
     private Graphics g;
@@ -66,6 +66,7 @@ public class Entity extends ScriptableClass {
         name = "You";
         id = 0;
         description = "I am you.";
+        g = EntityGroup.getGraphics();
     }
 
     /**
@@ -152,20 +153,37 @@ public class Entity extends ScriptableClass {
     /** 
      * Render graphics
      * @param g the graphics engine
+     * @param x x coordinate to spawn at
+     * @param y y coordinate to spawn at
+     * @return a boolean indicating whether or not the graphics have successfully been drawn
      */
-    public void renderGraphics(float x, float y) throws SlickException {
-        if(g == null)
-            EntityGroup.getGraphics();
-        if (sprite == null)
-            sprite = new Image(IMAGE_PATH + image);
-        sprite.draw(x, y);
+    private boolean renderGraphics(Graphics g, float x, float y) {
+        try {
+
+            // the sprite depends on the image path loaded from JSON so we can't load this in the constructor
+            if (sprite == null) // If we haven't loaded the sprite image, then do so
+                sprite = new Image(IMAGE_PATH + image);
+
+            sprite.draw(x, y, scale); // draw the entity at the specified location
+            g.drawString("Muahaha. I am enemy. I kill you. Right. Now.", x, y);
+            return true;
+            
+        } catch (SlickException e) {
+            
+            System.out.println("Captain, we failed to draw the image. We're going down!");
+            return false;
+            
+        }
     }
     
     /**
      * Spawn entity
+     * @param x x coordinate to spawn at
+     * @param y y coordinate to spawn at
+     * @return a boolean indicating whether or not the entity has successfully spawned
      */
-    public void spawn(float x, float y) throws SlickException {
-        renderGraphics(x, y);
+    public boolean spawn(Graphics g, float x, float y) {
+        return renderGraphics(g, x, y);
         // add this entity to the global active entity list
     }
 }

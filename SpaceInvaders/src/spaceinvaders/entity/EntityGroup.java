@@ -98,6 +98,7 @@ public final class EntityGroup {
      * To use the graphics engine, simply call <code>EntityGroup.getGraphics()</code>
      */
     public static void receiveGraphics(Graphics g) {
+        
         EntityGroup.g = g;
     }
     
@@ -114,7 +115,7 @@ public final class EntityGroup {
      */
     public static void renderGraphics() {
         for (Enemy e : enemies) {
-            e.renderGraphics(g);
+            //e.(g);
         }
     }
     

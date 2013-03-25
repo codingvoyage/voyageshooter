@@ -82,9 +82,7 @@ public class SpaceInvaders extends BasicGame {
             System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
         }
         
-                Enemy enemy = EntityGroup.getEnemy("Minion");
-        System.out.println(EntityGroup.getEnemyCount());
-        System.out.println(enemy.getImagePath());
+        
     }
 
 
@@ -118,8 +116,24 @@ public class SpaceInvaders extends BasicGame {
         //Any and all graphics/rendering functions which should be called
         //with the drawing of each frame go HERE
 
+        // give EntityGroup the Graphics engine so it can used later if needed
+        // g is only needed for drawing shapes. Not needed for rendering images.
+        // Use EntityGroup.getGraphics()
+        EntityGroup.receiveGraphics(g);
+        
         // draw the space background
         space.draw(0,0);
+        
+        // Test spawning an enemy
+        Enemy enemy = EntityGroup.getEnemy("Minion");
+        //System.out.println(EntityGroup.getEnemyCount());
+        //System.out.println(enemy.getImagePath());
+        if (!enemy.spawn(g, 300, 200)) {
+            System.out.println("Well then, it looks like the enemy failed to spawn.");
+        }
+        
+        g.drawString("Bullet: " + enemy.getX() + ", " + enemy.getY(), 600, 40);
+        g.drawString("This game is currently in testing and nothing should work properly.", 300, 50);
     }
 
     /**
