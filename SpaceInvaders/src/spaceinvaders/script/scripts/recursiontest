@@ -1,0 +1,308 @@
+print "This is a test of the Voyage scripting language"
+print "First, the program will call Fibonacci(33) and record the time elapsed"
+
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ [ b - a ] / 1000000000 ] ] + " seconds to make the call"
+
+
+
+createvariable "counter" 0
+
+label [loop]
+if counter > 10 
+    goto [endloop]
+endif
+
+getSystemNanoTime a
+callfunction [fibonacci] 20 --> result
+getSystemNanoTime b
+
+print <-- "the result is " + result
+print <-- [ "it took " + [ [ b - a ] / 1000000000 ] ] + " seconds to make the call"
+
+eval counter + 1 --> counter
+goto [loop]
+label [endloop]
+
+
+
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+getSystemNanoTime a
+callfunction [doNothing]
+getSystemNanoTime b
+
+print <-- [ "it took " + [ b - a ] ] + " nanoseconds to make the call"
+
+
+
+
+endthread 
+
+
+function [doNothing]
+
+return
+
+function [fibonacci] number
+
+    if number == 0
+        return 0
+    endif
+
+    if number == 1
+        return 1
+    endif
+
+    evaluate number - 2 --> term1
+    evaluate number - 1 --> term2
+
+    callfunction [fibonacci] term1 --> term1
+    callfunction [fibonacci] term2 --> term2
+
+    evaluate term1 + term2 --> sum
+
+return sum  

@@ -74,13 +74,38 @@ public class SpaceInvaders extends BasicGame {
         space = new Image("src/spaceinvaders/images/bluestar.jpg");
         
         
-        /* load the data for all entities */     
-        if(loadEntities()) {
-            System.out.println("Entity data has successfully been loaded.");
-        } else {
-            /* The entities failed to load, therefore we will use the default entities */
-            System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
-        }
+        scriptCollection.loadScript("AUXTHREAD.txt", 17); 
+        scriptCollection.loadScript("MASTERTEST.txt", 18); 
+        scriptCollection.loadScript("AUXSCRIPT.txt", 19);
+        scriptCollection.loadScript("SECONDTHREAD.txt", 15);
+        scriptCollection.loadScript("recursiontest", 13);
+        
+  
+        //Initialize ScriptReader, passing it the ScriptManager handle
+        scriptReader = new ScriptReader(scriptCollection);
+        
+        //Initialize the collection of threads
+        threadManager = new ThreadManager(scriptReader);
+        
+        scriptReader.setThreadHandle(threadManager);
+        
+        //Create our test entity
+        testEntity = new Entity();
+        
+        //Create a thread which governs this entity with Script #4
+        Thread entityThread = new Thread(13);
+        //18 5
+        //Set the main thread of the entity to this thread.
+        testEntity.setMainThread(entityThread);
+        
+        //Set the details of the thread
+        entityThread.setLineNumber(0);
+        entityThread.setName("main");
+        entityThread.setRunningState(false);
+        entityThread.setScriptable(testEntity);
+        
+        //Add this thread to the collection of threads
+        threadManager.addThread(entityThread);
         
         
     }

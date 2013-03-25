@@ -33,9 +33,15 @@ public class ThreadManager {
         }
         
         //couldn't find...
-        
-        System.out.println("fuck");
         return null;
+    }
+    
+    public boolean isThreadAlive(String targetThread)
+    {
+        if (getThreadAtName(targetThread) == null)
+            return false;
+        else
+            return true;
     }
     
     public void markForDeletion(String targetThread)

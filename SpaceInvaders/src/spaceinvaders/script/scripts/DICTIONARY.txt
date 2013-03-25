@@ -17,14 +17,20 @@ endif 13
 print 15
 
 
-callfunction 20
+callfunction 19
+callscriptfunction 20
 callthreadfunction 21
 
 return 25
 
 concat 30
+
 evaluate 31
+eval 31
 
 -- From 50-59 are stuff specific to Entities
 face 50
 move 51
+
+getSystemMilliTime 80
+getSystemNanoTime 81

@@ -88,6 +88,11 @@ public class ScriptManager {
         return newDictionary;
     }
     
+    public HashMap<String, Integer> getCommandIDDictionary()
+    {
+        return commandIDDictionary;
+    }
+    
     public boolean loadScript(String filename, int indexID) 
     {
         //We only want this function to work when there was no existing
@@ -104,11 +109,11 @@ public class ScriptManager {
     }
     
     
+    
     public Script getScriptAtID(int scriptIDNumber) 
     {
         //Refers to the array, find the one with scriptIDnumber
         return scriptCollection[scriptIDNumber];
     }
-    
     
 }

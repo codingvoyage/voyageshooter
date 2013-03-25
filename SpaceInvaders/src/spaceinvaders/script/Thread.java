@@ -40,8 +40,6 @@ public class Thread {
     
     
     
-    
-    
     //For jumping back to whence we came 
     //private
     private Stack functionStack;

@@ -63,6 +63,8 @@ public class Script {
             while (in.hasNextLine())
             {
                 String myNextLine = in.nextLine();
+                
+                System.out.println(myNextLine);
 
                 //Of course, if the next line contains nothing, then ignore
                 //Everything else that happens will happen if the line isn't ""
@@ -307,7 +309,7 @@ public class Script {
         return formattedLine;
     }
 
-    private int findCommandID(String commandIDName)
+    public int findCommandID(String commandIDName)
     {
         commandIDName = commandIDName.toLowerCase();
         Integer commandID = commandDictionary.get(commandIDName);
