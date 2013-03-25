@@ -66,7 +66,6 @@ public class Entity extends ScriptableClass {
         name = "You";
         id = 0;
         description = "I am you.";
-        g = EntityGroup.getGraphics();
     }
 
     /**
@@ -157,9 +156,11 @@ public class Entity extends ScriptableClass {
      * @param y y coordinate to spawn at
      * @return a boolean indicating whether or not the graphics have successfully been drawn
      */
-    private boolean renderGraphics(Graphics g, float x, float y) {
+    private boolean renderGraphics(float x, float y) {
         try {
 
+            if(g == null)
+                g = EntityGroup.getGraphics();
             // the sprite depends on the image path loaded from JSON so we can't load this in the constructor
             if (sprite == null) // If we haven't loaded the sprite image, then do so
                 sprite = new Image(IMAGE_PATH + image);
@@ -182,8 +183,8 @@ public class Entity extends ScriptableClass {
      * @param y y coordinate to spawn at
      * @return a boolean indicating whether or not the entity has successfully spawned
      */
-    public boolean spawn(Graphics g, float x, float y) {
-        return renderGraphics(g, x, y);
+    public boolean spawn(float x, float y) {
+        return renderGraphics(x, y);
         // add this entity to the global active entity list
     }
 }

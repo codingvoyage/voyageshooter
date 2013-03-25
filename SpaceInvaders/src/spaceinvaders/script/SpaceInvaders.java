@@ -128,7 +128,7 @@ public class SpaceInvaders extends BasicGame {
         Enemy enemy = EntityGroup.getEnemy("Minion");
         //System.out.println(EntityGroup.getEnemyCount());
         //System.out.println(enemy.getImagePath());
-        if (!enemy.spawn(g, 300, 200)) {
+        if (!enemy.spawn(300, 200)) {
             System.out.println("Well then, it looks like the enemy failed to spawn.");
         }
         
