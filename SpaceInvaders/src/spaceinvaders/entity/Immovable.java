@@ -69,7 +69,7 @@ public class Immovable extends Entity implements Attacker, Defender {
      * Accessors for Weapon
      * @return weapon used by entity
      */
-    @Override
+    //@Override
     public Weapon getWeapon() {
         return weapon;
     }

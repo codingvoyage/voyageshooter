@@ -35,7 +35,7 @@ public class SpaceInvaders extends BasicGame {
     ThreadManager threadManager;
         
     /** A test enemy entity that moves */
-    MovableEntity testEntity;
+    Entity testEntity;
     
     /** horizontal resolution */
     public static final int X_RESOLUTION = 1024;
@@ -73,6 +73,26 @@ public class SpaceInvaders extends BasicGame {
         /* Load images */
         space = new Image("src/spaceinvaders/images/bluestar.jpg");
         
+        /* load the data for all entities */     
+        if(loadEntities()) {
+            System.out.println("Entity data has successfully been loaded.");
+        } else {
+            /* The entities failed to load, therefore we will use the default entities */
+            System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
+        }
+        
+       //Initialize the ScriptManager
+        scriptCollection = new ScriptManager();
+        scriptCollection.loadScript("script.txt", 0);
+        scriptCollection.loadScript("shortdemo.txt", 1);
+        scriptCollection.loadScript("toread.txt", 2);
+        scriptCollection.loadScript("ROCKET MOTTO.txt", 3); 
+        scriptCollection.loadScript("ROCKET MOTTO ONCE.txt", 4); 
+        scriptCollection.loadScript("Loader.txt", 5);   
+        
+        scriptCollection.loadScript("mainscript.txt", 9);  
+        scriptCollection.loadScript("thescript.txt", 10);  
+        scriptCollection.loadScript("thirdscript.txt", 12);
         
         scriptCollection.loadScript("AUXTHREAD.txt", 17); 
         scriptCollection.loadScript("MASTERTEST.txt", 18); 
@@ -123,7 +143,7 @@ public class SpaceInvaders extends BasicGame {
         //new threads, upon which you should examine this carefully to make
         //sure that there aren't massive off-by-one-errors.
         
-       // threadManager.act(delta);
+        threadManager.act(delta);
         
         /** user keyboard control */
         //control(gc, delta);
