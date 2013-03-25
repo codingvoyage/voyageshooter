@@ -1,0 +1,40 @@
+getSystemNanoTime totaltimea
+
+var testTimes 0
+label [testTimesLoop]
+if testTimes < 50000
+
+    var n 33
+    var prev1 0
+    var prev2 1
+    var i 0
+
+    getSystemNanoTime a
+
+    label [lol]
+    if i < n
+
+        var savePrev1 prev1
+        set prev1 prev2
+        eval savePrev1 + prev2 --> prev2
+
+
+        eval i + 1 --> i
+        goto [lol]
+    endif
+
+    getSystemNanoTime b
+
+    print prev1
+    print <-- [ "This took " + [ [ b - a ] / 1000000000 ] ] + " seconds to compute"
+
+eval testTimes + 1 --> testTimes
+goto [testTimesLoop]
+endif
+
+getSystemNanoTime totaltimeb
+
+
+print <-- [ "IT TOOK " + [ [ totaltimeb - totaltimea ] / 1000000000 ] ] + " SECONDS TO COMPUTE 50000 TIMES!!!!!!!"
+
+endthread

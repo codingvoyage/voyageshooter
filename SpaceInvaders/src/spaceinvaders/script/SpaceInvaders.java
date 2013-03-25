@@ -83,23 +83,10 @@ public class SpaceInvaders extends BasicGame {
         
        //Initialize the ScriptManager
         scriptCollection = new ScriptManager();
-        scriptCollection.loadScript("script.txt", 0);
-        scriptCollection.loadScript("shortdemo.txt", 1);
-        scriptCollection.loadScript("toread.txt", 2);
-        scriptCollection.loadScript("ROCKET MOTTO.txt", 3); 
-        scriptCollection.loadScript("ROCKET MOTTO ONCE.txt", 4); 
-        scriptCollection.loadScript("Loader.txt", 5);   
         
-        scriptCollection.loadScript("mainscript.txt", 9);  
-        scriptCollection.loadScript("thescript.txt", 10);  
-        scriptCollection.loadScript("thirdscript.txt", 12);
+        scriptCollection.loadScript("loader.cfg", 0);
         
-        scriptCollection.loadScript("AUXTHREAD.txt", 17); 
-        scriptCollection.loadScript("MASTERTEST.txt", 18); 
-        scriptCollection.loadScript("AUXSCRIPT.txt", 19);
-        scriptCollection.loadScript("SECONDTHREAD.txt", 15);
-        scriptCollection.loadScript("recursiontest", 13);
-        scriptCollection.loadScript("Enemy.txt", 30);
+        
         
   
         //Initialize ScriptReader, passing it the ScriptManager handle
@@ -108,7 +95,12 @@ public class SpaceInvaders extends BasicGame {
         //Initialize the collection of threads
         threadManager = new ThreadManager(scriptReader);
         
+        Thread loadingThread = new Thread(0);
+        threadManager.addThread(loadingThread);
+        
         scriptReader.setThreadHandle(threadManager);
+        
+        threadManager.act(0.0);
         
         //Create our test entity
         testEntity = EntityGroup.getEnemy("Minion");
@@ -116,7 +108,7 @@ public class SpaceInvaders extends BasicGame {
         //Create a thread which governs this entity with Script #4
         //Thread entityThread = new Thread(30);
         
-        Thread entityThread = new Thread(30);
+        Thread entityThread = new Thread(31);
         //18 5
         //Set the main thread of the entity to this thread.
         testEntity.setMainThread(entityThread);

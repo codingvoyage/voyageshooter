@@ -3,6 +3,12 @@ wait 0
 goto 1
 label 2
 function 3
+
+
+
+load 6
+loadscript 6
+
 newthread 7
 killthread 8
 endthread 9
@@ -13,6 +19,7 @@ var 10
 
 setVariable 11
 setvar 11
+set 11
 
 if 12
 endif 13

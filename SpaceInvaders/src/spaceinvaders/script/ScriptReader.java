@@ -191,6 +191,11 @@ public class ScriptReader
                 //We'll leave this out for now...
                 break;
                 
+            case 6:
+                scr.loadScript(identifierCheck(currentLine, 0).getStringValue(),
+                        (int)identifierCheck(currentLine, 1).getDoubleValue());
+                break;
+                
             case 7: //new Thread
                 //newThread scriptID 
                 createNewThread(currentLine);
@@ -389,10 +394,10 @@ public class ScriptReader
     private void setVariable(Line currentLine)
     {
         String variableIdentifier = currentLine.getStringParameter(0);
-        Parameter referencedParam = currentLine.getParameter(1);
         
         currentThread.setVariable(variableIdentifier,
-                        referencedParam);
+                    identifierCheck(currentLine, 1));
+        
     }
     
     private void print(Line currentLine)
