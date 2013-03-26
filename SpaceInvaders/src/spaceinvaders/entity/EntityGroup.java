@@ -343,6 +343,7 @@ public final class EntityGroup {
     /**
      * Clone Basic Entity
      * @param e the Entity reference
+     * @return the cloned Entity
      */
     private static Entity cloneEntity(Entity e) {
         Entity ent = e;
@@ -353,6 +354,7 @@ public final class EntityGroup {
     /**
      * Clone Enemy
      * @param e the Entity reference
+     * @return the cloned Enemy
      */
     private static Enemy cloneEnemy(Entity e) {
         Enemy en = (Enemy)e;
@@ -373,6 +375,7 @@ public final class EntityGroup {
     /**
      * Clone Weapon
      * @param e the Entity reference
+     * @return the cloned Weapon
      */
     private static Weapon cloneWeapon(Entity e) {
         Weapon we = (Weapon)e;
@@ -383,6 +386,7 @@ public final class EntityGroup {
     /**
      * Clone Immovable Entity
      * @param e the Entity reference
+     * @return the cloned Immovable
      */
     private static Immovable cloneImmovable(Entity e) {
         Immovable im = (Immovable)e;
@@ -393,6 +397,7 @@ public final class EntityGroup {
     /**
      * Clone Player
      * @param e the Entity reference
+     * @return the cloned Player
      */
     private static Player clonePlayer(Entity e) {
         Player pl = (Player)e;
