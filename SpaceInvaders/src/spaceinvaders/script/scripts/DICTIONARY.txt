@@ -24,8 +24,11 @@ set 11
 if 12
 endif 13
 
-print 15
+while 15
+wend 16
 
+for 17
+next 18
 
 callfunction 19
 callscriptfunction 20
@@ -33,7 +36,7 @@ callthreadfunction 21
 
 return 25
 
-concat 30
+print 30
 
 evaluate 31
 eval 31

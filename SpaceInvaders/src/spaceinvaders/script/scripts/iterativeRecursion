@@ -1,3 +1,57 @@
+print "This is a test of the Voyage scripting language"
+print "The scripting language supports functions, 'threads'"
+print "calling functions from other threads, as well as"
+print "if statements, goto statements, for loops, while loops,"
+print "random numbers, and calls to the System clock."
+print "The following code will display Fibonacci(0) to Fibonacci(60)."
+
+for i = 0 and i < 61
+    callfunction [fibonacci] i --> result
+    print result
+next i + 1 --> i
+
+endthread 
+
+
+function [fibonacci] number
+    var prev1 0
+    var prev2 1
+
+    for i = 0 and i < number
+        var savePrev1 prev1
+        set prev1 prev2
+        eval savePrev1 + prev2 --> prev2
+    next i + 1 --> i
+
+return prev1
+
+function [recursiveFibonacci] number
+
+    if number == 0
+        return 0
+    endif
+
+    if number == 1
+        return 1
+    endif
+
+    evaluate number - 2 --> term1
+    evaluate number - 1 --> term2
+
+    callfunction [fibonacci] term1 --> term1
+    callfunction [fibonacci] term2 --> term2
+
+    evaluate term1 + term2 --> sum
+
+return sum  
+
+
+-- THE ORIGINAL IS BELOW WRITTEN WITHOUT WHILE/FOR LOOPS
+-- WE WERE TESTING FOR LOOPS ON TOP
+--
+--
+--
+
 getSystemNanoTime totaltimea
 
 var testTimes 0

@@ -105,7 +105,7 @@ public class SpaceInvaders extends BasicGame {
         testEntity = EntityGroup.getEnemy("Minion");
         
         //Create a thread which governs this entity with Script 
-        Thread entityThread = new Thread(13);
+        Thread entityThread = new Thread(31);
         
         //Set the main thread of the entity to this thread.
         testEntity.setMainThread(entityThread);

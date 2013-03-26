@@ -1,39 +1,17 @@
 print "This is a test of the Voyage scripting language"
 print "First, the program will call Fibonacci(33) and record the time elapsed"
 
-print "hihi"
+for i = 0 and i < 40
+    -- getSystemNanoTime a
+    callfunction [fibonacci] i --> result
+    -- getSystemNanoTime b
+    print result
+    -- print <-- "the result is " + result
+    -- print <-- [ "it took " + [ [ b - a ] / 1000000000 ] ] + " seconds to make the call"
 
-getSystemNanoTime a
+next i + 1 --> i
 
-print a
-
-callfunction [doNothing]
-getSystemNanoTime b
-
-print <-- [ "it took " + [ [ b - a ] / 1000000000 ] ] + " seconds to make the call"
-
-
-wait 5000
-
-createvariable "counter" 0
-
-label [loop]
-if counter > 10 
-    goto [endloop]
-endif
-
-getSystemNanoTime a
-callfunction [fibonacci] 28 --> result
-getSystemNanoTime b
-
-print <-- "the result is " + result
-print <-- [ "it took " + [ [ b - a ] / 1000000000 ] ] + " seconds to make the call"
-
-eval counter + 1 --> counter
-goto [loop]
-label [endloop]
-
-
+print "asdf"
 
 endthread 
 

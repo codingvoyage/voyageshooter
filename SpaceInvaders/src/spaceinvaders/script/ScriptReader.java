@@ -23,6 +23,8 @@ public class ScriptReader
     private Thread currentThread;
     private double currentDeltaTime;
     
+    private boolean justJumped;
+    
     public ScriptReader(ScriptManager scriptManagerHandle) 
     {
         //Initialize ScriptManager! rather, change the constructor such that
@@ -87,6 +89,8 @@ public class ScriptReader
             boolean doWeContinue = true;
             while (doWeContinue) 
             {
+                justJumped = false;
+                        
                 //First, get the current Line of the current Script
                 //This is kind of a mouthful, so first it gets the ScriptID
                 //from the class implementing Scriptable, and then grabs from
@@ -109,7 +113,7 @@ public class ScriptReader
                 //move on to the next line! UNLESS it was a goto statement!
                 //Of course, if it is a goto statement, it will remain a
                 //"Yes we continue!" but without switching lines
-                if (doWeContinue && (thisLine.getCommandID() != 1)) 
+                if (doWeContinue && (justJumped == false)) 
                 {
                     //System.out.println("Next line!");
                     currentThread.setLineNumber(
@@ -180,6 +184,10 @@ public class ScriptReader
                 String theLabel = currentLine.getStringParameter(0);
                 int newLineIndex = currentScript.getLabelIndexOnLineList(theLabel);
                 currentThread.setLineNumber(newLineIndex);
+                
+                justJumped = true;
+                
+                
                 break;
             case 2:
                 //System.out.println(currentThread.getCurrentLine() + " is the current line "
@@ -236,17 +244,122 @@ public class ScriptReader
                     int newLine = findEndLimiter(scr.getScriptAtID(currentThread.getScriptID()),
                             "if", "endif", currentThread.getCurrentLine() + 1, 1);
                     
-                    currentThread.setLineNumber(newLine);
+                    currentThread.setLineNumber(newLine + 1);
+                    justJumped = true;
                 }
                 break;
                 
             case 13:
                 
                 break;
+            
                 
-            //Print a variable, for debugging
             case 15:
-                print(currentLine);
+                //Evaluate line
+                Parameter whileResult = evaluateExpression(currentLine,
+                        0, currentLine.getParameterCount() - 1);
+                
+                //if it evaluates to true, then program logic continues
+                //that's why we check if it's false, and then if it's false,
+                //we look for where we skip to.
+                if (whileResult.getBooleanValue() == false)
+                {
+                    //findEndLimiter starts on the indexed line, so that's why we 
+                    //compensate by adding 1.
+                    int newLine = findEndLimiter(scr.getScriptAtID(currentThread.getScriptID()),
+                            "while", "wend", currentThread.getCurrentLine() + 1, 1);
+                    
+                    currentThread.setLineNumber(newLine + 1);
+                    justJumped = true;
+                }
+                break;
+                
+            case 16:
+                //wend
+                int newLine = findEndLimiter(scr.getScriptAtID(currentThread.getScriptID()),
+                            "wend", "while", currentThread.getCurrentLine() - 1, -1);
+                currentThread.setLineNumber(newLine);
+                justJumped = true;
+                
+                break;
+                
+            case 17:
+                //for ___ = ___ and BLAHBLAH
+                
+                //First, do the declaration and initialization
+                String varName = currentLine.getStringParameter(0);
+                
+                int equalsLoc = findCorrespondingBracket(currentLine, "=", 0, 1);
+                int andLoc = findCorrespondingBracket(currentLine, "and", 0, 1);
+                
+                if (andLoc - 2 == equalsLoc)
+                {
+                    //Then it's a simple initialization at index 2
+                    Parameter varValue = identifierCheck(currentLine, 2);
+                    currentThread.setVariable(varName, varValue);
+                }
+                else
+                {
+                    //Alright, Goddamn. The scripter decided to actually have
+                    //an expression in the for loop initialization. Seriously?
+                    Parameter varValue = evaluateExpression(currentLine, equalsLoc + 1, andLoc - 1);
+                    currentThread.setVariable(varName, varValue);
+                    
+                }
+                
+                //Next, check if we have to run the for loop at all.
+                Parameter checkResult = evaluateExpression(currentLine, andLoc + 1, currentLine.getParameterCount() - 1);
+                if (checkResult.getBooleanValue() == false)
+                {
+                    //We skip past the next...
+                    int skippingNext = findEndLimiter(scr.getScriptAtID(currentThread.getScriptID()),
+                            "for", "next", currentThread.getCurrentLine() + 1, 1);
+                    
+                    currentThread.setLineNumber(skippingNext + 1);
+                    
+                    justJumped = true;
+                }
+                //Otherwise, we're really just fine. We'll go along with the for loop
+                
+                break;
+                
+            case 18:
+                //next blah blah burp herp blah --> blah
+                
+                //That's actually it. evaluate it.
+                evaluate(currentLine);
+                
+                //Used a lot in next calculations
+                Script currentScriptObj = scr.getScriptAtID(currentThread.getScriptID());
+                
+                //Get location of the last for tag
+                int forLocation = findEndLimiter(currentScriptObj,
+                        "next", "for", currentThread.getCurrentLine() -1, -1);
+                
+                //We want to evaluate that expression again to see if the condition
+                //is still satisfied
+                
+                int andLocation = findCorrespondingBracket(currentScriptObj.getLine(forLocation),
+                        "and", 0, 1);
+                
+                Parameter doWeKeepGoing = evaluateExpression(
+                        currentScriptObj.getLine(forLocation),
+                        andLocation + 1, 
+                        currentScriptObj.getLine(forLocation).getParameterCount() - 1);
+                
+                if (doWeKeepGoing.getBooleanValue() == true)
+                {
+                    //Then we will set the line to the one right in front of the for
+                    //tag
+                    currentThread.setLineNumber(forLocation + 1);
+                    justJumped = true;
+                }
+                else
+                {
+                    //Alright, we're done. We do nothing, and we let the act()
+                    //carry us to the line after the "next"
+                }
+                
                 break;
                 
             case 19:
@@ -270,8 +383,9 @@ public class ScriptReader
                 returnFromFunction(currentLine);
                 break;
                 
+            //Print a variable, for debugging
             case 30:
-                //mergeString(currentLine);
+                print(currentLine);
                 break;
                 
             case 31:
@@ -723,7 +837,7 @@ public class ScriptReader
         {
             
             //Find the corresponding end bracket
-            int paramEnd = findCorrespondingBracket(l, front + 1, 1);
+            int paramEnd = findCorrespondingBracket(l, "]", "[", front + 1, 1);
             
             //Evaluate that expression
             resultOnLeft = evaluateExpression(l, front + 1, paramEnd - 1);
@@ -735,7 +849,7 @@ public class ScriptReader
             if (l.getParameter(paramEnd + 2).getStoredType() == Parameter.STRING 
                 && l.getParameter(paramEnd + 2).getStringValue().equals("["))
             {
-                int secondParamEnd = findCorrespondingBracket(l, paramEnd + 3, 1);
+                int secondParamEnd = findCorrespondingBracket(l, "]", "[", paramEnd + 3, 1);
                 
                 resultOnRight = evaluateExpression(l, paramEnd + 3, secondParamEnd - 1);
             }
@@ -759,7 +873,7 @@ public class ScriptReader
             
             //There must be an open bracket after, so find the close-bracket
             //which corresponds to it, then do recursion
-            int secondParamEnd = findCorrespondingBracket(l, front + 3, 1);
+            int secondParamEnd = findCorrespondingBracket(l, "]", "[", front + 3, 1);
             resultOnRight = evaluateExpression(l, front + 3, secondParamEnd - 1);
             
             //Now that we have all components, evaluate normally.
@@ -769,27 +883,54 @@ public class ScriptReader
         
     }
     
-    public int findCorrespondingBracket(Line l, int currentBracketLoc, int stepDirection)
+    public int findCorrespondingBracket(Line l, String targetBracket, int currentSearchLoc, int stepDirection)
     {
         boolean found = false;
-        
-        int additionalLayers = 0;
-        int index = currentBracketLoc;
+        int index = currentSearchLoc;
         int totalParameters = l.getParameterCount();
         
         //Keep going if we haven't found it, and we haven't reached the last one 
         //already OR overshot the beginning
         while (!found && (index < totalParameters || index >= 0))
         {
-            //All we're looking for are [ and ] 
-            if (l.getParameterType(index) == 1)
+            //Ignore if it isn't a string.
+            if (l.getParameterType(index) == Parameter.STRING)
             {
-                if (l.getStringParameter(index).equals("["))
+                if (l.getStringParameter(index).equals(targetBracket))
+                {
+                    return index;
+                }
+            }
+            
+            //Don't forget
+            index += stepDirection;
+        }
+        
+        //Done goof'd
+        return -1;
+    }
+    
+    public int findCorrespondingBracket(Line l, String targetBracket, String ignoredBracket, int currentSearchLoc, int stepDirection)
+    {
+        boolean found = false;
+        
+        int additionalLayers = 0;
+        int index = currentSearchLoc;
+        int totalParameters = l.getParameterCount();
+        
+        //Keep going if we haven't found it, and we haven't reached the last one 
+        //already OR overshot the beginning
+        while (!found && (index < totalParameters || index >= 0))
+        {
+            //Ignore if it isn't a string.
+            if (l.getParameterType(index) == Parameter.STRING)
+            {
+                if (l.getStringParameter(index).equals(ignoredBracket))
                 {
                     //Alright, one more to go then
                     additionalLayers++;
                 } 
-                else if (l.getStringParameter(index).equals("]"))
+                else if (l.getStringParameter(index).equals(targetBracket))
                 {
                     //If we found a "]" then we have to see
                     //if we have more to go first.
