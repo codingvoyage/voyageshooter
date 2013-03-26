@@ -2,8 +2,6 @@ package spaceinvaders.script;
 
 import spaceinvaders.entity.*;
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.fills.GradientFill;
 
 /**
  * Space Invaders Game
@@ -163,13 +161,14 @@ public class SpaceInvaders extends BasicGame {
         
         // Test spawning an enemy
         // Add "f" to the end to specify floating point numbers (or else Java won't know if the numbers are coordinates or velocities)
+        Enemy newEntity = EntityGroup.spawn("Minion");
         // Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", 400f, 300f);
-         Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", 150.0, 160.0);
-         Enemy newEntity2 = (Enemy)EntityGroup.spawn("Minion", 400f, 300f, 150.0, 160.0);
+        // Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", 150.0, 160.0);
+        // Enemy newEntity2 = (Enemy)EntityGroup.spawn("Minion", 400f, 300f, 150.0, 160.0);
 
-        // the following is used to test exception handling
+        // the following will not compile because Immovable is not Movable
         // a Floating Mine is Immovable but yet I'm trying to force a velocity
-        // Immovable immovable = (Immovable)EntityGroup.spawn("Floating Mine", 100f, 200f, 400.0, 300.0);
+        // Immovable immovable = EntityGroup.spawn("Floating Mine", 400.0, 300.0);
         
 
         g.drawString("Minion 1 Coordinates: " + newEntity.getX() + ", " + newEntity.getY(), 600, 40);

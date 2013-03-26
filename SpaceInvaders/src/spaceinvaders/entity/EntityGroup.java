@@ -143,9 +143,9 @@ public final class EntityGroup {
      * Spawn the Entity at a random location with default velocity<br/>
      * EntitySpawnExceptions from <code>spawn(name, vx, vy)</code> will retry spawning with this method
      * @param name the entity to spawn
-     * @return the Entity that just got spawned
+     * @return the Entity of declared type that just got spawned
      */
-    public static Entity spawn(String name) {
+    public static <EntityT extends Entity> EntityT spawn(String name) {
         
         Entity e = getEntity(name);
         float[] coordinates; // random coordinates
@@ -155,35 +155,35 @@ public final class EntityGroup {
             Enemy en = cloneEnemy(e);
             coordinates = drawRandom(en.getSprite());
             en.place(coordinates[0], coordinates[1]);
-            return en;
+            return (EntityT)en;
 
         } else if(e instanceof Misc) { // the entity is actually a misc entity
 
             Misc mi = cloneMisc(e);
             coordinates = drawRandom(mi.getSprite());
             mi.place(coordinates[0], coordinates[1]);
-            return mi;
+            return (EntityT)mi;
 
         } else if(e instanceof Weapon) { // the entity is actually a weapon
 
             Weapon we = cloneWeapon(e);
             coordinates = drawRandom(we.getSprite());
             we.place(coordinates[0], coordinates[1]);
-            return we;
+            return (EntityT)we;
 
         } else if(e instanceof Immovable) { // the entity is actually an immovable
 
             Immovable im = cloneImmovable(e);
             coordinates = drawRandom(im.getSprite());
             im.place(coordinates[0], coordinates[1]);
-            return im;
+            return (EntityT)im;
 
         } else if(e instanceof Player) { // the entity is actually the player
 
             Player pl = clonePlayer(e);
             coordinates = drawRandom(pl.getSprite());
             pl.place(coordinates[0], coordinates[1]);
-            return pl;
+            return (EntityT)pl;
             
         } else {
             
@@ -191,7 +191,7 @@ public final class EntityGroup {
             Entity ent = cloneEntity(e);
             coordinates = drawRandom(ent.getSprite());
             ent.place(coordinates[0], coordinates[1]);
-            return ent;
+            return (EntityT)ent;
             
         }
     }
@@ -201,17 +201,19 @@ public final class EntityGroup {
      * @param name the movable entity to spawn
      * @param vx x velocity in mph
      * @param vy y velocity in mph
-     * @return the Entity that just got spawned
+     * @return the Entity of declared type that just got spawned
      */
-    public static Entity spawn(String name, double vx, double vy) {
+    public static <EntityT extends MovableEntity> EntityT spawn(String name, double vx, double vy) {
         
         Entity e = getEntity(name);
         float[] coordinates; // random coordinates
         
         try {
             
+            /*
             if(!(e instanceof MovableEntity))
                 throw new EntitySpawnException("You can't give a non-movable entity velocity!");
+                */
             
             if(e instanceof Enemy) { // the entity is actaully an enemy
                 
@@ -219,7 +221,7 @@ public final class EntityGroup {
                 en.setVelocity(vx, vy);
                 coordinates = drawRandom(en.getSprite());
                 en.place(coordinates[0], coordinates[1]);
-                return en;
+                return (EntityT)en;
                 
             } else if(e instanceof Misc) { // the entity is actually a misc entity
                 
@@ -227,7 +229,7 @@ public final class EntityGroup {
                 mi.setVelocity(vx, vy);
                 coordinates = drawRandom(mi.getSprite());
                 mi.place(coordinates[0], coordinates[1]);
-                return mi;
+                return (EntityT)mi;
                 
             } else if(e instanceof Weapon) { // the entity is actually a weapon
                 
@@ -235,7 +237,7 @@ public final class EntityGroup {
                 we.setVelocity(vx, vy);
                 coordinates = drawRandom(we.getSprite());
                 we.place(coordinates[0], coordinates[1]);
-                return we;
+                return (EntityT)we;
                 
             } else if(e instanceof Player) { // the entity is actually the player
                 
@@ -243,11 +245,11 @@ public final class EntityGroup {
                 pl.setVelocity(vx, vy);
                 coordinates = drawRandom(pl.getSprite());
                 pl.place(coordinates[0], coordinates[1]);
-                return pl;
+                return (EntityT)pl;
                         
             } else {
                 
-                throw new EntitySpawnException("What kind of entity are you exactly? Attempting to spawn again without velocity.");
+                throw new EntitySpawnException("caught EntitySpawnException: What kind of entity are you exactly? Attempting to spawn again without velocity.");
                         
             }
             
@@ -266,9 +268,9 @@ public final class EntityGroup {
      * @param name the entity to spawn
      * @param x x coordinate
      * @param y y coordinate
-     * @return the Entity that just got spawned
+     * @return the Entity of declared type that just got spawned
      */
-    public static Entity spawn(String name, float x, float y) {
+    public static <EntityT extends Entity> EntityT spawn(String name, float x, float y) {
         
         Entity e = getEntity(name);
         
@@ -277,35 +279,35 @@ public final class EntityGroup {
             Enemy en = cloneEnemy(e);
             en.getSprite().draw(x, y);
             en.place(x, y);
-            return en;
+            return (EntityT)en;
 
         } else if(e instanceof Misc) { // the entity is actually a misc entity
 
             Misc mi = cloneMisc(e);
             mi.getSprite().draw(x, y);
             mi.place(x, y);
-            return mi;
+            return (EntityT)mi;
 
         } else if(e instanceof Weapon) { // the entity is actually a weapon
 
             Weapon we = cloneWeapon(e);
             we.getSprite().draw(x, y);
             we.place(x, y);
-            return we;
+            return (EntityT)we;
 
         } else if(e instanceof Immovable) { // the entity is actually an immovable
 
             Immovable im = cloneImmovable(e);
             im.getSprite().draw(x, y);
             im.place(x, y);
-            return im;
+            return (EntityT)im;
 
         } else if(e instanceof Player) { // the entity is actually the player
 
             Player pl = clonePlayer(e);
             pl.getSprite().draw(x, y);
             pl.place(x, y);
-            return pl;
+            return (EntityT)pl;
             
         } else {
             
@@ -313,7 +315,7 @@ public final class EntityGroup {
             Entity ent = cloneEntity(e);
             ent.getSprite().draw(x, y);
             ent.place(x, y);
-            return ent;
+            return (EntityT)ent;
             
         }
     }
@@ -325,15 +327,17 @@ public final class EntityGroup {
      * @param y y coordinate
      * @param vx x velocity in mph
      * @param vy y velocity in mph
-     * @return the Entity that just got spawned
+     * @return the Entity of declared type that just got spawned
      */
-    public static Entity spawn(String name, float x, float y, double vx, double vy) {
+    public static <EntityT extends MovableEntity> EntityT spawn(String name, float x, float y, double vx, double vy) {
         
         Entity e = getEntity(name);
         try {
             
+            /*
             if(!(e instanceof MovableEntity))
                 throw new EntitySpawnException("You can't give a non-movable entity velocity!");
+                */
             
             if(e instanceof Enemy) { // the entity is actaully an enemy
                 
@@ -341,7 +345,7 @@ public final class EntityGroup {
                 en.setVelocity(vx, vy);
                 en.getSprite().draw(x, y);
                 en.place(x, y);
-                return en;
+                return (EntityT)en;
                 
             } else if(e instanceof Misc) { // the entity is actually a misc entity
                 
@@ -349,7 +353,7 @@ public final class EntityGroup {
                 mi.setVelocity(vx, vy);
                 mi.getSprite().draw(x, y);
                 mi.place(x, y);
-                return mi;
+                return (EntityT)mi;
                 
             } else if(e instanceof Weapon) { // the entity is actually a weapon
                 
@@ -357,7 +361,7 @@ public final class EntityGroup {
                 we.setVelocity(vx, vy);
                 we.getSprite().draw(x, y);
                 we.place(x, y);
-                return we;
+                return (EntityT)we;
                 
             } else if(e instanceof Player) { // the entity is actually the player
                 
@@ -365,11 +369,11 @@ public final class EntityGroup {
                 pl.setVelocity(vx, vy);
                 pl.getSprite().draw(x, y);
                 pl.place(x, y);
-                return pl;
+                return (EntityT)pl;
                         
             } else {
                 
-                throw new EntitySpawnException("What kind of entity are you exactly? Attempting to spawn again without velocity.");
+                throw new EntitySpawnException("caught EntitySpawnException: What kind of entity are you exactly? Attempting to spawn again without velocity.");
                         
             }
             
