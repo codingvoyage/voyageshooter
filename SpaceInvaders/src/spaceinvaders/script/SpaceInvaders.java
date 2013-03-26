@@ -2,8 +2,6 @@ package spaceinvaders.script;
 
 import spaceinvaders.entity.*;
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.fills.GradientFill;
 
 /**
  * Space Invaders Game
@@ -102,7 +100,8 @@ public class SpaceInvaders extends BasicGame {
         
         
         //Create our test entity
-        testEntity = EntityGroup.getEnemy("Minion");
+        testEntity = (Enemy)EntityGroup.getEntity("Minion");
+        
         
         //Create a thread which governs this entity with Script 
         Thread entityThread = new Thread(31);
@@ -161,15 +160,20 @@ public class SpaceInvaders extends BasicGame {
         space.draw(0,0);
         
         // Test spawning an enemy
+        // Add "f" to the end to specify floating point numbers (or else Java won't know if the numbers are coordinates or velocities)
+        Enemy newEntity = EntityGroup.spawn("Minion");
+        // Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", 400f, 300f);
+        // Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", 150.0, 160.0);
+        // Enemy newEntity2 = (Enemy)EntityGroup.spawn("Minion", 400f, 300f, 150.0, 160.0);
+
+        // the following will not compile because Immovable is not Movable
+        // a Floating Mine is Immovable but yet I'm trying to force a velocity
+        // Immovable immovable = EntityGroup.spawn("Floating Mine", 400.0, 300.0);
         
-        //System.out.println(EntityGroup.getEnemyCount());
-        //System.out.println(enemy.getImagePath());
-        if (!testEntity.spawn(testEntity.getX(), testEntity.getY())) {
-            System.out.println("Well then, it looks like the enemy failed to spawn.");
-        }
-        
-        g.drawString("Bullet: " + testEntity.getX() + ", " + testEntity.getY(), 600, 40);
-        g.drawString("This game is currently in testing and nothing should work properly.", 300, 50);
+
+        g.drawString("Minion 1 Coordinates: " + newEntity.getX() + ", " + newEntity.getY(), 600, 40);
+        g.drawString("Minion Velocity: " + newEntity.getVx() + ", " + newEntity.getVy(), 600, 60);
+        g.drawString("This game is currently in testing and nothing should work properly.", 300, 700);
     }
 
     /**

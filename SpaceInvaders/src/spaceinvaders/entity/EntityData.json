@@ -9,7 +9,7 @@
             "weapons" : "Water Gun",
             "vx" : 1.0,
             "vy" : 1.0,
-            "image" : "enemy1.png"
+            "image" : "enemy1"
         },
         {
             "name" : "Bakesale Monster",
@@ -20,7 +20,7 @@
             "weapons" : "Bomb Formula 9001",
             "vx" : 10.0,
             "vy" : 10.0,
-            "image" : "enemy2.png"
+            "image" : "enemy2 -- doesnotexist"
         }
     ],
 
@@ -31,7 +31,8 @@
             "description" : "In what galaxy is it logical to use water guns to attack spaceships?",
             "attack" : 0.0001,
             "vx" : 1.0,
-            "vy" : 1.0
+            "vy" : 1.0,
+            "image" : "watergun -- doesnotexist"
         },
         {
             "name" : "Rainbow Laser",
@@ -39,7 +40,8 @@
             "description" : "Ohhh! Pretty colors!",
             "attack" : 0.0001,
             "vx" : 1.0,
-            "vy" : 1.0
+            "vy" : 1.0,
+            "image" : "rainbowlaser -- doesnotexist"
         },
         {
             "name" : "Bomb Formula 9001",
@@ -47,7 +49,8 @@
             "description" : "A small and powerful bullet that explodes on impact. Simply the best weapon in any galaxy.",
             "attack" : 9001.0,
             "vx" : 100.0,
-            "vy" : 100.0
+            "vy" : 100.0,
+            "image" : "bombformula9001--doesnotexist"
         }
     ],
 
@@ -57,7 +60,8 @@
             "id" : 0,
             "description" : "Random floating rocks. Avoid at all costs! Your ship is flying too fast and will crash!",
             "vx" : 5.0,
-            "vy" : 5.0
+            "vy" : 5.0,
+            "image" : "asteroid--doesnotexist"
         }
     ],
             
@@ -67,7 +71,9 @@
             "id" : 0,
             "description" : "A deadly floating mine created by an evil mastermind. Stay far away from these!",
             "attack" : 999999.0,
-            "defense" : 999999.0
+            "defense" : 999999.0,
+            "weapons" : "Bomb Formula 9001",
+            "image" : "enemy1"
         }
     ]
 }

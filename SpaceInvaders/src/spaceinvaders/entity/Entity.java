@@ -37,19 +37,6 @@ public class Entity extends ScriptableClass {
     /** Image base */
     private static final String IMAGE_PATH = "src/spaceinvaders/images/";
     
-    /** The Graphics engine */
-    private Graphics g;
-
-    
-    /** rotation size */
-    public static final float ROTATION_SIZE = 0.2f;
-    /** step size */
-    public static final float STEP_SIZE = 0.4f;
-    /** back up size */
-    public static final float BACK_SIZE = 0.075f;
-    
-    private Rectangle rect;
-    
     /**
      * Calls ScriptableClass<br/>
      * Instance fields should be set by a data file like JSON
@@ -67,10 +54,12 @@ public class Entity extends ScriptableClass {
      * @param id id (index) of Entity
      * @param description description of Entity
      */
-    public Entity(String name, int id, String description) {
+    public Entity(String name, int id, String image, String description) {
         super();
         this.name = name;
         this.id = id;
+        this.image = image;
+        this.sprite = EntityGroup.getImage(image);
         this.description = description;
     }
         
@@ -138,46 +127,15 @@ public class Entity extends ScriptableClass {
      * Get the Image file name
      * @return the entity's image file name
      */
-    public String getImagePath() {
-        return IMAGE_PATH + image;
-    }
-    
-    /** 
-     * Render graphics
-     * @param g the graphics engine
-     * @param x x coordinate to spawn at
-     * @param y y coordinate to spawn at
-     * @return a boolean indicating whether or not the graphics have successfully been drawn
-     */
-    private boolean renderGraphics(float x, float y) {
-        try {
-
-            if(g == null)
-                g = EntityGroup.getGraphics();
-            // the sprite depends on the image path loaded from JSON so we can't load this in the constructor
-            if (sprite == null) // If we haven't loaded the sprite image, then do so
-                sprite = new Image(IMAGE_PATH + image);
-
-            sprite.draw(x, y, scale); // draw the entity at the specified location
-            g.drawString("Muahaha. I am enemy. I kill you. Right. Now.", x, y);
-            return true;
-            
-        } catch (SlickException e) {
-            
-            System.out.println("Captain, we failed to draw the image. We're going down!");
-            return false;
-            
-        }
+    public String getImage() {
+        return image;
     }
     
     /**
-     * Spawn entity
-     * @param x x coordinate to spawn at
-     * @param y y coordinate to spawn at
-     * @return a boolean indicating whether or not the entity has successfully spawned
+     * Get the actual sprite image
+     * @return entity's sprite
      */
-    public boolean spawn(float x, float y) {
-        return renderGraphics(x, y);
-        // add this entity to the global active entity list
+    public Image getSprite() {
+        return sprite;
     }
 }

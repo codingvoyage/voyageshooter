@@ -21,7 +21,7 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
      */    
     public Enemy() {
         // default values - should be ignored by the data file
-        super("Panther Ship", 1337, "The most powerful and evil creature you will ever meet in your life.", 10.0, 10.0);
+        super("Panther Ship", 1337, "enemy1", "The most powerful and evil creature you will ever meet in your life.", 10.0, 10.0);
         attack = 9133.7; 
         defense = 9133.7;
         weapons = "Default";
@@ -32,6 +32,7 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
      * Constructs a new enemy entity
      * @param name name of entity
      * @param id index of entity
+     * @param image name of image reference
      * @param description description of entity
      * @param attack base attack of entity
      * @param defense base defense of entity
@@ -39,12 +40,12 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
      * @param vx x velocity
      * @param vy y velocity
      */    
-    public Enemy(String name, int id, String description, double attack, double defense, String weapons, double vx, double vy) {
-        super(name, id, description,vx,vy);
+    public Enemy(String name, int id, String image, String description, double attack, double defense, String weapons, double vx, double vy) {
+        super(name, id, image, description,vx,vy);
         this.attack = attack;
         this.defense = defense;
         this.weapons = weapons;
-        weapon = EntityGroup.getWeapon(weapons);
+        weapon = (Weapon)EntityGroup.getEntity(weapons);
     }
     
     /**
@@ -53,7 +54,7 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
     //@Override
     public void fire() {
         if(weapon == null) 
-            weapon = EntityGroup.getWeapon(weapons);
+            weapon = (Weapon)EntityGroup.getEntity(weapons);
         /* Use Bomb Formula 9001 */
         /* The graphics references will be included in the data file later, but for now... */
         weapon.fire(getX(), getY());
@@ -78,11 +79,24 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
     }  
     
     /**
+     * Accessors for Weapon Name
+     * @return name of weapon used by entity
+     */
+    public String getWeaponName() {
+        return weapons;
+    }
+    
+    /**
      * Accessors for Weapon
      * @return weapon used by entity
      */
     //@Override
     public Weapon getWeapon() {
-        return weapon;
+        if(weapon != null) {
+            return weapon;
+        } else {
+            weapon = (Weapon)EntityGroup.getEntity(weapons);
+            return weapon;
+        }
     }
 }
