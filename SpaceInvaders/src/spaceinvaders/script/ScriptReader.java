@@ -5,15 +5,12 @@ import java.util.ArrayList;
 
 import spaceinvaders.entity.*;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
  * @author Edmund
  */
+
 public class ScriptReader
 {
     private ScriptManager scr;
@@ -33,7 +30,6 @@ public class ScriptReader
         //has been initialized sometime during the initialization stage of the
         //program
         scr = scriptManagerHandle;
-        
     }
     
     public void setThreadHandle(ThreadManager threadManagerHandle)
@@ -403,7 +399,6 @@ public class ScriptReader
     private void print(Line currentLine)
     {
         Parameter toBePrinted = currentLine.getParameter(0);
-        
             
         //We might evaluate something before printing the result
         if (toBePrinted.getStoredType() == Parameter.STRING
@@ -414,25 +409,9 @@ public class ScriptReader
         }
         else
         {
-            //Then we're just printing the contents then...
-            if (toBePrinted.isIdentifier())
-            {
-                //It prints what the identifier references
-                Parameter message = currentThread.
-                        getVariable(toBePrinted.getStringValue());
-
-                System.out.println(message.toString());
-
-            }
-            else
-            {
-                //Instead, it prints the literal
-                String message = toBePrinted.getStringValue();
-                System.out.println(message);
-            }
+            Parameter message = identifierCheck(toBePrinted);
+            System.out.println(message.toString());
         }
-       
-        
         
     }               
     
@@ -450,6 +429,85 @@ public class ScriptReader
 
         threadManager.addThread(newThread);
     }
+    
+    private Object[] formatFunctionLine(Line currentLine, Line functionLine, int searchIndexOnLine)
+    {
+        //We will act differently if searchIndexOnLine is a 1, since that means
+        //we're doing callfunction and we need to adjust our indices
+        boolean doingCallFunction = (searchIndexOnLine == 1);
+        
+        ArrayList<String> returnKeys = new ArrayList<String>();
+        HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
+       
+        if (currentLine.getParameterCount() <= 2)
+        {
+            //In this case, don't do anything 
+        }
+        else 
+        {
+            boolean isArrowReached = false;
+            int searchIndex = searchIndexOnLine;
+            while (searchIndex < currentLine.getParameterCount())
+            {
+                //Our current Parameter at searchIndex
+                Parameter currentParameter = currentLine.getParameter(searchIndex);
+                
+                //See if the currently indexed thing is a -->
+                if ( (currentParameter.getStoredType() == 1) &&
+                    (currentParameter.getStringValue().equals("-->")))
+                {
+                    //If so, then now we have reached the arrow
+                    isArrowReached = true;
+                    
+                    //We go on to next parameter
+                }
+                else
+                {
+                    //So we have reached something meaningful. Now, our
+                    //response depends on whether the arrow has been reached yet
+                    
+                    if (isArrowReached)
+                    {
+                        //So it's a return, so add the Parameter's name to the
+                        //return thing
+                        String nameOfReturn = currentLine.getParameter(searchIndex).getStringValue();
+                        returnKeys.add(nameOfReturn);
+                    }
+                    else
+                    {
+                        //We are adding to the memorybox
+                        String ourIdentifier;
+                                
+                        //Get the name that the variable will be referred as
+                        if (doingCallFunction)
+                        {
+                            
+                            ourIdentifier = functionLine.getStringParameter(searchIndex);
+                        }
+                        else 
+                        {
+                            ourIdentifier = functionLine.getStringParameter(searchIndex - 1);
+                        }
+                        
+                        //But hold on a second. currentParameter could be a literal, or it
+                        //could be an identifier to something else. Use identifierCheck
+                        Parameter checkedParam = identifierCheck(currentParameter);
+                        newMemoryBox.put(ourIdentifier, checkedParam);
+                        
+                    }
+                }
+                //Increment searchIndex
+                searchIndex++;
+            }
+        }
+        
+        Object[] returnArray = new Object[2];
+        returnArray[0] = returnKeys;
+        returnArray[1] = newMemoryBox;
+        return returnArray;
+    }
+    
+    
     
     //callFunction [act] param1 param2 param3 --> returned1 returned2
     private void callScriptFunction(Line currentLine)
@@ -480,75 +538,11 @@ public class ScriptReader
         Line functionLine = jumpedScript.getLineAtLabel(labelName);
         //function [nameblah] param1identifier param2identifier ...
         
-        ArrayList<String> returnKeys = new ArrayList<String>();
+        Object[] formattedLineData = formatFunctionLine(currentLine, functionLine, 2);
         
-        //From the parameters, create a new memory box...
-        HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
-       
-        if (currentLine.getParameterCount() <= 2)
-        {
-            //In this case, don't do anything 
-        }
-        else 
-        {
-            boolean isArrowReached = false;
-            int searchIndex = 2;
-            while (searchIndex < currentLine.getParameterCount())
-            {
-                //Our current Parameter at searchIndex
-                Parameter currentParameter = currentLine.getParameter(searchIndex);
-                
-                //See if the currently indexed thing is a -->
-                if ( (currentParameter.getStoredType() == 1) &&
-                    (currentParameter.getStringValue().equals("-->")))
-                {
-                    //If so, then now we have reached the arrow
-                    isArrowReached = true;
-                    
-                    //We go on to next parameter
-                }
-                else
-                {
-                    //So we have reached something meaningful. Now, our
-                    //response depends on whether the arrow has been reached yet
-                    
-                    if (isArrowReached)
-                    {
-                        //So it's a return, so add the Parameter's name to the
-                        //return thing
-                        String nameOfReturn = currentLine.getParameter(searchIndex).getStringValue();
-                        returnKeys.add(nameOfReturn);
-                    }
-                    else
-                    {
-                        //We are adding to the memorybox
-                        
-                        //Get the name that the variable will be referred as
-                        String ourIdentifier = functionLine.getStringParameter(searchIndex - 1);
-                        
-                        //But hold on a second. currentParameter could be a literal, or it
-                        //could be an identifier to something else.
-                        if (currentParameter.isIdentifier())
-                        {
-                            //System.out.println("Aha, so " + ourIdentifier + )
-                            //Alright, then we put whatever it refers to
-                            Parameter identifiedParam = currentThread.getVariable(
-                                    currentParameter.toString());
-                            
-                            newMemoryBox.put(ourIdentifier, identifiedParam);
-                        }
-                        else 
-                        {
-                            //So it was a literal.
-                            newMemoryBox.put(ourIdentifier, currentParameter);
-                        }
-                    }
-                }
-                //Increment searchIndex
-                searchIndex++;
-            }
-            
-        }
+        ArrayList<String> returnKeys = (ArrayList<String>)formattedLineData[0];
+        HashMap<String, Parameter> newMemoryBox = (HashMap<String, Parameter>)formattedLineData[1];
+        
         
         //Now convert returnKeys to an array
         String[] returnKeyArray = new String[returnKeys.size()];
@@ -601,77 +595,11 @@ public class ScriptReader
         Line functionLine = jumpedScript.getLineAtLabel(labelName);
         //function [nameblah] param1identifier param2identifier ...
         
-        ArrayList<String> returnKeys = new ArrayList<String>();
+        Object[] formattedLineData = formatFunctionLine(currentLine, functionLine, 2);
         
-        //From the parameters, create a new memory box...
-        HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
+        ArrayList<String> returnKeys = (ArrayList<String>)formattedLineData[0];
+        HashMap<String, Parameter> newMemoryBox = (HashMap<String, Parameter>)formattedLineData[1];
         
-        
-        if (currentLine.getParameterCount() <= 2)
-        {
-            //In this case do nothing.
-        }
-        else 
-        {
-            boolean isArrowReached = false;
-            int searchIndex = 2;
-            while (searchIndex < currentLine.getParameterCount())
-            {
-                
-                //Our current Parameter at searchIndex
-                Parameter currentParameter = currentLine.getParameter(searchIndex);
-                
-                //See if the currently indexed thing is a -->
-                if ( (currentParameter.getStoredType() == 1) &&
-                    (currentParameter.getStringValue().equals("-->")))
-                {
-                    //If so, then now we have reached the arrow
-                    isArrowReached = true;
-                    
-                    //We go on to next parameter
-                }
-                else
-                {
-                    //So we have reached something meaningful. Now, our
-                    //response depends on whether the arrow has been reached yet
-                    
-                    if (isArrowReached)
-                    {
-                        //So it's a return, so add the Parameter's name to the
-                        //return thing
-                        String nameOfReturn = currentLine.getParameter(searchIndex).getStringValue();
-                        returnKeys.add(nameOfReturn);
-                    }
-                    else
-                    {
-                        //We are adding to the memorybox
-                        
-                        //Get the name that the variable will be referred as
-                        String ourIdentifier = functionLine.getStringParameter(searchIndex - 1);
-                        
-                        //But hold on a second. currentParameter could be a literal, or it
-                        //could be an identifier to something else.
-                        if (currentParameter.isIdentifier())
-                        {
-                            //Alright, then we put whatever it refers to
-                            Parameter identifiedParam = currentThread.getVariable(
-                                    currentParameter.toString());
-                            
-                            newMemoryBox.put(ourIdentifier, identifiedParam);
-                        }
-                        else 
-                        {
-                            //So it was a literal.
-                            newMemoryBox.put(ourIdentifier, currentParameter);
-                        }
-                    }   //if (isArrowReached)
-                }
-                
-                //Increment searchIndex
-                searchIndex++;
-                
-            } //while (searchIndex < currentLine.getParameterCount())
-        }
         
         //System.out.println("Local Memorybox is size" + newMemoryBox.size());
         
@@ -714,86 +642,11 @@ public class ScriptReader
         //to and getting a copy of their line object.
         Line functionLine = thisScript.getLineAtLabel(labelName);
         
-        //Find returnKeys too so we know where to put the values
-        ArrayList<String> returnKeys = new ArrayList<String>();
+        Object[] formattedLineData = formatFunctionLine(currentLine, functionLine, 1);
         
-        //From the parameters, create a new memory box...
-        HashMap<String, Parameter> newMemoryBox = new HashMap<String, Parameter>();
-      
-        if (currentLine.getParameterCount() <= 1)
-        {
-            //In this case do nothing.
-        }
-        else 
-        {
-            boolean isArrowReached = false;
-            int searchIndex = 1;
-            while (searchIndex < currentLine.getParameterCount())
-            {
-                //Our current Parameter at searchIndex
-                Parameter currentParameter = currentLine.getParameter(searchIndex);
-                
-                //See if the currently indexed thing is a -->
-                if ( (currentParameter.getStoredType() == 1) &&
-                    (currentParameter.getStringValue().equals("-->")))
-                {
-                    //If so, then now we have reached the arrow
-                    isArrowReached = true;
-                    
-                    //We go on to next parameter
-                }
-                else
-                {
-                    //So we have reached something meaningful. Now, our
-                    //response depends on whether the arrow has been reached yet
-                    
-                    if (isArrowReached)
-                    {
-                        //So it's a return, so add the Parameter's name to the
-                        //return thing
-                        String nameOfReturn = currentLine.getParameter(searchIndex).getStringValue();
-                        returnKeys.add(nameOfReturn);
-                    }
-                    else
-                    {
-                        //We are adding to the memorybox
-                        
-                        //Get the name that the variable will be referred as
-                        //Note: it's searchIndex because that's what makes it line up perfectly
-                        //between the two lines.
-                        
-                        String ourIdentifier = functionLine.getStringParameter(searchIndex);
-                        
-                        //But hold on a second. currentParameter could be a literal, or it
-                        //could be an identifier to something else.
-                        if (currentParameter.isIdentifier())
-                        {
-                            //Alright, then we put whatever it refers to
-                            Parameter identifiedParam = currentThread.getVariable(
-                                    currentParameter.toString());
-                            
-                            newMemoryBox.put(ourIdentifier, identifiedParam);
-//                            
-//                            System.out.println("So the identifier " + functionLine.getStringParameter(searchIndex)
-//                                + " will correspond with " + identifiedParam);
-                        }
-                        else 
-                        {
-                            //So it was a literal.
-                            newMemoryBox.put(ourIdentifier, currentParameter);
-//                            
-//                            
-//                            System.out.println("So the identifier " + functionLine.getStringParameter(searchIndex)
-//                                + " will correspond with " + currentParameter);
-                        }
-                    }   //if (isArrowReached)
-                }
-                
-                //Increment searchIndex
-                searchIndex++;
-                
-            } //while (searchIndex < currentLine.getParameterCount())
-        }
+        ArrayList<String> returnKeys = (ArrayList<String>)formattedLineData[0];
+        HashMap<String, Parameter> newMemoryBox = (HashMap<String, Parameter>)formattedLineData[1];
+        
         
         //Now convert returnKeys to an array
         String[] returnKeyArray = new String[returnKeys.size()];
@@ -810,46 +663,29 @@ public class ScriptReader
     //return val1 param2 val3
     private void returnFromFunction(Line currentLine)
     {
-        for (int i = 0; i <currentLine.getParameterCount(); i++)
-        {
-            //System.out.println(currentLine.getParameter(i).toString());
-        }
-        
         //Remember how we passed the returned variables' names?
         //Now we retrieve them
         String[] returnKeys = currentThread.getFunctionReturns();
 
         //Before restoreLastReturnPoint(), retain the values which
         //need to be retained
-        
         Parameter[] parameters = new Parameter[returnKeys.length];
-        
-                
         for (int i = 0; i < returnKeys.length; i++)
         {
             Parameter currentParam = currentLine.getParameter(i);
             
             //A literal, or a variable?
-            if (currentParam.isIdentifier())
-                parameters[i] = currentThread.getVariable(
-                        currentLine.getStringParameter(i));
-            else
-                parameters[i] = currentParam;
-            
+            parameters[i] = identifierCheck(currentLine, i);
         }
-        
         
         //Return, and also decrease the function layer
         currentThread.restoreLastReturnPoint();
         currentThread.decreaseFunctionLayer();
         
-        
         //Now add those retained variables to the current thread
         //layer's memory.
         for (int i = 0; i < returnKeys.length; i++)
         {
-//            System.out.println("I set " + returnKeys[i] +
-//                    " to equal " + parameters[i].toString());
             currentThread.setVariable(returnKeys[i], parameters[i]);
         }
         
@@ -857,10 +693,6 @@ public class ScriptReader
     
     public void evaluate(Line currentLine)
     {
-        //Parameter result = simpleEvaluate(currentLine, 0,
-        //        currentLine.getParameterCount() - 3);
-        
-        
         Parameter result = evaluateExpression(currentLine, 0, currentLine.getParameterCount() - 3);
         
         currentThread.setVariable(
@@ -1027,17 +859,13 @@ public class ScriptReader
     {
         //If either of the Parameters are identifiers, then load their
         //identified value and replace them.
-        if (p1.isIdentifier())
-            p1 = currentThread.getVariable(p1.getStringValue());
-        if (p2.isIdentifier())
-            p2 = currentThread.getVariable(p2.getStringValue());
-        
+        p1 = identifierCheck(p1);
+        p2 = identifierCheck(p2);
         
         String opCodeName = opCode.getStringValue();
         
         //What we will return
         Parameter result;
-        
         
         if (p1.getStoredType() == Parameter.BOOLEAN)
         {
@@ -1168,9 +996,6 @@ public class ScriptReader
         //We expect it to be in format __ __ __
         Parameter p1 = l.getParameter(front);
         Parameter p2 = l.getParameter(back);
-        
-        //System.out.println(p1.toString());
-        //System.out.println(p2.toString());
         
         //Get the name of the operation
         Parameter opCode = l.getParameter(front + 1);

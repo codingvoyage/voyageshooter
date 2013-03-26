@@ -70,6 +70,25 @@ public class SpaceInvaders extends BasicGame {
         //This initializes stuff
         gc.setMinimumLogicUpdateInterval(20);
         
+        //Initialize the ScriptManager
+        scriptCollection = new ScriptManager();
+        
+        //Load the loader script...
+        scriptCollection.loadScript("loader.cfg", 0);
+        
+        //Initialize ScriptReader, passing it the ScriptManager handle
+        scriptReader = new ScriptReader(scriptCollection);
+        
+        //Initialize the collection of threads
+        threadManager = new ThreadManager(scriptReader);
+        scriptReader.setThreadHandle(threadManager);
+        
+        //Now create a thread that uses the loading script, 
+        //adding it to threadManager and running it
+        Thread loadingThread = new Thread(0);
+        threadManager.addThread(loadingThread);
+        threadManager.act(0.0);
+        
         /* Load images */
         space = new Image("src/spaceinvaders/images/bluestar.jpg");
         
@@ -81,35 +100,13 @@ public class SpaceInvaders extends BasicGame {
             System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
         }
         
-       //Initialize the ScriptManager
-        scriptCollection = new ScriptManager();
-        
-        scriptCollection.loadScript("loader.cfg", 0);
-        
-        
-        
-  
-        //Initialize ScriptReader, passing it the ScriptManager handle
-        scriptReader = new ScriptReader(scriptCollection);
-        
-        //Initialize the collection of threads
-        threadManager = new ThreadManager(scriptReader);
-        
-        Thread loadingThread = new Thread(0);
-        threadManager.addThread(loadingThread);
-        
-        scriptReader.setThreadHandle(threadManager);
-        
-        threadManager.act(0.0);
         
         //Create our test entity
         testEntity = EntityGroup.getEnemy("Minion");
         
-        //Create a thread which governs this entity with Script #4
-        //Thread entityThread = new Thread(30);
+        //Create a thread which governs this entity with Script 
+        Thread entityThread = new Thread(13);
         
-        Thread entityThread = new Thread(31);
-        //18 5
         //Set the main thread of the entity to this thread.
         testEntity.setMainThread(entityThread);
         
@@ -121,7 +118,6 @@ public class SpaceInvaders extends BasicGame {
         
         //Add this thread to the collection of threads
         threadManager.addThread(entityThread);
-        
         
     }
 

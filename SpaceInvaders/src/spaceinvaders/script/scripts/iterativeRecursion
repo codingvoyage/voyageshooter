@@ -9,7 +9,7 @@ if testTimes < 50000
     var prev2 1
     var i 0
 
-    getSystemNanoTime a
+    -- getSystemNanoTime a
 
     label [lol]
     if i < n
@@ -23,10 +23,10 @@ if testTimes < 50000
         goto [lol]
     endif
 
-    getSystemNanoTime b
+    -- getSystemNanoTime b
 
-    print prev1
-    print <-- [ "This took " + [ [ b - a ] / 1000000000 ] ] + " seconds to compute"
+    -- print prev1
+    -- print <-- [ "This took " + [ [ b - a ] / 1000000000 ] ] + " seconds to compute"
 
 eval testTimes + 1 --> testTimes
 goto [testTimesLoop]
