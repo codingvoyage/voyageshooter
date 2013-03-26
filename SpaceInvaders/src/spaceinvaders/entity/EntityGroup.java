@@ -148,52 +148,39 @@ public final class EntityGroup {
     public static <EntityT extends Entity> EntityT spawn(String name) {
         
         Entity e = getEntity(name);
+        Entity en; // the cloned entity, to be casted into EntityT type
         float[] coordinates; // random coordinates
         
         if(e instanceof Enemy) { // the entity is actaully an enemy
 
-            Enemy en = cloneEnemy(e);
-            coordinates = drawRandom(en.getSprite());
-            en.place(coordinates[0], coordinates[1]);
-            return (EntityT)en;
+            en = cloneEnemy(e);
 
         } else if(e instanceof Misc) { // the entity is actually a misc entity
 
-            Misc mi = cloneMisc(e);
-            coordinates = drawRandom(mi.getSprite());
-            mi.place(coordinates[0], coordinates[1]);
-            return (EntityT)mi;
+            en = cloneMisc(e);
 
         } else if(e instanceof Weapon) { // the entity is actually a weapon
 
-            Weapon we = cloneWeapon(e);
-            coordinates = drawRandom(we.getSprite());
-            we.place(coordinates[0], coordinates[1]);
-            return (EntityT)we;
+            en = cloneWeapon(e);
 
         } else if(e instanceof Immovable) { // the entity is actually an immovable
 
-            Immovable im = cloneImmovable(e);
-            coordinates = drawRandom(im.getSprite());
-            im.place(coordinates[0], coordinates[1]);
-            return (EntityT)im;
+            en = cloneImmovable(e);
 
         } else if(e instanceof Player) { // the entity is actually the player
 
-            Player pl = clonePlayer(e);
-            coordinates = drawRandom(pl.getSprite());
-            pl.place(coordinates[0], coordinates[1]);
-            return (EntityT)pl;
+            en = clonePlayer(e);
             
         } else {
             
             System.out.println("All else failed, so spawning a basic entity at a random location instead.");
-            Entity ent = cloneEntity(e);
-            coordinates = drawRandom(ent.getSprite());
-            ent.place(coordinates[0], coordinates[1]);
-            return (EntityT)ent;
+            en = cloneEntity(e);
             
         }
+        
+            coordinates = drawRandom(en.getSprite());
+            en.place(coordinates[0], coordinates[1]);
+            return (EntityT)en;
     }
     
     /**
@@ -206,6 +193,7 @@ public final class EntityGroup {
     public static <EntityT extends MovableEntity> EntityT spawn(String name, double vx, double vy) {
         
         Entity e = getEntity(name);
+        MovableEntity en; // the cloned entity, to be casted into EntityT type
         float[] coordinates; // random coordinates
         
         try {
@@ -217,41 +205,30 @@ public final class EntityGroup {
             
             if(e instanceof Enemy) { // the entity is actaully an enemy
                 
-                Enemy en = cloneEnemy(e);
-                en.setVelocity(vx, vy);
-                coordinates = drawRandom(en.getSprite());
-                en.place(coordinates[0], coordinates[1]);
-                return (EntityT)en;
+                en = cloneEnemy(e);
                 
             } else if(e instanceof Misc) { // the entity is actually a misc entity
                 
-                Misc mi = cloneMisc(e);
-                mi.setVelocity(vx, vy);
-                coordinates = drawRandom(mi.getSprite());
-                mi.place(coordinates[0], coordinates[1]);
-                return (EntityT)mi;
+                en = cloneMisc(e);
                 
             } else if(e instanceof Weapon) { // the entity is actually a weapon
                 
-                Weapon we = cloneWeapon(e);
-                we.setVelocity(vx, vy);
-                coordinates = drawRandom(we.getSprite());
-                we.place(coordinates[0], coordinates[1]);
-                return (EntityT)we;
+                en = cloneWeapon(e);
                 
             } else if(e instanceof Player) { // the entity is actually the player
                 
-                Player pl = clonePlayer(e);
-                pl.setVelocity(vx, vy);
-                coordinates = drawRandom(pl.getSprite());
-                pl.place(coordinates[0], coordinates[1]);
-                return (EntityT)pl;
+                en = clonePlayer(e);
                         
             } else {
                 
                 throw new EntitySpawnException("caught EntitySpawnException: What kind of entity are you exactly? Attempting to spawn again without velocity.");
                         
             }
+            
+                en.setVelocity(vx, vy);
+                coordinates = drawRandom(en.getSprite());
+                en.place(coordinates[0], coordinates[1]);
+                return (EntityT)en;
             
         } catch(EntitySpawnException ex) {
             
@@ -273,51 +250,38 @@ public final class EntityGroup {
     public static <EntityT extends Entity> EntityT spawn(String name, float x, float y) {
         
         Entity e = getEntity(name);
+        Entity en; // the cloned entity, to be casted into EntityT type
         
         if(e instanceof Enemy) { // the entity is actaully an enemy
 
-            Enemy en = cloneEnemy(e);
-            en.getSprite().draw(x, y);
-            en.place(x, y);
-            return (EntityT)en;
+            en = cloneEnemy(e);
 
         } else if(e instanceof Misc) { // the entity is actually a misc entity
 
-            Misc mi = cloneMisc(e);
-            mi.getSprite().draw(x, y);
-            mi.place(x, y);
-            return (EntityT)mi;
+            en = cloneMisc(e);
 
         } else if(e instanceof Weapon) { // the entity is actually a weapon
 
-            Weapon we = cloneWeapon(e);
-            we.getSprite().draw(x, y);
-            we.place(x, y);
-            return (EntityT)we;
+            en = cloneWeapon(e);
 
         } else if(e instanceof Immovable) { // the entity is actually an immovable
 
-            Immovable im = cloneImmovable(e);
-            im.getSprite().draw(x, y);
-            im.place(x, y);
-            return (EntityT)im;
+            en = cloneImmovable(e);
 
         } else if(e instanceof Player) { // the entity is actually the player
 
-            Player pl = clonePlayer(e);
-            pl.getSprite().draw(x, y);
-            pl.place(x, y);
-            return (EntityT)pl;
+            en = clonePlayer(e);
             
         } else {
             
             System.out.println("All else failed, so spawning a basic entity at your specified location instead.");
-            Entity ent = cloneEntity(e);
-            ent.getSprite().draw(x, y);
-            ent.place(x, y);
-            return (EntityT)ent;
+            en = cloneEntity(e);
             
         }
+        
+        en.getSprite().draw(x, y);
+        en.place(x, y);
+        return (EntityT)en;
     }
     
     /**
@@ -332,6 +296,7 @@ public final class EntityGroup {
     public static <EntityT extends MovableEntity> EntityT spawn(String name, float x, float y, double vx, double vy) {
         
         Entity e = getEntity(name);
+        MovableEntity en; // the cloned entity, to be casted into type EntityT
         try {
             
             /*
@@ -341,41 +306,30 @@ public final class EntityGroup {
             
             if(e instanceof Enemy) { // the entity is actaully an enemy
                 
-                Enemy en = cloneEnemy(e);
-                en.setVelocity(vx, vy);
-                en.getSprite().draw(x, y);
-                en.place(x, y);
-                return (EntityT)en;
+                en = cloneEnemy(e);
                 
             } else if(e instanceof Misc) { // the entity is actually a misc entity
                 
-                Misc mi = cloneMisc(e);
-                mi.setVelocity(vx, vy);
-                mi.getSprite().draw(x, y);
-                mi.place(x, y);
-                return (EntityT)mi;
+                en = cloneMisc(e);
                 
             } else if(e instanceof Weapon) { // the entity is actually a weapon
                 
-                Weapon we = cloneWeapon(e);
-                we.setVelocity(vx, vy);
-                we.getSprite().draw(x, y);
-                we.place(x, y);
-                return (EntityT)we;
+                en = cloneWeapon(e);
                 
             } else if(e instanceof Player) { // the entity is actually the player
                 
-                Player pl = clonePlayer(e);
-                pl.setVelocity(vx, vy);
-                pl.getSprite().draw(x, y);
-                pl.place(x, y);
-                return (EntityT)pl;
+                en = clonePlayer(e);
                         
             } else {
                 
                 throw new EntitySpawnException("caught EntitySpawnException: What kind of entity are you exactly? Attempting to spawn again without velocity.");
                         
             }
+            
+                en.setVelocity(vx, vy);
+                en.getSprite().draw(x, y);
+                en.place(x, y);
+                return (EntityT)en;
             
         } catch(EntitySpawnException ex) {
             
