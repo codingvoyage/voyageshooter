@@ -3,6 +3,7 @@ package spaceinvaders.entity;
 import org.newdawn.slick.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import spaceinvaders.script.SpaceInvaders;
 
 /**
  * Entity Data Storage<br/>
@@ -25,14 +26,20 @@ public final class EntityGroup {
     /** Lists all the Immovable entities */
     private static ArrayList<Immovable> immovable = new ArrayList<Immovable>();
     
-    /** Maps Enemy names to their ID */
-    private static final HashMap<String, Integer> enemyData = new HashMap<String, Integer>();
-    /** Maps Weapon names to their ID */
-    private static final HashMap<String, Integer> weaponData = new HashMap<String, Integer>();
-    /** Maps Misc entity names to their ID */
-    private static final HashMap<String, Integer> miscData = new HashMap<String, Integer>();
-    /** Maps Immovable entity names to their ID */
-    private static final HashMap<String, Integer> immovableData = new HashMap<String, Integer>();
+    /** Maps all entity names to their respective entity object */
+    private static final HashMap<String, Entity> entityData = new HashMap<String, Entity>();
+    
+    /** Sprite sheet for Entities */
+    public static final PackedSpriteSheet sprites; 
+    static {
+        PackedSpriteSheet tempSprites = null; // required or compiler will complain that sprites isn't initialized
+        try {
+            tempSprites = new PackedSpriteSheet("src/spaceinvaders/entity/sprites/sprites.space");
+        } catch (SlickException e) {
+            System.out.println("Sprite sheet failure.");
+        }
+        sprites = tempSprites;
+    }
     
     /** The graphics engine provided by Slick2D */
     private static Graphics g;
@@ -52,14 +59,14 @@ public final class EntityGroup {
     }
     
      /**
-     * Constructs a new set of entities
+     * Constructs a new set of entities<br/>
+     * Calling this constructor normally is not recommended. Use a data file to load the data instead.<br/>
+     * Please note that the fields in EntityGroup are static and therefore this constructor will replace everything.
      * @param enemies ArrayList of enemy entities
      * @param weapons ArrayList of weapon entities
      * @param misc ArrayList of misc entities
      */
     public EntityGroup(ArrayList<Enemy> enemies, ArrayList<Weapon> weapons, ArrayList<Misc> misc, ArrayList<Immovable> immovable) {
-
-        /* This is horribly unelegant, but is the only way to have the ArrayLists be static final. */
         EntityGroup.enemies = enemies;
         EntityGroup.weapons = weapons;
         EntityGroup.misc = misc;
@@ -73,25 +80,24 @@ public final class EntityGroup {
      */
     private static void createMap() {
         for(Enemy e : enemies) {
-            enemyData.put(e.getName(), e.getId());
+            entityData.put(e.getName(), e);
         }
         
         for (Weapon w : weapons) {
-            weaponData.put(w.getName(), w.getId());
+            entityData.put(w.getName(), w);
         }
         
         for (Misc m : misc) {
-            miscData.put(m.getName(), m.getId());
+            entityData.put(m.getName(), m);
         }
         
         for (Immovable i : immovable) {
-            immovableData.put(i.getName(), i.getId());
+            entityData.put(i.getName(), i);
         }
-        
-        System.out.println("Hashmaps created");
+
         mapCreated = true;
     }
-
+    
     /**
      * The graphics engine<br/>
      * Passed by the render method<br/>
@@ -111,74 +117,344 @@ public final class EntityGroup {
     }
     
     /**
-     * Render the graphics for all entities
+     * Get Entity by Name
+     * @param name name of Entity
+     * @return the requested Entity
      */
-    public static void renderGraphics() {
-        for (Enemy e : enemies) {
-            //e.(g);
+    public static Entity getEntity(String name) {
+        if(!mapCreated) createMap();
+        if(entityData.containsKey(name)) {
+            return entityData.get(name);
+        } else {
+            System.out.println("WARNING - No Entity by that name exists! Returning default enemy.");
+            return new Entity();
+        }
+    }
+   
+    /**
+     * Get Image from Sprite
+     * @return the Entity's image
+     */
+    public static Image getImage(String ref) {
+        return sprites.getSprite(ref);
+    }
+    
+    /**
+     * Spawn the Entity at a random location with default velocity<br/>
+     * EntitySpawnExceptions from <code>spawn(name, vx, vy)</code> will retry spawning with this method
+     * @param name the entity to spawn
+     * @return the Entity that just got spawned
+     */
+    public static Entity spawn(String name) {
+        
+        Entity e = getEntity(name);
+        float[] coordinates; // random coordinates
+        
+        if(e instanceof Enemy) { // the entity is actaully an enemy
+
+            Enemy en = cloneEnemy(e);
+            coordinates = drawRandom(en.getSprite());
+            en.place(coordinates[0], coordinates[1]);
+            return en;
+
+        } else if(e instanceof Misc) { // the entity is actually a misc entity
+
+            Misc mi = cloneMisc(e);
+            coordinates = drawRandom(mi.getSprite());
+            mi.place(coordinates[0], coordinates[1]);
+            return mi;
+
+        } else if(e instanceof Weapon) { // the entity is actually a weapon
+
+            Weapon we = cloneWeapon(e);
+            coordinates = drawRandom(we.getSprite());
+            we.place(coordinates[0], coordinates[1]);
+            return we;
+
+        } else if(e instanceof Immovable) { // the entity is actually an immovable
+
+            Immovable im = cloneImmovable(e);
+            coordinates = drawRandom(im.getSprite());
+            im.place(coordinates[0], coordinates[1]);
+            return im;
+
+        } else if(e instanceof Player) { // the entity is actually the player
+
+            Player pl = clonePlayer(e);
+            coordinates = drawRandom(pl.getSprite());
+            pl.place(coordinates[0], coordinates[1]);
+            return pl;
+            
+        } else {
+            
+            System.out.println("All else failed, so spawning a basic entity at a random location instead.");
+            Entity ent = cloneEntity(e);
+            coordinates = drawRandom(ent.getSprite());
+            ent.place(coordinates[0], coordinates[1]);
+            return ent;
+            
         }
     }
     
     /**
-     * Get Enemy by Name
-     * @param name name of Enemy
-     * @return the requested Enemy
+     * Spawn the Entity at a random location with a specific velocity
+     * @param name the movable entity to spawn
+     * @param vx x velocity in mph
+     * @param vy y velocity in mph
+     * @return the Entity that just got spawned
      */
-    public static Enemy getEnemy(String name) {
-        if(!mapCreated) createMap();
-        if(enemyData.containsKey(name)) {
-            return enemies.get(enemyData.get(name));
-        } else {
-            System.out.println("WARNING - No Enemy by that name exists! Returning default enemy.");
-            return new Enemy();
-        }
-    }
-    
-     /**
-     * Get Weapon by Name
-     * @param name index/id of Weapon
-     * @return the requested Weapon
-     */
-    public static Weapon getWeapon(String name) {
-        if(!mapCreated) createMap();
-        if(weaponData.containsKey(name)) {
-            return weapons.get(weaponData.get(name));
-        } else {
-            System.out.println("WARNING - No Weapon by that name exists! Returning default weapon.");
-            return new Weapon();
-        }
-    }
-    
-     /**
-     * Get Misc entity by Name
-     * @param name name of Misc entity
-     * @return the requested Misc entity
-     */
-    public static Misc getMisc(String name) {
-        if(!mapCreated) createMap();
-        if(miscData.containsKey(name)) {
-            return misc.get(miscData.get(name));
-        } else {
-            System.out.println("WARNING - No Misc entity exists with that name! Returning default misc.");
-            return new Misc();
-        }
-    }
+    public static Entity spawn(String name, double vx, double vy) {
         
-     /**
-     * Get Misc entity by Name
-     * @param name name of Immovable entity
-     * @return the requested Immovable entity
+        Entity e = getEntity(name);
+        float[] coordinates; // random coordinates
+        
+        try {
+            
+            if(!(e instanceof MovableEntity))
+                throw new EntitySpawnException("You can't give a non-movable entity velocity!");
+            
+            if(e instanceof Enemy) { // the entity is actaully an enemy
+                
+                Enemy en = cloneEnemy(e);
+                en.setVelocity(vx, vy);
+                coordinates = drawRandom(en.getSprite());
+                en.place(coordinates[0], coordinates[1]);
+                return en;
+                
+            } else if(e instanceof Misc) { // the entity is actually a misc entity
+                
+                Misc mi = cloneMisc(e);
+                mi.setVelocity(vx, vy);
+                coordinates = drawRandom(mi.getSprite());
+                mi.place(coordinates[0], coordinates[1]);
+                return mi;
+                
+            } else if(e instanceof Weapon) { // the entity is actually a weapon
+                
+                Weapon we = cloneWeapon(e);
+                we.setVelocity(vx, vy);
+                coordinates = drawRandom(we.getSprite());
+                we.place(coordinates[0], coordinates[1]);
+                return we;
+                
+            } else if(e instanceof Player) { // the entity is actually the player
+                
+                Player pl = clonePlayer(e);
+                pl.setVelocity(vx, vy);
+                coordinates = drawRandom(pl.getSprite());
+                pl.place(coordinates[0], coordinates[1]);
+                return pl;
+                        
+            } else {
+                
+                throw new EntitySpawnException("What kind of entity are you exactly? Attempting to spawn again without velocity.");
+                        
+            }
+            
+        } catch(EntitySpawnException ex) {
+            
+            System.out.println(ex.getMessage());
+            System.out.println("Ignoring your provided velocities.");
+            return spawn(name);
+            
+        }   
+    }
+    
+    /**
+     * Spawn the entity at a specific location with default velocity<br/>
+     * EntitySpawnExceptions from <code>spawn(name, x, y, vx, vy)</code> will retry using this method
+     * @param name the entity to spawn
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return the Entity that just got spawned
      */
-    public static Immovable getImmovable(String name) {
-        if(!mapCreated) createMap();
-        if(immovableData.containsKey(name)) {
-            return immovable.get(immovableData.get(name));
+    public static Entity spawn(String name, float x, float y) {
+        
+        Entity e = getEntity(name);
+        
+        if(e instanceof Enemy) { // the entity is actaully an enemy
+
+            Enemy en = cloneEnemy(e);
+            en.getSprite().draw(x, y);
+            en.place(x, y);
+            return en;
+
+        } else if(e instanceof Misc) { // the entity is actually a misc entity
+
+            Misc mi = cloneMisc(e);
+            mi.getSprite().draw(x, y);
+            mi.place(x, y);
+            return mi;
+
+        } else if(e instanceof Weapon) { // the entity is actually a weapon
+
+            Weapon we = cloneWeapon(e);
+            we.getSprite().draw(x, y);
+            we.place(x, y);
+            return we;
+
+        } else if(e instanceof Immovable) { // the entity is actually an immovable
+
+            Immovable im = cloneImmovable(e);
+            im.getSprite().draw(x, y);
+            im.place(x, y);
+            return im;
+
+        } else if(e instanceof Player) { // the entity is actually the player
+
+            Player pl = clonePlayer(e);
+            pl.getSprite().draw(x, y);
+            pl.place(x, y);
+            return pl;
+            
         } else {
-            System.out.println("WARNING - No immovable entity exists with that name! Returning default immovable.");
-            return new Immovable();
+            
+            System.out.println("All else failed, so spawning a basic entity at your specified location instead.");
+            Entity ent = cloneEntity(e);
+            ent.getSprite().draw(x, y);
+            ent.place(x, y);
+            return ent;
+            
         }
     }
-      
+    
+    /**
+     * Spawn the entity at a specific location with specific velocity
+     * @param name the movable entity to spawn
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param vx x velocity in mph
+     * @param vy y velocity in mph
+     * @return the Entity that just got spawned
+     */
+    public static Entity spawn(String name, float x, float y, double vx, double vy) {
+        
+        Entity e = getEntity(name);
+        try {
+            
+            if(!(e instanceof MovableEntity))
+                throw new EntitySpawnException("You can't give a non-movable entity velocity!");
+            
+            if(e instanceof Enemy) { // the entity is actaully an enemy
+                
+                Enemy en = cloneEnemy(e);
+                en.setVelocity(vx, vy);
+                en.getSprite().draw(x, y);
+                en.place(x, y);
+                return en;
+                
+            } else if(e instanceof Misc) { // the entity is actually a misc entity
+                
+                Misc mi = cloneMisc(e);
+                mi.setVelocity(vx, vy);
+                mi.getSprite().draw(x, y);
+                mi.place(x, y);
+                return mi;
+                
+            } else if(e instanceof Weapon) { // the entity is actually a weapon
+                
+                Weapon we = cloneWeapon(e);
+                we.setVelocity(vx, vy);
+                we.getSprite().draw(x, y);
+                we.place(x, y);
+                return we;
+                
+            } else if(e instanceof Player) { // the entity is actually the player
+                
+                Player pl = clonePlayer(e);
+                pl.setVelocity(vx, vy);
+                pl.getSprite().draw(x, y);
+                pl.place(x, y);
+                return pl;
+                        
+            } else {
+                
+                throw new EntitySpawnException("What kind of entity are you exactly? Attempting to spawn again without velocity.");
+                        
+            }
+            
+        } catch(EntitySpawnException ex) {
+            
+            System.out.println(ex.getMessage());
+            System.out.println("Ignoring your provided velocities.");
+            return spawn(name, x, y);
+            
+        }   
+    }
+    
+    /**
+     * Clone Basic Entity
+     * @param e the Entity reference
+     */
+    private static Entity cloneEntity(Entity e) {
+        Entity ent = e;
+        ent = new Entity(ent.getName(), ent.getId(), ent.getImage(), ent.getDescription());
+        return ent;
+    }
+    
+    /**
+     * Clone Enemy
+     * @param e the Entity reference
+     */
+    private static Enemy cloneEnemy(Entity e) {
+        Enemy en = (Enemy)e;
+        en = new Enemy(en.getName(), en.getId(), en.getImage(), en.getDescription(), en.getAttack(), en.getDefense(), en.getWeaponName(), en.getVx(), en.getVy());
+        return en;
+    }
+    
+    /**
+     * Clone Misc Entity
+     * @param e the Entity reference
+     */
+    private static Misc cloneMisc(Entity e) {
+        Misc mi = (Misc)e;
+        mi = new Misc(mi.getName(), mi.getId(), mi.getImage(), mi.getDescription(), mi.getVx(), mi.getVy());
+        return mi;
+    }
+    
+    /**
+     * Clone Weapon
+     * @param e the Entity reference
+     */
+    private static Weapon cloneWeapon(Entity e) {
+        Weapon we = (Weapon)e;
+        we = new Weapon(we.getName(), we.getId(), we.getImage(), we.getDescription(), we.getAttack(), we.getVx(), we.getVy());
+        return we;
+    }
+    
+    /**
+     * Clone Immovable Entity
+     * @param e the Entity reference
+     */
+    private static Immovable cloneImmovable(Entity e) {
+        Immovable im = (Immovable)e;
+        im = new Immovable(im.getName(), im.getId(), im.getImage(), im.getDescription(), im.getAttack(), im.getDefense(), im.getWeaponName());
+        return im;
+    }
+    
+    /**
+     * Clone Player
+     * @param e the Entity reference
+     */
+    private static Player clonePlayer(Entity e) {
+        Player pl = (Player)e;
+        pl = new Player(pl.getName(), pl.getId(), pl.getImage(), pl.getDescription(), pl.getAttack(), pl.getDefense(), pl.getWeaponName(), pl.getVx(), pl.getVy());
+        return pl;
+    }
+    
+    /**
+     * Draw the Image at a random location on the map
+     * @param image the image to draw
+     * @return an array of two floats representing the random x and y coordinates chosen
+     */
+    public static float[] drawRandom(Image image) {
+        float x = (float)(Math.random() * ((SpaceInvaders.X_RESOLUTION) + 1));
+        float y = (float)(Math.random() * ((SpaceInvaders.Y_RESOLUTION) + 1));
+        image.draw(x, y);
+        float[] coordinates = {x, y};
+        return coordinates;
+    }
+          
     /**
      * Get Enemy by ID
      * @param id index/id of Enemy

@@ -20,6 +20,13 @@ public interface Movable {
     public void beginMove(double pixelsToMove);
     
     /**
+     * Set the velocity
+     * @param vx x velocity in mph
+     * @param vy y velocity in mph
+     */
+    public void setVelocity(double vx, double vy);
+    
+    /**
      * Get X velocity
      * @return the entity's x velocity
      */   

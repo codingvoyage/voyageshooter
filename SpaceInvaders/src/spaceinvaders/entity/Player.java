@@ -22,12 +22,12 @@ public class Player extends MovableEntity implements Attacker, Defender {
      * New Game
      */
     public Player() {
-        super("Cool Guy", 1337, "A cool guy assigned on an even cooler mission.", 10.0, 10.0);
+        super("Cool Guy", 1337, "spaceship", "A cool guy assigned on an even cooler mission.", 10.0, 10.0);
         attack = 1.0;
         defense = 1.0;
         lives = 7;
         weapons = "Rainbow Laser";
-        weapon = EntityGroup.getWeapon("Rainbow Laser");
+        weapon = (Weapon)EntityGroup.getEntity("Rainbow Laser");
     }
     
     /**
@@ -38,13 +38,13 @@ public class Player extends MovableEntity implements Attacker, Defender {
      * @param attack base attack of entity
      * @param defense base defense of entity
      */
-    public Player(String name, int id, String description, double attack, double defense, String weapons, double vx, double vy) {
-        super(name, id, description, vx, vy);
+    public Player(String name, int id, String image, String description, double attack, double defense, String weapons, double vx, double vy) {
+        super(name, id, image, description, vx, vy);
         this.attack = attack;
         this.defense = defense;
         lives = 7;
         this.weapons = weapons;
-        weapon = EntityGroup.getWeapon(weapons);
+        weapon = (Weapon)EntityGroup.getEntity(weapons);
     }
     
     /**
@@ -64,8 +64,15 @@ public class Player extends MovableEntity implements Attacker, Defender {
     public double getDefense() {
         return defense;
     } 
+         
+    /**
+     * Accessors for Weapon Name
+     * @return name of weapon used by entity
+     */
+    public String getWeaponName() {
+        return weapons;
+    }  
     
-        
     /**
      * Accessors for Weapon
      * @return weapon used by entity

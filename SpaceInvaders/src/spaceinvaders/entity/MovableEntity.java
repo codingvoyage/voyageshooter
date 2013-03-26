@@ -8,9 +8,9 @@ import spaceinvaders.script.*;
  */
 public abstract class MovableEntity extends Entity implements Movable {
     
-    /** The entity's current x-velocity */
+    /** The entity's current x-velocity in mph */
     public Double vx;
-    /** The entity's current y-velocity */
+    /** The entity's current y-velocity in mph */
     public Double vy;
      
     /** origin */
@@ -20,6 +20,13 @@ public abstract class MovableEntity extends Entity implements Movable {
     public static final float EDGE_FACTOR = 75.0f;
     /** velocity conversion from miles to pixels */
     public static final double VELOCITY_FACTOR = 0.01;
+    
+    /** rotation size */
+    public static final float ROTATION_SIZE = 0.2f;
+    /** step size */
+    public static final float STEP_SIZE = 0.4f;
+    /** back up size */
+    public static final float BACK_SIZE = 0.075f;
     
     /**
      * Constructs a new MovableEntity
@@ -36,8 +43,8 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param vx x-velocity of movable entity
      * @param vy y-velocity of movable entity
      */
-    public MovableEntity(String name, int id, String description, double vx, double vy) {
-        super(name, id, description);
+    public MovableEntity(String name, int id, String image, String description, double vx, double vy) {
+        super(name, id, image, description);
         this.vx = vx * VELOCITY_FACTOR;
         this.vy = vy * VELOCITY_FACTOR;
     }
@@ -138,7 +145,18 @@ public abstract class MovableEntity extends Entity implements Movable {
         // temporary only
         return true;
     }
-        
+     
+    /**
+     * Set the velocity
+     * @param vx x velocity in mph
+     * @param vy y velocity in mph
+     */
+    @Override
+    public void setVelocity(double vx, double vy) {
+        this.vx = vx;
+        this.vy = vy;
+    }
+    
     /**
      * Get X velocity
      * @return the entity's x velocity
