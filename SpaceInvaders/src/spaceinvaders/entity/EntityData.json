@@ -1,70 +1,106 @@
 {
-    "enemies": [
-        {
-            "name" : "Minion",
-            "description" : "Weak minions sent from some unknown land.",
-            "attack" : 0,
-            "defense" : 1,
+    "about" :  "THIS FILE IS USED TO STORE ENTITY DATA.\n\
+               DO NOT MODIFY THIS FILE IN ANY WAY. \n\
+               MODIFYING COULD CAUSE SEVERE SIDE EFFECTS, \n\
+               INCLUDING THE ENEMY SHIPS RUNNING OUT OF THE GAME WINDOW AND ATTACKING YOUR COMPUTER.\n\
+               \n\
+               CODING VOYAGE SPACE INVADERS - COPYRIGHT (c) 2013 TEAM CODING VOYAGE.",
+            
+    "player" : {
+            "name" : "Player",
+            "id" : "p1",
+            "description" : "The hero of our story... don't prove us wrong.",
+            "hp" : 1000,
+            "maxhp" : 1000,
+            "attack" : 10.0,
+            "defense" : 10.0,
             "weapons" : "Water Gun",
             "vx" : 1.0,
             "vy" : 1.0,
-            "image" : "enemy1"
+            "image" : "spaceship",
+            "points" : 0,
+            
+            "level" : 1,
+            "about" : "DOUBLES AS A SAVE FILE. DO NOT MODIFY."
+    },
+            
+    "enemies": [
+        {
+            "name" : "Minion",
+            "id" : "m1",
+            "description" : "Weak minions sent from some unknown land.",
+            "attack" : 0,
+            "defense" : 1,
+            "hp" : 100,
+            "weapons" : "Water Gun",
+            "vx" : 1.0,
+            "vy" : 1.0,
+            "image" : "enemy1",
+            "thread" : 51
         },
         {
             "name" : "Bakesale Monster",
+            "id" : "bm1",
             "description" : "The final powerful boss. The true identity of the mastermind behind all these evil ships.",
             "attack" : 9002.0,
             "defense" : 9002.0,
+            "hp" : 1000000,
             "weapons" : "Bomb Formula 9001",
             "vx" : 10.0,
             "vy" : 10.0,
-            "image" : "enemy2 -- doesnotexist"
+            "image" : "enemy1"
         }
     ],
 
     "weapons": [
         {
             "name" : "Water Gun",
+            "id" : "wg1",
             "description" : "In what galaxy is it logical to use water guns to attack spaceships?",
             "attack" : 0.0001,
             "vx" : 1.0,
             "vy" : 1.0,
-            "image" : "watergun -- doesnotexist"
+            "image" : "enemy1"
         },
         {
             "name" : "Rainbow Laser",
+            "id" : "rl1",
             "description" : "Ohhh! Pretty colors!",
             "attack" : 0.0001,
             "vx" : 1.0,
             "vy" : 1.0,
-            "image" : "rainbowlaser -- doesnotexist"
+            "image" : "enemy1"
         },
         {
             "name" : "Bomb Formula 9001",
+            "id" : "bf1",
             "description" : "A small and powerful bullet that explodes on impact. Simply the best weapon in any galaxy.",
             "attack" : 9001.0,
             "vx" : 100.0,
             "vy" : 100.0,
-            "image" : "bombformula9001--doesnotexist"
+            "image" : "enemy1"
         }
     ],
 
     "misc": [
         {
             "name" : "Asteroid",
+            "id" : "as1",
             "description" : "Random floating rocks. Avoid at all costs! Your ship is flying too fast and will crash!",
             "vx" : 5.0,
             "vy" : 5.0,
-            "image" : "asteroid--doesnotexist"
+            "image" : "enemy1"
         }
     ],
             
     "immovable" : [
         {
             "name" : "Floating Mine",
+            "id" : "fm1",
             "description" : "A deadly floating mine created by an evil mastermind. Stay far away from these!",
             "attack" : 999999.0,
             "defense" : 999999.0,
+            "hp" : 1000000,
             "weapons" : "Bomb Formula 9001",
             "image" : "enemy1"
         }

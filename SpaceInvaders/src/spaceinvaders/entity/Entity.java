@@ -2,7 +2,7 @@ package spaceinvaders.entity;
 
 import spaceinvaders.script.*;
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.*;
+import org.newdawn.slick.*;
 
 /**
  * An Entity is any object that appears on the map 
@@ -28,9 +28,9 @@ public class Entity extends ScriptableClass {
     private Image sprite;
        
     /** x coordinates */
-    private float x = 400;
+    private float x = 300;
     /** y coordinates */
-    private float y = -400;
+    private float y = 400;
     /** Default scaling factor */
     private float scale = 0.5f;
     
@@ -81,6 +81,14 @@ public class Entity extends ScriptableClass {
     public void move(double x, double y) {
         this.x += x;
         this.y += y;
+    }
+    
+    /**
+     * Set the Entity's ID tag
+     * @param id the ID to set to
+     */
+    public void setId(String id) {
+        this.id = id;
     }
     
     /**

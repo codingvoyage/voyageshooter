@@ -44,6 +44,7 @@ public class SpaceInvaders extends BasicGame {
     private Image space;
     
     /** The actual player */
+    public static Image playerSprite;
     
     /** TEMPORARY TEST VARIABLES */
 
@@ -98,9 +99,11 @@ public class SpaceInvaders extends BasicGame {
             System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
         }
         
+        playerSprite = EntityGroup.getPlayer().getSprite();
+        
         
         //Create our test entity
-        testEntity = (Enemy)EntityGroup.getEntity("Minion");
+        testEntity = (Enemy)EntityGroup.getBaseEntity("Minion");
         
         
         //Create a thread which governs this entity with Script 
@@ -136,7 +139,7 @@ public class SpaceInvaders extends BasicGame {
         threadManager.act(delta);
         
         /** user keyboard control */
-        //control(gc, delta);
+        EntityGroup.control(gc, delta);
  
     }
 
@@ -161,19 +164,26 @@ public class SpaceInvaders extends BasicGame {
         
         // Test spawning an enemy
         // Add "f" to the end to specify floating point numbers (or else Java won't know if the numbers are coordinates or velocities)
-        Enemy newEntity = EntityGroup.spawn("Minion");
-        // Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", 400f, 300f);
-        // Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", 150.0, 160.0);
-        // Enemy newEntity2 = (Enemy)EntityGroup.spawn("Minion", 400f, 300f, 150.0, 160.0);
+        Player player = EntityGroup.spawn("Player", "p1", EntityGroup.getPlayer().getX(), EntityGroup.getPlayer().getY());
+        
+        //Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", "m1", 400f, 300f);
+        // Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", "m1", 150.0, 160.0);
+        // Enemy newEntity2 = (Enemy)EntityGroup.spawn("Minion", "m1", 400f, 300f, 150.0, 160.0);
 
         // the following will not compile because Immovable is not Movable
         // a Floating Mine is Immovable but yet I'm trying to force a velocity
         // Immovable immovable = EntityGroup.spawn("Floating Mine", 400.0, 300.0);
         
 
-        g.drawString("Minion 1 Coordinates: " + newEntity.getX() + ", " + newEntity.getY(), 600, 40);
-        g.drawString("Minion Velocity: " + newEntity.getVx() + ", " + newEntity.getVy(), 600, 60);
-        g.drawString("This game is currently in testing and nothing should work properly.", 300, 700);
+        g.drawString("Player Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
+        g.drawString("Player Velocity: " + player.getVx() + ", " + player.getVy(), 600, 60);
+        if(player.getHp() >= 0) {
+            g.drawString("Player HP: " + player.getHp() + "/" + player.getMaxHp(), 600, 80);
+        } else {
+            g.drawString("You're dead", 600,80);
+            player.place(-200, -300);
+        }
+        g.drawString("This game is currently in testing and nothing should work properly. Press H to hurt the player.", 100, 700);
     }
 
     /**

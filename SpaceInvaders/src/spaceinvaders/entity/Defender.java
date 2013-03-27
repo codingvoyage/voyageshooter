@@ -1,4 +1,5 @@
 package spaceinvaders.entity;
+import org.newdawn.slick.*;
 
 /**
  * Entity with Defense
@@ -8,4 +9,13 @@ package spaceinvaders.entity;
 public interface Defender {
     /** Base defense of entity */
     public double getDefense();
+    /** Get HP */
+    public int getHp();
+    /** Get Max HP */
+    public int getMaxHp();
+    /** 
+     * Deduct HP 
+     * @param hp the number of points to deduct
+     */
+    public void deductHp(int hp) throws SlickException;
 }

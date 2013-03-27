@@ -64,7 +64,7 @@ public class Weapon extends MovableEntity implements Attacker {
      * Accessors for Weapon
      * @return itself
      */
-    //@Override
+    @Override
     public Weapon getWeapon() {
         return this;
     }

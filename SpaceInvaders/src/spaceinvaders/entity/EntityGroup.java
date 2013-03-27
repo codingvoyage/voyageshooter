@@ -17,6 +17,9 @@ import spaceinvaders.script.SpaceInvaders;
 
 public final class EntityGroup {
     
+    /** The main player with data loaded from a JSON save file */
+    private static Player player;
+    
     /** Lists all the Enemies */
     private static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     /** Lists all the Weapons */
@@ -29,11 +32,8 @@ public final class EntityGroup {
     /** Maps all entity names to their respective entity object */
     private static final HashMap<String, Entity> entityData = new HashMap<String, Entity>();
     
-    /** Lists all spawned and active entities */
-    private static final ArrayList<Entity> active = new ArrayList<Entity>();
-    
     /** Maps active IDs to the active entity */
-    private static final HashMap<String, Entity> activeId = new HashMap<String, Entity>();
+    private static final HashMap<String, Entity> active = new HashMap<String, Entity>();
     
     /** Sprite sheet for Entities */
     public static final PackedSpriteSheet sprites; 
@@ -54,15 +54,13 @@ public final class EntityGroup {
      * The ArrayLists are only assigned values after the constructor is run, therefore we can't create the maps here.<br/>
      * The names are mapped to IDs the first time it is needed.
      */
-    private static boolean mapCreated;
+    private static boolean mapCreated = false;
     
     /**
      * Constructs a new set of entities using a data file<br/>
      * Should be called via a separate data file such as JSON
      */
-    public EntityGroup() {
-        mapCreated = false;
-    }
+    public EntityGroup() {}
     
      /**
      * Constructs a new set of entities<br/>
@@ -77,7 +75,6 @@ public final class EntityGroup {
         EntityGroup.weapons = weapons;
         EntityGroup.misc = misc;
         EntityGroup.immovable = immovable;
-        mapCreated = false;
     }
     
     /*
@@ -105,6 +102,9 @@ public final class EntityGroup {
         for (Immovable i : immovable) {
             entityData.put(i.getName(), i);
         }
+        
+        //System.out.println(EntityGroup.getBaseEntity("Rainbow Laser").getName());
+        entityData.put(player.getName(), player);
 
         mapCreated = true;
     }
@@ -128,16 +128,24 @@ public final class EntityGroup {
     }
     
     /**
+     * Get Player
+     * @return the player
+     */
+    public static Player getPlayer() {
+        return player;
+    }
+    
+    /**
      * Get Entity by Name
      * @param name name of Entity
      * @return the requested Entity
      */
-    public static Entity getEntity(String name) {
+    public static Entity getBaseEntity(String name) {
         if(!mapCreated) createMap();
         if(entityData.containsKey(name)) {
             return entityData.get(name);
         } else {
-            System.out.println("WARNING - No Entity by that name exists! Returning default enemy.");
+            System.out.println("WARNING - No Entity by that name exists! Returning default entity.");
             return new Entity();
         }
     }
@@ -154,11 +162,12 @@ public final class EntityGroup {
      * Spawn the Entity at a random location with default velocity<br/>
      * EntitySpawnExceptions from <code>spawn(name, vx, vy)</code> will retry spawning with this method
      * @param name the entity to spawn
+     * @param id the id reference of entity
      * @return the Entity of declared type that just got spawned
      */
-    public static <EntityT extends Entity> EntityT spawn(String name) {
+    public static <EntityT extends Entity> EntityT spawn(String name, String id) {
         
-        Entity e = getEntity(name);
+        Entity e = getBaseEntity(name);
         Entity en; // the cloned entity, to be casted into EntityT type
         float[] coordinates; // random coordinates
         
@@ -189,21 +198,24 @@ public final class EntityGroup {
             
         }
         
-            coordinates = drawRandom(en.getSprite());
-            en.place(coordinates[0], coordinates[1]);
-            return (EntityT)en;
+        en.setId(id);
+        coordinates = drawRandom(en.getSprite());
+        en.place(coordinates[0], coordinates[1]);
+        active.put(en.getId(), (EntityT)en);
+        return (EntityT)en;
     }
     
     /**
      * Spawn the Entity at a random location with a specific velocity
      * @param name the movable entity to spawn
+     * @param id the id reference of entity
      * @param vx x velocity in mph
      * @param vy y velocity in mph
      * @return the Entity of declared type that just got spawned
      */
-    public static <EntityT extends MovableEntity> EntityT spawn(String name, double vx, double vy) {
+    public static <EntityT extends MovableEntity> EntityT spawn(String name, String id, double vx, double vy) {
         
-        Entity e = getEntity(name);
+        Entity e = getBaseEntity(name);
         MovableEntity en; // the cloned entity, to be casted into EntityT type
         float[] coordinates; // random coordinates
         
@@ -236,16 +248,18 @@ public final class EntityGroup {
                         
             }
             
-                en.setVelocity(vx, vy);
-                coordinates = drawRandom(en.getSprite());
-                en.place(coordinates[0], coordinates[1]);
-                return (EntityT)en;
+            en.setId(id);
+            en.setVelocity(vx, vy);
+            coordinates = drawRandom(en.getSprite());
+            en.place(coordinates[0], coordinates[1]);
+            active.put(en.getId(), (EntityT)en);
+            return (EntityT)en;
             
         } catch(EntitySpawnException ex) {
             
             System.out.println(ex.getMessage());
             System.out.println("Ignoring your provided velocities.");
-            return spawn(name);
+            return spawn(name, id);
             
         }   
     }
@@ -254,13 +268,14 @@ public final class EntityGroup {
      * Spawn the entity at a specific location with default velocity<br/>
      * EntitySpawnExceptions from <code>spawn(name, x, y, vx, vy)</code> will retry using this method
      * @param name the entity to spawn
+     * @param id the id reference of entity
      * @param x x coordinate
      * @param y y coordinate
      * @return the Entity of declared type that just got spawned
      */
-    public static <EntityT extends Entity> EntityT spawn(String name, float x, float y) {
+    public static <EntityT extends Entity> EntityT spawn(String name, String id, float x, float y) {
         
-        Entity e = getEntity(name);
+        Entity e = getBaseEntity(name);
         Entity en; // the cloned entity, to be casted into EntityT type
         
         if(e instanceof Enemy) { // the entity is actaully an enemy
@@ -290,30 +305,31 @@ public final class EntityGroup {
             
         }
         
+        en.setId(id);
         en.getSprite().draw(x, y);
         en.place(x, y);
+        active.put(en.getId(), (EntityT)en);
         return (EntityT)en;
     }
     
     /**
      * Spawn the entity at a specific location with specific velocity
      * @param name the movable entity to spawn
+     * @param id the id reference of entity
      * @param x x coordinate
      * @param y y coordinate
      * @param vx x velocity in mph
      * @param vy y velocity in mph
      * @return the Entity of declared type that just got spawned
      */
-    public static <EntityT extends MovableEntity> EntityT spawn(String name, float x, float y, double vx, double vy) {
+    public static <EntityT extends MovableEntity> EntityT spawn(String name, String id, float x, float y, double vx, double vy) {
         
-        Entity e = getEntity(name);
+        Entity e = getBaseEntity(name);
         MovableEntity en; // the cloned entity, to be casted into type EntityT
         try {
             
-            /*
             if(!(e instanceof MovableEntity))
                 throw new EntitySpawnException("You can't give a non-movable entity velocity!");
-                */
             
             if(e instanceof Enemy) { // the entity is actaully an enemy
                 
@@ -337,16 +353,18 @@ public final class EntityGroup {
                         
             }
             
-                en.setVelocity(vx, vy);
-                en.getSprite().draw(x, y);
-                en.place(x, y);
-                return (EntityT)en;
+            en.setId(id);
+            en.setVelocity(vx, vy);
+            en.getSprite().draw(x, y);
+            en.place(x, y);
+            active.put(en.getId(), (EntityT)en);
+            return (EntityT)en;
             
         } catch(EntitySpawnException ex) {
             
             System.out.println(ex.getMessage());
             System.out.println("Ignoring your provided velocities.");
-            return spawn(name, x, y);
+            return spawn(name, id, x, y);
             
         }   
     }
@@ -369,7 +387,7 @@ public final class EntityGroup {
      */
     private static Enemy cloneEnemy(Entity e) {
         Enemy en = (Enemy)e;
-        en = new Enemy(en.getName(), en.getId(), en.getImage(), en.getDescription(), en.getAttack(), en.getDefense(), en.getWeaponName(), en.getVx(), en.getVy());
+        en = new Enemy(en.getName(), en.getId(), en.getImage(), en.getDescription(), en.getAttack(), en.getDefense(), en.getHp(), en.getWeaponName(), en.getVx(), en.getVy());
         return en;
     }
     
@@ -401,7 +419,7 @@ public final class EntityGroup {
      */
     private static Immovable cloneImmovable(Entity e) {
         Immovable im = (Immovable)e;
-        im = new Immovable(im.getName(), im.getId(), im.getImage(), im.getDescription(), im.getAttack(), im.getDefense(), im.getWeaponName());
+        im = new Immovable(im.getName(), im.getId(), im.getImage(), im.getDescription(), im.getAttack(), im.getDefense(), im.getHp(), im.getWeaponName());
         return im;
     }
     
@@ -412,7 +430,8 @@ public final class EntityGroup {
      */
     private static Player clonePlayer(Entity e) {
         Player pl = (Player)e;
-        pl = new Player(pl.getName(), pl.getId(), pl.getImage(), pl.getDescription(), pl.getAttack(), pl.getDefense(), pl.getWeaponName(), pl.getVx(), pl.getVy());
+        // There is only one player. We don't want to copy it. One instance only!
+        // pl = new Player(pl.getName(), pl.getId(), pl.getImage(), pl.getDescription(), pl.getAttack(), pl.getDefense(), pl.getWeaponName(), pl.getVx(), pl.getVy());
         return pl;
     }
     
@@ -428,18 +447,111 @@ public final class EntityGroup {
         float[] coordinates = {x, y};
         return coordinates;
     }
-       
+    
     /*
      * Start Controlling Active Entities
      * The below methods control entities that have spawned and are currently active
      */
     
     /**
-     * Add the spawned entity to the list and map its ID
-     * @param e 
+     * Get a spawned entity
+     * @param id id tag of the entity 
+     * @pre the id exists and refers to a spawned entity
+     * @throws EntitySpawnException if id does not exist, will spawn an asteroid, assign the provided id to it, and return it
+     * @return the spawned entity of declared type
      */
-    public static void add(Entity e) {
+    public static <EntityT extends Entity> EntityT getEntity(String id) {
+        try {
+            if(active.containsKey(id)) {
+                return (EntityT)active.get(id);
+            } else {
+                throw new EntitySpawnException("Entity is not spawned. Spawning an asteroid then retrying.");
+            }
+        } catch(EntitySpawnException ex) {
+            System.out.println(ex.getMessage());
+            spawn("Asteroid", id);
+            // Try again. Since the id has definitely spawned at this point, it should not become an infinite loop
+            return getEntity(id);
+        }
+    }
+    
+    /**
+     * Remove a spawned entity<br/>
+     * The entity has died, moved off screen, or removed in some way<br/>
+     * If id does not exist or does not refer to a spawned entity, do nothing<br/>
+     * Also marks its scripting thread for deletion
+     * @param id tag of entity
+     */
+    public static void remove(String id) throws SlickException {
+        if(active.containsKey(id)) {
+            active.get(id).getMainThread().markForDeletion();
+            //active.get(id).getSprite().destroy();
+            active.remove(id);
+        }
+    }
+    
+    /**
+     * Spawn Count
+     * @return the number of entities spawned
+     */
+    public static int spawnCount() {
+        return active.size();
+    }
+    
+    /**
+     * Moves the player
+     */
+    public static void control(GameContainer gc, int delta) throws SlickException {
+        Input input = gc.getInput();
+	Image ship = SpaceInvaders.playerSprite;
+ 
+        /* rotate to the left */
+        if(input.isKeyDown(Input.KEY_LEFT)) {
+            ship.rotate(-MovableEntity.ROTATION_SIZE * delta);
+        }
+ 
+        /* rotate to the right */
+        if(input.isKeyDown(Input.KEY_RIGHT)) {
+            ship.rotate(MovableEntity.ROTATION_SIZE * delta);
+        }
+ 
+        /* move forward in current direction */
+        if(input.isKeyDown(Input.KEY_UP)) {
+            /* size for one single step */
+            float step = MovableEntity.STEP_SIZE * delta;
+ 
+            /* which direction are we facing? */
+            float rotation = ship.getRotation();
+            
+            /* move the player */
+            if(player.getX() + step * Math.sin(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
+                    && player.getX() + step * Math.sin(Math.toRadians(rotation)) < SpaceInvaders.X_RESOLUTION - MovableEntity.EDGE_FACTOR
+                    && player.getY() - step * Math.cos(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
+                    && player.getY() - step * Math.cos(Math.toRadians(rotation)) < SpaceInvaders.Y_RESOLUTION - MovableEntity.EDGE_FACTOR) {
+                player.move(step * Math.sin(Math.toRadians(rotation)), -step * Math.cos(Math.toRadians(rotation)));
+            }
+        }
         
+        /* back up a bit */
+        if(input.isKeyDown(Input.KEY_DOWN)) {
+            /* size for one single back step */
+            float step = MovableEntity.BACK_SIZE * delta;
+ 
+            /* which direction are we facing? */
+            float rotation = ship.getRotation() * -1;
+ 
+            /* move the player */
+            if(player.getX() + step * Math.sin(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
+                    && player.getX() + step * Math.sin(Math.toRadians(rotation)) < SpaceInvaders.X_RESOLUTION - MovableEntity.EDGE_FACTOR
+                    && player.getY() - step * Math.cos(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
+                    && player.getY() - step * Math.cos(Math.toRadians(rotation)) < SpaceInvaders.Y_RESOLUTION - MovableEntity.EDGE_FACTOR) 
+                player.move(step * Math.sin(Math.toRadians(rotation)), step * Math.cos(Math.toRadians(rotation)));
+        }
+        
+        /* Temporarily HP Deduction Test */
+        if(input.isKeyDown(Input.KEY_H)) {
+            player.deductHp(10);
+        }
     }
     
     /*

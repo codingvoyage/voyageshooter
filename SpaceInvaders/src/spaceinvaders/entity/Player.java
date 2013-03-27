@@ -1,4 +1,5 @@
 package spaceinvaders.entity;
+import org.newdawn.slick.*;
 
 /**
  * Player Entity<br/>
@@ -11,6 +12,10 @@ public class Player extends MovableEntity implements Attacker, Defender {
     private Double attack;
     /** Player defense */
     private Double defense;
+    /** Current HP */
+    private Integer hp;
+    /** Max HP */
+    private Integer maxhp;
     /** Player weapon name */
     private String weapons;
     /** Player weapon */
@@ -25,9 +30,11 @@ public class Player extends MovableEntity implements Attacker, Defender {
         super("Cool Guy", "player1337", "spaceship", "A cool guy assigned on an even cooler mission.", 10.0, 10.0);
         attack = 1.0;
         defense = 1.0;
+        hp = 100;
+        maxhp = 100;
         lives = 7;
         weapons = "Rainbow Laser";
-        weapon = (Weapon)EntityGroup.getEntity("Rainbow Laser");
+        weapon = new Weapon();
     }
     
     /**
@@ -38,15 +45,26 @@ public class Player extends MovableEntity implements Attacker, Defender {
      * @param attack base attack of entity
      * @param defense base defense of entity
      */
-    public Player(String name, String id, String image, String description, double attack, double defense, String weapons, double vx, double vy) {
+    public Player(String name, String id, String image, String description, double attack, double defense, int hp, String weapons, double vx, double vy) {
         super(name, id, image, description, vx, vy);
         this.attack = attack;
         this.defense = defense;
+        this.hp = hp;
+        this.maxhp = hp;
         lives = 7;
         this.weapons = weapons;
-        weapon = (Weapon)EntityGroup.getEntity(weapons);
+        weapon = (Weapon)EntityGroup.getBaseEntity(weapons);
     }
     
+    /**
+     * Fire
+     * Not working yet
+     */
+    @Override
+    public void fire() {
+        
+    }
+
     /**
      * Accessors for Attack
      * @return attack of entity
@@ -66,6 +84,35 @@ public class Player extends MovableEntity implements Attacker, Defender {
     } 
          
     /**
+     * Accessors for HP
+     * @return the player's HP
+     */
+    @Override
+    public int getHp() {
+        return hp;
+    }
+    
+    /**
+     * Accessors for HP
+     * @return the player's HP
+     */
+    @Override
+    public int getMaxHp() {
+        return maxhp;
+    } 
+      
+    /**
+     * Deduct HP
+     * @param hp the hp to deduct
+     */
+    @Override
+    public void deductHp(int hp) throws SlickException {
+        this.hp -= hp;
+        if(hp <= 0) 
+            EntityGroup.remove(this.getName());
+    }
+    
+    /**
      * Accessors for Weapon Name
      * @return name of weapon used by entity
      */
@@ -77,7 +124,7 @@ public class Player extends MovableEntity implements Attacker, Defender {
      * Accessors for Weapon
      * @return weapon used by entity
      */
-    //@Override
+    @Override
     public Weapon getWeapon() {
         return weapon;
     }

@@ -12,6 +12,6 @@ public class EntitySpawnException extends Exception {
     }
     
     public EntitySpawnException(String message) {
-        super(message);
+        super("EntitySpawnException: " + message);
     }
 }
