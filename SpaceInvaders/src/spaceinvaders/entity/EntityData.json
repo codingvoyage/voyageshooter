@@ -2,7 +2,6 @@
     "enemies": [
         {
             "name" : "Minion",
-            "id" : 0,
             "description" : "Weak minions sent from some unknown land.",
             "attack" : 0,
             "defense" : 1,
@@ -13,7 +12,6 @@
         },
         {
             "name" : "Bakesale Monster",
-            "id" : 1,
             "description" : "The final powerful boss. The true identity of the mastermind behind all these evil ships.",
             "attack" : 9002.0,
             "defense" : 9002.0,
@@ -27,7 +25,6 @@
     "weapons": [
         {
             "name" : "Water Gun",
-            "id" : 0,
             "description" : "In what galaxy is it logical to use water guns to attack spaceships?",
             "attack" : 0.0001,
             "vx" : 1.0,
@@ -36,7 +33,6 @@
         },
         {
             "name" : "Rainbow Laser",
-            "id" : 1,
             "description" : "Ohhh! Pretty colors!",
             "attack" : 0.0001,
             "vx" : 1.0,
@@ -45,7 +41,6 @@
         },
         {
             "name" : "Bomb Formula 9001",
-            "id" : 2,
             "description" : "A small and powerful bullet that explodes on impact. Simply the best weapon in any galaxy.",
             "attack" : 9001.0,
             "vx" : 100.0,
@@ -57,7 +52,6 @@
     "misc": [
         {
             "name" : "Asteroid",
-            "id" : 0,
             "description" : "Random floating rocks. Avoid at all costs! Your ship is flying too fast and will crash!",
             "vx" : 5.0,
             "vy" : 5.0,
@@ -68,7 +62,6 @@
     "immovable" : [
         {
             "name" : "Floating Mine",
-            "id" : 0,
             "description" : "A deadly floating mine created by an evil mastermind. Stay far away from these!",
             "attack" : 999999.0,
             "defense" : 999999.0,

@@ -33,6 +33,8 @@ public abstract class MovableEntity extends Entity implements Movable {
      */
     public MovableEntity() {
         super();
+        vx = 10.0;
+        vy = 10.0;
     }
     
     /**
@@ -43,7 +45,7 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param vx x-velocity of movable entity
      * @param vy y-velocity of movable entity
      */
-    public MovableEntity(String name, int id, String image, String description, double vx, double vy) {
+    public MovableEntity(String name, String id, String image, String description, double vx, double vy) {
         super(name, id, image, description);
         this.vx = vx * VELOCITY_FACTOR;
         this.vy = vy * VELOCITY_FACTOR;

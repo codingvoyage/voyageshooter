@@ -22,7 +22,7 @@ public class Player extends MovableEntity implements Attacker, Defender {
      * New Game
      */
     public Player() {
-        super("Cool Guy", 1337, "spaceship", "A cool guy assigned on an even cooler mission.", 10.0, 10.0);
+        super("Cool Guy", "player1337", "spaceship", "A cool guy assigned on an even cooler mission.", 10.0, 10.0);
         attack = 1.0;
         defense = 1.0;
         lives = 7;
@@ -38,7 +38,7 @@ public class Player extends MovableEntity implements Attacker, Defender {
      * @param attack base attack of entity
      * @param defense base defense of entity
      */
-    public Player(String name, int id, String image, String description, double attack, double defense, String weapons, double vx, double vy) {
+    public Player(String name, String id, String image, String description, double attack, double defense, String weapons, double vx, double vy) {
         super(name, id, image, description, vx, vy);
         this.attack = attack;
         this.defense = defense;

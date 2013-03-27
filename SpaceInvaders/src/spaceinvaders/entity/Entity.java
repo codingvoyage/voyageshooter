@@ -18,8 +18,8 @@ public class Entity extends ScriptableClass {
     
     /** Name of Entity */
     private String name;
-    /** ID (index) of Entity */
-    private Integer id;
+    /** ID of Entity */
+    private String id;
     /** Description of Entity */
     private String description;
     /** Image name of Entity */
@@ -44,7 +44,7 @@ public class Entity extends ScriptableClass {
     public Entity() {
         super();
         name = "You";
-        id = 0;
+        id = "e1";
         description = "I am you.";
     }
 
@@ -54,7 +54,7 @@ public class Entity extends ScriptableClass {
      * @param id id (index) of Entity
      * @param description description of Entity
      */
-    public Entity(String name, int id, String image, String description) {
+    public Entity(String name, String id, String image, String description) {
         super();
         this.name = name;
         this.id = id;
@@ -95,7 +95,7 @@ public class Entity extends ScriptableClass {
      * Accessors for ID
      * @return id (index) of entity
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
     

@@ -29,6 +29,12 @@ public final class EntityGroup {
     /** Maps all entity names to their respective entity object */
     private static final HashMap<String, Entity> entityData = new HashMap<String, Entity>();
     
+    /** Lists all spawned and active entities */
+    private static final ArrayList<Entity> active = new ArrayList<Entity>();
+    
+    /** Maps active IDs to the active entity */
+    private static final HashMap<String, Entity> activeId = new HashMap<String, Entity>();
+    
     /** Sprite sheet for Entities */
     public static final PackedSpriteSheet sprites; 
     static {
@@ -73,6 +79,11 @@ public final class EntityGroup {
         EntityGroup.immovable = immovable;
         mapCreated = false;
     }
+    
+    /*
+     * Start Spawning Entities
+     * The below methods are used to spawn entities based on the loaded data
+     */
     
     /**
      * Construct HashMaps for each type of entity<br/>
@@ -417,68 +428,28 @@ public final class EntityGroup {
         float[] coordinates = {x, y};
         return coordinates;
     }
-          
-    /**
-     * Get Enemy by ID
-     * @param id index/id of Enemy
-     * @return the requested Enemy
+       
+    /*
+     * Start Controlling Active Entities
+     * The below methods control entities that have spawned and are currently active
      */
-    public static Enemy getEnemy(int id) {
-        if(id < enemies.size() && id > -1) {
-            return enemies.get(id);
-        } else {
-            System.out.println("WARNING - Enemy id does not exist! Returning default enemy.");
-            return new Enemy();
-        }
-    }
-    
-     /**
-     * Get Weapon by ID
-     * @param id index/id of Weapon
-     * @return the requested Weapon
-     */
-    public static Weapon getWeapon(int id) {
-        if(id < weapons.size() && id > -1) {
-            return weapons.get(id);
-        } else {
-            System.out.println("WARNING - Weapon id does not exist! Returning default weapon.");
-            return new Weapon();
-        }
-    }
-    
-     /**
-     * Get Misc entity by ID
-     * @param id index/id of Misc entity
-     * @return the requested Misc entity
-     */
-    public Misc getMisc(int id) {
-        if(id < misc.size() && id > -1) {
-            return misc.get(id);
-        } else {
-            System.out.println("WARNING - Misc entity id does not exist! Returning default misc.");
-            return new Misc();
-        }
-    }
     
     /**
-     * Get Immovable entity by ID
-     * @param id index/id of Immovable entity
-     * @return the requested Immovable entity
+     * Add the spawned entity to the list and map its ID
+     * @param e 
      */
-    public static Immovable getImmovable(int id) {
-        if(id < immovable.size() && id > -1) {
-            return immovable.get(id);
-        } else {
-            System.out.println("WARNING - Immovable entity id does not exist! Returning default misc.");
-            return new Immovable();
-        }
+    public static void add(Entity e) {
+        
     }
+    
+    /*
+     * Misc. Methods
+     */
     
     /**
      * Enemy Count
      * @return the number of enemy entities
      */
-    
     public static int getEnemyCount() {
         return enemies.size();
     }
@@ -487,7 +458,6 @@ public final class EntityGroup {
      * Weapon Count
      * @return the number of weapon entities
      */
-    
     public static int getWeaponCount() {
         return weapons.size();
     }
@@ -496,7 +466,6 @@ public final class EntityGroup {
      * Misc Count
      * @return the number of misc entities
      */
-    
     public static int getMiscCount() {
         return misc.size();
     }
@@ -505,7 +474,6 @@ public final class EntityGroup {
      * Misc Count
      * @return the number of misc entities
      */
-    
     public static int getImmovableCount() {
         return immovable.size();
     }

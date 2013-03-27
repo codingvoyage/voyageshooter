@@ -13,7 +13,7 @@ public class Misc extends MovableEntity {
      */    
     public Misc() {
         // default values - should be ignored by the data file
-        super("Asteroid", 1337, "enemy1", "Deadly flying rocks! Avoid at all costs!", 10.0, 10.0);
+        super("Asteroid", "misc1337", "enemy1", "Deadly flying rocks! Avoid at all costs!", 10.0, 10.0);
     }
     
     /**
@@ -24,7 +24,7 @@ public class Misc extends MovableEntity {
      * @param vx v-velocity of entity
      * @param vy y-velocity of entity
      */    
-    public Misc(String name, int id, String image, String description, double vx, double vy) {
+    public Misc(String name, String id, String image, String description, double vx, double vy) {
         super(name, id, image, description, vx, vy); 
     }
 }
