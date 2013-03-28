@@ -2,7 +2,7 @@ package spaceinvaders.entity;
 
 import spaceinvaders.script.*;
 import org.newdawn.slick.*;
-import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * An Entity is any object that appears on the map 
@@ -27,10 +27,16 @@ public class Entity extends ScriptableClass {
     /** Actual image of Entity */
     private Image sprite;
        
-    /** x coordinates */
+    /** position vector */
+    public final Vector2f position = new Vector2f(300, 400);;
+    
+    /*
+    
     private float x = 300;
-    /** y coordinates */
+    
     private float y = 400;
+    */
+    
     /** Default scaling factor */
     private float scale = 0.5f;
     
@@ -47,6 +53,7 @@ public class Entity extends ScriptableClass {
         id = "e1";
         description = "I am you.";
         image = "spaceship";
+        //position = new Vector2f();
     }
 
     /**
@@ -63,6 +70,7 @@ public class Entity extends ScriptableClass {
         this.image = image;
         this.sprite = EntityGroup.getImage(image);
         this.description = description;
+        //position = new Vector2f();
     }
     
     /**
@@ -89,8 +97,7 @@ public class Entity extends ScriptableClass {
      * @param y y coordinate
      */
     public void place(float x, float y) {
-        this.x = x;
-        this.y = y;
+        position.set(x, y);
     }
     
     /**
@@ -99,8 +106,8 @@ public class Entity extends ScriptableClass {
      * @param y y-distance to move
      */
     public void move(double x, double y) {
-        this.x += x;
-        this.y += y;
+        position.x += x;
+        position.y += y;
     }
     
     /**
@@ -115,7 +122,7 @@ public class Entity extends ScriptableClass {
      * Draw the Entity at its set coordinates
      */
     public void draw() {
-        getSprite().draw(x, y);
+        getSprite().draw(position.x, position.y);
     }
     
     /**
@@ -147,7 +154,7 @@ public class Entity extends ScriptableClass {
      * @return the entity's x-coordinate
      */    
     public float getX() {
-        return x;
+        return position.x;
     }
 
     /**
@@ -155,7 +162,7 @@ public class Entity extends ScriptableClass {
      * @return the entity's y-coordinate
      */    
     public float getY() {
-        return y;
+        return position.y;
     }
     
     /**

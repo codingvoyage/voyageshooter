@@ -193,12 +193,13 @@ public abstract class MovableEntity extends Entity implements Movable {
             */    
         // temporary only
         
-        float step = (float)VELOCITY_FACTOR * (float)v * (float)delta + (float)radius;
+        //float step = (float)VELOCITY_FACTOR * (float)v * (float)delta + (float)radius;
+        float step = (float)(Math.sqrt(w * w + v * v)+ radius);
        // float step = (float)Math.sqrt(Math.pow(v,2) + Math.pow(w,2)) * (float)delta + (float)radius;
-        
+        System.out.println(position.getTheta());
         getSprite().rotate((float)w * (float)delta);
         /* which direction are we facing? */
-        float rotation = getSprite().getRotation();
+        float rotation = (float)position.getTheta();
         move(step * Math.sin(Math.toRadians(rotation)), -step * Math.cos(Math.toRadians(rotation)));
         System.out.println(radius + ", " + getX() + ", " + getY() + ", " + rotation);
         
