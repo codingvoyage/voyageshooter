@@ -5,6 +5,14 @@ print "if statements, goto statements, for loops, while loops,"
 print "random numbers, and calls to the System clock."
 print "The following code will display Fibonacci(0) to Fibonacci(60)."
 
+wait 3000
+
+spawn "Minion" "m16" 100 100
+
+wait 2000
+
+spawn "Bakesale Monster" "bakesale" 200 200
+
 print "Removed for performance"
 
 endthread

@@ -83,6 +83,7 @@ public class SpaceInvaders extends BasicGame {
         threadManager = new ThreadManager(scriptReader);
         scriptReader.setThreadHandle(threadManager);
         
+        
         //Now create a thread that uses the loading script, 
         //adding it to threadManager and running it
         Thread loadingThread = new Thread(0);
@@ -100,7 +101,7 @@ public class SpaceInvaders extends BasicGame {
             System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
         }
         
-        
+        scriptReader.setEntityHandle(entities);
         
         // Test spawning an enemy
         // Add "f" to the end to specify floating point numbers (or else Java won't know if the numbers are coordinates or velocities)
@@ -110,6 +111,7 @@ public class SpaceInvaders extends BasicGame {
         //Create our test entity
         testEntity = (Enemy)EntityGroup.getBaseEntity("Minion");
         
+       
         
         //Create a thread which governs this entity with Script 
         Thread entityThread = new Thread(31);

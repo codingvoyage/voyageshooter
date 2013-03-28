@@ -15,6 +15,7 @@ public class ScriptReader
 {
     private ScriptManager scr;
     private ThreadManager threadManager;
+    private EntityGroup entities;
     
     //These will get changed every time act(Scriptable s, double deltaTime)
     //is called. It makes it convenient since now the ScriptReader methods
@@ -37,6 +38,11 @@ public class ScriptReader
     public void setThreadHandle(ThreadManager threadManagerHandle)
     {
         threadManager = threadManagerHandle;
+    }
+    
+    public void setEntityHandle(EntityGroup entities)
+    {
+        this.entities = entities;
     }
     
     public void act(Thread t, double deltaTime)
@@ -405,6 +411,26 @@ public class ScriptReader
                 ((MovableEntity)currentScriptable).beginMove(pixelsToWalk);
                 continueExecuting = false;
                 break;
+                
+            case 52:
+                //SPAWN
+                //Spawn entityType theNameWeGiveIT optionalx optionaly
+                String entityTypeName = currentLine.getStringParameter(0);
+                String nameID = currentLine.getStringParameter(1);
+                int xLoc = (int)currentLine.getDoubleParameter(2);
+                int yLoc = (int)currentLine.getDoubleParameter(3);
+                Entity spawnedEntity = entities.spawn(entityTypeName, nameID, xLoc, yLoc);
+                
+                //Now, load the thread
+                int mainScriptID = spawnedEntity.getMainScriptID();
+                //I'm just going to name the Thread the same as the Entity
+                spawnedEntity.setMainThread(
+                        this.createNewThread(mainScriptID, nameID));
+                
+                break;
+                
+                
+                
             case 55:
                 double newx = identifierCheck(currentLine, 0).getDoubleValue();
                 double newy = identifierCheck(currentLine, 1).getDoubleValue();
@@ -531,17 +557,28 @@ public class ScriptReader
     
     private void createNewThread(Line currentLine) 
     {
+        //Extract from currentLine...
         int scriptID = (int)currentLine.getDoubleParameter(0);
-        String scriptName = currentLine.getStringParameter(1);
+        String threadName = currentLine.getStringParameter(1);
 
         //Create a new thread with that scriptID, giving it scriptName
+        Thread newThread = createNewThread(scriptID, threadName);
+
+        //Now add it to the global Thread list.
+        threadManager.addThread(newThread);
+    }
+    
+    private Thread createNewThread(int scriptID, String threadName) 
+    {
+        //Create a new thread with that scriptID, giving it scriptName
         Thread newThread = new Thread(scriptID);
-            newThread.setName(scriptName);
+            newThread.setName(threadName);
             newThread.setLineNumber(0);
             newThread.setRunningState(false);
             newThread.setScriptable(currentScriptable);
 
-        threadManager.addThread(newThread);
+        //for the convenience of certain functions
+        return newThread;
     }
     
     private Object[] formatFunctionLine(Line currentLine, Line functionLine, int searchIndexOnLine)
