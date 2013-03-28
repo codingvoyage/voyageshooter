@@ -35,7 +35,7 @@
             "vx" : 1.0,
             "vy" : 1.0,
             "image" : "enemy1",
-            "scriptID" : 52
+            "scriptID" : 35
         },
         {
             "name" : "Space Guardian",

@@ -160,7 +160,10 @@ public class ScriptReader
             case 51: //Moving... something only an Entity could do
                 result = ((MovableEntity)currentScriptable).continueMove(currentDeltaTime);
                 break;
-            
+            case 53:
+                System.out.println("continuing le orbitee");
+                result = ((MovableEntity)currentScriptable).continueOrbit(currentDeltaTime);
+                break;
         }
         
         return result;
@@ -423,12 +426,34 @@ public class ScriptReader
                 
                 //Now, load the thread
                 int mainScriptID = spawnedEntity.getMainScriptID();
+                System.out.println("we now create a thread from script ID # " + mainScriptID);
+                
                 //I'm just going to name the Thread the same as the Entity
-                spawnedEntity.setMainThread(
-                        this.createNewThread(mainScriptID, nameID));
+                Thread spawnedEntityThread = this.createNewThread(mainScriptID, nameID);
+                
+                //Now the entity must know the thread, and vice versa
+                spawnedEntity.setMainThread(spawnedEntityThread);
+                spawnedEntityThread.setScriptable(spawnedEntity);
+                
+                //Add thread to collection
+                threadManager.addThread(spawnedEntityThread);
+                
                 
                 break;
                 
+            case 53:
+                //ORBIT
+                double angle = currentLine.getDoubleParameter(0);
+                double radius = currentLine.getDoubleParameter(1);
+                //0 is CW, else CCW
+                double direction = currentLine.getDoubleParameter(2);
+                    ((MovableEntity)currentScriptable).beginOrbit(angle, radius, direction);
+                    
+                continueExecuting = false;
+                
+                System.out.println("STARTING ORBIT");
+                
+                break;
                 
                 
             case 55:
@@ -437,6 +462,13 @@ public class ScriptReader
                 ((Entity)currentScriptable).place((float)newx, (float)newy);
                 break;
                 
+                
+            case 60:
+                //new velocity
+                double newvx = currentLine.getDoubleParameter(0);
+                double newvy = currentLine.getDoubleParameter(1);
+                ((MovableEntity)currentScriptable).setVelocity(newvx, newvy);
+                break;
                 
             case 80:
                 getSystemMilliTime(currentLine);

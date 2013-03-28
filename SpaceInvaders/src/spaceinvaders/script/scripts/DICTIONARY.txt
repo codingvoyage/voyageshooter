@@ -1,7 +1,10 @@
 -- From 0-9 will be very system-like things
 wait 0
 goto 1
+
 label 2
+branch 2
+
 function 3
 
 
@@ -41,7 +44,7 @@ print 30
 evaluate 31
 eval 31
 
--- From 50-59 are stuff specific to Entities
+-- From 50-79 are stuff specific to Entities
 face 50
 move 51
 
@@ -51,9 +54,18 @@ createEntity 52
 spawnEntity 52
 newEntity 52
 
+
+orbit 53
+
 place 55
+put 55
 placeself 55
 newlocation 55
+
+changevelocity 60
+newvelocity 60
+
+
 
 getSystemMilliTime 80
 getSystemNanoTime 81
