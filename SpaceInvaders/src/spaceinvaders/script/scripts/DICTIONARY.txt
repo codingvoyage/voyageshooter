@@ -44,6 +44,13 @@ eval 31
 -- From 50-59 are stuff specific to Entities
 face 50
 move 51
+
+-- Here we go...
+spawn 52
+createEntity 52
+spawnEntity 52
+newEntity 52
+
 place 55
 placeself 55
 newlocation 55
