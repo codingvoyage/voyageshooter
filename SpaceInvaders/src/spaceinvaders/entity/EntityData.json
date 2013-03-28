@@ -1,10 +1,10 @@
 {
-    "about" :  "THIS FILE IS USED TO STORE ENTITY DATA.\n\
+    "WARNING" :  "THIS FILE IS USED TO STORE ENTITY DATA.\n\
                DO NOT MODIFY THIS FILE IN ANY WAY. \n\
                MODIFYING COULD CAUSE SEVERE SIDE EFFECTS, \n\
                INCLUDING THE ENEMY SHIPS RUNNING OUT OF THE GAME WINDOW AND ATTACKING YOUR COMPUTER.\n\
                \n\
-               CODING VOYAGE SPACE INVADERS - COPYRIGHT (c) 2013 TEAM CODING VOYAGE.",
+               SPACE INVADERS GAME - COPYRIGHT (c) 2013 TEAM CODING VOYAGE.",
             
     "player" : {
             "name" : "Player",
@@ -19,9 +19,8 @@
             "vy" : 1.0,
             "image" : "spaceship",
             "points" : 0,
-            
             "level" : 1,
-            "about" : "DOUBLES AS A SAVE FILE. DO NOT MODIFY."
+            "WARNING" : "DOUBLES AS A SAVE FILE. DO NOT MODIFY."
     },
             
     "enemies": [
@@ -29,14 +28,28 @@
             "name" : "Minion",
             "id" : "m1",
             "description" : "Weak minions sent from some unknown land.",
-            "attack" : 0,
+            "attack" : 1,
             "defense" : 1,
             "hp" : 100,
             "weapons" : "Water Gun",
             "vx" : 1.0,
             "vy" : 1.0,
             "image" : "enemy1",
-            "thread" : 51
+            "scriptID" : 52
+        },
+        {
+            "name" : "Space Guardian",
+            "id" : "sg1",
+            "description" : "A powerful ship pretending to be a protector of the sky. \n\
+                             A more appropriate name would be Space Destroyer.",
+            "attack" : 50.0,
+            "defense" : 45.0,
+            "hp" : 300,
+            "weapons" : "Rainbow Laser",
+            "vx" : 1.5,
+            "vy" : 1.5,
+            "image" : "spaceship",
+            "scriptID" : 53
         },
         {
             "name" : "Bakesale Monster",
@@ -48,7 +61,8 @@
             "weapons" : "Bomb Formula 9001",
             "vx" : 10.0,
             "vy" : 10.0,
-            "image" : "enemy1"
+            "image" : "enemy1",
+            "scriptID" : 54
         }
     ],
 

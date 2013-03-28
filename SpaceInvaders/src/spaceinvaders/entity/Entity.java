@@ -53,6 +53,7 @@ public class Entity extends ScriptableClass {
      * Constructs a new Entity and calls ScriptableClass
      * @param name name of Entity
      * @param id id (index) of Entity
+     * @param image the image reference name of entity
      * @param description description of Entity
      */
     public Entity(String name, String id, String image, String description) {
@@ -62,6 +63,24 @@ public class Entity extends ScriptableClass {
         this.image = image;
         this.sprite = EntityGroup.getImage(image);
         this.description = description;
+    }
+    
+    /**
+     * Constructs a new scripted Entity and calls ScriptableClass
+     * @param name name of Entity
+     * @param id id (index) of Entity
+     * @param image the image reference name of entity
+     * @param scriptID the script ID of the scripted entity
+     * @param description description of Entity
+     */
+    public Entity(String name, String id, String image, int scriptID, String description) {
+        super();
+        this.name = name;
+        this.id = id;
+        this.image = image;
+        this.sprite = EntityGroup.getImage(image);
+        this.description = description;
+        setMainScriptID(scriptID);
     }
         
     /**

@@ -41,12 +41,29 @@ public abstract class MovableEntity extends Entity implements Movable {
      * Constructs a new MovableEntity
      * @param name name of entity
      * @param id id (index) of entity
+     * @param image the image reference name of entity
      * @param description description of entity
      * @param vx x-velocity of movable entity
      * @param vy y-velocity of movable entity
      */
     public MovableEntity(String name, String id, String image, String description, double vx, double vy) {
         super(name, id, image, description);
+        this.vx = vx * VELOCITY_FACTOR;
+        this.vy = vy * VELOCITY_FACTOR;
+    }
+    
+    /**
+     * Constructs a new scripted MovableEntity
+     * @param name name of entity
+     * @param id id (index) of entity
+     * @param image the image reference name of entity
+     * @param scriptID the script ID of scripted entity
+     * @param description description of entity
+     * @param vx x-velocity of movable entity
+     * @param vy y-velocity of movable entity
+     */
+    public MovableEntity(String name, String id, String image, int scriptID, String description, double vx, double vy) {
+        super(name, id, image, scriptID, description);
         this.vx = vx * VELOCITY_FACTOR;
         this.vy = vy * VELOCITY_FACTOR;
     }

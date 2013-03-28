@@ -394,7 +394,7 @@ public final class EntityGroup {
      */
     private static Enemy cloneEnemy(Entity e) {
         Enemy en = (Enemy)e;
-        en = new Enemy(en.getName(), en.getId(), en.getImage(), en.getDescription(), en.getAttack(), en.getDefense(), en.getHp(), en.getWeaponName(), en.getVx(), en.getVy());
+        en = new Enemy(en.getName(), en.getId(), en.getImage(), en.getMainScriptID(), en.getDescription(), en.getAttack(), en.getDefense(), en.getHp(), en.getWeaponName(), en.getVx(), en.getVy());
         return en;
     }
     

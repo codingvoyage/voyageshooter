@@ -16,6 +16,9 @@ public class ScriptableClass implements Scriptable {
     //Holds the variables declared by the Scriptable in the scripting engine
     private HashMap<String, Parameter> memoryBox;
     
+    /** Script ID for Entity */
+    private Integer scriptID;
+    
     
     public ScriptableClass(int newScriptID) 
     {
@@ -51,6 +54,22 @@ public class ScriptableClass implements Scriptable {
     protected Parameter getTemporaryParameter() 
     {
         return progressTemp;
+    }
+    
+    /**
+     * Set the main script ID
+     * @param scriptID entity script ID
+     */
+    public void setMainScriptID(int scriptID) {
+        this.scriptID = scriptID;
+    }
+    
+    /**
+     * Get the main script ID
+     * @return the main script ID
+     */
+    public int getMainScriptID() {
+        return scriptID;
     }
     
 }
