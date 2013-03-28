@@ -46,6 +46,7 @@ public class Entity extends ScriptableClass {
         name = "You";
         id = "e1";
         description = "I am you.";
+        image = "spaceship";
     }
 
     /**
@@ -89,6 +90,13 @@ public class Entity extends ScriptableClass {
      */
     public void setId(String id) {
         this.id = id;
+    }
+    
+    /**
+     * Draw the Entity at its set coordinates
+     */
+    public void draw() {
+        getSprite().draw(x, y);
     }
     
     /**
@@ -144,6 +152,11 @@ public class Entity extends ScriptableClass {
      * @return entity's sprite
      */
     public Image getSprite() {
-        return sprite;
+        if(sprite != null)
+            return sprite;
+        else {
+            sprite = EntityGroup.getImage(image);
+            return sprite;
+        }
     }
 }

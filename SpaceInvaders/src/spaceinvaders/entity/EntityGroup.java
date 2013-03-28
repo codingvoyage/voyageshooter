@@ -32,6 +32,8 @@ public final class EntityGroup {
     /** Maps all entity names to their respective entity object */
     private static final HashMap<String, Entity> entityData = new HashMap<String, Entity>();
     
+    /** Lists all active entities */
+    private static final ArrayList<Entity> activeList = new ArrayList<Entity>();
     /** Maps active IDs to the active entity */
     private static final HashMap<String, Entity> active = new HashMap<String, Entity>();
     
@@ -55,6 +57,9 @@ public final class EntityGroup {
      * The names are mapped to IDs the first time it is needed.
      */
     private static boolean mapCreated = false;
+    
+    /** The player ship sprite */
+    private static Image ship;
     
     /**
      * Constructs a new set of entities using a data file<br/>
@@ -199,8 +204,9 @@ public final class EntityGroup {
         }
         
         en.setId(id);
-        coordinates = drawRandom(en.getSprite());
+        coordinates = selectRandom();
         en.place(coordinates[0], coordinates[1]);
+        activeList.add((EntityT)en);
         active.put(en.getId(), (EntityT)en);
         return (EntityT)en;
     }
@@ -250,8 +256,9 @@ public final class EntityGroup {
             
             en.setId(id);
             en.setVelocity(vx, vy);
-            coordinates = drawRandom(en.getSprite());
+            coordinates = selectRandom();
             en.place(coordinates[0], coordinates[1]);
+            activeList.add((EntityT)en);
             active.put(en.getId(), (EntityT)en);
             return (EntityT)en;
             
@@ -306,8 +313,8 @@ public final class EntityGroup {
         }
         
         en.setId(id);
-        en.getSprite().draw(x, y);
         en.place(x, y);
+        activeList.add((EntityT)en);
         active.put(en.getId(), (EntityT)en);
         return (EntityT)en;
     }
@@ -355,8 +362,8 @@ public final class EntityGroup {
             
             en.setId(id);
             en.setVelocity(vx, vy);
-            en.getSprite().draw(x, y);
             en.place(x, y);
+            activeList.add((EntityT)en);
             active.put(en.getId(), (EntityT)en);
             return (EntityT)en;
             
@@ -436,16 +443,20 @@ public final class EntityGroup {
     }
     
     /**
-     * Draw the Image at a random location on the map
-     * @param image the image to draw
+     * Select a random coordinate on the map
      * @return an array of two floats representing the random x and y coordinates chosen
      */
-    public static float[] drawRandom(Image image) {
-        float x = (float)(Math.random() * ((SpaceInvaders.X_RESOLUTION) + 1));
-        float y = (float)(Math.random() * ((SpaceInvaders.Y_RESOLUTION) + 1));
-        image.draw(x, y);
-        float[] coordinates = {x, y};
+    public static float[] selectRandom() {
+        float[] coordinates = {(float)(Math.random() * ((SpaceInvaders.X_RESOLUTION) + 1)), (float)(Math.random() * ((SpaceInvaders.Y_RESOLUTION) + 1))};
         return coordinates;
+    }
+    
+    /**
+     * Draw all spawned entities at their provided x and y
+     */
+    public static void draw() {
+        for (Entity e : activeList)
+            e.getSprite().draw(e.getX(), e.getY());
     }
     
     /*
@@ -503,7 +514,8 @@ public final class EntityGroup {
      */
     public static void control(GameContainer gc, int delta) throws SlickException {
         Input input = gc.getInput();
-	Image ship = SpaceInvaders.playerSprite;
+        if(ship == null)
+            ship = SpaceInvaders.player.getSprite();
  
         /* rotate to the left */
         if(input.isKeyDown(Input.KEY_LEFT)) {

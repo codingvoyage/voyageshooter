@@ -44,6 +44,7 @@ public class SpaceInvaders extends BasicGame {
     private Image space;
     
     /** The actual player */
+    public static Player player;
     public static Image playerSprite;
     
     /** TEMPORARY TEST VARIABLES */
@@ -99,8 +100,12 @@ public class SpaceInvaders extends BasicGame {
             System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
         }
         
-        playerSprite = EntityGroup.getPlayer().getSprite();
         
+        
+        // Test spawning an enemy
+        // Add "f" to the end to specify floating point numbers (or else Java won't know if the numbers are coordinates or velocities)
+        player = EntityGroup.spawn("Player", "p1", EntityGroup.getPlayer().getX(), EntityGroup.getPlayer().getY());
+        Enemy enemy = EntityGroup.spawn("Minion", "m1", 100f, 600f);
         
         //Create our test entity
         testEntity = (Enemy)EntityGroup.getBaseEntity("Minion");
@@ -162,9 +167,7 @@ public class SpaceInvaders extends BasicGame {
         // draw the space background
         space.draw(0,0);
         
-        // Test spawning an enemy
-        // Add "f" to the end to specify floating point numbers (or else Java won't know if the numbers are coordinates or velocities)
-        Player player = EntityGroup.spawn("Player", "p1", EntityGroup.getPlayer().getX(), EntityGroup.getPlayer().getY());
+        EntityGroup.draw();
         
         //Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", "m1", 400f, 300f);
         // Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", "m1", 150.0, 160.0);
