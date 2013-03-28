@@ -447,7 +447,7 @@ public class ScriptReader
                 double radius = currentLine.getDoubleParameter(1);
                 //0 is CW, else CCW
                 double direction = currentLine.getDoubleParameter(2);
-                    ((MovableEntity)currentScriptable).beginOrbit(angle, radius, direction);
+                    ((MovableEntity)currentScriptable).beginOrbit(90, radius, 0, EntityGroup.getPlayer());
                     
                 continueExecuting = false;
                 

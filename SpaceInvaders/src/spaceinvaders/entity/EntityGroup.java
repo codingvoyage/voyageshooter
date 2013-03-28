@@ -227,10 +227,8 @@ public final class EntityGroup {
         
         try {
             
-            /*
             if(!(e instanceof MovableEntity))
                 throw new EntitySpawnException("You can't give a non-movable entity velocity!");
-                */
             
             if(e instanceof Enemy) { // the entity is actaully an enemy
                 

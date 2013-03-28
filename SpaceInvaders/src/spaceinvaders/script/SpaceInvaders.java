@@ -67,6 +67,15 @@ public class SpaceInvaders extends BasicGame {
      */
     @Override
     public void init(GameContainer gc) throws SlickException {
+      
+        /* load the data for all entities */     
+        if(loadEntities()) {
+            System.out.println("Entity data has successfully been loaded.");
+        } else {
+            /* The entities failed to load, therefore we will use the default entities */
+            System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
+        }
+        
         //This initializes stuff
         gc.setMinimumLogicUpdateInterval(20);
         
@@ -92,14 +101,6 @@ public class SpaceInvaders extends BasicGame {
         
         /* Load images */
         space = new Image("src/spaceinvaders/images/bluestar.jpg");
-        
-        /* load the data for all entities */     
-        if(loadEntities()) {
-            System.out.println("Entity data has successfully been loaded.");
-        } else {
-            /* The entities failed to load, therefore we will use the default entities */
-            System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
-        }
         
         scriptReader.setEntityHandle(entities);
         
@@ -179,16 +180,7 @@ public class SpaceInvaders extends BasicGame {
         // a Floating Mine is Immovable but yet I'm trying to force a velocity
         // Immovable immovable = EntityGroup.spawn("Floating Mine", 400.0, 300.0);
         
-
-        g.drawString("Player Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
-        g.drawString("Player Velocity: " + player.getVx() + ", " + player.getVy(), 600, 60);
-        if(player.getHp() >= 0) {
-            g.drawString("Player HP: " + player.getHp() + "/" + player.getMaxHp(), 600, 80);
-        } else {
-            g.drawString("You're dead", 600,80);
-            player.place(-200, -300);
-        }
-        g.drawString("This game is currently in testing and nothing should work properly. Press H to hurt the player.", 100, 700);
+        drawControls(gc, g);
     }
 
     /**
@@ -227,5 +219,23 @@ public class SpaceInvaders extends BasicGame {
         }
         entities = new EntityGroup();
         return false;
+    }
+    
+    /**
+     * Draws all on-screen controls and information
+     * @param gc the game container
+     * @param g the graphics engine
+     * @throws SlickException something went horribly wrong with Slick
+     */
+    private void drawControls(GameContainer gc, Graphics g) throws SlickException {
+        g.drawString("Player Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
+        g.drawString("Player Velocity: " + player.getVx() + ", " + player.getVy(), 600, 60);
+        if(player.getHp() >= 0) {
+            g.drawString("Player HP: " + player.getHp() + "/" + player.getMaxHp(), 600, 80);
+        } else {
+            g.drawString("You're dead", 600,80);
+            player.place(-200, -300);
+        }
+        g.drawString("This game is currently in testing and nothing should work properly. Press H to hurt the player.", 100, 700);
     }
 }

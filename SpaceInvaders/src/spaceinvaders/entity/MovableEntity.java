@@ -114,17 +114,20 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param startAngle initial angle in degrees the orbit starts at (Think polar coordinates)
      * @param radius radius of the orbital circle
      * @param clockwise indicates whether the orbit is clockwise (0) or counterclockwise (anything else)
+     * @param entity the entity to orbit around
      */
-    public void beginOrbit(double startAngle, double radius, double clockwise) {
+    public void beginOrbit( double startAngle, double radius, double clockwise, MovableEntity entity) {
 
         // Create an array containing the angle, radius, and clockwise selection
-        double [] orbitParams = {startAngle, radius, clockwise};
+        Object [] orbitParams = {startAngle, radius, clockwise, entity};
 
         // Store the angle and radius
         setTemporaryParameter(new Parameter(orbitParams));
 
         // Orbit is now running!
         mainThread.setRunningState(true);
+        
+        
     }
     
     /**
@@ -134,34 +137,72 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param vy y velocity
      * @return boolean indicating whether or not the orbit is complete
      */
-    public boolean continueOrbit(double delta, double vx, double vy) {
+    public boolean continueOrbit(double delta) {
         
-        double angle = getTemporaryParameter().getDoubleArrayValue()[0];
-        double radius = getTemporaryParameter().getDoubleArrayValue()[1];
+        //double angle = getTemporaryParameter().getDoubleArrayValue()[0];
+        //double radius = getTemporaryParameter().getDoubleArrayValue()[1];
+         
+        float angle = 0;
         
         // temporary entity - represents the origin entity (such as the player)
-        Enemy origin = new Enemy();
+        MovableEntity origin = (MovableEntity)getTemporaryParameter().getObjectArrayValue()[3];
         
-        // convert degrees to radians
+        // distance between current entity and origin entity
+        //double radius = Math.sqrt(Math.pow((double)(getX() - origin.getY()), 2) + Math.pow((double)(getX() - origin.getY()), 2));
+        //double radius = (Double)getTemporaryParameter().getObjectArrayValue()[1];
+       //System.out.println(radius);
+        double radius = 50.0;
+        
+        /*
+        // convert degrees to radians*/
         double radians = angle * (Math.PI / 180);
         
-        // convert tangential velocity (vx and vy) to angular velocity (w for omega)
-        double w = (Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2)))/radius;
+        // tangental velocity
+        //double v = Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2));
+        double v = 10.0;
+        
+        // convert tangential velocity (vx and vy) to angular velocity (w for omega)*/
+        double w = v/radius;
+        
+        /* size for one single step */
+        //double step = STEP_SIZE * delta;
+
+        /* which direction are we facing? *//*
+        float rotation = getSprite().getRotation();
+        System.out.println(getX() + ", " + getY() + ", " + rotation);
+        
+        // move the entity
+        move(step * Math.sin(Math.toRadians(rotation)), step * Math.cos(Math.toRadians(rotation)));
         
         // determine coordinates of the orbiter
        // x = origin.getX() + radius * Math.cos(radians);
-       // y = origin.getY() + radius * Math.sin(radians);
+        //y = origin.getY() + radius * Math.sin(radians);
         
         // the angle needs to change
-        if (getTemporaryParameter().getDoubleArrayValue()[2] == 0.0) { // clockwise
-            angle += w;
-        } else { // counterclockwise
-            angle -= w;
-        }
+        //if (getTemporaryParameter().getDoubleArrayValue()[1] == 0.0) { // clockwise
+        //double angleRad = Math.toRadians(angle);
+            //angleRad += w * (float)delta;
+            //angle = (float)(Math.toDegrees(angleRad));
+        //} else { // counterclockwise
+         //   angle -= w;
+        //}
+        
+        getSprite().rotate((float)(Math.toDegrees(w)*delta*0.6));
         
         // implement the delta time, the checks (Are we done stuff), and everything else in this formula later :)
-                
+            */    
         // temporary only
+        
+        float step = (float)VELOCITY_FACTOR * (float)v * (float)delta + (float)radius;
+       // float step = (float)Math.sqrt(Math.pow(v,2) + Math.pow(w,2)) * (float)delta + (float)radius;
+        
+        getSprite().rotate((float)w * (float)delta);
+        /* which direction are we facing? */
+        float rotation = getSprite().getRotation();
+        move(step * Math.sin(Math.toRadians(rotation)), -step * Math.cos(Math.toRadians(rotation)));
+        System.out.println(radius + ", " + getX() + ", " + getY() + ", " + rotation);
+        
+        
         return true;
     }
      

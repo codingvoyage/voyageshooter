@@ -1,10 +1,19 @@
 package spaceinvaders.script;
 
 /**
- * Parameter
+ * Parameter<br/>
+ * Stores temporary parameters for use in other classes<br/>
+ * Supports the following:
+ * <ul>
+ * <li>String</li>
+ * <li>boolean</li>
+ * <li>double</li>
+ * <li>double[]</li>
+ * <li>Object[]</li>
+ * </ul>
  * 
- * @author Edmund
- * @author Bakesale
+ * @author Edmund Qiu
+ * @author Brian Yang
  */
 public class Parameter {
     private int whichType;
@@ -13,12 +22,14 @@ public class Parameter {
     public static final int BOOLEAN = 2;
     public static final int DOUBLE = 3;
     public static final int DOUBLE_ARRAY = 4;
+    public static final int OBJECT_ARRAY = 5;
     
     //Stores the actual value
     private String s;
     private boolean b;
     private double d;
     private double[] da;
+    private Object[] oa;
     
     //Is this Parameter used as an identifier for a variable under Scripting?
     private boolean isIdentifier;
@@ -53,6 +64,12 @@ public class Parameter {
         setIdentifier(false);
     }
     
+    public Parameter(Object[] objectArray) {
+        setObjectArrayValue(objectArray);
+        whichType = OBJECT_ARRAY;
+        setIdentifier(false);
+    }
+    
     //Returns the type stored
     public int getStoredType() {
         return whichType;
@@ -79,6 +96,10 @@ public class Parameter {
     {
         return da;
     }
+    
+    public Object[] getObjectArrayValue() {
+        return oa;
+    }
 
     //Sets the Parameter's variable to the provided value
     //All the setters come below 
@@ -102,6 +123,10 @@ public class Parameter {
         da = newDoubleArray;
     }
     
+    public void setObjectArrayValue(Object[] newObjectArray) {
+        oa = newObjectArray;
+    }
+    
     public String toString() 
     {
         String returnedString = null;
@@ -123,6 +148,14 @@ public class Parameter {
                 array += "}";
                 
                 return array;
+            case OBJECT_ARRAY: // Object[]
+                String arr = "{";
+                for(Object val : oa ) {
+                    arr += val.toString() + ", ";
+                }
+                // Oh no, we'll have a fence-post error. Let's remove the trailing comma and space.
+                arr = arr.substring(0, arr.length() - 2);
+                arr += "}";
         }
         
         //null....
