@@ -7,7 +7,7 @@ print "The following code will display Fibonacci(0) to Fibonacci(60)."
 
 wait 1000
 
-spawn "Minion" "m16" 100 100
+spawn "Minion" "m16" 400 300
 
 print "Removed for performance"
 

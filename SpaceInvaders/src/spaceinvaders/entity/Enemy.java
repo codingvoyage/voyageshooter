@@ -79,6 +79,14 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
     }
     
     
+    public void fire(float angle, double distanceAway) {
+        if(weapon == null) 
+            weapon = (Weapon)EntityGroup.getEntity(weapons);
+        System.out.println("Enemy's rotation is: " + getRotation());
+        weapon.fire(getX() + BULLET_OFFSET, getY() + BULLET_OFFSET, angle + getRotation());
+    }
+    
+    
     
     /**
      * Accessors for Attack

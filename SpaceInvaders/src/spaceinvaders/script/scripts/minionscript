@@ -1,13 +1,14 @@
 newvelocity 0.2 0.2
-
-wait 1000
-
+rotate 180
 
 
-move 500
---orbit 90 10 0
 
-put 200 200
+-- move 500
+-- orbit 90 10 0
+
+wait 5000
+
+print "YES"
 
 label [loop]
 
