@@ -153,10 +153,38 @@ public class SpaceInvaders extends BasicGame {
         /** user keyboard control */
         EntityGroup.control(gc, delta);
         
-        /** move all bullets */
-        for (Weapon w : EntityGroup.bullets) {
-            w.move(delta);
+        
+        
+        boolean continueStepping = !EntityGroup.bullets.isEmpty();
+        int index = 0;
+        Thread currentThread;
+        while (continueStepping)
+        {
+            //Get current thread...
+            Weapon w = EntityGroup.bullets.get(index);
+            
+            //Should any threads be deleted right now?
+            if (w.isMarkedForDeletion())
+            {
+                EntityGroup.bullets.remove(index);
+                //index is unchanged, since everything shifts back by one
+                //we'll be on track for the next one by NOT MOVING
+            }
+            else 
+            //Otherwise, just act on it.
+            {
+                w.move(delta);
+                index++;
+            }
+            
+            //Stop when we've reached the last thread.
+            if (index == EntityGroup.bullets.size()) {
+                continueStepping = false;
+            }
         }
+        
+        
+        
         
         /* NEED TO MARK FOR DELETION BY THIS CONDITION
            if (w.getX() > X_RESOLUTION + MovableEntity.EDGE_FACTOR || w.getX() < 0 - MovableEntity.EDGE_FACTOR || w.getY() > Y_RESOLUTION + MovableEntity.EDGE_FACTOR || w.getY() < 0 - MovableEntity.EDGE_FACTOR) {
@@ -212,9 +240,8 @@ public class SpaceInvaders extends BasicGame {
         EntityGroup.draw();
         
         /* TEST FIRE METHOD */
-        enemy.fire();
-        
-        
+        //enemy.fire();
+        g.drawString((new Integer(EntityGroup.bullets.size())).toString() + " weapons", 500, 100);
   
         //enemy.setRotation(player);
        

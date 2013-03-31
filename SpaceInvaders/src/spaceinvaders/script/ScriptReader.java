@@ -462,6 +462,15 @@ public class ScriptReader
                 ((Entity)currentScriptable).place((float)newx, (float)newy);
                 break;
                 
+            case 56:
+                //rotate dat
+                double rotationAngle = identifierCheck(currentLine, 0).getDoubleValue();
+                ((Entity)currentScriptable).rotate((int)rotationAngle);
+                
+            //fires straight ahead
+            case 57:
+                ((Enemy)currentScriptable).fire();
+                break;
                 
             case 60:
                 //new velocity

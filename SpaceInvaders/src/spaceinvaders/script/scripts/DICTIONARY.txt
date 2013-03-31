@@ -62,6 +62,10 @@ put 55
 placeself 55
 newlocation 55
 
+rotate 56
+fire 57
+
+
 changevelocity 60
 newvelocity 60
 

@@ -1,5 +1,7 @@
 package spaceinvaders.entity;
 
+import spaceinvaders.script.SpaceInvaders;
+
 /**
  * Weapon Entities
  * Stores the entity data for all weapons
@@ -69,6 +71,16 @@ public class Weapon extends MovableEntity implements Attacker {
      */
     public void move(double delta) {
         move(STEP_SIZE * (float)delta * Math.sin(Math.toRadians(getRotation())), -STEP_SIZE * (float)delta * Math.cos(Math.toRadians(getRotation())));
+    
+        //That's great and all. See if we're off the map though
+        
+        if ((this.getX() < -500 || this.getX() > SpaceInvaders.X_RESOLUTION + 500) ||
+           (this.getY() < -500 || this.getY() > SpaceInvaders.Y_RESOLUTION + 500))
+        {
+            this.markForDeletion();
+        }
+            
+    
     }
     
     /**

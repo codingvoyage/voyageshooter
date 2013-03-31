@@ -2,11 +2,18 @@ newvelocity 0.2 0.2
 
 wait 1000
 
-label [loop]
+
 
 move 500
 --orbit 90 10 0
 
 put 200 200
+
+label [loop]
+
+fire
+
+wait 500
+rotate 10
 
 goto [loop]

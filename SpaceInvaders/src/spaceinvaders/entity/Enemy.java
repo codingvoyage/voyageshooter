@@ -78,6 +78,8 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
         weapon.fire(getX(), getY(), angle - getRotation());
     }
     
+    
+    
     /**
      * Accessors for Attack
      * @return attack of entity

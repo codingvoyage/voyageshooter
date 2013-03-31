@@ -19,6 +19,16 @@ public class ScriptableClass implements Scriptable {
     /** Script ID for Entity */
     private Integer scriptID;
     
+    protected boolean isMarkedForDeletion = false;
+    
+    public void markForDeletion() {
+        isMarkedForDeletion = true;
+    }
+    
+    public boolean isMarkedForDeletion()
+    {
+        return isMarkedForDeletion;
+    }
     
     public ScriptableClass(int newScriptID) 
     {
