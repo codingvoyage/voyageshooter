@@ -26,7 +26,7 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
      */    
     public Enemy() {
         // default values - should be ignored by the data file
-        super("Panther Ship", "enemy1337", "enemy1", 52, "The most powerful and evil creature you will ever meet in your life.", 10.0, 10.0);
+        super("Panther Ship", "enemy1337", "enemy1", 52, "The most powerful and evil creature you will ever meet in your life.", 10.0);
         attack = 9133.7; 
         defense = 9133.7;
         hp = 100;
@@ -47,8 +47,8 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
      * @param vx x velocity
      * @param vy y velocity
      */    
-    public Enemy(String name, String id, String image, int scriptID, String description, double attack, double defense, int hp, String weapons, double vx, double vy) {
-        super(name, id, image, scriptID, description, vx, vy);
+    public Enemy(String name, String id, String image, int scriptID, String description, double attack, double defense, int hp, String weapons, double v) {
+        super(name, id, image, scriptID, description, v);
         this.attack = attack;
         this.defense = defense;
         this.hp = hp;
@@ -58,18 +58,24 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
     }
     
     /**
-     * Fire weapon <br/>
-     * Not complete
-     * Not working
-     * Do not use yet
+     * Fire weapon with the same direction 
+     * from the location of the enemy
      */
     @Override
     public void fire() {
+        fire(0);
+    }
+    
+    /**
+     * Fire weapon with a different direction 
+     * from the location of the enemy
+     * @param angle angle <em>relative</em> to the enemy
+     */
+    public void fire(float angle) {
         if(weapon == null) 
             weapon = (Weapon)EntityGroup.getEntity(weapons);
-        /* Use Bomb Formula 9001 */
-        /* The graphics references will be included in the data file later, but for now... */
-        weapon.fire(getX(), getY());
+        System.out.println("Enemy's rotation is: " + getRotation());
+        weapon.fire(getX(), getY(), angle - getRotation());
     }
     
     /**

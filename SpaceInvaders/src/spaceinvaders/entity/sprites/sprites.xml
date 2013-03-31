@@ -1,0 +1,16 @@
+<!-- 
+
+Space Invaders Game Spritesheet Data
+Created by Brian Yang
+
+-->
+
+<sheet>
+	<sprite name="minion" x="0" y="0" width="100" height="100" />
+	<sprite name="monster" x="105" y="0" width="100" height="100" />
+	<sprite name="player" x="210" y="0" width="100" height="100" />
+	<sprite name="spaceguardian" x="315" y="0" width="100" height="100" />
+	<sprite name="rainbow" x="420" y="0" width="25" height="25" />
+	<sprite name="water" x="450" y="0" width="25" height="25" />
+	<sprite name="bullet" x="480" y="0" width="12" height="11" />
+</sheet>

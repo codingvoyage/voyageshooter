@@ -21,20 +21,13 @@ public interface Movable {
     
     /**
      * Set the velocity
-     * @param vx x velocity in mph
-     * @param vy y velocity in mph
+     * @param v velocity in mph
      */
-    public void setVelocity(double vx, double vy);
+    public void setVelocity(double v);
     
     /**
-     * Get X velocity
-     * @return the entity's x velocity
+     * Get velocity
+     * @return the entity's velocity
      */   
-    public double getVx();
-    
-    /**
-     * Get Y velocity
-     * @return the entity's y velocity
-     */    
-    public double getVy();
+    public double getVelocity();
 }

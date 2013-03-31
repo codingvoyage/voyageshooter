@@ -8,11 +8,9 @@ import spaceinvaders.script.*;
  */
 public abstract class MovableEntity extends Entity implements Movable {
     
-    /** The entity's current x-velocity in mph */
-    public Double vx;
-    /** The entity's current y-velocity in mph */
-    public Double vy;
-     
+    /** The entity's current velocity in mph */
+    public Double v;
+    
     /** origin */
     public static final double ORIGIN = 0.0;
     
@@ -33,8 +31,7 @@ public abstract class MovableEntity extends Entity implements Movable {
      */
     public MovableEntity() {
         super();
-        vx = 10.0;
-        vy = 10.0;
+        v = 10.0;
     }
     
     /**
@@ -46,10 +43,9 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param vx x-velocity of movable entity
      * @param vy y-velocity of movable entity
      */
-    public MovableEntity(String name, String id, String image, String description, double vx, double vy) {
+    public MovableEntity(String name, String id, String image, String description, double v) {
         super(name, id, image, description);
-        this.vx = vx * VELOCITY_FACTOR;
-        this.vy = vy * VELOCITY_FACTOR;
+        this.v = v * VELOCITY_FACTOR;
     }
     
     /**
@@ -62,12 +58,74 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param vx x-velocity of movable entity
      * @param vy y-velocity of movable entity
      */
-    public MovableEntity(String name, String id, String image, int scriptID, String description, double vx, double vy) {
+    public MovableEntity(String name, String id, String image, int scriptID, String description, double v) {
         super(name, id, image, scriptID, description);
-        this.vx = vx * VELOCITY_FACTOR;
-        this.vy = vy * VELOCITY_FACTOR;
+        this.v = v * VELOCITY_FACTOR;
     }
     
+    /**
+     * Move after turning by an angle
+     * @param angle angle to turn by
+     * @param pixelsToMove how many pixels the entity should move
+     */
+    public void beginMove(float angle, double pixelsToMove) {
+        double[] param = {angle, pixelsToMove};
+        setTemporaryParameter(new Parameter(param));
+        beginMove(pixelsToMove);
+    }
+    
+    /**
+     * Move after turning to an angle
+     * <strong>Note:</strong> To distinguish this method from the previous, 
+     * which turns the entity <em>by</em> an angle instead of <em>to</em>, 
+     * add a boolean 'true' as the third parameter to activate this method.
+     * @param angle angle to turn to
+     * @param pixelsToMove how many pixels the entity should move
+     * @param turnTo true if turn to angle, false if turn by angle, defaults to false
+     */
+    public void beginMove(float angle, double pixelsToMove, boolean turnTo) {
+        if(turnTo) {
+            double[] param = {getRotation() - angle, pixelsToMove};
+            setTemporaryParameter(new Parameter(param));
+            beginMove(pixelsToMove);
+        } else {
+            beginMove(angle, pixelsToMove);
+        }
+    }
+    
+    /**
+     * Move to another entity
+     * @param entity the other entity
+     */
+    public void beginMove(Entity entity) {
+        double[] param = {rotate(entity), this.position.distance(entity.position)};
+        setTemporaryParameter(new Parameter(param));
+        beginMove(param[1]);
+    }
+    
+    /**
+     * Move a number of pixels towards another entity
+     * @param entity the other entity
+     * @param pixelsToMove how many pixels the entity should move
+     */
+    public void beginMove(Entity entity, double pixelsToMove) {
+        setRotation(entity);
+        setTemporaryParameter(new Parameter(pixelsToMove));
+        beginMove(pixelsToMove);
+    }
+    
+    /**
+     * Starts the movement
+     * @param pixelsToMove how many pixels the entity should move
+     */
+    @Override
+    public void beginMove(double pixelsToMove) {
+        if (getTemporaryParameter() == null) // if its called from another beginMove method, don't reset the parameter
+            setTemporaryParameter(new Parameter(pixelsToMove));
+        mainThread.setRunningState(true);
+    }
+    
+        
     /**
      * Checks if the entity should continue moving (straight line)
      * @param delta elapsed time between checks
@@ -75,11 +133,13 @@ public abstract class MovableEntity extends Entity implements Movable {
      */
     @Override
     public boolean continueMove(double delta) {
-        move(vx * delta, vy * delta);
-        
-        double movedDistance = Math.abs((vx * delta) + (vy * delta));
-        
         Parameter tempParam = getTemporaryParameter();
+
+        float step = STEP_SIZE * (float)delta;
+        move(step * Math.sin(Math.toRadians(getRotation())), -step * Math.cos(Math.toRadians(getRotation())));
+        
+        double movedDistance = Math.abs((step * Math.sin(Math.toRadians(getRotation()))) + (-step * Math.cos(Math.toRadians(getRotation()))));
+        
         tempParam.setDoubleValue(
                tempParam.getDoubleValue() - 
                movedDistance);
@@ -96,16 +156,6 @@ public abstract class MovableEntity extends Entity implements Movable {
         
         //Alright, we still have to move. Keep moving.
         return true;
-    }
-    
-    /**
-     * Starts the movement
-     * @param pixelsToMove how many pixels the entity should move
-     */
-    @Override
-    public void beginMove(double pixelsToMove) {
-        setTemporaryParameter(new Parameter(pixelsToMove));
-        mainThread.setRunningState(true);
     }
     
     /**
@@ -159,7 +209,7 @@ public abstract class MovableEntity extends Entity implements Movable {
         
         // tangental velocity
         //double v = Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2));
-        double v = 10.0;
+        //double v = 10.0;
         
         // convert tangential velocity (vx and vy) to angular velocity (w for omega)*/
         double w = v/radius;
@@ -209,31 +259,20 @@ public abstract class MovableEntity extends Entity implements Movable {
      
     /**
      * Set the velocity
-     * @param vx x velocity in mph
-     * @param vy y velocity in mph
+     * @param v velocity in mph
      */
     @Override
-    public void setVelocity(double vx, double vy) {
-        this.vx = vx;
-        this.vy = vy;
+    public void setVelocity(double v) {
+        this.v = v;
     }
     
     /**
-     * Get X velocity
-     * @return the entity's x velocity
+     * Get velocity
+     * @return the entity's velocity
      */
     @Override
-    public double getVx() {
-        return vx;
+    public double getVelocity() {
+        return v;
     }   
-    
-    /**
-     * Get Y velocity
-     * @return the entity's y velocity
-     */   
-    @Override
-    public double getVy() {
-        return vy;
-    } 
     
 }

@@ -28,20 +28,19 @@ public class Entity extends ScriptableClass {
     private Image sprite;
        
     /** position vector */
-    public final Vector2f position = new Vector2f(300, 400);;
+    public final Vector2f position = new Vector2f(300, 400);
     
-    /*
-    
-    private float x = 300;
-    
-    private float y = 400;
-    */
+    /** rotation in degrees (facing directly south is 180 degrees) */
+    private float angle;
     
     /** Default scaling factor */
     private float scale = 0.5f;
     
     /** Image base */
     private static final String IMAGE_PATH = "src/spaceinvaders/images/";
+    
+    /** Angle offset for rotations */
+    public static float ROTATION_FACTOR = 90.0f;
     
     /**
      * Calls ScriptableClass<br/>
@@ -53,7 +52,7 @@ public class Entity extends ScriptableClass {
         id = "e1";
         description = "I am you.";
         image = "spaceship";
-        //position = new Vector2f();
+        angle = 180;
     }
 
     /**
@@ -69,8 +68,9 @@ public class Entity extends ScriptableClass {
         this.id = id;
         this.image = image;
         this.sprite = EntityGroup.getImage(image);
+        angle = 180;
+        //sprite.setRotation(angle);
         this.description = description;
-        //position = new Vector2f();
     }
     
     /**
@@ -126,7 +126,128 @@ public class Entity extends ScriptableClass {
     }
     
     /**
-     * Accessors for Name
+     * Set the entity rotation
+     * <strong>Note:</strong> Use the rotate (unscripted) or beginRotate (scripted) method to 
+     * create a smooth rotation
+     * @param angle the new angle
+     */
+    public void setRotation(float angle) {
+        this.angle = angle;
+        sprite.setRotation(angle);
+    }
+    
+    /**
+     * Set the rotation to face another entity
+     * <strong>Note:</strong> Use the rotate (unscripted) or beginRotate (scripted) methods to 
+     * create a smooth rotation
+     * @param entity the entity to face
+     */
+    public void setRotation(Entity entity) {
+        //float newAngle = (float)(Math.toDegrees((Math.acos(this.position.getNormal().dot(entity.position.getNormal())))));
+        Vector2f tempVector = new Vector2f(position);
+        tempVector.sub(entity.position);
+        float newAngle = (float)tempVector.getTheta() - ROTATION_FACTOR;
+        this.angle = newAngle;
+        sprite.setRotation(newAngle);
+    }
+    
+    /**
+     * Rotate the entity
+     * <strong>Note:</strong> For a smooth rotation, include a
+     * delta time parameter
+     * @param angle the angle to rotate by
+     */
+    public void rotate(float angle) {
+        this.angle += angle;
+        sprite.rotate(angle);
+    }
+    
+    /**
+     * Rotate the entity
+     * <strong>Note:</strong> For a smooth rotation, this method can 
+     * only be called from a movable entity's beginMove method.
+     * @param angle the angle to rotate by
+     * @delta update interval time
+     */
+    public void rotate(float angle, double delta) {
+        float deltaAngle = angle*(float)delta;
+        this.angle += deltaAngle;
+        sprite.rotate(deltaAngle);
+    }
+    
+    /**
+     * Calculate the angle to rotate to face another entity<br/>
+     * <strong>Note:</strong> Because of the delta time requirement, this method can 
+     * only be called from a movable entity's beginMove method 
+     * and only calculates the angle and does not actually rotate that angle. 
+     * Pass the returned angle to the rotate(float angle, double delta) method.
+     * @param entity the other entity
+     * @return the angle needed to rotate
+     */
+    public float rotate(Entity entity) {
+        return (float)(Math.acos(this.position.getNormal().dot(entity.position.getNormal())));
+    }
+    
+    /**
+     * Scripted rotation by a certain angle<br/>
+     * <strong>Note:</strong> If rotating and then immediately moving, 
+     * just call the beginMove(angle, pixelsToMove) method instead.
+     * @param angle to angle to rotate to
+     */
+    public void beginRotate(float angle) {
+        setTemporaryParameter(new Parameter(getRotation() - angle));
+        mainThread.setRunningState(true);
+    }
+    
+    /**
+     * Scripted rotation to a certain angle<br/>
+     * <strong>Note:</strong> If rotating and then immediately moving, 
+     * just call the beginMove(angle, pixelsToMove, turnTo) method instead.
+     * <strong>Note:</strong> To distinguish this method from the previous, 
+     * which rotates the entity <em>by</em> an angle instead of <em>to</em>, 
+     * add a boolean true as the third parameter.
+     * @param angle to angle to rotate to
+     * @param turnTo true if turn to, false if turn by, defaults to false
+     */
+    public void beginRotate(float angle, boolean turnTo) {
+        if(turnTo) {
+            setTemporaryParameter(new Parameter(getRotation() - angle));
+            mainThread.setRunningState(true);
+        } else {
+            beginRotate(angle);
+        }
+    }
+    
+    /**
+     * Continue scripted rotation
+     * @param delta update interval time
+     * @return boolean indicating whether or not the rotation should continue
+     */
+    public boolean continueRotate(double delta) {
+        Parameter tempParam = getTemporaryParameter();
+        rotate(MovableEntity.ROTATION_SIZE, delta);
+                
+        return true;
+    }
+    
+    /**
+     * Get the rotation
+     * @return the current rotation in degrees
+     */
+    public float getRotation() {
+        return angle;
+    }
+    
+    /**
+     * Get the rotation in radians
+     * @return the current rotation in radians
+     */
+    public double getRotationRad() {
+        return Math.toRadians(angle);
+    }
+    
+    /**
+     * Get Name
      * @return name of entity
      */
     public String getName() {
@@ -134,7 +255,7 @@ public class Entity extends ScriptableClass {
     }
     
     /**
-     * Accessors for ID
+     * Get ID
      * @return id (index) of entity
      */
     public String getId() {
@@ -142,7 +263,7 @@ public class Entity extends ScriptableClass {
     }
     
     /**
-     * Accessors for Description
+     * Get Description
      * @return description of entity
      */
     public String getDescription() {

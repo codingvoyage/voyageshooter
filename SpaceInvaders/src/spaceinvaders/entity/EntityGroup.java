@@ -36,13 +36,15 @@ public final class EntityGroup {
     private static final ArrayList<Entity> activeList = new ArrayList<Entity>();
     /** Maps active IDs to the active entity */
     private static final HashMap<String, Entity> active = new HashMap<String, Entity>();
+    /** Lists all active unscripted bullets */
+    public static final ArrayList<Weapon> bullets = new ArrayList<Weapon>();
     
     /** Sprite sheet for Entities */
-    public static final PackedSpriteSheet sprites; 
+    public static final XMLPackedSheet sprites; 
     static {
-        PackedSpriteSheet tempSprites = null; // required or compiler will complain that sprites isn't initialized
+        XMLPackedSheet tempSprites = null; // required or compiler will complain that sprites isn't initialized
         try {
-            tempSprites = new PackedSpriteSheet("src/spaceinvaders/entity/sprites/sprites.space");
+            tempSprites = new XMLPackedSheet("src/spaceinvaders/entity/sprites/sprites.png", "src/spaceinvaders/entity/sprites/sprites.xml");
         } catch (SlickException e) {
             System.out.println("Sprite sheet failure.");
         }
@@ -165,7 +167,7 @@ public final class EntityGroup {
     
     /**
      * Spawn the Entity at a random location with default velocity<br/>
-     * EntitySpawnExceptions from <code>spawn(name, vx, vy)</code> will retry spawning with this method
+     * EntitySpawnExceptions from <code>spawn(name, v)</code> will retry spawning with this method
      * @param name the entity to spawn
      * @param id the id reference of entity
      * @return the Entity of declared type that just got spawned
@@ -219,7 +221,7 @@ public final class EntityGroup {
      * @param vy y velocity in mph
      * @return the Entity of declared type that just got spawned
      */
-    public static <EntityT extends MovableEntity> EntityT spawn(String name, String id, double vx, double vy) {
+    public static <EntityT extends MovableEntity> EntityT spawn(String name, String id, double v) {
         
         Entity e = getBaseEntity(name);
         MovableEntity en; // the cloned entity, to be casted into EntityT type
@@ -253,7 +255,7 @@ public final class EntityGroup {
             }
             
             en.setId(id);
-            en.setVelocity(vx, vy);
+            en.setVelocity(v);
             coordinates = selectRandom();
             en.place(coordinates[0], coordinates[1]);
             activeList.add((EntityT)en);
@@ -271,7 +273,7 @@ public final class EntityGroup {
     
     /**
      * Spawn the entity at a specific location with default velocity<br/>
-     * EntitySpawnExceptions from <code>spawn(name, x, y, vx, vy)</code> will retry using this method
+     * EntitySpawnExceptions from <code>spawn(name, x, y, v)</code> will retry using this method
      * @param name the entity to spawn
      * @param id the id reference of entity
      * @param x x coordinate
@@ -327,7 +329,7 @@ public final class EntityGroup {
      * @param vy y velocity in mph
      * @return the Entity of declared type that just got spawned
      */
-    public static <EntityT extends MovableEntity> EntityT spawn(String name, String id, float x, float y, double vx, double vy) {
+    public static <EntityT extends MovableEntity> EntityT spawn(String name, String id, float x, float y, double v) {
         
         Entity e = getBaseEntity(name);
         MovableEntity en; // the cloned entity, to be casted into type EntityT
@@ -359,7 +361,7 @@ public final class EntityGroup {
             }
             
             en.setId(id);
-            en.setVelocity(vx, vy);
+            en.setVelocity(v);
             en.place(x, y);
             activeList.add((EntityT)en);
             active.put(en.getId(), (EntityT)en);
@@ -392,7 +394,7 @@ public final class EntityGroup {
      */
     private static Enemy cloneEnemy(Entity e) {
         Enemy en = (Enemy)e;
-        en = new Enemy(en.getName(), en.getId(), en.getImage(), en.getMainScriptID(), en.getDescription(), en.getAttack(), en.getDefense(), en.getHp(), en.getWeaponName(), en.getVx(), en.getVy());
+        en = new Enemy(en.getName(), en.getId(), en.getImage(), en.getMainScriptID(), en.getDescription(), en.getAttack(), en.getDefense(), en.getHp(), en.getWeaponName(), en.getVelocity());
         return en;
     }
     
@@ -402,7 +404,7 @@ public final class EntityGroup {
      */
     private static Misc cloneMisc(Entity e) {
         Misc mi = (Misc)e;
-        mi = new Misc(mi.getName(), mi.getId(), mi.getImage(), mi.getDescription(), mi.getVx(), mi.getVy());
+        mi = new Misc(mi.getName(), mi.getId(), mi.getImage(), mi.getDescription(), mi.getVelocity());
         return mi;
     }
     
@@ -413,7 +415,7 @@ public final class EntityGroup {
      */
     private static Weapon cloneWeapon(Entity e) {
         Weapon we = (Weapon)e;
-        we = new Weapon(we.getName(), we.getId(), we.getImage(), we.getDescription(), we.getAttack(), we.getVx(), we.getVy());
+        we = new Weapon(we.getName(), we.getId(), we.getImage(), we.getDescription(), we.getAttack(), we.getVelocity());
         return we;
     }
     
@@ -558,9 +560,15 @@ public final class EntityGroup {
                 player.move(step * Math.sin(Math.toRadians(rotation)), step * Math.cos(Math.toRadians(rotation)));
         }
         
-        /* Temporarily HP Deduction Test */
+        /* Temporary HP Deduction Test */
         if(input.isKeyDown(Input.KEY_H)) {
             player.deductHp(10);
+        }
+        
+        /* Temporary Rotation Test */
+        if(input.isKeyDown(Input.KEY_R)) {
+            System.out.println("R pressed");
+            player.rotate(SpaceInvaders.enemy);
         }
     }
     

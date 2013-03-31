@@ -14,7 +14,7 @@ public class Weapon extends MovableEntity implements Attacker {
      */    
     public Weapon() {
         // default values - should be ignored by the data file
-        super("Panther Rockets", "weapon1337", "enemy1", "The most powerful weapon ever invented.", 10.0, 10.0);
+        super("Panther Rockets", "weapon1337", "enemy1", "The most powerful weapon ever invented.", 10.0);
         attack = 9133.7;
     }
     
@@ -27,16 +27,17 @@ public class Weapon extends MovableEntity implements Attacker {
      * @param vx x-velocity of entity
      * @param vy y-velocity of entity
      */    
-    public Weapon(String name, String id, String image, String description, double attack, double vx, double vy) {
-        super(name, id, image, description,vx,vy);
+    public Weapon(String name, String id, String image, String description, double attack, double v) {
+        super(name, id, image, description,v);
         this.attack = attack;
         
     }
     
     /**
-     * Fire
+     * Fire<br/>
+     * Because this is a weapon itself, this default method does absolutely nothing.
      */
-    //@Override
+    @Override
     public void fire() {
         // the actual bullet doesn't fire anything silly
     }
@@ -45,11 +46,23 @@ public class Weapon extends MovableEntity implements Attacker {
      * Fire from another entity
      * @param x starting x coordinate
      * @param y starting y coordinate
+     * @param angle angle <em>relative</em> to the entity to fire from
      */
-    public void fire(float x, float y) {
+    public void fire(float x, float y, float angle) {
+        Weapon newWeapon = EntityGroup.spawn(getName(), "bullet" + Math.random(), x, y);
+        newWeapon.setRotation(angle);
+        newWeapon.draw();
         
+        System.out.println("Weapon should now be drawn");
+        System.out.println("Weapon's coordiantes are: " + getX() + getY());
+        System.out.println("Weapon's rotation is: " + getRotation());
+        
+        move(300, 250);
+        newWeapon.draw();
+        System.out.println("Weapon's coordiantes are: " + getX() + getY());
+        System.out.println("Bullet is done moving");
     }
-    
+
     /**
      * Accessors for Attack
      * @return attack of entity

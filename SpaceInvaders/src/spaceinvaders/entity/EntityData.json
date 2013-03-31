@@ -15,9 +15,8 @@
             "attack" : 10.0,
             "defense" : 10.0,
             "weapons" : "Water Gun",
-            "vx" : 1.0,
-            "vy" : 1.0,
-            "image" : "spaceship",
+            "v" : 1.0,
+            "image" : "player",
             "points" : 0,
             "level" : 1,
             "WARNING" : "DOUBLES AS A SAVE FILE. DO NOT MODIFY."
@@ -32,9 +31,8 @@
             "defense" : 1,
             "hp" : 100,
             "weapons" : "Water Gun",
-            "vx" : 1.0,
-            "vy" : 1.0,
-            "image" : "enemy1",
+            "v" : 1.0,
+            "image" : "minion",
             "scriptID" : 35
         },
         {
@@ -46,9 +44,8 @@
             "defense" : 45.0,
             "hp" : 300,
             "weapons" : "Rainbow Laser",
-            "vx" : 1.5,
-            "vy" : 1.5,
-            "image" : "spaceship",
+            "v" : 1.5,
+            "image" : "spaceguardian",
             "scriptID" : 53
         },
         {
@@ -58,10 +55,9 @@
             "attack" : 9002.0,
             "defense" : 9002.0,
             "hp" : 1000000,
-            "weapons" : "Bomb Formula 9001",
-            "vx" : 10.0,
-            "vy" : 10.0,
-            "image" : "enemy1",
+            "weapons" : "Rainbow Laser",
+            "v" : 10.0,
+            "image" : "monster",
             "scriptID" : 54
         }
     ],
@@ -72,27 +68,24 @@
             "id" : "wg1",
             "description" : "In what galaxy is it logical to use water guns to attack spaceships?",
             "attack" : 0.0001,
-            "vx" : 1.0,
-            "vy" : 1.0,
-            "image" : "enemy1"
+            "v" : 100.0,
+            "image" : "water"
         },
         {
             "name" : "Rainbow Laser",
             "id" : "rl1",
             "description" : "Ohhh! Pretty colors!",
             "attack" : 0.0001,
-            "vx" : 1.0,
-            "vy" : 1.0,
-            "image" : "enemy1"
+            "v" : 100.0,
+            "image" : "rainbow"
         },
         {
             "name" : "Bomb Formula 9001",
             "id" : "bf1",
             "description" : "A small and powerful bullet that explodes on impact. Simply the best weapon in any galaxy.",
             "attack" : 9001.0,
-            "vx" : 100.0,
-            "vy" : 100.0,
-            "image" : "enemy1"
+            "v" : 1000.0,
+            "image" : "rainbow"
         }
     ],
 
@@ -101,9 +94,8 @@
             "name" : "Asteroid",
             "id" : "as1",
             "description" : "Random floating rocks. Avoid at all costs! Your ship is flying too fast and will crash!",
-            "vx" : 5.0,
-            "vy" : 5.0,
-            "image" : "enemy1"
+            "v" : 5.0,
+            "image" : "rainbow"
         }
     ],
             
@@ -116,7 +108,7 @@
             "defense" : 999999.0,
             "hp" : 1000000,
             "weapons" : "Bomb Formula 9001",
-            "image" : "enemy1"
+            "image" : "rainbow"
         }
     ]
 }

@@ -467,7 +467,7 @@ public class ScriptReader
                 //new velocity
                 double newvx = currentLine.getDoubleParameter(0);
                 double newvy = currentLine.getDoubleParameter(1);
-                ((MovableEntity)currentScriptable).setVelocity(newvx, newvy);
+                ((MovableEntity)currentScriptable).setVelocity(newvx);
                 break;
                 
             case 80:

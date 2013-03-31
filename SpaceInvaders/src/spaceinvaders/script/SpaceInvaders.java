@@ -2,6 +2,7 @@ package spaceinvaders.script;
 
 import spaceinvaders.entity.*;
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Space Invaders Game
@@ -46,9 +47,11 @@ public class SpaceInvaders extends BasicGame {
     /** The actual player */
     public static Player player;
     public static Image playerSprite;
+    public static Enemy enemy;
+    Enemy enemy2;
     
     /** TEMPORARY TEST VARIABLES */
-
+    public int start = 0;
     
     /** Data for all entities */
     private EntityGroup entities;
@@ -107,7 +110,8 @@ public class SpaceInvaders extends BasicGame {
         // Test spawning an enemy
         // Add "f" to the end to specify floating point numbers (or else Java won't know if the numbers are coordinates or velocities)
         player = EntityGroup.spawn("Player", "p1", EntityGroup.getPlayer().getX(), EntityGroup.getPlayer().getY());
-        Enemy enemy = EntityGroup.spawn("Minion", "m1", 100f, 600f);
+        enemy = EntityGroup.spawn("Space Guardian", "m1", 200f, 400f);
+        enemy2 = EntityGroup.spawn("Bakesale Monster", "m2", 400f, 200f);
         
         //Create our test entity
         testEntity = (Enemy)EntityGroup.getBaseEntity("Minion");
@@ -128,7 +132,7 @@ public class SpaceInvaders extends BasicGame {
         
         //Add this thread to the collection of threads
         threadManager.addThread(entityThread);
-        
+        enemy.beginMove(player, 100);
     }
 
 
@@ -146,9 +150,33 @@ public class SpaceInvaders extends BasicGame {
         
         threadManager.act(delta);
         
+        
         /** user keyboard control */
         EntityGroup.control(gc, delta);
- 
+        
+        
+        // ORBITAL TESTING - UNCOMMENTING MAY CAUSE UNDESIRABLE EFFECTS - YOU HAVE BEEN WARNED
+        //Vector2f playerNormal = player.position.normalise();
+        //Vector2f enemyNormal = enemy.position.normalise();
+        //System.out.println("Normalized: " + player.position.x + player.position.y);
+        
+        //System.out.println(player.position.sub(20));
+        
+        //System.out.println("DOT: " + playerNormal.dot(enemy.position.normalise()));
+       // double angle = Math.acos(playerNormal.dot(enemy.position.normalise()));
+        //System.out.println(angle);
+        
+        //System.out.println("POSITION: " + player.position.x + ", " + player.position.y);
+        
+         //   player.position.x += enemy.position.x;
+          // player.position.y += enemy.position.y;
+
+          //  player.position.x -= enemy.position.x;
+          //  player.position.y -= enemy.position.y;
+        
+        //System.out.println("ANGLE: " + player.position.getTheta());
+        //System.out.println("POSITION: " + player.position.x + ", " + player.position.y);
+        
     }
 
     /**
@@ -170,7 +198,19 @@ public class SpaceInvaders extends BasicGame {
         // draw the space background
         space.draw(0,0);
         
+        // draw all the active entities
         EntityGroup.draw();
+        
+        /*
+        if(start ==0) {
+        enemy.fire();
+        start++;
+        }
+        * */
+        
+  
+        //enemy.setRotation(player);
+       
         
         //Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", "m1", 400f, 300f);
         // Enemy newEntity = (Enemy)EntityGroup.spawn("Minion", "m1", 150.0, 160.0);
@@ -229,7 +269,7 @@ public class SpaceInvaders extends BasicGame {
      */
     private void drawControls(GameContainer gc, Graphics g) throws SlickException {
         g.drawString("Player Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
-        g.drawString("Player Velocity: " + player.getVx() + ", " + player.getVy(), 600, 60);
+        g.drawString("Player Velocity: " + player.getVelocity(), 600, 60);
         if(player.getHp() >= 0) {
             g.drawString("Player HP: " + player.getHp() + "/" + player.getMaxHp(), 600, 80);
         } else {
