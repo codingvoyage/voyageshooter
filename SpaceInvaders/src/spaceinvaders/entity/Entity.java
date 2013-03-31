@@ -42,6 +42,9 @@ public class Entity extends ScriptableClass {
     /** Angle offset for rotations */
     public static float ROTATION_FACTOR = 90.0f;
     
+    /** Offset for spawning bullets */
+    public static float BULLET_OFFSET = 25;
+    
     /**
      * Calls ScriptableClass<br/>
      * Instance fields should be set by a data file like JSON

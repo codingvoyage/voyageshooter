@@ -175,7 +175,7 @@ public abstract class MovableEntity extends Entity implements Movable {
         setTemporaryParameter(new Parameter(orbitParams));
 
         // Orbit is now running!
-        mainThread.setRunningState(true);
+//        mainThread.setRunningState(true);
         
         
     }
@@ -189,13 +189,21 @@ public abstract class MovableEntity extends Entity implements Movable {
      */
     public boolean continueOrbit(double delta) {
         
-        //double angle = getTemporaryParameter().getDoubleArrayValue()[0];
-        //double radius = getTemporaryParameter().getDoubleArrayValue()[1];
+        Parameter tempParam = getTemporaryParameter();
+        Object[] params = tempParam.getObjectArrayValue();
+        /*
+         * 0 - start angle
+         * 1 - radius
+         * 2 - clockwise
+         * 3 - the origin entity
+         */
+        
+        float w = (float)(getVelocity() * (Double)params[1]);
          
         float angle = 0;
         
-        // temporary entity - represents the origin entity (such as the player)
-        MovableEntity origin = (MovableEntity)getTemporaryParameter().getObjectArrayValue()[3];
+        float step = w * (float)delta;
+        float rotation = getRotation();
         
         // distance between current entity and origin entity
         //double radius = Math.sqrt(Math.pow((double)(getX() - origin.getY()), 2) + Math.pow((double)(getX() - origin.getY()), 2));
@@ -203,16 +211,15 @@ public abstract class MovableEntity extends Entity implements Movable {
        //System.out.println(radius);
         double radius = 50.0;
         
-        /*
-        // convert degrees to radians*/
-        double radians = angle * (Math.PI / 180);
-        
+        System.out.println("Attempted Orbit: " + getRotation() + ", " + getX() + ", " + getY());
+        move(step * Math.sin(Math.toRadians(rotation)), -step * Math.cos(Math.toRadians(rotation)));
+        rotate(step);
+        if(getRotation() >= 360) 
+            setRotation(getRotation() - 360);
+        System.out.println("After: " + getRotation() + ", " + getX() + ", " + getY());
         // tangental velocity
         //double v = Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2));
         //double v = 10.0;
-        
-        // convert tangential velocity (vx and vy) to angular velocity (w for omega)*/
-        double w = v/radius;
         
         /* size for one single step */
         //double step = STEP_SIZE * delta;
@@ -243,15 +250,7 @@ public abstract class MovableEntity extends Entity implements Movable {
             */    
         // temporary only
         
-        //float step = (float)VELOCITY_FACTOR * (float)v * (float)delta + (float)radius;
-        float step = (float)(Math.sqrt(w * w + v * v)+ radius);
-       // float step = (float)Math.sqrt(Math.pow(v,2) + Math.pow(w,2)) * (float)delta + (float)radius;
-        System.out.println(position.getTheta());
-        getSprite().rotate((float)w * (float)delta);
-        /* which direction are we facing? */
-        float rotation = (float)position.getTheta();
-        move(step * Math.sin(Math.toRadians(rotation)), -step * Math.cos(Math.toRadians(rotation)));
-        System.out.println(radius + ", " + getX() + ", " + getY() + ", " + rotation);
+       
         
         
         return true;
