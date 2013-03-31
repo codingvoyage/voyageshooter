@@ -272,7 +272,7 @@ public class SpaceInvaders extends BasicGame {
         
         AppGameContainer app = new AppGameContainer(new SpaceInvaders());
 
-        app.setDisplayMode(1920, 1080, IS_FULLSCREEN);
+        app.setDisplayMode(X_RESOLUTION, Y_RESOLUTION, IS_FULLSCREEN);
         app.setAlwaysRender(true);
         app.setTargetFrameRate(60);
         //This is important. I found out that with this command, it will limit

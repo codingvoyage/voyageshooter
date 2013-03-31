@@ -30,7 +30,7 @@
             "attack" : 1,
             "defense" : 1,
             "hp" : 100,
-            "weapons" : "Rainbow Laser",
+            "weapons" : "Blue Destroyer",
             "v" : 1.0,
             "image" : "minion",
             "scriptID" : 35
@@ -70,6 +70,14 @@
             "attack" : 0.0001,
             "v" : 2500.0,
             "image" : "water"
+        },
+        {
+            "name" : "Blue Destroyer",
+            "id" : "bd1",
+            "description" : "This tiny blue bullet really packs a punch!",
+            "attack" : 10.0,
+            "v" : 2500.0,
+            "image" : "bluedot"
         },
         {
             "name" : "Rainbow Laser",
