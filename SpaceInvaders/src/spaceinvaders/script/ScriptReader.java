@@ -468,9 +468,27 @@ public class ScriptReader
                 ((Entity)currentScriptable).rotate((int)rotationAngle);
                 break;
                 
-            //fires straight ahead
+            //fires
             case 57:
-                ((Enemy)currentScriptable).fire();
+                int numberOfParameters = currentLine.getParameterCount();
+                
+                //Fire straight ahead
+                if (numberOfParameters == 0)
+                {
+                    ((Enemy)currentScriptable).fire();
+                }
+                
+                //Fire at the angle, but an angle and distance away
+                if (numberOfParameters == 2)
+                {
+                    
+                    ((Enemy)currentScriptable).fire(
+                            (float)identifierCheck(currentLine, 0).getDoubleValue(),
+                            identifierCheck(currentLine, 1).getDoubleValue()
+                            );
+                }
+                
+                
                 break;
                 
             case 60:

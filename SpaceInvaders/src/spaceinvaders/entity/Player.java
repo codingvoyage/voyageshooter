@@ -120,7 +120,7 @@ public class Player extends MovableEntity implements Attacker, Defender {
     public void deductHp(int hp) throws SlickException {
         this.hp -= hp;
         if(hp <= 0) 
-            EntityGroup.remove(this.getName());
+            EntityGroup.remove(this.getName(), false);
     }
     
     /**

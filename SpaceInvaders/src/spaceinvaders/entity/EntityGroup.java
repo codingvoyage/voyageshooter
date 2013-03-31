@@ -33,9 +33,9 @@ public final class EntityGroup {
     private static final HashMap<String, Entity> entityData = new HashMap<String, Entity>();
     
     /** Lists all active entities */
-    private static final ArrayList<Entity> activeList = new ArrayList<Entity>();
+    public static final ArrayList<Entity> activeList = new ArrayList<Entity>();
     /** Maps active IDs to the active entity */
-    private static final HashMap<String, Entity> active = new HashMap<String, Entity>();
+    public static final HashMap<String, Entity> active = new HashMap<String, Entity>();
     /** Lists all active unscripted bullets */
     public static final ArrayList<Weapon> bullets = new ArrayList<Weapon>();
     
@@ -492,12 +492,49 @@ public final class EntityGroup {
      * If id does not exist or does not refer to a spawned entity, do nothing<br/>
      * Also marks its scripting thread for deletion
      * @param id tag of entity
+     * @param scripted is it scripted?
      */
-    public static void remove(String id) throws SlickException {
-        if(active.containsKey(id)) {
-            active.get(id).getMainThread().markForDeletion();
-            //active.get(id).getSprite().destroy();
-            active.remove(id);
+    public static void remove(String id, boolean scripted) throws SlickException {
+        if(scripted) {
+            if(active.containsKey(id)) {
+                active.get(id).getMainThread().markForDeletion();
+                //active.get(id).getSprite().destroy();
+                activeList.remove(getEntity(id));
+                active.remove(id);
+                
+            }
+        } else {
+            if(active.containsKey(id)) {
+                //active.get(id).getSprite().destroy();
+                activeList.remove(getEntity(id));
+                active.remove(id);
+                
+            }
+        }
+    }
+    
+    /**
+     * Remove a spawned entity by reference<br/>
+     * The entity has died, moved off screen, or removed in some way<br/>
+     * @param entity the entity to remove
+     * @param scripted is it scripted?
+     */
+    public static void remove(Entity entity, boolean scripted) throws SlickException {
+        if(scripted) {
+            if(active.containsValue(entity)) {
+                String id = entity.getId();
+                active.get(id).getMainThread().markForDeletion();
+                //active.get(id).getSprite().destroy();
+                active.remove(id);
+                activeList.remove(entity);
+            }
+        } else {
+            if(active.containsValue(entity)) {
+                String id = entity.getId();
+                //active.get(id).getSprite().destroy();
+                active.remove(id);
+                activeList.remove(entity);
+            }
         }
     }
     

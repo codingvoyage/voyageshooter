@@ -82,8 +82,13 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
     public void fire(float angle, double distanceAway) {
         if(weapon == null) 
             weapon = (Weapon)EntityGroup.getEntity(weapons);
-        System.out.println("Enemy's rotation is: " + getRotation());
-        weapon.fire(getX() + BULLET_OFFSET, getY() + BULLET_OFFSET, angle + getRotation());
+       // System.out.println("Enemy's rotation is: " + getRotation());
+        
+        float distanceOffsetX = (float)(Math.cos(Math.toRadians(angle))*distanceAway);
+        float distanceOffsetY = (float)(Math.sin(Math.toRadians(angle))*distanceAway);
+        weapon.fire(getX() + distanceOffsetX + BULLET_OFFSET,
+                getY() + distanceOffsetY + BULLET_OFFSET,
+                getRotation() + angle - 90);
     }
     
     
@@ -114,7 +119,7 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
     public void deductHp(int hp) throws SlickException {
         this.hp -= hp;
         if(hp <= 0) 
-            EntityGroup.remove(this.getName());
+            EntityGroup.remove(this.getName(), true);
     }
     
     /**

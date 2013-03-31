@@ -14,7 +14,7 @@
             "maxhp" : 1000,
             "attack" : 10.0,
             "defense" : 10.0,
-            "weapons" : "Rainbow Laser",
+            "weapons" : "Water Gun",
             "v" : 1.0,
             "image" : "player",
             "points" : 0,
@@ -30,7 +30,7 @@
             "attack" : 1,
             "defense" : 1,
             "hp" : 100,
-            "weapons" : "Water Gun",
+            "weapons" : "Rainbow Laser",
             "v" : 1.0,
             "image" : "minion",
             "scriptID" : 35
@@ -68,7 +68,7 @@
             "id" : "wg1",
             "description" : "In what galaxy is it logical to use water guns to attack spaceships?",
             "attack" : 0.0001,
-            "v" : 100.0,
+            "v" : 2500.0,
             "image" : "water"
         },
         {
@@ -76,7 +76,7 @@
             "id" : "rl1",
             "description" : "Ohhh! Pretty colors!",
             "attack" : 0.0001,
-            "v" : 100.0,
+            "v" : 2500.0,
             "image" : "rainbow"
         },
         {
@@ -84,7 +84,7 @@
             "id" : "bf1",
             "description" : "A small and powerful bullet that explodes on impact. Simply the best weapon in any galaxy.",
             "attack" : 9001.0,
-            "v" : 1000.0,
+            "v" : 10000.0,
             "image" : "rainbow"
         }
     ],

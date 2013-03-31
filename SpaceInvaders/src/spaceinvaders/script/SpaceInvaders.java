@@ -40,6 +40,8 @@ public class SpaceInvaders extends BasicGame {
     public static final int X_RESOLUTION = 1024;
     /** vertical resolution */
     public static final int Y_RESOLUTION = 768;
+    /** are we doing fullscreen */
+    public static final boolean IS_FULLSCREEN = false;
     
     /** The space background */
     private Image space;
@@ -109,10 +111,9 @@ public class SpaceInvaders extends BasicGame {
         
         // Test spawning an enemy
         // Add "f" to the end to specify floating point numbers (or else Java won't know if the numbers are coordinates or velocities)
-        
-        player = EntityGroup.spawn("Player", "p1", 300f, 400f);
-        enemy = EntityGroup.spawn("Space Guardian", "m1", 200f, 400f);
-        enemy2 = EntityGroup.spawn("Bakesale Monster", "m2", 400f, 200f);
+        player = EntityGroup.spawn("Player", "p1", X_RESOLUTION/2 - 50, Y_RESOLUTION/2 + 200);
+        //enemy = EntityGroup.spawn("Space Guardian", "m1", 200f, 400f);
+        //enemy2 = EntityGroup.spawn("Bakesale Monster", "m2", 400f, 200f);
         
         //Create our test entity
         testEntity = (Enemy)EntityGroup.getBaseEntity("Minion");
@@ -170,6 +171,7 @@ public class SpaceInvaders extends BasicGame {
                 EntityGroup.bullets.remove(index);
                 //index is unchanged, since everything shifts back by one
                 //we'll be on track for the next one by NOT MOVING
+                EntityGroup.remove(w, false);
             }
             else 
             //Otherwise, just act on it.
@@ -242,7 +244,6 @@ public class SpaceInvaders extends BasicGame {
         
         /* TEST FIRE METHOD */
         //enemy.fire();
-        g.drawString((new Integer(EntityGroup.bullets.size())).toString() + " weapons", 500, 100);
   
         //enemy.setRotation(player);
        
@@ -271,7 +272,7 @@ public class SpaceInvaders extends BasicGame {
         
         AppGameContainer app = new AppGameContainer(new SpaceInvaders());
 
-        app.setDisplayMode(X_RESOLUTION, Y_RESOLUTION, false);
+        app.setDisplayMode(X_RESOLUTION, Y_RESOLUTION, IS_FULLSCREEN);
         app.setAlwaysRender(true);
         app.setTargetFrameRate(60);
         //This is important. I found out that with this command, it will limit
@@ -312,5 +313,9 @@ public class SpaceInvaders extends BasicGame {
             player.place(-200, -300);
         }
         g.drawString("This game is currently in testing and nothing should work properly. Press H to hurt the player.", 100, 700);
+        
+        
+        g.drawString((new Integer(EntityGroup.bullets.size())).toString() + " weapons", 600, 100);
+        
     }
 }

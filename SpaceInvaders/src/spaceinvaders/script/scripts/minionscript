@@ -1,20 +1,21 @@
-newvelocity 0.2 0.2
 rotate 180
+newvelocity 0.2 0.2
 
-
-
--- move 500
+move 600
 -- orbit 90 10 0
 
-wait 5000
 
-print "YES"
+var distanceaway 50
 
 label [loop]
 
-fire
+for angle = 0 and angle < 360
+    fire angle distanceaway
+next angle + 12 --> angle
 
-wait 500
+
+wait 50
 rotate 10
+
 
 goto [loop]

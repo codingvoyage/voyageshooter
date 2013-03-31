@@ -56,26 +56,23 @@ public class Weapon extends MovableEntity implements Attacker {
         newWeapon.setRotation(angle);
         newWeapon.draw();
         
-        System.out.println("Weapon should now be drawn");
-        System.out.println("Weapon's coordiantes are: " + getX() + getY());
-        System.out.println("Weapon's rotation is: " + getRotation());
-        
-        move(300, 250);
-        newWeapon.draw();
-        System.out.println("Weapon's coordiantes are: " + getX() + getY());
-        System.out.println("Bullet is done moving");
+        //System.out.println("Weapon should now be drawn");
+        //System.out.println("Weapon's coordiantes are: " + getX() + ", " + getY());
+        //System.out.println("Weapon's rotation is: " + getRotation());
+        //System.out.println("Weapon's coordiantes are: " + getX() + ", " + getY());
+        //System.out.println("Bullet is done moving");
     }
 
     /**
      * Move Weapon
      */
     public void move(double delta) {
-        move(STEP_SIZE * (float)delta * Math.sin(Math.toRadians(getRotation())), -STEP_SIZE * (float)delta * Math.cos(Math.toRadians(getRotation())));
+        move(getVelocity() * VELOCITY_FACTOR * (float)delta * Math.sin(Math.toRadians(getRotation())), -1 * getVelocity() * VELOCITY_FACTOR * (float)delta * Math.cos(Math.toRadians(getRotation())));
     
         //That's great and all. See if we're off the map though
         
-        if ((this.getX() < -500 || this.getX() > SpaceInvaders.X_RESOLUTION + 500) ||
-           (this.getY() < -500 || this.getY() > SpaceInvaders.Y_RESOLUTION + 500))
+        if ((this.getX() < -300 || this.getX() > SpaceInvaders.X_RESOLUTION + 300) ||
+           (this.getY() < -300 || this.getY() > SpaceInvaders.Y_RESOLUTION + 300))
         {
             this.markForDeletion();
         }

@@ -136,7 +136,12 @@ public class Entity extends ScriptableClass {
      */
     public void setRotation(float angle) {
         this.angle = angle;
+        
+        if (angle >= 360)
+            angle = 360 - angle;
         sprite.setRotation(angle);
+        if(sprite.getRotation() >= 360)
+            sprite.setRotation(360 - angle);
     }
     
     /**
@@ -152,6 +157,10 @@ public class Entity extends ScriptableClass {
         float newAngle = (float)tempVector.getTheta() - ROTATION_FACTOR;
         this.angle = newAngle;
         sprite.setRotation(newAngle);
+        if (angle >= 360)
+            angle = 360 - angle;
+        if(sprite.getRotation() >= 360)
+            sprite.setRotation(360 - angle);
     }
     
     /**
@@ -165,6 +174,10 @@ public class Entity extends ScriptableClass {
         if(sprite == null)
             getSprite();
         sprite.rotate(angle);
+        if (angle >= 360)
+            angle = 360 - angle;
+        if(sprite.getRotation() >= 360)
+            sprite.setRotation(360 - angle);
     }
     
     /**
