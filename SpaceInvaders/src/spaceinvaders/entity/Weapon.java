@@ -50,6 +50,7 @@ public class Weapon extends MovableEntity implements Attacker {
      */
     public void fire(float x, float y, float angle) {
         Weapon newWeapon = EntityGroup.spawn(getName(), "bullet" + Math.random(), x, y);
+        EntityGroup.bullets.add(newWeapon);
         newWeapon.setRotation(angle);
         newWeapon.draw();
         
@@ -63,6 +64,13 @@ public class Weapon extends MovableEntity implements Attacker {
         System.out.println("Bullet is done moving");
     }
 
+    /**
+     * Move Weapon
+     */
+    public void move(double delta) {
+        move(STEP_SIZE * (float)delta * Math.sin(Math.toRadians(getRotation())), -STEP_SIZE * (float)delta * Math.cos(Math.toRadians(getRotation())));
+    }
+    
     /**
      * Accessors for Attack
      * @return attack of entity

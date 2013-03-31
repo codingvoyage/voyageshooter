@@ -132,7 +132,6 @@ public class SpaceInvaders extends BasicGame {
         
         //Add this thread to the collection of threads
         threadManager.addThread(entityThread);
-        enemy.beginMove(player, 100);
     }
 
 
@@ -154,6 +153,17 @@ public class SpaceInvaders extends BasicGame {
         /** user keyboard control */
         EntityGroup.control(gc, delta);
         
+        /** move all bullets */
+        for (Weapon w : EntityGroup.bullets) {
+            w.move(delta);
+        }
+        
+        /* NEED TO MARK FOR DELETION BY THIS CONDITION
+           if (w.getX() > X_RESOLUTION + MovableEntity.EDGE_FACTOR || w.getX() < 0 - MovableEntity.EDGE_FACTOR || w.getY() > Y_RESOLUTION + MovableEntity.EDGE_FACTOR || w.getY() < 0 - MovableEntity.EDGE_FACTOR) {
+                EntityGroup.bullets.remove(w);
+                * MARK FOR DELETION HERE
+           } 
+         */
         
         // ORBITAL TESTING - UNCOMMENTING MAY CAUSE UNDESIRABLE EFFECTS - YOU HAVE BEEN WARNED
         //Vector2f playerNormal = player.position.normalise();
@@ -201,12 +211,9 @@ public class SpaceInvaders extends BasicGame {
         // draw all the active entities
         EntityGroup.draw();
         
-        /*
-        if(start ==0) {
+        /* TEST FIRE METHOD */
         enemy.fire();
-        start++;
-        }
-        * */
+        
         
   
         //enemy.setRotation(player);
