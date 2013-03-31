@@ -57,12 +57,23 @@ public class Player extends MovableEntity implements Attacker, Defender {
     }
     
     /**
-     * Fire
-     * Not working yet
+     * Fire weapon with the same direction 
+     * from the location of the enemy
      */
     @Override
     public void fire() {
-        
+        fire(0);
+    }
+    
+    /**
+     * Fire weapon with a different direction 
+     * from the location of the enemy
+     * @param angle angle <em>relative</em> to the enemy
+     */
+    public void fire(float angle) {
+        if(weapon == null) 
+            weapon = (Weapon)EntityGroup.getEntity(weapons);
+        weapon.fire(getX() + BULLET_OFFSET, getY() + BULLET_OFFSET, angle + getSprite().getRotation());
     }
 
     /**

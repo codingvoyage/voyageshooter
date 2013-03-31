@@ -14,7 +14,7 @@
             "maxhp" : 1000,
             "attack" : 10.0,
             "defense" : 10.0,
-            "weapons" : "Water Gun",
+            "weapons" : "Rainbow Laser",
             "v" : 1.0,
             "image" : "player",
             "points" : 0,

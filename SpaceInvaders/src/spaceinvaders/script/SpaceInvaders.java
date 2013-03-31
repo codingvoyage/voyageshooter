@@ -109,7 +109,8 @@ public class SpaceInvaders extends BasicGame {
         
         // Test spawning an enemy
         // Add "f" to the end to specify floating point numbers (or else Java won't know if the numbers are coordinates or velocities)
-        player = EntityGroup.spawn("Player", "p1", EntityGroup.getPlayer().getX(), EntityGroup.getPlayer().getY());
+        
+        player = EntityGroup.spawn("Player", "p1", 300f, 400f);
         enemy = EntityGroup.spawn("Space Guardian", "m1", 200f, 400f);
         enemy2 = EntityGroup.spawn("Bakesale Monster", "m2", 400f, 200f);
         

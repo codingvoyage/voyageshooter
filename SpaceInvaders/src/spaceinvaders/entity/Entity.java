@@ -162,6 +162,8 @@ public class Entity extends ScriptableClass {
      */
     public void rotate(float angle) {
         this.angle += angle;
+        if(sprite == null)
+            getSprite();
         sprite.rotate(angle);
     }
     

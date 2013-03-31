@@ -466,6 +466,7 @@ public class ScriptReader
                 //rotate dat
                 double rotationAngle = identifierCheck(currentLine, 0).getDoubleValue();
                 ((Entity)currentScriptable).rotate((int)rotationAngle);
+                break;
                 
             //fires straight ahead
             case 57:
