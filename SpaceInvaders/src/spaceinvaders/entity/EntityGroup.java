@@ -534,6 +534,7 @@ public final class EntityGroup {
                 //active.get(id).getSprite().destroy();
                 active.remove(id);
                 activeList.remove(entity);
+                System.out.println(activeList.size());
             }
         }
     }
