@@ -491,12 +491,49 @@ public class ScriptReader
                 
                 break;
                 
+                
+            case 58:
+                //Faces the player
+                ((Entity)currentScriptable).setRotation(SpaceInvaders.player);
+                System.out.println("__________________________");
+                break;
+                
+                
             case 60:
                 //new velocity
                 double newvx = currentLine.getDoubleParameter(0);
                 double newvy = currentLine.getDoubleParameter(1);
                 ((MovableEntity)currentScriptable).setVelocity(newvx);
                 break;
+                
+                //get Entity X
+            case 61:
+                currentThread.setVariable( currentLine.getStringParameter(0)
+                        , new Parameter((double)((Entity)currentScriptable).getX()));
+                break;
+                
+                //get Entity Y
+            case 62:
+                currentThread.setVariable( currentLine.getStringParameter(0)
+                        , new Parameter((double)((Entity)currentScriptable).getY()));
+                break;
+                
+                //get Entity rotation NOT IN RADIANS
+            case 63:
+                currentThread.setVariable( currentLine.getStringParameter(0)
+                        , new Parameter((double)((Entity)currentScriptable).getRotation()));
+                break;
+                
+                //SPAWNS A BULLET
+                
+            case 65:
+                // spawnbullet xLoc yLoc myAngle
+                ((Attacker)currentScriptable).getWeapon().fire(
+                        (float)identifierCheck(currentLine, 0).getDoubleValue(), 
+                        (float)identifierCheck(currentLine, 1).getDoubleValue(),
+                        (float)identifierCheck(currentLine, 2).getDoubleValue());
+                break;
+                
                 
             case 80:
                 getSystemMilliTime(currentLine);
@@ -512,6 +549,62 @@ public class ScriptReader
                 currentThread.setVariable(identifier,
                             new Parameter(randomNumber));
                 break;
+                
+                
+            case 83:
+                //toradian degree --> identifier
+                currentThread.setVariable(currentLine.getStringParameter(2),
+                            new Parameter(Math.toRadians(identifierCheck(currentLine, 0).getDoubleValue())));
+                
+                break;
+                
+                
+                //sin blah --> var
+                //sin 5 + 3 --> 
+            case 85:
+                double trigresult;
+                
+                int arrowIndex = findCorrespondingBracket(currentLine, "-->", 1, 1);
+                if (arrowIndex == 1)   
+                {
+                    trigresult = Math.sin(identifierCheck(currentLine, 0).getDoubleValue());
+                }
+                else 
+                {
+                    //Evaluate, then take the sine...
+                    Parameter ourParameter = evaluateExpression(currentLine, 0, arrowIndex - 1);
+                    trigresult = Math.sin(ourParameter.getDoubleValue());
+                }
+                    
+                currentThread.setVariable(currentLine.getStringParameter(arrowIndex + 1),
+                            new Parameter(trigresult));
+                
+                break;
+                //cos blah --> var
+            case 86:
+                double triganswer;
+                
+                int indexOfArrow = findCorrespondingBracket(currentLine, "-->", 1, 1);
+                if (indexOfArrow == 1)   
+                {
+                    triganswer = Math.cos(identifierCheck(currentLine, 0).getDoubleValue());
+                }
+                else 
+                {
+                    //Evaluate, then take the sine...
+                    Parameter ourParameter = evaluateExpression(currentLine, 0, indexOfArrow - 1);
+                    triganswer = Math.cos(ourParameter.getDoubleValue());
+                }
+                    
+                currentThread.setVariable(currentLine.getStringParameter(indexOfArrow + 1),
+                            new Parameter(triganswer));
+                
+                break;
+                //tan blah --> var
+            case 87:
+                break;
+
+                
             
         }
         

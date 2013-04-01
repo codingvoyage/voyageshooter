@@ -81,8 +81,9 @@ public class SpaceInvaders extends BasicGame {
             System.out.println("WARNING - Entity data has failed to load! Loading blank entity group.");
         }
         
-        //This initializes stuff
+        //Set the minimum and maximum update intervals please
         gc.setMinimumLogicUpdateInterval(20);
+        gc.setMaximumLogicUpdateInterval(50);
         
         //Initialize the ScriptManager
         scriptCollection = new ScriptManager();
@@ -312,10 +313,10 @@ public class SpaceInvaders extends BasicGame {
             g.drawString("You're dead", 600,80);
             player.place(-200, -300);
         }
-        g.drawString("This game is currently in testing and nothing should work properly. Press H to hurt the player.", 100, 700);
+        //g.drawString("This game is currently in testing and nothing should work properly. Press H to hurt the player.", 100, 700);
         
         
-        g.drawString((new Integer(EntityGroup.bullets.size())).toString() + " weapons", 600, 100);
+        g.drawString((new Integer(EntityGroup.bullets.size())).toString() + " bullets in play", 600, 100);
         
     }
 }

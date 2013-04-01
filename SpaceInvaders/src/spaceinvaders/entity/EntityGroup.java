@@ -554,50 +554,63 @@ public final class EntityGroup {
         if(ship == null)
             ship = SpaceInvaders.player.getSprite();
  
-        /* rotate to the left */
-        if(input.isKeyDown(Input.KEY_LEFT)) {
-            ship.rotate(-MovableEntity.ROTATION_SIZE * delta);
-            player.rotate(-MovableEntity.ROTATION_SIZE * delta);
-        }
- 
-        /* rotate to the right */
-        if(input.isKeyDown(Input.KEY_RIGHT)) {
-            ship.rotate(MovableEntity.ROTATION_SIZE * delta);
-            player.rotate(MovableEntity.ROTATION_SIZE * delta);
-        }
- 
-        /* move forward in current direction */
-        if(input.isKeyDown(Input.KEY_UP)) {
-            /* size for one single step */
-            float step = MovableEntity.STEP_SIZE * delta;
- 
-            /* which direction are we facing? */
-            float rotation = ship.getRotation();
-            
-            /* move the SpaceInvaders.player */
-            if(SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
-                    && SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) < SpaceInvaders.X_RESOLUTION - MovableEntity.EDGE_FACTOR
-                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
-                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) < SpaceInvaders.Y_RESOLUTION - MovableEntity.EDGE_FACTOR) {
-                SpaceInvaders.player.move(step * Math.sin(Math.toRadians(rotation)), -step * Math.cos(Math.toRadians(rotation)));
-            }
-        }
         
-        /* back up a bit */
-        if(input.isKeyDown(Input.KEY_DOWN)) {
-            /* size for one single back step */
-            float step = MovableEntity.BACK_SIZE * delta;
- 
-            /* which direction are we facing? */
-            float rotation = ship.getRotation() * -1;
- 
-            /* move the SpaceInvaders.player */
-            if(SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
-                    && SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) < SpaceInvaders.X_RESOLUTION - MovableEntity.EDGE_FACTOR
-                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
-                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) < SpaceInvaders.Y_RESOLUTION - MovableEntity.EDGE_FACTOR) 
-                SpaceInvaders.player.move(step * Math.sin(Math.toRadians(rotation)), step * Math.cos(Math.toRadians(rotation)));
-        }
+        
+        if (input.isKeyDown(Input.KEY_LEFT)) 
+        {
+            player.move(50000, 0);
+        }        
+        
+        
+        //The rotation based movement of the player might be too hard to control
+        
+//        /* rotate to the left */
+//        if(input.isKeyDown(Input.KEY_LEFT)) {
+//            ship.rotate(-MovableEntity.ROTATION_SIZE * delta);
+//            player.rotate(-MovableEntity.ROTATION_SIZE * delta);
+//        }
+// 
+//        /* rotate to the right */
+//        if(input.isKeyDown(Input.KEY_RIGHT)) {
+//            ship.rotate(MovableEntity.ROTATION_SIZE * delta);
+//            player.rotate(MovableEntity.ROTATION_SIZE * delta);
+//        }
+// 
+//        /* move forward in current direction */
+//        if(input.isKeyDown(Input.KEY_UP)) {
+//            /* size for one single step */
+//            float step = MovableEntity.STEP_SIZE * delta;
+// 
+//            /* which direction are we facing? */
+//            float rotation = ship.getRotation();
+//            
+//            /* move the SpaceInvaders.player */
+//            if(SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
+//                    && SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) < SpaceInvaders.X_RESOLUTION - MovableEntity.EDGE_FACTOR
+//                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
+//                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) < SpaceInvaders.Y_RESOLUTION - MovableEntity.EDGE_FACTOR) {
+//                SpaceInvaders.player.move(step * Math.sin(Math.toRadians(rotation)), -step * Math.cos(Math.toRadians(rotation)));
+//            }
+//        }
+//        
+//        /* back up a bit */
+//        if(input.isKeyDown(Input.KEY_DOWN)) {
+//            /* size for one single back step */
+//            float step = MovableEntity.BACK_SIZE * delta;
+// 
+//            /* which direction are we facing? */
+//            float rotation = ship.getRotation() * -1;
+// 
+//            /* move the SpaceInvaders.player */
+//            if(SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
+//                    && SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) < SpaceInvaders.X_RESOLUTION - MovableEntity.EDGE_FACTOR
+//                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
+//                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) < SpaceInvaders.Y_RESOLUTION - MovableEntity.EDGE_FACTOR) 
+//                SpaceInvaders.player.move(step * Math.sin(Math.toRadians(rotation)), step * Math.cos(Math.toRadians(rotation)));
+//        }
+//        
+        
+        
         
         /* Temporary HP Deduction Test */
         if(input.isKeyDown(Input.KEY_H)) {

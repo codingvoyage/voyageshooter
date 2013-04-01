@@ -1,0 +1,26 @@
+rotate 180
+newvelocity 0.2 0.2
+
+move 600
+-- orbit 90 10 0
+
+
+
+-- as it gets lower, bullets are more frequent
+var shootingFrequency 60
+
+label [loop]
+
+for angle = 0 and angle < 360
+    fire angle 50
+next angle + shootingFrequency --> angle
+
+
+wait 90
+rotate 10
+
+if shootingFrequency > 5
+    eval shootingFrequency - 0.1 --> shootingFrequency
+endif
+goto [loop]
+

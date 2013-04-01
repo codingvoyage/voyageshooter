@@ -1,0 +1,12 @@
+function [shoot]
+
+    fire
+    fire 45 50
+    fire 135 50
+
+return
+
+
+function [infrontrowshoot]
+
+return

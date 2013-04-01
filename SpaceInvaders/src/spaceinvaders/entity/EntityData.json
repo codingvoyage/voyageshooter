@@ -30,10 +30,10 @@
             "attack" : 1,
             "defense" : 1,
             "hp" : 100,
-            "weapons" : "Blue Destroyer",
+            "weapons" : "Water Gun",
             "v" : 1.0,
             "image" : "minion",
-            "scriptID" : 35
+            "scriptID" : 36
         },
         {
             "name" : "Space Guardian",
@@ -43,10 +43,10 @@
             "attack" : 50.0,
             "defense" : 45.0,
             "hp" : 300,
-            "weapons" : "Rainbow Laser",
+            "weapons" : "Blue Destroyer",
             "v" : 1.5,
             "image" : "spaceguardian",
-            "scriptID" : 53
+            "scriptID" : 35
         },
         {
             "name" : "Bakesale Monster",

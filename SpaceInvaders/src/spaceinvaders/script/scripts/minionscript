@@ -1,21 +1,17 @@
 rotate 180
 newvelocity 0.2 0.2
 
-move 600
--- orbit 90 10 0
+move 400
 
+label [donothing]
 
-var distanceaway 50
+    wait 250
 
-label [loop]
+    faceplayer
 
-for angle = 0 and angle < 360
-    fire angle distanceaway
-next angle + 12 --> angle
+    for count = 0 and count < 5
+        callscriptfunction 25 [shoot]
+        wait 50
+    next count + 1 --> count
 
-
-wait 50
-rotate 10
-
-
-goto [loop]
+goto [donothing]

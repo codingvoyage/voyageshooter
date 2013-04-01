@@ -64,10 +64,19 @@ newlocation 55
 
 rotate 56
 fire 57
-
+faceplayer 58
+targetplayer 58
 
 changevelocity 60
 newvelocity 60
+
+
+getEntityX 61
+getEntityY 62
+-- NOT IN RADIANS - DEGREES 
+getEntityAngle 63
+
+spawnBullet 65
 
 
 
@@ -76,3 +85,8 @@ getSystemNanoTime 81
 random 82
 rand 82
 getrand 82
+
+toradian 84
+sin 85
+cos 86
+tan 87
