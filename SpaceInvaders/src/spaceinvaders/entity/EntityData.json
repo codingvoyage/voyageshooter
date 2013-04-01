@@ -14,7 +14,7 @@
             "maxhp" : 1000,
             "attack" : 10.0,
             "defense" : 10.0,
-            "weapons" : "Water Gun",
+            "weapons" : "Rainbow Laser",
             "v" : 1.0,
             "image" : "player",
             "points" : 0,
@@ -68,7 +68,7 @@
             "id" : "wg1",
             "description" : "In what galaxy is it logical to use water guns to attack spaceships?",
             "attack" : 0.0001,
-            "v" : 2500.0,
+            "v" : 3500.0,
             "image" : "water"
         },
         {
