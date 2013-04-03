@@ -4,7 +4,7 @@ import spaceinvaders.entity.*;
 import spaceinvaders.GUI.DisplayBox;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
-
+import java.awt.Font;
 
 
 /**
@@ -62,6 +62,10 @@ public class SpaceInvaders extends BasicGame {
     /** Data for all entities */
     private EntityGroup entities;
     
+    static boolean enableKeyboard;
+    
+    TrueTypeFont trueTypeFont;
+    
     /**
      * Construct a new game
      */
@@ -76,7 +80,11 @@ public class SpaceInvaders extends BasicGame {
      */
     @Override
     public void init(GameContainer gc) throws SlickException {
+        gc.setShowFPS(false);
+        Font font = new java.awt.Font("Verdana", Font.BOLD, 20);
+        trueTypeFont = new TrueTypeFont(font, true);
         
+        enableKeyboard = true;
       
         /* load the data for all entities */     
         if(loadEntities()) {
@@ -163,7 +171,8 @@ public class SpaceInvaders extends BasicGame {
         
         
         /** user keyboard control */
-        EntityGroup.control(gc, delta);
+        if (enableKeyboard)
+            EntityGroup.control(gc, delta);
         
         
         
@@ -194,6 +203,13 @@ public class SpaceInvaders extends BasicGame {
             if (index == EntityGroup.bullets.size()) {
                 continueStepping = false;
             }
+        }
+        
+        
+        //Move on to next dialogue box
+        Input input = gc.getInput();
+        if (input.isKeyDown(Input.KEY_RETURN) && enableKeyboard) {
+            textManager.next();
         }
         
         
@@ -252,7 +268,9 @@ public class SpaceInvaders extends BasicGame {
         // draw all the active entities
         EntityGroup.draw();
         
-        textManager.draw(g);
+        if (textManager.isDisplaying == true)
+            textManager.draw(g);
+        
         
         /* TEST FIRE METHOD */
         //enemy.fire();
@@ -320,8 +338,16 @@ public class SpaceInvaders extends BasicGame {
      */
     private void drawControls(GameContainer gc, Graphics g) throws SlickException {
         
+        g.setFont(trueTypeFont);
+        
+        
         g.setColor(Color.white);
         
+        
+        //DRAW OUR OWN FPS COUNTER YEAHHH
+        g.drawString("FPS: " + gc.getFPS(), 0, 0);
+                
+                
         
         g.drawString("Player Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
         g.drawString("Player Velocity: " + player.getVelocity(), 600, 60);

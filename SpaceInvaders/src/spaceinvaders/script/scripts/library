@@ -10,3 +10,23 @@ return
 function [infrontrowshoot]
 
 return
+
+
+
+function [waitForTextBox]
+    disableKeyboard
+
+    label [waiting]
+    wait 500
+
+    -- The purpose of this is to wait that 500 milliseconds before the player can
+    -- really move on to the next dialogue box.
+
+    enableKeyboard
+
+    stillText mybool
+    if mybool == true
+        goto [waiting]
+    endif
+
+return

@@ -204,6 +204,14 @@ public class ScriptReader
                 //We'll leave this out for now...
                 break;
                 
+            case 4:
+                SpaceInvaders.enableKeyboard = false;
+                break;
+                
+            case 5:
+                SpaceInvaders.enableKeyboard = true;
+                break;
+                
             case 6:
                 scr.loadScript(identifierCheck(currentLine, 0).getStringValue(),
                         (int)identifierCheck(currentLine, 1).getDoubleValue());
@@ -399,6 +407,33 @@ public class ScriptReader
                 
             case 31:
                 evaluate(currentLine);
+                break;
+                
+                //What line to display, and do we display the character image?
+                //ASSUME TRUE if no second parameter
+            case 35:
+                SpaceInvaders.textManager.isDisplaying = true;
+                
+                if (currentLine.getParameterCount() == 1)
+                {
+                    //True
+                    SpaceInvaders.textManager.display(identifierCheck(currentLine, 0).getStringValue(),
+                        true);
+                }
+                else 
+                {
+                    //There are multiple Parameters, so hmm...
+                    //True or flase.
+                    SpaceInvaders.textManager.display(identifierCheck(currentLine, 0).getStringValue(),
+                        identifierCheck(currentLine, 1).getBooleanValue());
+                }
+                
+                
+                break;
+                
+            case 36:
+                currentThread.setVariable(currentLine.getStringParameter(0),
+                        new Parameter(SpaceInvaders.textManager.isDisplaying));
                 break;
                 
             //The manipulation of the locations of Displayables goes here    

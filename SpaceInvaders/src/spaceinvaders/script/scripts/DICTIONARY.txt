@@ -7,6 +7,11 @@ branch 2
 
 function 3
 
+lockKeyboard 4
+disableKeyboard 4
+
+enableKeyboard 5
+allowKeyboard 5
 
 
 load 6
@@ -43,6 +48,15 @@ print 30
 
 evaluate 31
 eval 31
+
+
+messagebox 35
+text 35
+
+isMessageBoxThere 36
+stillText 36
+
+
 
 -- From 50-79 are stuff specific to Entities
 face 50

@@ -19,6 +19,13 @@ public class DisplayBox extends ScriptableClass {
     private Image textBox;
     TrueTypeFont trueTypeFont;
     
+    public boolean isDisplaying;
+    public boolean displayCharacter;
+    
+    private String currentMessage;
+    
+    
+    
     public DisplayBox() throws SlickException
     {
         testImage = new Image("src/spaceinvaders/images/commander.png");
@@ -27,12 +34,29 @@ public class DisplayBox extends ScriptableClass {
         
         Font font = new Font("Britannic Bold", Font.BOLD, 25);
         trueTypeFont = new TrueTypeFont(font, true);
+        
+        isDisplaying = false;
     }
     
+    public void display(String message, boolean displayCharacter)
+    {
+        currentMessage = message;
+        this.displayCharacter = displayCharacter;
+        isDisplaying = true;
+    }
+    
+    public void stopDisplay()
+    {
+        isDisplaying = false;
+    }
     
     public void draw(Graphics g)
     {
-        drawCharacter();
+        if (displayCharacter)
+        {
+            drawCharacter();
+        }
+        
         drawBox();
         
         g.setFont(trueTypeFont);
@@ -57,6 +81,13 @@ public class DisplayBox extends ScriptableClass {
         
         //System.out.println(trueTypeFont.getWidth("Hello"));
         
-        g.drawString("It's good to have you on board, captain. I am commander Bakesale.", x, y);
+        g.drawString(currentMessage, x, y);
+    }
+    
+    
+    //Called to signal that we want to move on.
+    public void next()
+    {
+        isDisplaying = false;
     }
 }
