@@ -96,7 +96,7 @@ public class SpaceInvaders extends BasicGame {
         
         //Set the minimum and maximum update intervals please
         gc.setMinimumLogicUpdateInterval(20);
-        gc.setMaximumLogicUpdateInterval(50);
+        gc.setMaximumLogicUpdateInterval(20);
         
         
         textManager = new DisplayBox();

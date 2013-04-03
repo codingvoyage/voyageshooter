@@ -1,6 +1,6 @@
 function [shoot]
 
-    fire
+    fire 90 50
     fire 80 50
     fire 100 50
 

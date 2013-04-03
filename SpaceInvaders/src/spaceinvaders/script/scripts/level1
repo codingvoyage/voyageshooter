@@ -1,6 +1,22 @@
 wait 1000
 
 
+--  spawn "Space Guardian" "sg11" 450 -300
+
+-- wait 3000
+
+
+spawn "Space Guardian" "sg12" 150 -300
+
+spawn "Space Guardian" "sg13" 750 -300
+
+wait 1000
+callthreadfunction "sg13" [otherway]
+
+
+endthread
+
+
 messagebox "It's good to have you on board, captain. (Press Enter to continue)"
 callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
 
@@ -21,7 +37,3 @@ spawn "Minion" "m2" 750 -300
 newthread 37 "DON'TGIVEUP"
 
 wait 10000
-
-spawn "Space Guardian" "sg11" 450 -300
-
-endthread

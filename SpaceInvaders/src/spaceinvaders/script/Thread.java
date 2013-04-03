@@ -174,8 +174,8 @@ public class Thread {
     public void setVariable(String identifier, Parameter value) 
     {
         //Basically, here's the rule. When we're in a function, all variables
-        //end up being LOCAL. 
-        if (functionLayer > 0)
+        //end up being LOCAL UNLESS that identifier happens to exist already
+        if (functionLayer > 0 && !memoryBox.containsKey(identifier))
         {
             temporaryVariables.put(identifier, value);
         }
@@ -184,6 +184,13 @@ public class Thread {
             //Otherwise, place the variable in the main memory
             memoryBox.put(identifier, value);
         }
+        
+    }
+    
+    public void modifyVariable(String identifier, Parameter value) 
+    {
+        System.out.println(memoryBox.toString());
+        memoryBox.put(identifier, value);
     }
     
     public void newVariable(String identifier) 
