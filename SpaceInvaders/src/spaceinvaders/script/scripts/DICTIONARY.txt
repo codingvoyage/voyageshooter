@@ -56,7 +56,9 @@ text 35
 isMessageBoxThere 36
 stillText 36
 
-
+closemessagebox 37
+endtextbox 37
+endtext 37
 
 -- From 50-79 are stuff specific to Entities
 face 50

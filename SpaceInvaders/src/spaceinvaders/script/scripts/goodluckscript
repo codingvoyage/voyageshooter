@@ -2,26 +2,28 @@ wait 10000
 
 
 messagebox "YOYOYO HERE COMES THE BOSS. GET READY!" false
-callscriptfunction 25 [waitForTextBox]
-
-messagebox "MUAHAHAHA I AM NOT GOING TO LET YOU MOVE." false
-callscriptfunction 25 [waitForTextBox]
+callscriptfunction 25 [notificationWillDisappearByItself] 1000
 
 
 disableKeyboard
 
+messagebox "MUAHAHAHA I AM NOT GOING TO LET YOU MOVE." false
+callscriptfunction 25 [notificationWillDisappearByItself] 3000
+
+
 wait 5000
 
-messageBox "YOU ARE FROZEN LOL"
-callscriptfunction 25 [waitForTextBox]
+messageBox "YOU ARE FROZEN LOL" false
+callscriptfunction 25 [notificationWillDisappearByItself] 2000 
 
 
 wait 4000
 
 
-messageBox "Fine. I'll unfreeze you. Good luck LOL" false
-callscriptfunction 25 [waitForTextBox]
-
 enableKeyboard
+
+messageBox "Fine. I'll unfreeze you. Good luck LOL" false
+callscriptfunction 25 [notificationWillDisappearByItself] 3000
+
 
 endthread

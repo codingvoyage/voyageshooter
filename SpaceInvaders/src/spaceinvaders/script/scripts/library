@@ -30,3 +30,44 @@ function [waitForTextBox]
     endif
 
 return
+
+function [waitForTextBoxAutoDisappearsToo] count
+
+    disableKeyboard
+
+    var waitTime 0
+
+    label [waiting]
+
+    wait 500
+    eval waitTime + 500 --> waitTime
+
+    -- The purpose of this is to wait that 500 milliseconds before the player can
+    -- really move on to the next dialogue box.
+    enableKeyboard
+
+    stillText mybool
+    if [ mybool == true ] && [ waitTime < count ]
+        goto [waiting]
+    endif
+
+    closemessagebox
+
+return
+
+function [notificationWillDisappearByItself] count
+    var waitTime 0
+
+    label [waiting]
+
+    wait 500
+    eval waitTime + 500 --> waitTime
+
+    stillText mybool
+    if [ mybool == true ] && [ waitTime < count ]
+        goto [waiting]
+    endif
+
+
+    closemessagebox
+return

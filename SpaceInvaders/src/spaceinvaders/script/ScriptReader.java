@@ -436,6 +436,11 @@ public class ScriptReader
                         new Parameter(SpaceInvaders.textManager.isDisplaying));
                 break;
                 
+            case 37:
+                SpaceInvaders.textManager.isDisplaying = false;
+                
+                break;
+                
             //The manipulation of the locations of Displayables goes here    
             case 50:
                 //Facing a direction
