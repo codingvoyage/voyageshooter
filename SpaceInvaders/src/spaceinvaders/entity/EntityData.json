@@ -1,27 +1,31 @@
 {
-    "WARNING" :  "THIS FILE IS USED TO STORE ENTITY DATA.\n\
-               DO NOT MODIFY THIS FILE IN ANY WAY. \n\
-               MODIFYING COULD CAUSE SEVERE SIDE EFFECTS, \n\
-               INCLUDING THE ENEMY SHIPS RUNNING OUT OF THE GAME WINDOW AND ATTACKING YOUR COMPUTER.\n\
-               \n\
-               SPACE INVADERS GAME - COPYRIGHT (c) 2013 TEAM CODING VOYAGE.",
-            
+    "WARNING" : "THIS FILE IS USED FOR LOADING DATA AND DOUBLES AS A SAVE FILE. \n\
+                MODIFYING MAY CAUSE UNDESIRABLE EFFECTS \n\
+                INCLUDING BUT NOT LIMITED TO THE GAME CRASHING \n\
+                AND ENEMIES RUNNING OUT OF THE WINDOW AND ATTACKING YOUR COMPUTER. \n\
+                WE ARE NOT RESPONSIBLE FOR ANYTHING THAT OCCURS DUE TO YOUR EDITING OF THIS FILE. \n\
+                \n\
+                COPYRIGHT (c) 2013 CODING VOYAGE",
+    
     "player" : {
-            "name" : "Player",
-            "id" : "p1",
-            "description" : "The hero of our story... don't prove us wrong.",
-            "hp" : 1000,
-            "maxhp" : 1000,
-            "attack" : 10.0,
-            "defense" : 10.0,
-            "weapons" : "Rainbow Laser",
-            "v" : 1.0,
-            "image" : "player",
-            "points" : 0,
-            "level" : 1,
-            "WARNING" : "DOUBLES AS A SAVE FILE. DO NOT MODIFY."
+                "name" : "Player",
+                "id" : "p1",
+                "description" : "The hero of our story... don't prove us wrong.",
+                "hp" : 1000,
+                "maxhp" : 1000,
+                "attack" : 10.0,
+                "defense" : 10.0,
+                "weapons" : "Rainbow Laser",
+                "weaponpack" : [
+                    "Rainbow Laser",
+                    "Water Gun",
+                ],
+                "v" : 1.0,
+                "image" : "player",
+                "points" : 0,
+                "level" : 1
     },
-            
+
     "enemies": [
         {
             "name" : "Minion",
@@ -117,6 +121,61 @@
             "hp" : 1000000,
             "weapons" : "Bomb Formula 9001",
             "image" : "rainbow"
+        }
+    ],
+    
+        "shop" : [
+        {
+            "newWeapons" : [
+                {
+                    "name" : "Bomb Formula 9002",
+                    "price" : 1000000,
+                    "purchased" : false
+                },
+                {
+                    "name" : "Laser Beam",
+                    "price" : 1500,
+                    "purchased" : false
+                }
+            ]
+        },
+        {
+            "attackUpgrades" : [
+                {
+                    "name" : "Cosmic Energy",
+                    "effect" : 50,
+                    "purchased" : false
+                },
+                {
+                    "name" : "Lunar Energy",
+                    "effect" : 100,
+                    "purchased" : false
+                },
+                {
+                    "name" : "Solar Energy",
+                    "effect" : 150,
+                    "purchased" : false
+                }
+            ]
+        },
+        {
+            "defenseUpgrades" : [
+                {
+                    "name" : "Cosmic Shield",
+                    "effect" : 50,
+                    "purchased" : false
+                },
+                {
+                    "name" : "Lunar Shield",
+                    "effect" : 100,
+                    "purchased" : false
+                },
+                {
+                    "name" : "Solar Shield",
+                    "effect" : 150,
+                    "purchased" : false
+                }
+            ]
         }
     ]
 }

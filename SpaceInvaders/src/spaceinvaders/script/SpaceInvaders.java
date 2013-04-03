@@ -1,6 +1,7 @@
 package spaceinvaders.script;
 
 import spaceinvaders.entity.*;
+import spaceinvaders.entity.upgrades.Shop;
 import spaceinvaders.GUI.DisplayBox;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
@@ -55,6 +56,9 @@ public class SpaceInvaders extends BasicGame {
     public static Image playerSprite;
     public static Enemy enemy;
     Enemy enemy2;
+    
+    /** Upgrades shop */
+    public static Shop shop;
     
     /** TEMPORARY TEST VARIABLES */
     public int start = 0;
@@ -171,9 +175,9 @@ public class SpaceInvaders extends BasicGame {
         
         
         /** user keyboard control */
-        if (enableKeyboard)
+        if (enableKeyboard) {
             EntityGroup.control(gc, delta);
-        
+        }
         
         
         boolean continueStepping = !EntityGroup.bullets.isEmpty();
@@ -327,6 +331,20 @@ public class SpaceInvaders extends BasicGame {
             return true;
         }
         entities = new EntityGroup();
+        return false;
+    }
+    
+    /**
+     * Loads data needed for the shop
+     * @return a boolean indicating whether or not the shop data has been successfully loaded
+     */
+    private boolean loadShop() {
+        JsonReader<Shop> reader = new JsonReader<Shop>(Shop.class, "src/spaceinvaders/entity/upgrades/Upgrades.json");
+        if(reader.readJson()) {
+            shop = reader.getObject();
+            return true;
+        }
+        shop = new Shop();
         return false;
     }
     
