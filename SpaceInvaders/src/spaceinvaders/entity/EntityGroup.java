@@ -559,16 +559,16 @@ public final class EntityGroup {
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {
             if(SpaceInvaders.player.getX() - step > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR) {
-                ship.setRotation(-45);
-                SpaceInvaders.player.setRotation(-45);
+                //ship.setRotation(-45);
+                //SpaceInvaders.player.setRotation(-45);
                 SpaceInvaders.player.move(-step, 0);
             }
         }
         
         if(input.isKeyDown(Input.KEY_RIGHT)) {
             if(SpaceInvaders.player.getX() + step < SpaceInvaders.X_RESOLUTION - MovableEntity.EDGE_FACTOR) {
-                ship.setRotation(45);
-                SpaceInvaders.player.setRotation(45);
+                //ship.setRotation(45);
+                //SpaceInvaders.player.setRotation(45);
                 SpaceInvaders.player.move(step, 0);
             }
         }

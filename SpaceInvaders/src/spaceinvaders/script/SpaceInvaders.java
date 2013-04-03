@@ -1,8 +1,11 @@
 package spaceinvaders.script;
 
 import spaceinvaders.entity.*;
+import spaceinvaders.GUI.DisplayBox;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
+
+
 
 /**
  * Space Invaders Game
@@ -26,12 +29,13 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class SpaceInvaders extends BasicGame {
     /** All the scripts to be read */
-    ScriptManager scriptCollection;
+    public static ScriptManager scriptCollection;
     /** The actual script reader */
-    ScriptReader scriptReader;
-    
+    public static ScriptReader scriptReader;
     /** Manages all the scripting threads */
-    ThreadManager threadManager;
+    public static ThreadManager threadManager;
+    
+    public static DisplayBox textManager;
         
     /** A test enemy entity that moves */
     Enemy testEntity;
@@ -72,6 +76,7 @@ public class SpaceInvaders extends BasicGame {
      */
     @Override
     public void init(GameContainer gc) throws SlickException {
+        
       
         /* load the data for all entities */     
         if(loadEntities()) {
@@ -84,6 +89,10 @@ public class SpaceInvaders extends BasicGame {
         //Set the minimum and maximum update intervals please
         gc.setMinimumLogicUpdateInterval(20);
         gc.setMaximumLogicUpdateInterval(50);
+        
+        
+        textManager = new DisplayBox();
+        
         
         //Initialize the ScriptManager
         scriptCollection = new ScriptManager();
@@ -243,6 +252,8 @@ public class SpaceInvaders extends BasicGame {
         // draw all the active entities
         EntityGroup.draw();
         
+        textManager.draw(g);
+        
         /* TEST FIRE METHOD */
         //enemy.fire();
   
@@ -257,7 +268,10 @@ public class SpaceInvaders extends BasicGame {
         // a Floating Mine is Immovable but yet I'm trying to force a velocity
         // Immovable immovable = EntityGroup.spawn("Floating Mine", 400.0, 300.0);
         
+        
         drawControls(gc, g);
+        
+        
     }
 
     /**
@@ -305,6 +319,10 @@ public class SpaceInvaders extends BasicGame {
      * @throws SlickException something went horribly wrong with Slick
      */
     private void drawControls(GameContainer gc, Graphics g) throws SlickException {
+        
+        g.setColor(Color.white);
+        
+        
         g.drawString("Player Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
         g.drawString("Player Velocity: " + player.getVelocity(), 600, 60);
         if(player.getHp() >= 0) {
