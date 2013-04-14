@@ -8,20 +8,24 @@ import org.newdawn.slick.*;
  */
 public class Player extends MovableEntity implements Attacker, Defender {
     
-    /** Player attack */
+    /** DATA - Player attack */
     private Double attack;
-    /** Player defense */
+    /** DATA - Player defense */
     private Double defense;
-    /** Current HP */
+    /** DATA - Current HP */
     private Integer hp;
-    /** Max HP */
+    /** DATA - Max HP */
     private Integer maxhp;
-    /** Player weapon name */
+    
+    /** DATA - Player lives */
+    private int lives;
+    
+    /** DATA - Player weapon name */
     private String weapons;
     /** Player weapon */
     private Weapon weapon;
-    /** Player lives */
-    private int lives;
+    /** DATA - Player weapon pack */
+    private SelectionList<String> weaponpack;
     
     /**
      * New Game
@@ -45,13 +49,13 @@ public class Player extends MovableEntity implements Attacker, Defender {
      * @param attack base attack of entity
      * @param defense base defense of entity
      */
-    public Player(String name, String id, String image, float radius, String description, double attack, double defense, int hp, int maxhp, String weapons, double v) {
+    public Player(String name, String id, String image, float radius, String description, double attack, double defense, int hp, int maxhp, int lives, String weapons, double v) {
         super(name, id, image, radius, description, v);
         this.attack = attack;
         this.defense = defense;
         this.hp = hp;
         this.maxhp = maxhp;
-        lives = 7;
+        this.lives = lives;
         this.weapons = weapons;
         weapon = (Weapon)EntityGroup.getBaseEntity(weapons);
     }
@@ -91,6 +95,32 @@ public class Player extends MovableEntity implements Attacker, Defender {
         weapon.fire(getX() + distanceOffsetX + BULLET_OFFSET,
                 getY() + distanceOffsetY + BULLET_OFFSET,
                 getRotation() + angle - ROTATION_FACTOR, this, true);
+    }
+    
+    /**
+     * Switch weapons to the next one in the list
+     */
+    public Weapon switchWeapon() {
+        System.out.println(weaponpack.getList().size());
+        weapon = (Weapon)EntityGroup.getEntity(weaponpack.getNext());
+        weapons = weapon.getName();
+        return weapon;
+    }
+    
+    /**
+     * Add weapon if it doesn't already exist
+     * @param w the weapon to add
+     */
+    public boolean addWeapon(Weapon w) {
+        return weaponpack.add(w.getName());
+    }
+    
+    /**
+     * Add weapon if it doesn't already exist
+     * @param name the weapon name to add
+     */
+    public boolean addWeapon(String name) {
+        return weaponpack.add(name);
     }
     
     /**
@@ -163,6 +193,52 @@ public class Player extends MovableEntity implements Attacker, Defender {
     @Override
     public void die() {
         hp = 0;
+    }
+    
+    /**
+     * Add life
+     * @return the number of lives left
+     */
+    public int addLife() {
+        lives++;
+        return lives;
+    }
+    
+    /**
+     * Add lives
+     * @param lives the number of lives to add
+     * @return the number of lives left
+     */
+    public int addLife(int lives) {
+        this.lives+=lives;
+        return this.lives;
+    }
+    
+    /**
+     * Remove a life
+     * @return the number of lives left
+     */
+    public int removeLife() {
+        lives--;
+        return lives;
+    }
+    
+    /**
+     * Remove lives
+     * @param lives the number of lives to remove
+     * @return the number of lives left
+     */
+    public int removeLife(int lives) {
+        this.lives-=lives;
+        return this.lives;
+    }
+    
+    /**
+     * Number of lives left
+     * @return number of lives left
+     */
+    public int getLives() {
+        return lives;
     }
     
     /**

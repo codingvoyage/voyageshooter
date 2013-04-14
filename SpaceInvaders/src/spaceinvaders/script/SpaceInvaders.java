@@ -58,9 +58,6 @@ public class SpaceInvaders extends BasicGame {
     /** Upgrades shop */
     public static Shop shop;
     
-    /** TEMPORARY TEST VARIABLES */
-    public int start = 0;
-    
     /** Data for all entities */
     private static EntityGroup entities;
     
@@ -179,6 +176,17 @@ public class SpaceInvaders extends BasicGame {
         app.start();
 
     }
+    
+    /** 
+     * ____________________________________
+     * 
+     * 
+     * START ALL NON-DEFAULT SLICK METHODS 
+     * 
+     * 
+     * ____________________________________
+     */
+    
     
     /**
      * Loads all scripting relating things
@@ -306,26 +314,29 @@ public class SpaceInvaders extends BasicGame {
         g.setColor(Color.white);
         
         
-        //DRAW OUR OWN FPS COUNTER YEAHHH
         g.drawString("FPS: " + gc.getFPS(), 0, 0);
                 
                 
         
-        g.drawString("Player Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
-        g.drawString("Player Velocity: " + player.getVelocity(), 600, 60);
-        
-        g.drawString("Player HP: " + player.getHp() + "/" + player.getMaxHp(), 600, 80);
+        g.drawString("Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
+        g.drawString("HP: " + player.getHp() + "/" + player.getMaxHp(), 600, 60);
+        g.drawString("Lives: " + player.getLives(), 600, 80);
             
         if(player.getHp() <= 0) {
-            g.drawString("GAME OVER!", X_RESOLUTION/2 - 50, Y_RESOLUTION/2 + 140);
-            g.drawString("You died. Press R to revive yourself.", X_RESOLUTION/2 - 50, Y_RESOLUTION/2 + 200);
             
-            Input input = gc.getInput();
-            if (input.isKeyDown(Input.KEY_R)) {
-                player.place(X_RESOLUTION/2 - 50, Y_RESOLUTION/2 + 200);
-                player.setHp(player.getMaxHp()); // max out hp
-            }
-            else {
+            if(player.getLives() > 0) {
+                g.drawString("You died. Press R to use a life and revive yourself.", X_RESOLUTION/2 - 200, Y_RESOLUTION/2 + 200);
+                Input input = gc.getInput();
+                if (input.isKeyDown(Input.KEY_R)) {
+                    player.removeLife(); // deduct a life
+                    player.place(X_RESOLUTION/2 - 50, Y_RESOLUTION/2 + 200);
+                    player.setHp(player.getMaxHp()); // max out hp
+                } else {
+                    player.setHp(0); // prevent the offscreen player from taking damage
+                    player.place(-200, -300);
+                }
+            } else {
+                g.drawString("GAME OVER!", X_RESOLUTION/2 - 50, Y_RESOLUTION/2 + 200);
                 player.setHp(0); // prevent the offscreen player from taking damage
                 player.place(-200, -300);
             }

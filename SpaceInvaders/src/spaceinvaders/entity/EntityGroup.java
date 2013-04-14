@@ -439,7 +439,7 @@ public final class EntityGroup {
     private static Player clonePlayer(Entity e) {
         Player pl = (Player)e;
         // There is only one player. We don't want to copy it. One instance only!
-        pl = new Player(pl.getName(), pl.getId(), pl.getImage(), pl.getRadius(), pl.getDescription(), pl.getAttack(), pl.getDefense(), pl.getHp(), pl.getMaxHp(), pl.getWeaponName(), pl.getVelocity());
+        pl = new Player(pl.getName(), pl.getId(), pl.getImage(), pl.getRadius(), pl.getDescription(), pl.getAttack(), pl.getDefense(), pl.getHp(), pl.getMaxHp(), pl.getLives(), pl.getWeaponName(), pl.getVelocity());
         return pl;
     }
     
@@ -633,15 +633,16 @@ public final class EntityGroup {
             SpaceInvaders.player.setRotation(0);
         }
         
-        /* Temporary HP Deduction Test */
-        if(input.isKeyDown(Input.KEY_H)) {
-            SpaceInvaders.player.deductHp(10);
-        }
-        
         /* Shooting */
         if(input.isKeyDown(Input.KEY_SPACE)) {
             
             SpaceInvaders.player.fire();
+        }
+        
+        /* Switch Weapon */
+        if(input.isKeyDown(Input.KEY_S)) {
+            
+            SpaceInvaders.player.switchWeapon();
         }
     }
     

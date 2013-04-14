@@ -16,15 +16,20 @@
                 "attack" : 10.0,
                 "defense" : 10.0,
                 "weapons" : "Rainbow Laser",
-                "weaponpack" : [
-                    "Rainbow Laser",
-                    "Water Gun",
-                ],
+                "weaponpack" :
+                    {
+                        "items" : [
+                            "Rainbow Laser",
+                            "Water Gun"
+                        ],
+                        "index" : 0
+                    },
                 "v" : 1.0,
                 "image" : "player",
                 "radius" : 50,
                 "points" : 0,
-                "level" : 1
+                "level" : 1,
+                "lives" : 3
     },
 
     "enemies": [
