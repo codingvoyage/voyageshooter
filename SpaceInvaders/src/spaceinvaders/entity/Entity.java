@@ -3,6 +3,7 @@ package spaceinvaders.entity;
 import spaceinvaders.script.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.geom.Shape;
 
 /**
  * An Entity is any object that appears on the map 
@@ -26,7 +27,9 @@ public class Entity extends ScriptableClass {
     private String image;
     /** Actual image of Entity */
     private Image sprite;
-       
+    /** Collision shape of Entity */
+    private Shape collision;
+    
     /** position vector */
     public final Vector2f position = new Vector2f(300, 400);
     
@@ -323,5 +326,17 @@ public class Entity extends ScriptableClass {
             sprite = EntityGroup.getImage(image);
             return sprite;
         }
+    }
+    
+    public void setCollisionShape(Shape s)
+    {
+        collision = s;
+    }
+    
+    public Shape getCollisionShape()
+    { 
+        collision.setX(this.getX());
+        collision.setY(this.getY());
+        return collision;
     }
 }
