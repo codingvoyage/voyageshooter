@@ -187,7 +187,6 @@ public class SpaceInvaders extends BasicGame {
             {
                 //Player takes damage
                 player.deductHp(20);
-                
                 //Bullet is destroyed
                 w.markForDeletion();
             }

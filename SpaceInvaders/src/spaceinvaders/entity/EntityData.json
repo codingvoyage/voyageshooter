@@ -17,6 +17,7 @@
             "weapons" : "Rainbow Laser",
             "v" : 1.0,
             "image" : "player",
+            "radius" : 50,
             "points" : 0,
             "level" : 1,
             "WARNING" : "DOUBLES AS A SAVE FILE. DO NOT MODIFY."
@@ -37,6 +38,7 @@
         },
         {
             "name" : "Space Guardian",
+            "radius" : 50,
             "id" : "sg1",
             "description" : "A powerful ship pretending to be a protector of the sky. \n\
                              A more appropriate name would be Space Destroyer.",
@@ -46,6 +48,7 @@
             "weapons" : "Blue Destroyer",
             "v" : 1.5,
             "image" : "spaceguardian",
+            "radius" : 50,
             "scriptID" : 35
         },
         {
@@ -58,6 +61,7 @@
             "weapons" : "Rainbow Laser",
             "v" : 10.0,
             "image" : "monster",
+            "radius" : 50,
             "scriptID" : 54
         }
     ],
@@ -69,7 +73,8 @@
             "description" : "In what galaxy is it logical to use water guns to attack spaceships?",
             "attack" : 0.0001,
             "v" : 3500.0,
-            "image" : "water"
+            "image" : "water",
+            "radius" : 12
         },
         {
             "name" : "Blue Destroyer",
@@ -77,7 +82,8 @@
             "description" : "This tiny blue bullet really packs a punch!",
             "attack" : 10.0,
             "v" : 2500.0,
-            "image" : "bluedot"
+            "image" : "bluedot",
+            "radius" : 10
         },
         {
             "name" : "Rainbow Laser",
@@ -85,7 +91,8 @@
             "description" : "Ohhh! Pretty colors!",
             "attack" : 0.0001,
             "v" : 2500.0,
-            "image" : "rainbow"
+            "image" : "rainbow",
+            "radius" : 12
         },
         {
             "name" : "Bomb Formula 9001",
@@ -93,7 +100,8 @@
             "description" : "A small and powerful bullet that explodes on impact. Simply the best weapon in any galaxy.",
             "attack" : 9001.0,
             "v" : 10000.0,
-            "image" : "rainbow"
+            "image" : "rainbow",
+            "radius" : 12
         }
     ],
 
@@ -103,7 +111,8 @@
             "id" : "as1",
             "description" : "Random floating rocks. Avoid at all costs! Your ship is flying too fast and will crash!",
             "v" : 5.0,
-            "image" : "rainbow"
+            "image" : "rainbow",
+            "radius" : 12
         }
     ],
             
@@ -116,7 +125,8 @@
             "defense" : 999999.0,
             "hp" : 1000000,
             "weapons" : "Bomb Formula 9001",
-            "image" : "rainbow"
+            "image" : "rainbow",
+            "radius" : 12
         }
     ]
 }

@@ -26,7 +26,7 @@ public class Immovable extends Entity implements Attacker, Defender {
      */    
     public Immovable() {
         // default values - should be ignored by the data file
-        super("Floating Mine", "immovable1337", "enemy1", "A small but powerful floating mine that will obliterate anything that comes near it.");
+        super("Floating Mine", "immovable1337", "enemy1", 50f, "A small but powerful floating mine that will obliterate anything that comes near it.");
         attack = 99999.0; 
         defense = 99999.0;
         hp = 100;
@@ -46,8 +46,8 @@ public class Immovable extends Entity implements Attacker, Defender {
      * @param vx x velocity
      * @param vy y velocity
      */     
-    public Immovable(String name, String id, String image, String description, double attack, double defense, int hp, String weapons) {
-        super(name, id, image, description);
+    public Immovable(String name, String id, String image, float radius, String description, double attack, double defense, int hp, String weapons) {
+        super(name, id, image, radius, description);
         this.attack = attack;
         this.defense = defense;
         this.hp = hp;

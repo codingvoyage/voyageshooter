@@ -16,7 +16,7 @@ public class Weapon extends MovableEntity implements Attacker {
      */    
     public Weapon() {
         // default values - should be ignored by the data file
-        super("Panther Rockets", "weapon1337", "enemy1", "The most powerful weapon ever invented.", 10.0);
+        super("Panther Rockets", "weapon1337", "enemy1", 12f, "The most powerful weapon ever invented.", 10.0);
         attack = 9133.7;
     }
     
@@ -29,8 +29,8 @@ public class Weapon extends MovableEntity implements Attacker {
      * @param vx x-velocity of entity
      * @param vy y-velocity of entity
      */    
-    public Weapon(String name, String id, String image, String description, double attack, double v) {
-        super(name, id, image, description,v);
+    public Weapon(String name, String id, String image, float radius, String description, double attack, double v) {
+        super(name, id, image, radius, description,v);
         this.attack = attack;
         
     }

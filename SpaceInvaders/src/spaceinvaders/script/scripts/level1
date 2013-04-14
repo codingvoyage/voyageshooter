@@ -1,16 +1,16 @@
 wait 1000
 
-messagebox "It's good to have you on board, captain. (Press Enter to continue)"
-callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
+-- messagebox "It's good to have you on board, captain. (Press Enter to continue)"
+--callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
 
-messagebox "I am commander Bakesale. I will be your commanding officer."
-callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
+--messagebox "I am commander Bakesale. I will be your commanding officer."
+--callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
 
-messagebox "Thank you for your service! We're up against the Interstellar League."
-callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
+--messagebox "Thank you for your service! We're up against the Interstellar League."
+--callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
 
-messagebox "No time to talk! We will intercept the enemy very shortly. GOOD LUCK!"
-callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 2000
+--messagebox "No time to talk! We will intercept the enemy very shortly. GOOD LUCK!"
+--callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 2000
 
 wait 800
 

@@ -3,13 +3,15 @@ package spaceinvaders.entity;
 import spaceinvaders.script.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Circle;
 
 /**
  * An Entity is any object that appears on the map 
- * that is not part of the menu, controls, or map itself
+ * that is not part of the menu, controls, or map itself.
+ * <br/><br/>
  * 
- * Will be declared as abstract later
+ * All instance fields whose documentation is appended with "DATA" is 
+ * expected to be loaded via an external data file.
  * 
  * @author Brian Yang
  * @author Edmund Qiu
@@ -17,18 +19,22 @@ import org.newdawn.slick.geom.Shape;
 
 public class Entity extends ScriptableClass {
     
-    /** Name of Entity */
+    /** DATA - Name of Entity */
     private String name;
-    /** ID of Entity */
+    /** DATA - ID of Entity */
     private String id;
-    /** Description of Entity */
+    /** DATA - Description of Entity */
     private String description;
-    /** Image name of Entity */
+    
+    /** DATA - Image name of Entity */
     private String image;
     /** Actual image of Entity */
     private Image sprite;
+    
+    /** DATA - The radius of the Entity's collision circle */
+    private Float radius;
     /** Collision shape of Entity */
-    private Shape collision;
+    private Circle collision;
     
     /** position vector */
     public final Vector2f position = new Vector2f(300, 400);
@@ -58,6 +64,7 @@ public class Entity extends ScriptableClass {
         id = "e1";
         description = "I am you.";
         image = "spaceship";
+        radius = 50f;
         angle = 180;
     }
 
@@ -68,11 +75,12 @@ public class Entity extends ScriptableClass {
      * @param image the image reference name of entity
      * @param description description of Entity
      */
-    public Entity(String name, String id, String image, String description) {
+    public Entity(String name, String id, String image, float radius, String description) {
         super();
         this.name = name;
         this.id = id;
         this.image = image;
+        this.radius = radius;
         this.sprite = EntityGroup.getImage(image);
         angle = 180;
         //sprite.setRotation(angle);
@@ -87,11 +95,12 @@ public class Entity extends ScriptableClass {
      * @param scriptID the script ID of the scripted entity
      * @param description description of Entity
      */
-    public Entity(String name, String id, String image, int scriptID, String description) {
+    public Entity(String name, String id, String image, float radius, int scriptID, String description) {
         super();
         this.name = name;
         this.id = id;
         this.image = image;
+        this.radius = radius;
         this.sprite = EntityGroup.getImage(image);
         this.description = description;
         setMainScriptID(scriptID);
@@ -328,15 +337,31 @@ public class Entity extends ScriptableClass {
         }
     }
     
-    public void setCollisionShape(Shape s)
-    {
+    /**
+     * Get the collision radius
+     * @return collision radius
+     */
+    public float getRadius() {
+        return radius;
+    }
+    
+    /**
+     * Set the collision area shape
+     * @param s the collision area shape
+     */
+    public void setCollisionShape(Circle s) {
         collision = s;
     }
     
-    public Shape getCollisionShape()
-    { 
-        collision.setX(this.getX());
-        collision.setY(this.getY());
+    /**
+     * Get the collision shape
+     * @return the collision shape
+     */
+    public Circle getCollisionShape() {
+        if (collision == null)
+            collision = new Circle(position.x, position.y, radius);
+        collision.setX(position.x);
+        collision.setY(position.y);
         return collision;
     }
 }

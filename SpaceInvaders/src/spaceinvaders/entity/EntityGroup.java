@@ -383,7 +383,7 @@ public final class EntityGroup {
      */
     private static Entity cloneEntity(Entity e) {
         Entity ent = e;
-        ent = new Entity(ent.getName(), ent.getId(), ent.getImage(), ent.getDescription());
+        ent = new Entity(ent.getName(), ent.getId(), ent.getImage(), ent.getRadius(), ent.getDescription());
         return ent;
     }
     
@@ -394,7 +394,7 @@ public final class EntityGroup {
      */
     private static Enemy cloneEnemy(Entity e) {
         Enemy en = (Enemy)e;
-        en = new Enemy(en.getName(), en.getId(), en.getImage(), en.getMainScriptID(), en.getDescription(), en.getAttack(), en.getDefense(), en.getHp(), en.getWeaponName(), en.getVelocity());
+        en = new Enemy(en.getName(), en.getId(), en.getImage(), en.getRadius(), en.getMainScriptID(), en.getDescription(), en.getAttack(), en.getDefense(), en.getHp(), en.getWeaponName(), en.getVelocity());
         return en;
     }
     
@@ -404,7 +404,7 @@ public final class EntityGroup {
      */
     private static Misc cloneMisc(Entity e) {
         Misc mi = (Misc)e;
-        mi = new Misc(mi.getName(), mi.getId(), mi.getImage(), mi.getDescription(), mi.getVelocity());
+        mi = new Misc(mi.getName(), mi.getId(), mi.getImage(), mi.getRadius(), mi.getDescription(), mi.getVelocity());
         return mi;
     }
     
@@ -415,7 +415,7 @@ public final class EntityGroup {
      */
     private static Weapon cloneWeapon(Entity e) {
         Weapon we = (Weapon)e;
-        we = new Weapon(we.getName(), we.getId(), we.getImage(), we.getDescription(), we.getAttack(), we.getVelocity());
+        we = new Weapon(we.getName(), we.getId(), we.getImage(), we.getRadius(), we.getDescription(), we.getAttack(), we.getVelocity());
         return we;
     }
     
@@ -426,7 +426,7 @@ public final class EntityGroup {
      */
     private static Immovable cloneImmovable(Entity e) {
         Immovable im = (Immovable)e;
-        im = new Immovable(im.getName(), im.getId(), im.getImage(), im.getDescription(), im.getAttack(), im.getDefense(), im.getHp(), im.getWeaponName());
+        im = new Immovable(im.getName(), im.getId(), im.getImage(), im.getRadius(), im.getDescription(), im.getAttack(), im.getDefense(), im.getHp(), im.getWeaponName());
         return im;
     }
     
@@ -438,7 +438,7 @@ public final class EntityGroup {
     private static Player clonePlayer(Entity e) {
         Player pl = (Player)e;
         // There is only one player. We don't want to copy it. One instance only!
-        pl = new Player(pl.getName(), pl.getId(), pl.getImage(), pl.getDescription(), pl.getAttack(), pl.getDefense(), pl.getHp(), pl.getWeaponName(), pl.getVelocity());
+        pl = new Player(pl.getName(), pl.getId(), pl.getImage(), pl.getRadius(), pl.getDescription(), pl.getAttack(), pl.getDefense(), pl.getHp(), pl.getWeaponName(), pl.getVelocity());
         return pl;
     }
     
