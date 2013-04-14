@@ -18,7 +18,21 @@ spawn "Minion" "m1" 150 -300
 spawn "Minion" "m2" 750 -300
 
 
-wait 7000
+
+var moveon false
+
+while moveon != true
+    wait 500
+
+    isThereEntity "m1" --> aliveM1
+    if aliveM1 == false
+
+        isThereEntity "m2" --> aliveM2
+        if aliveM2 == false
+            setVar moveon true
+        endif
+    endif
+wend
 
 newthread 37 "DON'TGIVEUP"
 

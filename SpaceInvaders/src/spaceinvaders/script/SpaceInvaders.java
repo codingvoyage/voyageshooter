@@ -123,6 +123,9 @@ public class SpaceInvaders extends BasicGame {
         //Check collision detection
         EntityGroup.checkCollision();
         
+        //Kill any entities which are dead.
+        
+        
         // Continue moving
         continueStepping(delta);
         
@@ -242,7 +245,7 @@ public class SpaceInvaders extends BasicGame {
             //Get current thread...
             Weapon w = EntityGroup.bullets.get(index);
             
-            //Should any threads be deleted right now?
+            //Should any bullets be deleted right now?
             if (w.isMarkedForDeletion())
             {
                 EntityGroup.bullets.remove(index);
