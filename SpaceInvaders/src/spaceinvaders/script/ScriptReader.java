@@ -577,6 +577,16 @@ public class ScriptReader
                 break;
                 
                 
+            case 67:
+                //isThereEntity "entityname" --> resultbool
+                Entity target = EntityGroup.active.get(
+                        identifierCheck(currentLine, 0).getStringValue());
+                boolean searchResult = EntityGroup.activeList.contains(target);
+                currentThread.setVariable(currentLine.getStringParameter(2), new Parameter(searchResult));
+                
+                break;
+                
+                
             case 80:
                 getSystemMilliTime(currentLine);
                 break;

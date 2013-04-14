@@ -456,8 +456,10 @@ public final class EntityGroup {
      * Draw all spawned entities at their provided x and y
      */
     public static void draw() {
-        for (Entity e : activeList)
+        for (Entity e : activeList) {
             e.getSprite().draw(e.getX(), e.getY());
+            g.draw(e.getCollisionShape());
+        }
     }
     
     /*
@@ -472,9 +474,9 @@ public final class EntityGroup {
         
         Shape playershape = SpaceInvaders.player.getCollisionShape();
         for (Entity en : activeList) {
-            
-            // COLLISIONS WITH THE PLAYER
             if (!(en instanceof Player)) {
+                
+                // COLLISIONS WITH THE PLAYER
                 if (playershape.intersects(en.getCollisionShape())) {
                     // Player takes damage if applicable
                     // Must be an attacker
@@ -490,9 +492,73 @@ public final class EntityGroup {
                     if (en instanceof Weapon && !((Weapon)en).fromPlayer())
                         en.markForDeletion();
                 }
+                
+                // COLLISIONS BETWEEN PLAYER'S BULLETS AND OTHER THINGS
+                if (en instanceof Weapon && ((Weapon)en).fromPlayer())
+                {
+                    //Loop through every other entity now
+                    for (Entity check : activeList)
+                    {
+                        //Only bother counting if that check instanceOf Enemy
+                        if (check instanceof Enemy)
+                        {
+                            if (check.getCollisionShape().intersects(en.getCollisionShape()))
+                            {
+                                ((Enemy)check).deductHp(EntityGroup.calculateDamage((Attacker)en, (Enemy)check));
+                                en.markForDeletion();
+                            }
+                        }
+                    }
+                    
+                }
+               
             }
             
         }
+        
+        //See if anything has hp less than 0
+        for (Entity en : activeList)
+        {
+            if (en instanceof Enemy)
+            {
+                if (((Enemy)en).getHp() <= 0)
+                {
+                    en.markForDeletion();
+                }
+            }
+        }
+        
+        
+        //At this point it also seems natural to check whether anything needs deletion
+        boolean continueStepping = !EntityGroup.activeList.isEmpty();
+        int index = 0;
+        Entity currentEntity;
+        while (continueStepping)
+        {
+            //Get current thread...
+            currentEntity = EntityGroup.activeList.get(index);
+            
+            //Should any enemies die?
+            if (currentEntity.isMarkedForDeletion() && currentEntity instanceof Enemy)
+            {
+                currentEntity.getMainThread().markForDeletion();
+                EntityGroup.activeList.remove(index);
+                EntityGroup.active.remove(currentEntity.getId());
+                
+                //index is unchanged, since everything shifts back by one
+                //we'll be on track for the next one by NOT MOVING
+            }
+            else
+            {
+                index++;
+            }
+            
+            //Stop when we've reached the last thread.
+            if (index == EntityGroup.activeList.size()) {
+                continueStepping = false;
+            }
+        }
+        
     }
     
     /**

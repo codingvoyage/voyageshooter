@@ -96,7 +96,7 @@ getEntityAngle 63
 
 spawnBullet 65
 
-
+isThereEntity 67
 
 getSystemMilliTime 80
 getSystemNanoTime 81
