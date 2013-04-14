@@ -26,7 +26,7 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
      */    
     public Enemy() {
         // default values - should be ignored by the data file
-        super("Panther Ship", "enemy1337", "enemy1", 52, "The most powerful and evil creature you will ever meet in your life.", 10.0);
+        super("Panther Ship", "enemy1337", "enemy1", 50f, 52, "The most powerful and evil creature you will ever meet in your life.", 10.0);
         attack = 9133.7; 
         defense = 9133.7;
         hp = 100;
@@ -47,8 +47,8 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
      * @param vx x velocity
      * @param vy y velocity
      */    
-    public Enemy(String name, String id, String image, int scriptID, String description, double attack, double defense, int hp, String weapons, double v) {
-        super(name, id, image, scriptID, description, v);
+    public Enemy(String name, String id, String image, float radius, int scriptID, String description, double attack, double defense, int hp, String weapons, double v) {
+        super(name, id, image, radius, scriptID, description, v);
         this.attack = attack;
         this.defense = defense;
         this.hp = hp;

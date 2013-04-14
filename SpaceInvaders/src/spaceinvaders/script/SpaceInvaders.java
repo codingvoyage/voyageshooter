@@ -5,6 +5,8 @@ import spaceinvaders.entity.upgrades.Shop;
 import spaceinvaders.GUI.DisplayBox;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Shape;
 import java.awt.Font;
 
 
@@ -100,7 +102,7 @@ public class SpaceInvaders extends BasicGame {
         
         //Set the minimum and maximum update intervals please
         gc.setMinimumLogicUpdateInterval(20);
-        gc.setMaximumLogicUpdateInterval(50);
+        gc.setMaximumLogicUpdateInterval(20);
         
         
         textManager = new DisplayBox();
@@ -177,6 +179,21 @@ public class SpaceInvaders extends BasicGame {
         /** user keyboard control */
         if (enableKeyboard) {
             EntityGroup.control(gc, delta);
+        
+        //Check collision detection
+        
+        
+        //Mainly: is anything colliding with the player
+        Shape playershape = this.player.getCollisionShape();
+        for (Weapon w : EntityGroup.bullets)
+        {
+            if (playershape.intersects(w.getCollisionShape()))
+            {
+                //Player takes damage
+                player.deductHp(20);
+                //Bullet is destroyed
+                w.markForDeletion();
+            }
         }
         
         
@@ -208,6 +225,8 @@ public class SpaceInvaders extends BasicGame {
                 continueStepping = false;
             }
         }
+        
+        
         
         
         //Move on to next dialogue box

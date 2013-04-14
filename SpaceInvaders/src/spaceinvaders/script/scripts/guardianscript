@@ -1,8 +1,35 @@
+var bulletthing 5
+var rotationamount 15
+
 rotate 180
 newvelocity 0.2 0.2
 
 move 600
--- orbit 90 10 0
+
+
+
+branch [myloop]
+
+wait 50
+print rotationamount
+
+for i = 0 and i < bulletthing
+    fire i 20
+next i + 1 --> i
+
+rotate rotationamount
+
+goto [myloop]
+
+
+
+function [otherway]
+    setThreadVariable rotationamount -15
+    -- print rotationamount
+return
+
+
+
 
 
 

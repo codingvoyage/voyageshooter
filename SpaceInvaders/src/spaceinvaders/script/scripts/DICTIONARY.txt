@@ -30,7 +30,9 @@ setvar 11
 set 11
 
 if 12
-endif 13
+-- endif
+
+setThreadVariable 13
 
 while 15
 wend 16

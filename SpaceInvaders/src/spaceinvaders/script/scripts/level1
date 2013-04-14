@@ -1,27 +1,34 @@
 wait 1000
 
+-- messagebox "It's good to have you on board, captain. (Press Enter to continue)"
+--callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
 
-messagebox "It's good to have you on board, captain. (Press Enter to continue)"
-callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
+--messagebox "I am commander Bakesale. I will be your commanding officer."
+--callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
 
-messagebox "I am commander Bakesale. I will be your commanding officer."
-callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
+--messagebox "Thank you for your service! We're up against the Interstellar League."
+--callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
 
-messagebox "Thank you for your service! We're up against the Interstellar League."
-callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 3000
-
-messagebox "No time to talk! We will intercept the enemy very shortly. GOOD LUCK!"
-callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 2000
+--messagebox "No time to talk! We will intercept the enemy very shortly. GOOD LUCK!"
+--callscriptfunction 25 [waitForTextBoxAutoDisappearsToo] 2000
 
 wait 800
 
 spawn "Minion" "m1" 150 -300
 spawn "Minion" "m2" 750 -300
 
+
+wait 7000
+
 newthread 37 "DON'TGIVEUP"
 
-wait 10000
 
-spawn "Space Guardian" "sg11" 450 -300
+spawn "Space Guardian" "sg12" 150 -300
+
+spawn "Space Guardian" "sg13" 750 -300
+
+wait 100
+callthreadfunction "sg13" [otherway]
+
 
 endthread

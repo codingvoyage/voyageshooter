@@ -266,8 +266,10 @@ public class ScriptReader
                 }
                 break;
                 
+                //setThreadVariable
             case 13:
-                
+                currentThread.modifyVariable(currentLine.getStringParameter(0), 
+                        identifierCheck(currentLine, 1));
                 break;
             
                 
