@@ -78,19 +78,30 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
     }
     
     
+    /**
+     * Fire weapon with a different direction and at a distance away
+     * @param angle angle <em>relative</em> to the enemy
+     * @param distanceAway distance away from the enemy
+     */
     public void fire(float angle, double distanceAway) {
         if(weapon == null) 
             weapon = (Weapon)EntityGroup.getEntity(weapons);
-       // System.out.println("Enemy's rotation is: " + getRotation());
         
         float distanceOffsetX = (float)(Math.cos(Math.toRadians(angle))*distanceAway);
         float distanceOffsetY = (float)(Math.sin(Math.toRadians(angle))*distanceAway);
         weapon.fire(getX() + distanceOffsetX + BULLET_OFFSET,
                 getY() + distanceOffsetY + BULLET_OFFSET,
-                getRotation() + angle - 90);
+                getRotation() + angle - ROTATION_FACTOR);
     }
     
-    
+    /**
+     * Set the Attack
+     * @param attack the new attack
+     */
+    @Override
+    public void setAttack(double attack) {
+        this.attack = attack;
+    }
     
     /**
      * Accessors for Attack
@@ -119,6 +130,14 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
         this.hp -= hp;
         if(hp <= 0) 
             EntityGroup.remove(this.getName(), true);
+    }
+    
+    /**
+     * Die - set HP to 0
+     */
+    @Override
+    public void die() {
+        hp = 0;
     }
     
     /**

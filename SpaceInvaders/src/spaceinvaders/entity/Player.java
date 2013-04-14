@@ -45,12 +45,12 @@ public class Player extends MovableEntity implements Attacker, Defender {
      * @param attack base attack of entity
      * @param defense base defense of entity
      */
-    public Player(String name, String id, String image, float radius, String description, double attack, double defense, int hp, String weapons, double v) {
+    public Player(String name, String id, String image, float radius, String description, double attack, double defense, int hp, int maxhp, String weapons, double v) {
         super(name, id, image, radius, description, v);
         this.attack = attack;
         this.defense = defense;
         this.hp = hp;
-        this.maxhp = hp;
+        this.maxhp = maxhp;
         lives = 7;
         this.weapons = weapons;
         weapon = (Weapon)EntityGroup.getBaseEntity(weapons);
@@ -68,14 +68,40 @@ public class Player extends MovableEntity implements Attacker, Defender {
     /**
      * Fire weapon with a different direction 
      * from the location of the enemy
-     * @param angle angle <em>relative</em> to the enemy
+     * @param angle angle <em>relative</em> to the entity
      */
     public void fire(float angle) {
         if(weapon == null) 
             weapon = (Weapon)EntityGroup.getEntity(weapons);
-        weapon.fire(getX() + BULLET_OFFSET, getY() + BULLET_OFFSET, angle + getSprite().getRotation());
+        
+        weapon.fire(getX() + BULLET_OFFSET, getY() + BULLET_OFFSET, angle + getSprite().getRotation(), this, true);
     }
-
+    
+    /**
+     * Fire weapon with a different direction and at a distance away
+     * @param angle angle <em>relative</em> to the entity
+     * @param distanceAway distance away from the entity
+     */
+    public void fire(float angle, double distanceAway) {
+        if(weapon == null)
+            weapon = (Weapon)EntityGroup.getEntity(weapons);
+        
+        float distanceOffsetX = (float)(Math.cos(Math.toRadians(angle))*distanceAway);
+        float distanceOffsetY = (float)(Math.sin(Math.toRadians(angle))*distanceAway);
+        weapon.fire(getX() + distanceOffsetX + BULLET_OFFSET,
+                getY() + distanceOffsetY + BULLET_OFFSET,
+                getRotation() + angle - ROTATION_FACTOR, this, true);
+    }
+    
+    /**
+     * Set the Attack
+     * @param attack the new attack
+     */
+    @Override
+    public void setAttack(double attack) {
+        this.attack = attack;
+    }
+    
     /**
      * Accessors for Attack
      * @return attack of entity
@@ -113,6 +139,14 @@ public class Player extends MovableEntity implements Attacker, Defender {
     } 
       
     /**
+     * Set HP
+     * @param hp the new hp
+     */
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+    
+    /**
      * Deduct HP
      * @param hp the hp to deduct
      */
@@ -121,6 +155,14 @@ public class Player extends MovableEntity implements Attacker, Defender {
         this.hp -= hp;
         if(hp <= 0) 
             EntityGroup.remove(this.getName(), false);
+    }
+    
+    /**
+     * Die - set HP to 0
+     */
+    @Override
+    public void die() {
+        hp = 0;
     }
     
     /**

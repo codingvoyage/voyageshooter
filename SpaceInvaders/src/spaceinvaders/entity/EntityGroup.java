@@ -3,6 +3,7 @@ package spaceinvaders.entity;
 import org.newdawn.slick.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.newdawn.slick.geom.Shape;
 import spaceinvaders.script.SpaceInvaders;
 
 /**
@@ -17,7 +18,7 @@ import spaceinvaders.script.SpaceInvaders;
 
 public final class EntityGroup {
     
-    /** The main player with data loaded from a JSON save file */
+    /** The data for the main player, loaded from JSON. To call the Player, use SpaceInvaders.Player NOT EntityGroup.player */
     public static Player player;
     
     /** Lists all the Enemies */
@@ -438,7 +439,7 @@ public final class EntityGroup {
     private static Player clonePlayer(Entity e) {
         Player pl = (Player)e;
         // There is only one player. We don't want to copy it. One instance only!
-        pl = new Player(pl.getName(), pl.getId(), pl.getImage(), pl.getRadius(), pl.getDescription(), pl.getAttack(), pl.getDefense(), pl.getHp(), pl.getWeaponName(), pl.getVelocity());
+        pl = new Player(pl.getName(), pl.getId(), pl.getImage(), pl.getRadius(), pl.getDescription(), pl.getAttack(), pl.getDefense(), pl.getHp(), pl.getMaxHp(), pl.getWeaponName(), pl.getVelocity());
         return pl;
     }
     
@@ -463,6 +464,50 @@ public final class EntityGroup {
      * Start Controlling Active Entities
      * The below methods control entities that have spawned and are currently active
      */
+    
+    /**
+     * Check Collision Detection
+     */
+    public static void checkCollision() throws SlickException {
+        
+        Shape playershape = SpaceInvaders.player.getCollisionShape();
+        for (Entity en : activeList) {
+            
+            // COLLISIONS WITH THE PLAYER
+            if (!(en instanceof Player)) {
+                if (playershape.intersects(en.getCollisionShape())) {
+                    // Player takes damage if applicable
+                    // Must be an attacker
+                    // If its a weapon, then it can't be a bullet from the player
+                    if (en instanceof Attacker && (!(en instanceof Weapon) || !((Weapon)en).fromPlayer()))
+                        SpaceInvaders.player.deductHp(EntityGroup.calculateDamage((Attacker)en, SpaceInvaders.player));
+
+                    // if player crashes into an enemy, immediately gets killed
+                    if (en instanceof Enemy)
+                        SpaceInvaders.player.die();
+
+                    // Bullet is destroyed
+                    if (en instanceof Weapon && !((Weapon)en).fromPlayer())
+                        en.markForDeletion();
+                }
+            }
+            
+        }
+    }
+    
+    /**
+     * Calculate damage taken, minimum 1
+     * @param w the weapon/bullet being used
+     * @param e the entity taking the damage
+     * @return the damage in hp taken
+     */
+    public static int calculateDamage(Attacker w, Defender e) {
+        int hp = (int)(w.getAttack() - e.getDefense());
+        if (hp > 0)
+            return hp;
+        else
+            return 1;
+    }
     
     /**
      * Get a spawned entity
@@ -587,60 +632,6 @@ public final class EntityGroup {
             ship.setRotation(0);
             SpaceInvaders.player.setRotation(0);
         }
-        
-        //The rotation based movement of the player might be too hard to control
-        /* rotate to the left */
-        /*
-        if(input.isKeyDown(Input.KEY_LEFT)) {
-            ship.rotate(-MovableEntity.ROTATION_SIZE * delta);
-            player.rotate(-MovableEntity.ROTATION_SIZE * delta);
-        }
-        */
- 
-        /* rotate to the right */
-        /*
-        if(input.isKeyDown(Input.KEY_RIGHT)) {
-            ship.rotate(MovableEntity.ROTATION_SIZE * delta);
-            player.rotate(MovableEntity.ROTATION_SIZE * delta);
-        }
-        */
- 
-        /* move forward in current direction */
-        /*
-        if(input.isKeyDown(Input.KEY_UP)) {
-            // size for one single step 
-            float step = MovableEntity.STEP_SIZE * delta;
- 
-            // which direction are we facing?
-            float rotation = ship.getRotation();
-            
-            // move the player
-            if(SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
-                    && SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) < SpaceInvaders.X_RESOLUTION - MovableEntity.EDGE_FACTOR
-                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
-                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) < SpaceInvaders.Y_RESOLUTION - MovableEntity.EDGE_FACTOR) {
-                SpaceInvaders.player.move(step * Math.sin(Math.toRadians(rotation)), -step * Math.cos(Math.toRadians(rotation)));
-            }
-        }
-        */
-        
-        /* back up a bit */
-        /*
-        if(input.isKeyDown(Input.KEY_DOWN)) {
-            // size for one single back step 
-            float step = MovableEntity.BACK_SIZE * delta;
- 
-            // which direction are we facing? 
-            float rotation = ship.getRotation() * -1;
- 
-            // move the SpaceInvaders.player 
-           if(SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
-                    && SpaceInvaders.player.getX() + step * Math.sin(Math.toRadians(rotation)) < SpaceInvaders.X_RESOLUTION - MovableEntity.EDGE_FACTOR
-                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) > MovableEntity.ORIGIN - MovableEntity.EDGE_FACTOR 
-                    && SpaceInvaders.player.getY() - step * Math.cos(Math.toRadians(rotation)) < SpaceInvaders.Y_RESOLUTION - MovableEntity.EDGE_FACTOR) 
-                SpaceInvaders.player.move(step * Math.sin(Math.toRadians(rotation)), step * Math.cos(Math.toRadians(rotation)));
-        }
-        */
         
         /* Temporary HP Deduction Test */
         if(input.isKeyDown(Input.KEY_H)) {

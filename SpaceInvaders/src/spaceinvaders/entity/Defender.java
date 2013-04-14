@@ -18,4 +18,6 @@ public interface Defender {
      * @param hp the number of points to deduct
      */
     public void deductHp(int hp) throws SlickException;
+    /** Die - set HP to 0 */
+    public void die();
 }

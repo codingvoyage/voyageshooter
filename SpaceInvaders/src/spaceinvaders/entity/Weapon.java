@@ -9,7 +9,11 @@ import spaceinvaders.script.SpaceInvaders;
  */
 public class Weapon extends MovableEntity implements Attacker {
 
+    /** bullet's own attack */
     private Double attack;
+    
+    /** is the bullet fired from the player */
+    private boolean fromPlayer;
 
     /**
      * Constructs a new weapon entity using a data file
@@ -18,6 +22,7 @@ public class Weapon extends MovableEntity implements Attacker {
         // default values - should be ignored by the data file
         super("Panther Rockets", "weapon1337", "enemy1", 12f, "The most powerful weapon ever invented.", 10.0);
         attack = 9133.7;
+        fromPlayer = false;
     }
     
     /**
@@ -32,7 +37,7 @@ public class Weapon extends MovableEntity implements Attacker {
     public Weapon(String name, String id, String image, float radius, String description, double attack, double v) {
         super(name, id, image, radius, description,v);
         this.attack = attack;
-        
+        fromPlayer = false;
     }
     
     /**
@@ -55,14 +60,40 @@ public class Weapon extends MovableEntity implements Attacker {
         EntityGroup.bullets.add(newWeapon);
         newWeapon.setRotation(angle);
         newWeapon.draw();
-        
-        //System.out.println("Weapon should now be drawn");
-        //System.out.println("Weapon's coordiantes are: " + getX() + ", " + getY());
-        //System.out.println("Weapon's rotation is: " + getRotation());
-        //System.out.println("Weapon's coordiantes are: " + getX() + ", " + getY());
-        //System.out.println("Bullet is done moving");
     }
-
+    
+    /**
+     * Fire from another entity with attack boost
+     * @param x starting x coordinate
+     * @param y starting y coordinate
+     * @param angle angle <em>relative</em> to the entity to fire from
+     * @param entity the entity being fired from
+     */
+    public void fire(float x, float y, float angle, Attacker entity) {
+        Weapon newWeapon = EntityGroup.spawn(getName(), "bullet" + Math.random(), x, y);
+        EntityGroup.bullets.add(newWeapon);
+        newWeapon.setAttack(newWeapon.getAttack() + entity.getAttack());
+        newWeapon.setRotation(angle);
+        newWeapon.draw();
+    }
+    
+    /**
+     * Fire from another entity with attack boost
+     * @param x starting x coordinate
+     * @param y starting y coordinate
+     * @param angle angle <em>relative</em> to the entity to fire from
+     * @param entity the entity being fired from
+     * @param fromPlayer whether or not the bullet is fired from the player
+     */
+    public void fire(float x, float y, float angle, Attacker entity, boolean fromPlayer) {
+        Weapon newWeapon = EntityGroup.spawn(getName(), "bullet" + Math.random(), x, y);
+        EntityGroup.bullets.add(newWeapon);
+        newWeapon.setAttack(newWeapon.getAttack() + entity.getAttack());
+        newWeapon.setRotation(angle);
+        newWeapon.setSource(fromPlayer);
+        newWeapon.draw();
+    }
+    
     /**
      * Move Weapon
      */
@@ -76,8 +107,15 @@ public class Weapon extends MovableEntity implements Attacker {
         {
             this.markForDeletion();
         }
-            
+    }
     
+    /**
+     * Set the Attack
+     * @param attack the new attack
+     */
+    @Override
+    public void setAttack(double attack) {
+        this.attack = attack;
     }
     
     /**
@@ -97,6 +135,22 @@ public class Weapon extends MovableEntity implements Attacker {
     @Override
     public Weapon getWeapon() {
         return this;
+    }
+    
+    /**
+     * Set source status
+     * @param fromPlayer is it from the player?
+     */
+    public void setSource(boolean fromPlayer) {
+        this.fromPlayer = fromPlayer;
+    }
+    
+    /**
+     * Get Source Status
+     * @return whether or not the player fired it
+     */
+    public boolean fromPlayer() {
+        return fromPlayer;
     }
 }
 

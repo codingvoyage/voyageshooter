@@ -12,7 +12,7 @@
                 "id" : "p1",
                 "description" : "The hero of our story... don't prove us wrong.",
                 "hp" : 1000,
-                "maxhp" : 1000,
+                "maxhp" : 1337,
                 "attack" : 10.0,
                 "defense" : 10.0,
                 "weapons" : "Rainbow Laser",
@@ -22,6 +22,7 @@
                 ],
                 "v" : 1.0,
                 "image" : "player",
+                "radius" : 50,
                 "points" : 0,
                 "level" : 1
     },
@@ -37,6 +38,7 @@
             "weapons" : "Water Gun",
             "v" : 1.0,
             "image" : "minion",
+            "radius" : 50,
             "scriptID" : 36
         },
         {
@@ -83,7 +85,7 @@
             "name" : "Blue Destroyer",
             "id" : "bd1",
             "description" : "This tiny blue bullet really packs a punch!",
-            "attack" : 10.0,
+            "attack" : 15.0,
             "v" : 2500.0,
             "image" : "bluedot",
             "radius" : 10

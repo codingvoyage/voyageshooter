@@ -65,6 +65,15 @@ public class Immovable extends Entity implements Attacker, Defender {
     }
     
     /**
+     * Set the Attack
+     * @param attack the new attack
+     */
+    @Override
+    public void setAttack(double attack) {
+        this.attack = attack;
+    }
+    
+    /**
      * Accessors for Attack
      * @return attack of entity
      */
@@ -89,6 +98,14 @@ public class Immovable extends Entity implements Attacker, Defender {
     @Override
     public void deductHp(int hp) throws SlickException {
         this.hp -= hp;
+    }
+    
+    /**
+     * Die - set HP to 0
+     */
+    @Override
+    public void die() {
+        hp = 0;
     }
     
     /**

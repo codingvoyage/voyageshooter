@@ -163,12 +163,8 @@ public class Entity extends ScriptableClass {
      * @param entity the entity to face
      */
     public void setRotation(Entity entity) {
-        //float newAngle = (float)(Math.toDegrees((Math.acos(this.position.getNormal().dot(entity.position.getNormal())))));
-        Vector2f tempVector = new Vector2f(position);
-        tempVector.sub(entity.position);
-        float newAngle = (float)tempVector.getTheta() - ROTATION_FACTOR;
-        this.angle = newAngle;
-        sprite.setRotation(newAngle);
+        angle = (float)(new Vector2f(position)).sub(entity.position).getTheta() - ROTATION_FACTOR;
+        sprite.setRotation(angle);
         if (angle >= 360)
             angle = 360 - angle;
         if(sprite.getRotation() >= 360)
@@ -227,37 +223,6 @@ public class Entity extends ScriptableClass {
     public void beginRotate(float angle) {
         setTemporaryParameter(new Parameter(getRotation() - angle));
         mainThread.setRunningState(true);
-    }
-    
-    /**
-     * Scripted rotation to a certain angle<br/>
-     * <strong>Note:</strong> If rotating and then immediately moving, 
-     * just call the beginMove(angle, pixelsToMove, turnTo) method instead.
-     * <strong>Note:</strong> To distinguish this method from the previous, 
-     * which rotates the entity <em>by</em> an angle instead of <em>to</em>, 
-     * add a boolean true as the third parameter.
-     * @param angle to angle to rotate to
-     * @param turnTo true if turn to, false if turn by, defaults to false
-     */
-    public void beginRotate(float angle, boolean turnTo) {
-        if(turnTo) {
-            setTemporaryParameter(new Parameter(getRotation() - angle));
-            mainThread.setRunningState(true);
-        } else {
-            beginRotate(angle);
-        }
-    }
-    
-    /**
-     * Continue scripted rotation
-     * @param delta update interval time
-     * @return boolean indicating whether or not the rotation should continue
-     */
-    public boolean continueRotate(double delta) {
-        Parameter tempParam = getTemporaryParameter();
-        rotate(MovableEntity.ROTATION_SIZE, delta);
-                
-        return true;
     }
     
     /**
