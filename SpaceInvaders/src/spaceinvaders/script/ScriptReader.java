@@ -493,8 +493,6 @@ public class ScriptReader
                     
                 continueExecuting = false;
                 
-                System.out.println("STARTING ORBIT");
-                
                 break;
                 
                 

@@ -163,7 +163,9 @@ public final class EntityGroup {
      * @return the Entity's image
      */
     public static Image getImage(String ref) {
-        return sprites.getSprite(ref);
+        if (sprites.getSprite(ref) != null)
+            return sprites.getSprite(ref).copy();
+        return null;
     }
     
     /**

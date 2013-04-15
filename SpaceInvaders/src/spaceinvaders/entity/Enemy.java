@@ -74,7 +74,7 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
     public void fire(float angle) {
         if(weapon == null) 
             weapon = (Weapon)EntityGroup.getEntity(weapons);
-        weapon.fire(getX() + BULLET_OFFSET, getY() + BULLET_OFFSET, angle + getRotation());
+        weapon.fire(getX() + BULLET_OFFSET, getY() + BULLET_OFFSET, angle + getRotation(), this);
     }
     
     
@@ -91,7 +91,8 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
         float distanceOffsetY = (float)(Math.sin(Math.toRadians(angle))*distanceAway);
         weapon.fire(getX() + distanceOffsetX + BULLET_OFFSET,
                 getY() + distanceOffsetY + BULLET_OFFSET,
-                getRotation() + angle - ROTATION_FACTOR);
+                getRotation() + angle - ROTATION_FACTOR,
+                this);
     }
     
     /**

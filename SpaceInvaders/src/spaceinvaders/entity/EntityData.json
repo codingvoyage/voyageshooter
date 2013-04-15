@@ -22,6 +22,7 @@
                             "Rainbow Laser",
                             "Water Gun"
                         ],
+                                
                         "index" : 0
                     },
                 "v" : 1.0,
@@ -39,7 +40,7 @@
             "description" : "Weak minions sent from some unknown land.",
             "attack" : 1,
             "defense" : 1,
-            "hp" : 100,
+            "hp" : 250,
             "weapons" : "Water Gun",
             "v" : 1.0,
             "image" : "minion",
@@ -52,9 +53,9 @@
             "id" : "sg1",
             "description" : "A powerful ship pretending to be a protector of the sky. \n\
                              A more appropriate name would be Space Destroyer.",
-            "attack" : 50.0,
-            "defense" : 45.0,
-            "hp" : 300,
+            "attack" : 10.0,
+            "defense" : 10.0,
+            "hp" : 1000,
             "weapons" : "Blue Destroyer",
             "v" : 1.5,
             "image" : "spaceguardian",
@@ -91,7 +92,7 @@
             "id" : "bd1",
             "description" : "This tiny blue bullet really packs a punch!",
             "attack" : 15.0,
-            "v" : 2500.0,
+            "v" : 3500.0,
             "image" : "bluedot",
             "radius" : 10
         },
@@ -99,8 +100,8 @@
             "name" : "Rainbow Laser",
             "id" : "rl1",
             "description" : "Ohhh! Pretty colors!",
-            "attack" : 0.0001,
-            "v" : 2500.0,
+            "attack" : 10.0,
+            "v" : 10000.0,
             "image" : "rainbow",
             "radius" : 12
         },
