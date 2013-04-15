@@ -100,7 +100,10 @@ public abstract class MovableEntity extends Entity implements Movable {
     public void beginMove(Entity entity) {
         double[] param = {rotate(entity), this.position.distance(entity.position)};
         setTemporaryParameter(new Parameter(param));
-        beginMove(param[1]);
+        
+        //beginMove(param[1]);
+        mainThread.setRunningState(true);
+        
     }
     
     /**
@@ -111,8 +114,10 @@ public abstract class MovableEntity extends Entity implements Movable {
     public void beginMove(Entity entity, double pixelsToMove) {
         setRotation(entity);
         setTemporaryParameter(new Parameter(pixelsToMove));
-        beginMove(pixelsToMove);
+        //beginMove(pixelsToMove);
+        mainThread.setRunningState(true);
     }
+    
     
     /**
      * Starts the movement
@@ -120,7 +125,7 @@ public abstract class MovableEntity extends Entity implements Movable {
      */
     @Override
     public void beginMove(double pixelsToMove) {
-        if (getTemporaryParameter() == null) // if its called from another beginMove method, don't reset the parameter
+        //if (getTemporaryParameter() == null) // if its called from another beginMove method, don't reset the parameter
             setTemporaryParameter(new Parameter(pixelsToMove));
         mainThread.setRunningState(true);
     }
@@ -135,7 +140,7 @@ public abstract class MovableEntity extends Entity implements Movable {
     public boolean continueMove(double delta) {
         Parameter tempParam = getTemporaryParameter();
 
-        float step = STEP_SIZE * (float)delta;
+        float step = (float)this.getVelocity() * (float)delta;
         move(step * Math.sin(Math.toRadians(getRotation())), -step * Math.cos(Math.toRadians(getRotation())));
         
         double movedDistance = Math.abs((step * Math.sin(Math.toRadians(getRotation()))) + (-step * Math.cos(Math.toRadians(getRotation()))));

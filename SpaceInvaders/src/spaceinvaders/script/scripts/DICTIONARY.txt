@@ -63,7 +63,7 @@ endtextbox 37
 endtext 37
 
 -- From 50-79 are stuff specific to Entities
-face 50
+setRotation 50
 move 51
 
 -- Here we go...
@@ -94,12 +94,16 @@ getEntityY 62
 -- NOT IN RADIANS - DEGREES 
 getEntityAngle 63
 
+-- spawnbullet xLoc yLoc myAngle
 spawnBullet 65
 
+-- isThereEntity "entityname" --> resultbool
 isThereEntity 67
 
 getSystemMilliTime 80
 getSystemNanoTime 81
+
+-- rand min max --> var
 random 82
 rand 82
 getrand 82

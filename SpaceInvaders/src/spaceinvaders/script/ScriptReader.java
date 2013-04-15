@@ -69,8 +69,6 @@ public class ScriptReader
         //execution
         if (currentThread.isRunning()) 
         {
-            
-                
             //Will we continue running the same command?
             boolean doesContinue = continuesRunning(currentLine);
             
@@ -79,7 +77,6 @@ public class ScriptReader
             {
                 //So since we're not staying on the same command, we now move on
                 //to the next line!
-                
                 currentThread.setLineNumber(
                         currentThread.getCurrentLine() + 1);
             }
@@ -88,8 +85,6 @@ public class ScriptReader
         //Now, if by now there is no command already in execution, then...
         if (!currentThread.isRunning()) 
         {
-            
-            
             
             //We will go from line to line
             boolean doWeContinue = true;
@@ -446,7 +441,8 @@ public class ScriptReader
             //The manipulation of the locations of Displayables goes here    
             case 50:
                 //Facing a direction
-                System.out.println("Alright we don't have code for facing a direction yet.");
+                int rotation = (int)(identifierCheck(currentLine, 0).getDoubleValue());
+                ((MovableEntity)currentScriptable).setRotation(rotation);
                 break;
                 
             case 51:
@@ -544,7 +540,6 @@ public class ScriptReader
             case 60:
                 //new velocity
                 double newvx = currentLine.getDoubleParameter(0);
-                double newvy = currentLine.getDoubleParameter(1);
                 ((MovableEntity)currentScriptable).setVelocity(newvx);
                 break;
                 
@@ -594,6 +589,7 @@ public class ScriptReader
                 getSystemNanoTime(currentLine);
                 break;
             case 82:
+                //rand min max --> number
                 double min = identifierCheck(currentLine, 0).getDoubleValue();
                 double max = identifierCheck(currentLine, 1).getDoubleValue();
                 double randomNumber = min + (int)(Math.random() * ((max - min) + 1));
