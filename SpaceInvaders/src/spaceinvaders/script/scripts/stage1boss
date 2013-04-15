@@ -1,0 +1,81 @@
+-- This is the boss of Stage one. I like Touhou's bullet hell and all, but I am
+-- also fond of the wanton. recklessness of FPSs. This boss will be reckless.
+
+-- Sweep in from the side of the screen
+-- First of all, the boss is spawned at (-200, -200)
+-- We want it to move to the center of the screen, close to the top
+
+rotate 118
+newvelocity 0.5
+move 1020
+wait 1500
+
+
+-- The battle begins.
+
+-- ====================
+-- Body-slam the player!
+-- ====================
+
+faceplayer
+
+-- Give the player like a second to get out of the way.
+wait 600
+newvelocity 0.6
+
+label [loop]
+
+move 1000
+-- must get random two coordinates around now
+rand -100 1200 --> xplace
+
+if [ xplace < 1000 ] && [ xplace > 0 ]
+
+    rand 0 1 --> topbottom
+
+    if topbottom == 0
+        var yplace -100
+        goto [else...]
+    endif
+        var yplace 800
+    label [else...]
+
+    goto [elselol]
+endif
+    rand -100 800 --> yplace
+branch [elselol]
+
+place xplace yplace
+faceplayer
+
+wait 800
+
+goto [loop]
+
+
+
+
+
+
+
+
+newvelocity 0.4 0.4
+
+endthread
+
+
+
+
+
+label [donothing]
+
+    wait 250
+
+    faceplayer
+
+    for count = 0 and count < 5
+        callscriptfunction 25 [shoot]
+        wait 50
+    next count + 1 --> count
+
+goto [donothing]

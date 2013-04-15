@@ -68,12 +68,12 @@
             "description" : "The final powerful boss. The true identity of the mastermind behind all these evil ships.",
             "attack" : 9002.0,
             "defense" : 9002.0,
-            "hp" : 1000000,
+            "hp" : 1000,
             "weapons" : "Rainbow Laser",
             "v" : 10.0,
             "image" : "monster",
             "radius" : 50,
-            "scriptID" : 54
+            "scriptID" : 38
         }
     ],
 

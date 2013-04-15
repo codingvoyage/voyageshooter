@@ -14,6 +14,24 @@ wait 1000
 
 wait 800
 
+
+spawn "Bakesale Monster" "boss" -200 -200
+
+endthread
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 spawn "Minion" "m1" 150 -300
 spawn "Minion" "m2" 750 -300
 
@@ -22,7 +40,7 @@ spawn "Minion" "m2" 750 -300
 var moveon false
 
 while moveon != true
-    wait 500
+    wait 300
 
     isThereEntity "m1" --> aliveM1
     if aliveM1 == false
@@ -43,6 +61,3 @@ spawn "Space Guardian" "sg13" 750 -300
 
 wait 100
 callthreadfunction "sg13" [otherway]
-
-
-endthread
