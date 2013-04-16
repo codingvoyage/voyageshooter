@@ -25,6 +25,7 @@ endthread 9
 createVariable 10
 var 10
 
+-- setvar destination source
 setVariable 11
 setvar 11
 set 11
@@ -40,9 +41,17 @@ wend 16
 for 17
 next 18
 
+
 callfunction 19
 callscriptfunction 20
+
+
+-- callthreadFunction "threadname" [act] param1 param2 ... --> returned1 returned2 ...
 callthreadfunction 21
+
+-- getThreadID var
+getThreadID 22
+bindthreadtomarionette 23
 
 return 25
 

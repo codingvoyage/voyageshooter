@@ -1,0 +1,52 @@
+var mainhandle
+var initialEntranceDone false
+var ENTITYID "boss"
+
+wait 50
+
+getThreadID ourID
+
+bindthreadtomarionette ourID ENTITYID
+bindthreadtomarionette ourID ENTITYID
+print "testest"
+
+getThreadID ourID
+
+
+label [LOOP]
+
+
+print mainhandle
+
+-- Get the current State
+callthreadfunction mainhandle [getCurrentState] --> currentState
+
+if currentState == 0
+    rotate 118
+    newvelocity 0.5
+
+    -- current bug: it seems this doesn't work. i just get spamming of 
+    -- Starting to walk....
+    move 1020
+
+    wait 1500
+
+    setvar initialEntranceDone true
+endif
+
+
+goto [LOOP]
+
+
+
+
+
+
+function [isInitialEntranceDone]
+
+return initialEntranceDone
+
+
+function [giveMainHandle] thehandle
+    setvar mainhandle thehandle
+return

@@ -391,6 +391,30 @@ public class ScriptReader
                 callThreadFunction(currentLine);
                 break;
                 
+            case 22:
+                String idOfThread = currentThread.getName();
+                currentThread.setVariable(currentLine.getStringParameter(0), 
+                        new Parameter(idOfThread));
+                
+                break;
+                
+            //binds the thing
+            //bind threadName entityName    
+            
+            case 23:
+                String threadName = identifierCheck(currentLine, 0).getStringValue();
+                String entityName = identifierCheck(currentLine, 1).getStringValue();
+                
+                System.out.println(threadName);
+                System.out.println(entityName);
+                //Give the thread at threadName 
+                Thread t = threadManager.getThreadAtName(threadName);
+                
+                //Set the entity of Thread t to the entity at entityName
+                t.setScriptable(EntityGroup.active.get(entityName));
+                
+                break;
+                
             //The return statement. Returns the thread
             //to its previous layer.
             case 25:
@@ -911,7 +935,9 @@ public class ScriptReader
         //callFunction "threadname" [act] param1 param2 ... --> returned1 returned2 ...
        
         //Get the Thread object which threadname refers to
-        String threadName = currentLine.getStringParameter(0);
+        //String threadName = currentLine.getStringParameter(0);
+        String threadName = identifierCheck(currentLine, 0).getStringValue();
+        
         Thread jumpedThread = threadManager.getThreadAtName(threadName);
     
         HashMap<String, Parameter> jumpedBox = jumpedThread.getMemoryBox();

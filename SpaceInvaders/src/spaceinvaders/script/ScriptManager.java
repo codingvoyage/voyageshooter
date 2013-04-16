@@ -19,7 +19,7 @@ public class ScriptManager {
     //their corresponding integer IDs
     public final HashMap<String, Integer> commandIDDictionary;
     
-    public final int SCRIPT_CAPACITY = 40;
+    public final int SCRIPT_CAPACITY = 50;
     
     /** path to scripts folder */
     public final String SCRIPT_FOLDER = "src/spaceinvaders/script/scripts/";

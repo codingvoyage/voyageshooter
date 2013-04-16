@@ -1,3 +1,40 @@
+var state 0
+
+newthread 39 "weaponthread"
+newthread 40 "movementthread"
+
+-- Give the program a moment to register the new threads...
+wait 20
+
+getThreadID ourID
+
+callthreadfunction "weaponthread" [giveMainHandle] ourID
+callthreadfunction "movementthread" [giveMainHandle] ourID
+
+var complete false
+while complete != true
+    wait 50
+    callthreadfunction "movementthread" [isInitialEntranceDone] --> complete
+wend
+
+label [asdfasdf]
+
+wait 800
+
+goto [asdfasdf]
+
+
+
+
+
+function [getCurrentState]
+    print "LOLOLOL"
+return state
+
+
+
+
+
 -- This is the boss of Stage one. I like Touhou's bullet hell and all, but I am
 -- also fond of the wanton. recklessness of FPSs. This boss will be reckless.
 

@@ -1,0 +1,13 @@
+var mainhandle 2342
+
+label [loop]
+
+wait 800
+
+goto [loop]
+
+
+
+function [giveMainHandle] thehandle
+    setvar mainhandle thehandle
+return
