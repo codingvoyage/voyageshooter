@@ -126,8 +126,18 @@ public abstract class MovableEntity extends Entity implements Movable {
     @Override
     public void beginMove(double pixelsToMove) {
         //if (getTemporaryParameter() == null) // if its called from another beginMove method, don't reset the parameter
-            setTemporaryParameter(new Parameter(pixelsToMove));
+        setTemporaryParameter(new Parameter(pixelsToMove));
         mainThread.setRunningState(true);
+    }
+    
+    /**
+     * Starts the movement using a provided Thread
+     * @param pixelsToMove how many pixels the entity should move
+     */
+    public void beginMove(double pixelsToMove, Thread actingThread) {
+        //if (getTemporaryParameter() == null) // if its called from another beginMove method, don't reset the parameter
+        setTemporaryParameter(new Parameter(pixelsToMove));
+        actingThread.setRunningState(true);
     }
     
         
@@ -156,6 +166,40 @@ public abstract class MovableEntity extends Entity implements Movable {
             System.out.println("We're done walking.");
             //Oh, so we're done moving. Great.
             mainThread.setRunningState(false);
+            return false;
+        }
+        
+        //Alright, we still have to move. Keep moving.
+        return true;
+    }
+    
+    /**
+     * Checks if the entity should continue moving (straight line)
+     * This version accounts for an auxiliary Thread
+     * This continueMove should be called from a Thread ready to pass (this) so that
+     * we know what will happen.
+     * @param delta elapsed time between checks
+     * @return boolean indicating whether or not the entity should continue moving
+     */
+    public boolean continueMove(double delta, Thread actingThread) {
+        Parameter tempParam = getTemporaryParameter();
+
+        float step = (float)this.getVelocity() * (float)delta;
+        move(step * Math.sin(Math.toRadians(getRotation())), -step * Math.cos(Math.toRadians(getRotation())));
+        
+        double movedDistance = Math.abs((step * Math.sin(Math.toRadians(getRotation()))) + (-step * Math.cos(Math.toRadians(getRotation()))));
+        
+        tempParam.setDoubleValue(
+               tempParam.getDoubleValue() - 
+               movedDistance);
+        
+        setTemporaryParameter(tempParam);
+        
+        if (tempParam.getDoubleValue() < 0)
+        {
+            System.out.println("We're done walking.");
+            //Oh, so we're done moving. Great.
+            actingThread.setRunningState(false);
             return false;
         }
         
