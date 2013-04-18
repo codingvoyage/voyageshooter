@@ -15,7 +15,7 @@ wait 1000
 wait 800
 
 
-spawn "Bakesale Monster" "boss" 200 200
+spawn "Bakesale Monster" "boss" -200 -200
 
 endthread
 

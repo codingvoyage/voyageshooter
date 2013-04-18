@@ -134,7 +134,7 @@ public abstract class MovableEntity extends Entity implements Movable {
      * Starts the movement using a provided Thread
      * @param pixelsToMove how many pixels the entity should move
      */
-    public void beginMove(double pixelsToMove, Thread actingThread) {
+    public void beginMove(double pixelsToMove, spaceinvaders.script.Thread actingThread) {
         //if (getTemporaryParameter() == null) // if its called from another beginMove method, don't reset the parameter
         setTemporaryParameter(new Parameter(pixelsToMove));
         actingThread.setRunningState(true);
@@ -181,7 +181,7 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param delta elapsed time between checks
      * @return boolean indicating whether or not the entity should continue moving
      */
-    public boolean continueMove(double delta, Thread actingThread) {
+    public boolean continueMove(double delta, spaceinvaders.script.Thread actingThread) {
         Parameter tempParam = getTemporaryParameter();
 
         float step = (float)this.getVelocity() * (float)delta;

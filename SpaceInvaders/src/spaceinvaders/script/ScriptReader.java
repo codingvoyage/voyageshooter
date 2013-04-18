@@ -153,7 +153,7 @@ public class ScriptReader
                 result = currentThread.continueWait(currentDeltaTime);
                 break;
             case 51: //Moving... something only an Entity could do
-                result = ((MovableEntity)currentScriptable).continueMove(currentDeltaTime);
+                result = ((MovableEntity)currentScriptable).continueMove(currentDeltaTime, currentThread);
                 break;
             case 53:
                 System.out.println("continuing le orbitee");
@@ -179,7 +179,7 @@ public class ScriptReader
         {
             //Remember, core functions are from 0-9. 
             case 0: //wait
-                double thisLong = currentLine.getDoubleParameter(0);
+                double thisLong = identifierCheck(currentLine, 0).getDoubleValue();
                 currentThread.beginWait(thisLong);
                 continueExecuting = false;
                 break;
@@ -473,7 +473,8 @@ public class ScriptReader
                 //Moving
                 System.out.println("Starting to walk....");
                 double pixelsToWalk = currentLine.getDoubleParameter(0);
-                ((MovableEntity)currentScriptable).beginMove(pixelsToWalk);
+                ((MovableEntity)currentScriptable).beginMove(pixelsToWalk,
+                        currentThread);
                 continueExecuting = false;
                 break;
                 

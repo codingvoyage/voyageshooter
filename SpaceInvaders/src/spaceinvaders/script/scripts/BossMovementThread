@@ -2,41 +2,85 @@ var mainhandle
 var initialEntranceDone false
 var ENTITYID "boss"
 
+-- Needed for loading purposes.
 wait 50
 
+-- Give this Thread a reference to the Entity
 getThreadID ourID
-
 bindthreadtomarionette ourID ENTITYID
-bindthreadtomarionette ourID ENTITYID
-print "testest"
-
-getThreadID ourID
 
 
 label [LOOP]
 
 
-print mainhandle
+    -- Get the current State from the mainhandle, so it's like asking
+    -- mission control or the brain for the latest news.
+    callthreadfunction mainhandle [getCurrentState] --> currentState
 
--- Get the current State
-callthreadfunction mainhandle [getCurrentState] --> currentState
 
-if currentState == 0
-    rotate 118
-    newvelocity 0.5
+    -- ======================
+    -- Initial entry sequence
+    -- ======================
+    if currentState == 0
+            -- Direction and velocity to the center
+            rotate 118
+            newvelocity 0.5
 
-    -- current bug: it seems this doesn't work. i just get spamming of 
-    -- Starting to walk....
-    move 1020
+            move 1020
 
-    wait 1500
+            -- We're done now
+            setvar initialEntranceDone true
 
-    setvar initialEntranceDone true
-endif
+            wait 1000
+    endif
+
+    -- ====================
+    -- Body-slam the player!
+    -- ====================
+    if currentState == 1
+            faceplayer
+
+            -- Give the player like a second to get out of the way.
+            wait 600
+
+            -- Charge forward!
+            newvelocity 0.7
+            move 1000
+
+            -- We must get random two coordinates around now
+            -- Start by choosing from a range of x
+            rand -150 1200 --> xplace
+
+            -- If it's within the limits of the screen's width...
+            -- then we will next choose whether to spawn from above
+            -- the screen or from below the screen
+            if [ xplace < 1000 ] && [ xplace > -100 ]
+
+                rand 0 1 --> topbottom
+
+                if topbottom == 0
+                    var yplace -100
+                    goto [else...]
+                endif
+                    var yplace 800
+                label [else...]
+
+                goto [elselol]
+            endif
+                -- Otherwise, then we picked to spawn it from the sides, so now
+                -- choose any distance along the y axis to spawn the enemy
+                rand -100 800 --> yplace
+            branch [elselol]
+
+            -- Plop the entity at the designated spot
+            place xplace yplace
+
+            wait 800
+
+    endif
 
 
 goto [LOOP]
-
 
 
 

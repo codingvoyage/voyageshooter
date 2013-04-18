@@ -1,10 +1,53 @@
-var mainhandle 2342
+var mainhandle
+var ENTITYID "boss"
 
-label [loop]
+-- Needed for loading purposes.
+wait 50
 
-wait 800
+-- Give this Thread a reference to the Entity
+getThreadID ourID
+bindthreadtomarionette ourID ENTITYID
 
-goto [loop]
+
+label [LOOP]
+
+
+    -- Get the current State from the mainhandle, so it's like asking
+    -- mission control or the brain for the latest news.
+    callthreadfunction mainhandle [getCurrentState] --> currentState
+
+
+    -- ====================
+    -- When body slamming the player, shoot him too!
+    -- ====================
+    if currentState == 1
+
+        -- Shoot 10 bursts of bullets
+        for count = 0 and count < 20
+
+            -- Each burst of bullets...
+            for i = 0 and i < 360
+
+                -- We wait to give the bullets a bit of time to emerge
+                fire i 20
+                wait 20
+
+                -- Add some randomness to the shooting time.
+                rand 10 50 --> shootingvariation
+
+            next i + shootingvariation --> i
+
+            -- wait 30
+        next count + 1 --> count
+
+    endif
+
+
+    wait 100
+
+
+goto [LOOP]
+
 
 
 
