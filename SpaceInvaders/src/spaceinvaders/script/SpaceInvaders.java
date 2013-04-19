@@ -320,11 +320,20 @@ public class SpaceInvaders extends BasicGame {
         g.drawString("FPS: " + gc.getFPS(), 0, 0);
                 
                 
+        //If the "boss" exists...
+        Entity boss = EntityGroup.active.get("Boss");
+        if (boss != null)
+        {
+            g.drawString("Coordinates: " + boss.getX() + ", " + boss.getY(), 600, 40);
+        }
         
+        /*
         g.drawString("Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
         g.drawString("HP: " + player.getHp() + "/" + player.getMaxHp(), 600, 60);
         g.drawString("Lives: " + player.getLives(), 600, 80);
-            
+        */
+        
+        
         if(player.getHp() <= 0) {
             
             if(player.getLives() > 0) {
