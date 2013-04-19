@@ -79,6 +79,21 @@ label [LOOP]
 
     endif
 
+    -- ====================
+    -- Hover around the middle
+    -- ====================
+    if currentState == 2
+
+            -- Fly into the center of the screen...
+            -- if 
+
+            place 450 200
+            faceplayer
+            wait 800
+
+
+    endif
+
 
 goto [LOOP]
 

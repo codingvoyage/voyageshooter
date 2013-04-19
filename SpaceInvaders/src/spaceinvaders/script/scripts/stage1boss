@@ -28,23 +28,53 @@ wend
 
 print "DONE WITH ENTRANCE SEQUENCE"
 
--- Start state 1 now.
 -- The battle begins.
-setvar state 1
+-- Switch between normal shooting attacks and the charging attack
+-- Once HP drops below a critical point, execute the desperation move.
+
+var desperation false
+while desperation != true
+
+    -- CHARGE ATTACK
+    setvar state 1
+    wait 5000
+
+    -- At this point, we also want to make life more complicated by spawning two
+    -- other enemies to harass the player! BULLET SPAM TEAM LET'S GO!
+    setvar state 2
+    spawn "Minion" "m1" 150 -300
+    spawn "Minion" "m2" 750 -300
+    wait 10000
+
+    -- If health is below a certain point, then set desperation to true
+    -- (To be written)
+wend
 
 
--- Kill time
-label [asdfasdf]
-    wait 800
-goto [asdfasdf]
+-- Desperate last attack
+
+setvar state 3
+
+label [WAITTODIE]
+    -- If health is below 0, then perform cleanup
+
+
+    wait 500
+
+goto [WAITTODIE]
 
 
 endthread
 
 
+
 function [getCurrentState]
     print "LOLOLOL"
 return state
+
+
+
+
 
 label [donothing]
 

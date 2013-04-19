@@ -37,11 +37,34 @@ label [LOOP]
 
             next i + shootingvariation --> i
 
+            -- If currentState had changed, we want to stop shooting ASAP
+            goto [ABORT_SHOOTING]
+
             -- wait 30
         next count + 1 --> count
 
     endif
+    label [ABORT_SHOOTING]
 
+    -- ====================
+    -- Shoot bullets around in a circle
+    -- ====================
+    if currentState == 2
+        print "!!!"
+
+        for angle = 0 and angle < 360
+
+            eval angle + 1 --> angle2
+            eval angle2 + 1 --> angle3
+
+            -- fire angle 50
+            fire angle2 50
+            -- fire angle3 50
+
+        next angle + 30 --> angle
+
+        wait 300
+    endif
 
     wait 100
 
