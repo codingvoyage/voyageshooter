@@ -183,19 +183,25 @@ public abstract class MovableEntity extends Entity implements Movable {
      */
     public boolean continueMove(double delta, spaceinvaders.script.Thread actingThread) {
         Parameter tempParam = actingThread.getTemporaryParameter();
+        
 
         float step = (float)this.getVelocity() * (float)delta;
-        move(step * Math.sin(Math.toRadians(getRotation())), -step * Math.cos(Math.toRadians(getRotation())));
         
-        double movedDistance = Math.abs((step * Math.sin(Math.toRadians(getRotation()))) + (-step * Math.cos(Math.toRadians(getRotation()))));
+        double movex = step * Math.sin(Math.toRadians(getRotation()));
+        double movey = -step * Math.cos(Math.toRadians(getRotation()));
+        this.move(movex, movey);
         
-        tempParam.setDoubleValue(
-               tempParam.getDoubleValue() - 
+        //Is there a cheaper way to find the square root?
+        double movedDistance = Math.sqrt(movex * movex + movey * movey);
+        
+        System.out.println(movedDistance);
+        
+        Parameter newParam = new Parameter(tempParam.getDoubleValue() - 
                movedDistance);
         
-        actingThread.setTemporaryParameter(tempParam);
+        actingThread.setTemporaryParameter(newParam);
         
-        if (tempParam.getDoubleValue() < 0)
+        if (newParam.getDoubleValue() < 0)
         {
             System.out.println("We're done walking.");
             //Oh, so we're done moving. Great.
