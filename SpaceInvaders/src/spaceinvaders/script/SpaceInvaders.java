@@ -320,7 +320,7 @@ public class SpaceInvaders extends BasicGame {
         g.drawString("FPS: " + gc.getFPS(), 0, 0);
                 
        //If the "boss" exists...
-        Entity boss = EntityGroup.active.get("Boss");
+        Entity boss = EntityGroup.active.get("boss");
         if (boss != null)
         {
             g.drawString("Coordinates: " + boss.getX() + ", " + boss.getY(), 600, 40);

@@ -42,8 +42,6 @@ while desperation != true
     -- At this point, we also want to make life more complicated by spawning two
     -- other enemies to harass the player! BULLET SPAM TEAM LET'S GO!
     setvar state 2
-    spawn "Minion" "m1" 150 -300
-    spawn "Minion" "m2" 750 -300
     wait 10000
 
     -- If health is below a certain point, then set desperation to true
@@ -69,7 +67,6 @@ endthread
 
 
 function [getCurrentState]
-    print "LOLOLOL"
 return state
 
 

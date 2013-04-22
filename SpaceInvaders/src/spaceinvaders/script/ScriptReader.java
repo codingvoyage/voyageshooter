@@ -556,7 +556,6 @@ public class ScriptReader
             case 58:
                 //Faces the player
                 ((Entity)currentScriptable).setRotation(SpaceInvaders.player);
-                System.out.println("____________FACING THE PLAYER______________");
                 break;
                 
                 

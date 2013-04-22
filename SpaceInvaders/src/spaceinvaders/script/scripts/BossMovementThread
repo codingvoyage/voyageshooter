@@ -45,6 +45,7 @@ label [LOOP]
 
             -- Charge forward!
             newvelocity 0.7
+            print "WE CHARGE"
             move 1000
 
             -- We must get random two coordinates around now

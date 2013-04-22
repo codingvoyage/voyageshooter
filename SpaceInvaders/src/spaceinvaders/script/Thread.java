@@ -31,6 +31,8 @@ public class Thread {
     /** Indicates whether this Thread is ready to die. */
     private boolean markedForDeletion;
     
+    //Basically, a catch all variable usable by the current method 
+    private Parameter progressTemp;
     
     /** Holds the variables of the main part of this Thread. */
     private HashMap<String, Parameter> memoryBox;
@@ -99,6 +101,16 @@ public class Thread {
         return linkedScriptable;
     }   
     
+    //Accessors and mutators for the temporary variable
+    public void setTemporaryParameter(Parameter newParameter) 
+    {
+        progressTemp = newParameter;
+    }
+    
+    public Parameter getTemporaryParameter() 
+    {
+        return progressTemp;
+    }
     
     //Accessors and mutators for the line number on the script
     public void setLineNumber(int newLineNumber)
