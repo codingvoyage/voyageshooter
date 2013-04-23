@@ -157,7 +157,7 @@ public class ScriptReader
                 break;
             case 53:
                 System.out.println("continuing le orbitee");
-                result = ((MovableEntity)currentScriptable).continueOrbit(currentDeltaTime);
+                result = ((MovableEntity)currentScriptable).continueOrbit(currentDeltaTime, currentThread);
                 break;
         }
         
@@ -516,9 +516,10 @@ public class ScriptReader
                 //ORBIT
                 double angle = currentLine.getDoubleParameter(0);
                 double radius = currentLine.getDoubleParameter(1);
-                //0 is CW, else CCW
+                //0 is CW, else CCW6
                 double direction = currentLine.getDoubleParameter(2);
-                    ((MovableEntity)currentScriptable).beginOrbit(90, radius, 0, EntityGroup.getPlayer());
+                    ((MovableEntity)currentScriptable).beginOrbit(90, radius, 0,
+                            EntityGroup.getPlayer(), currentThread);
                     
                 continueExecuting = false;
                 

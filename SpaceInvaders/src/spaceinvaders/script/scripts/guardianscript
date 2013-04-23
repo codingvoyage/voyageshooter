@@ -1,17 +1,51 @@
+-- Configuring the deaththread
+getThreadID ourScriptID
+getLinkedEntityID --> theEntityID
+    eval ourScriptID + "deaththread" --> customDeathThreadIDName
+newthread 41 customDeathThreadIDName
+    wait 20
+    callthreadfunction customDeathThreadIDName [configure] ourScriptID theEntityID
+
+
+
 var bulletthing 5
 var rotationamount 15
 
 rotate 180
 newvelocity 0.2 0.2
 
-move 600
+move 400
+branch [firetesting]
+
+getEntityX entityX
+getEntityY entityY
+getEntityAngle entityAngle
+-- ^that was rotation in degrees
+toradian entityAngle --> entityAngle
+
+sin entityAngle --> sinAngle
+cos entityAngle --> cosAngle
+
+eval [ entityX + 50 ] + [ cosAngle * 50 ] --> xDisplacement
+eval [ entityY + 50 ] + [ sinAngle * 50 ] --> yDisplacement
 
 
+spawnBullet xDisplacement yDisplacement entityAngle
+rotate 5
+
+
+
+
+
+
+wait 500
+
+goto [firetesting]
 
 branch [myloop]
 
 wait 500
-orbit 90 200 0
+orbit 90 80 0
 wait 50
 
 print rotationamount

@@ -219,16 +219,17 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param clockwise indicates whether the orbit is clockwise (0) or counterclockwise (anything else)
      * @param entity the entity to orbit around
      */
-    public void beginOrbit( double startAngle, double radius, double clockwise, MovableEntity entity) {
+    public void beginOrbit( double startAngle, double radius, double clockwise, 
+            MovableEntity entity, spaceinvaders.script.Thread actingThread) {
 
         // Create an array containing the angle, radius, and clockwise selection
         Object [] orbitParams = {startAngle, radius, clockwise, entity};
 
         // Store the angle and radius
-        setTemporaryParameter(new Parameter(orbitParams));
+        actingThread.setTemporaryParameter(new Parameter(orbitParams));
 
         // Orbit is now running!
-        mainThread.setRunningState(true);
+        actingThread.setRunningState(true);
         
         
     }
@@ -241,10 +242,11 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param vy y velocity
      * @return boolean indicating whether or not the orbit is complete
      */
-    public boolean continueOrbit(double delta) {
+    public boolean continueOrbit(double delta, spaceinvaders.script.Thread actingThread) {
         
-        Parameter tempParam = getTemporaryParameter();
+        Parameter tempParam = actingThread.getTemporaryParameter();
         Object[] params = tempParam.getObjectArrayValue();
+        
         /*
          * 0 - start angle
          * 1 - radius
@@ -256,16 +258,18 @@ public abstract class MovableEntity extends Entity implements Movable {
         Entity origin = (Entity)params[3];
         float distance = this.position.distance(origin.position);
         
-        
         // angular velocity
         double velocity = v/(Double)(params[1]);
         
         double step = v * delta;
         
         System.out.println("Move called");
-        move(step * Math.sin(Math.toRadians(getRotation())), -step * Math.cos(Math.toRadians(getRotation())));
         
-        rotate((float)(Math.toDegrees(velocity)*delta));
+        double xmove = step * Math.sin(Math.toRadians(getRotation()));
+        double ymove = -step * Math.cos(Math.toRadians(getRotation()));
+        
+        this.move(xmove, ymove);
+        this.rotate((float)(Math.toDegrees(velocity)*delta));
         
         System.out.println("Rotation is: " + this.getRotation());
         

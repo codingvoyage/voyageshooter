@@ -85,7 +85,7 @@ createEntity 52
 spawnEntity 52
 newEntity 52
 
-
+-- 
 orbit 53
 
 place 55
@@ -101,9 +101,10 @@ targetplayer 58
 changevelocity 60
 newvelocity 60
 
-
+-- getEntityX/Y var
 getEntityX 61
 getEntityY 62
+
 -- NOT IN RADIANS - DEGREES 
 getEntityAngle 63
 
@@ -127,7 +128,11 @@ random 82
 rand 82
 getrand 82
 
-toradian 84
+toradian 83
+
+
+-- sin blah --> var
+-- sin 5 + 3 --> 
 sin 85
 cos 86
 tan 87

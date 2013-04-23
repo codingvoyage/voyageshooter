@@ -269,8 +269,8 @@ public final class EntityGroup {
             
             System.out.println(ex.getMessage());
             System.out.println("Ignoring your provided velocities.");
-            return spawn(name, id);
-            
+            //return spawn(name, id);
+            return null;
         }   
     }
     
@@ -374,8 +374,8 @@ public final class EntityGroup {
             
             System.out.println(ex.getMessage());
             System.out.println("Ignoring your provided velocities.");
-            return spawn(name, id, x, y);
-            
+            //return spawn(name, id, x, y);
+            return null;
         }   
     }
     
@@ -595,7 +595,8 @@ public final class EntityGroup {
             System.out.println(ex.getMessage());
             spawn("Asteroid", id);
             // Try again. Since the id has definitely spawned at this point, it should not become an infinite loop
-            return getEntity(id);
+            //return getEntity(id);
+            return null;
         }
     }
     

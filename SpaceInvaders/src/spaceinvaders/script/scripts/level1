@@ -15,7 +15,9 @@ wait 1000
 wait 800
 
 
-spawn "Bakesale Monster" "boss" -200 -200
+-- spawn "Bakesale Monster" "boss" -200 -200
+spawn "Space Guardian" "sg1" 350 -300
+
 
 endthread
 
