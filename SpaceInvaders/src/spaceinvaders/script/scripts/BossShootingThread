@@ -57,11 +57,16 @@ label [LOOP]
             eval angle + 1 --> angle2
             eval angle2 + 1 --> angle3
 
-            -- fire angle 50
+            fire angle 50
             fire angle2 50
-            -- fire angle3 50
+            fire angle3 50
 
         next angle + 30 --> angle
+
+        wait 300
+    endif
+
+    if currentState == 3
 
         wait 300
     endif
@@ -70,7 +75,6 @@ label [LOOP]
 
 
 goto [LOOP]
-
 
 
 

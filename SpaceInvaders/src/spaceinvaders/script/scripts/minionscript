@@ -1,3 +1,12 @@
+-- Configuring the deaththread
+getThreadID ourScriptID
+getLinkedEntityID --> theEntityID
+    eval ourScriptID + "deaththread" --> customDeathThreadIDName
+newthread 41 customDeathThreadIDName
+    wait 20
+    callthreadfunction customDeathThreadIDName [configure] ourScriptID theEntityID
+
+
 rotate 180
 newvelocity 0.2 0.2
 

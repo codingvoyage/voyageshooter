@@ -194,8 +194,6 @@ public abstract class MovableEntity extends Entity implements Movable {
         //Is there a cheaper way to find the square root?
         double movedDistance = Math.sqrt(movex * movex + movey * movey);
         
-        System.out.println(movedDistance);
-        
         Parameter newParam = new Parameter(tempParam.getDoubleValue() - 
                movedDistance);
         

@@ -1,0 +1,101 @@
+var MAINHANDLE
+var ENTITYID
+var NUMBER1
+var NUMBER2
+var NUMBER3
+var NUMBER4
+var AUXILIARYTHREADCOUNT
+
+-- Needed for loading purposes.
+wait 50
+
+-- Give this Thread a reference to the Entity
+getThreadID ourID
+bindthreadtomarionette ourID ENTITYID
+
+
+-- waits until entity dies
+label [GOTO]
+
+    wait 500
+    getEntityHP ENTITYID --> hp
+
+    -- If health is below 0, then perform cleanup
+    if hp <= 0
+        print "CLEANING UP"
+
+        if AUXILIARYTHREADCOUNT == 1
+            killthread NUMBER1
+        endif
+        if AUXILIARYTHREADCOUNT == 2
+            killthread NUMBER1
+            killthread NUMBER2
+        endif
+        if AUXILIARYTHREADCOUNT == 3
+            killthread NUMBER1
+            killthread NUMBER2
+            killthread NUMBER3
+        endif
+        if AUXILIARYTHREADCOUNT == 4
+            killthread NUMBER1
+            killthread NUMBER2
+            killthread NUMBER3
+            killthread NUMBER4
+        endif
+
+        killthread MAINHANDLE
+        markfordeletion ENTITYID
+
+        endthread
+    endif
+
+goto [GOTO]
+
+
+function [configure4] MAINHANDLE theentityid aux1 aux2 aux3 aux4
+    setvar MAINHANDLE thehandle
+    setvar ENTITYID theentityid
+    setvar NUMBER1 aux1
+    setvar NUMBER2 aux2
+    setvar NUMBER3 aux3
+    setvar NUMBER4 aux4
+    setvar AUXILIARYTHREADCOUNT 4
+return
+
+function [configure3] thehandle theentityid aux1 aux2 aux3
+    setvar MAINHANDLE thehandle
+    setvar ENTITYID theentityid
+    setvar NUMBER1 aux1
+    setvar NUMBER2 aux2
+    setvar NUMBER3 aux3
+    setvar AUXILIARYTHREADCOUNT 3
+return
+
+function [configure2] thehandle theentityid aux1 aux2
+    setvar MAINHANDLE thehandle
+    setvar ENTITYID theentityid
+    setvar NUMBER1 aux1
+    setvar NUMBER2 aux2
+    setvar AUXILIARYTHREADCOUNT 2
+return
+
+function [configure1] thehandle theentityid aux1
+    setvar MAINHANDLE thehandle
+    setvar ENTITYID theentityid
+    setvar NUMBER1 aux1
+    setvar AUXILIARYTHREADCOUNT 1
+return
+
+function [configure] thehandle theentityid
+    setvar MAINHANDLE thehandle
+    setvar ENTITYID theentityid
+    setvar AUXILIARYTHREADCOUNT 0
+return
+
+function [giveMainHandle] thehandle
+    setvar MAINHANDLE thehandle
+return
+
+function [giveEntityID] theid
+    setvar ENTITYID theid
+return

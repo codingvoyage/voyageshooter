@@ -68,7 +68,7 @@
             "description" : "The final powerful boss. The true identity of the mastermind behind all these evil ships.",
             "attack" : 15.0,
             "defense" : 9002.0,
-            "hp" : 1000,
+            "hp" : 500,
             "weapons" : "Blue Destroyer",
             "v" : 10.0,
             "image" : "monster",

@@ -324,6 +324,8 @@ public class SpaceInvaders extends BasicGame {
         if (boss != null)
         {
             g.drawString("Coordinates: " + boss.getX() + ", " + boss.getY(), 600, 40);
+            g.drawString("HP: " + ((Defender)boss).getHp(), 600, 60);
+            
         }
         
         /*

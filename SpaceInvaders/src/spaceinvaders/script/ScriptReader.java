@@ -219,7 +219,7 @@ public class ScriptReader
                 
             //killThread by marking the target thread for deletion.
             case 8:
-                String targetThread = currentLine.getStringParameter(0);
+                String targetThread = identifierCheck(currentLine, 0).getStringValue();
                 threadManager.markForDeletion(targetThread);
                 break;
                 
@@ -415,6 +415,14 @@ public class ScriptReader
                 
                 break;
                 
+            //getLinkedEntityID --> var
+            case 24:
+                String linkedEntityID = ((Entity)currentScriptable).getId();
+                currentThread.setVariable(currentLine.getStringParameter(1),
+                        new Parameter(linkedEntityID));
+                break;
+                
+                
             //The return statement. Returns the thread
             //to its previous layer.
             case 25:
@@ -583,6 +591,13 @@ public class ScriptReader
                         , new Parameter((double)((Entity)currentScriptable).getRotation()));
                 break;
                 
+                //getEntityHP "entityname" --> hpvariable
+            case 64:
+                int hp = ((Defender)EntityGroup.active.get(identifierCheck(currentLine, 0).getStringValue())).getHp();
+                currentThread.setVariable(currentLine.getStringParameter(2), 
+                        new Parameter(hp));
+                
+                break;
                 //SPAWNS A BULLET
                 
             case 65:
@@ -603,6 +618,12 @@ public class ScriptReader
                 
                 break;
                 
+            case 68:
+                //markfordeletion entityID
+                String entityToDelete = identifierCheck(currentLine, 0).getStringValue();
+                EntityGroup.active.get(entityToDelete).markForDeletion();
+                
+                break;
                 
             case 80:
                 getSystemMilliTime(currentLine);
@@ -782,7 +803,7 @@ public class ScriptReader
     {
         //Extract from currentLine...
         int scriptID = (int)currentLine.getDoubleParameter(0);
-        String threadName = currentLine.getStringParameter(1);
+        String threadName = identifierCheck(currentLine, 1).getStringValue();
 
         //Create a new thread with that scriptID, giving it scriptName
         Thread newThread = createNewThread(scriptID, threadName);

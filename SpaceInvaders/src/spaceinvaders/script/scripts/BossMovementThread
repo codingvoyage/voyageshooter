@@ -95,7 +95,12 @@ label [LOOP]
 
     endif
 
+    if currentState == 3
+        print "herp"
+        wait 300
+    endif
 
+    wait 100
 goto [LOOP]
 
 

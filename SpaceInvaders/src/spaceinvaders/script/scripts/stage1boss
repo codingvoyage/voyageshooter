@@ -10,6 +10,7 @@ var state 0
 -- Create the auxiliary threads
 newthread 39 "weaponthread"
 newthread 40 "movementthread"
+newthread 41 "deaththread"
 
 -- Give the program a moment to register the new threads...
 wait 20
@@ -18,6 +19,9 @@ wait 20
 getThreadID ourID
 callthreadfunction "weaponthread" [giveMainHandle] ourID
 callthreadfunction "movementthread" [giveMainHandle] ourID
+
+-- Configuring the deaththread for two auxiliary threads
+callthreadfunction "deaththread" [configure2] ourID "boss" "weaponthread" "movementthread"
 
 -- Execute the initial entrance sequence.
 var complete false
@@ -33,34 +37,56 @@ print "DONE WITH ENTRANCE SEQUENCE"
 -- Once HP drops below a critical point, execute the desperation move.
 
 var desperation false
+var alternate 0
+
 while desperation != true
+    if alternate == 0
+        -- CHARGE ATTACK
+        setvar state 1
+        wait 4000
+        setvar alternate 1
 
-    -- CHARGE ATTACK
-    setvar state 1
-    wait 5000
+        goto [CONTINUE]
+    endif
 
-    -- At this point, we also want to make life more complicated by spawning two
-    -- other enemies to harass the player! BULLET SPAM TEAM LET'S GO!
-    setvar state 2
-    wait 10000
 
-    -- If health is below a certain point, then set desperation to true
-    -- (To be written)
+    if alternate == 1
+        -- At this point, we also want to make life more complicated by spawning two
+        -- other enemies to harass the player! BULLET SPAM TEAM LET'S GO!
+        setvar state 2
+
+        isThereEntity "m1" --> resultbool
+        if resultbool != true
+            spawn "Minion" "m1" 150 -300
+        endif
+
+        isThereEntity "m2" --> resultbool
+        if resultbool != true
+            spawn "Minion" "m2" 750 -300
+        endif
+
+        wait 3000
+        setvar alternate 0
+        goto [CONTINUE]
+    endif
+
+    label [CONTINUE]
+
+    -- If health is below 200, go to desperation mode
+    getEntityHP "boss" --> hp
+    if hp < 200
+        print "DESPERATION MOVE GO!"
+        setvar desperation true
+    endif
 wend
-
 
 -- Desperate last attack
 
 setvar state 3
 
 label [WAITTODIE]
-    -- If health is below 0, then perform cleanup
-
-
     wait 500
-
 goto [WAITTODIE]
-
 
 endthread
 
@@ -69,8 +95,9 @@ endthread
 function [getCurrentState]
 return state
 
-
-
+function [makeDesperate]
+    setvar desperation true
+return
 
 
 label [donothing]

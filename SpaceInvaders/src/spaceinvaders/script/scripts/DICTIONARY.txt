@@ -51,7 +51,11 @@ callthreadfunction 21
 
 -- getThreadID var
 getThreadID 22
+
 bindthreadtomarionette 23
+
+-- getLinkedEntityID --> var
+getLinkedEntityID 24
 
 return 25
 
@@ -103,11 +107,17 @@ getEntityY 62
 -- NOT IN RADIANS - DEGREES 
 getEntityAngle 63
 
+
+-- getEntityHP "entityname" --> hpvariable
+getEntityHP 64
+
 -- spawnbullet xLoc yLoc myAngle
 spawnBullet 65
 
 -- isThereEntity "entityname" --> resultbool
 isThereEntity 67
+
+markfordeletion 68
 
 getSystemMilliTime 80
 getSystemNanoTime 81

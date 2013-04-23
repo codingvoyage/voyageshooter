@@ -519,16 +519,16 @@ public final class EntityGroup {
         }
         
         //See if anything has hp less than 0
-        for (Entity en : activeList)
-        {
-            if (en instanceof Enemy)
-            {
-                if (((Enemy)en).getHp() <= 0)
-                {
-                    en.markForDeletion();
-                }
-            }
-        }
+//        for (Entity en : activeList)
+//        {
+//            if (en instanceof Enemy)
+//            {
+//                if (((Enemy)en).getHp() <= 0)
+//                {
+//                    en.markForDeletion();
+//                }
+//            }
+//        }
         
         
         //At this point it also seems natural to check whether anything needs deletion
