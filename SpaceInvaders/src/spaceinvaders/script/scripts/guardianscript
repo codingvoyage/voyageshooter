@@ -10,16 +10,29 @@ var bulletthing 5
 var rotationamount 15
 
 rotate 180
-newvelocity 0.2 0.2
+newvelocity 1.0
 
 move 500
 branch [firetesting]
 
 
-callscriptfunction 25 [shootAtAngleAndDistance] 0 150
+-- callscriptfunction 25 [shootAtAngleAndDistance] 0 80
+
+
+callscriptfunction 25 [shootPerpendicularAtAngleAndDistance] 0 80 -100
+
+for j = 0 and j < 6
+    for i = 0 and i < 15
+        eval i * 8 --> shoothere
+        callscriptfunction 25 [shootPerpendicularAtAngleAndDistance] 0 80 shoothere 
+    next i + 1 --> i
+    wait 50
+next j + 1 --> j
+
+
 
 wait 500
-rotate 20
+-- rotate 20
 
 goto [firetesting]
 

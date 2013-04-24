@@ -325,8 +325,13 @@ public class SpaceInvaders extends BasicGame {
         {
             g.drawString("Coordinates: " + boss.getX() + ", " + boss.getY(), 600, 40);
             g.drawString("HP: " + ((Defender)boss).getHp(), 600, 60);
-            
         }
+        
+            g.drawString("Total number of Entities on the screen... " + EntityGroup.active.size(),
+                    450, 150);
+            g.drawString("Total number of Threads running " + threadManager.getThreadCount(),
+                    450, 170);
+            
         
         /*
         g.drawString("Coordinates: " + player.getX() + ", " + player.getY(), 600, 40);
