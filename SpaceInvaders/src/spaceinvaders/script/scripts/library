@@ -7,6 +7,35 @@ function [shoot]
 return
 
 
+function [shootAtAngleAndDistance] angle distanceAway
+    -- Magic variable 25 is BULLET_OFFSET
+    -- Magic variable 90 is ROTATION_FACTOR
+
+    getEntityX entityX
+    getEntityY entityY
+    getEntityAngle entityAngle
+
+    eval [ entityAngle - 90 ] + angle --> adjustedAngle
+    toradian adjustedAngle --> angleInRad
+
+    eval entityX + 25 --> entityCenterX
+    eval entityY + 25 --> entityCenterY
+
+    cos angleInRad --> cosVal
+    sin angleInRad --> sinVal
+    eval cosVal * distanceAway --> distanceOffsetX
+    eval sinVal * distanceAway --> distanceOffsetY
+
+    eval entityCenterX + distanceOffsetX --> fireX
+    eval entityCenterY + distanceOffsetY --> fireY
+    eval entityAngle + angle --> fireR
+
+    spawnBullet fireX fireY fireR
+
+return
+
+
+
 function [infrontrowshoot]
 
 return

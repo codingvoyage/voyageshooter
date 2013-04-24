@@ -490,9 +490,9 @@ public class ScriptReader
                 //SPAWN
                 //Spawn entityType theNameWeGiveIT optionalx optionaly
                 String entityTypeName = currentLine.getStringParameter(0);
-                String nameID = currentLine.getStringParameter(1);
-                int xLoc = (int)currentLine.getDoubleParameter(2);
-                int yLoc = (int)currentLine.getDoubleParameter(3);
+                String nameID = identifierCheck(currentLine, 1).getStringValue();
+                int xLoc = (int)identifierCheck(currentLine, 2).getDoubleValue();
+                int yLoc = (int)identifierCheck(currentLine, 3).getDoubleValue();
                 Entity spawnedEntity = entities.spawn(entityTypeName, nameID, xLoc, yLoc);
                 
                 //Now, load the thread
