@@ -69,6 +69,11 @@ label [LOOP]
     if currentState == 3
         -- Rains a curtain of bullets upon the enemy. A desperation move
 
+        -- setrotation to 0 or something, just face down.
+        -- spawn groups of bullets of random velocities... 
+
+
+
         wait 300
     endif
 
