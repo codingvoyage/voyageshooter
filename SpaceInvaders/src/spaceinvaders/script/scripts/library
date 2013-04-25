@@ -8,7 +8,7 @@ return
 
 
 function [shootAtAngleAndDistance] angle distanceAway
-    -- Magic variable 25 is BULLET_OFFSET
+    -- Magic variable 40 is BULLET_OFFSET
     -- Magic variable 90 is ROTATION_FACTOR
 
     getEntityX entityX
@@ -18,8 +18,8 @@ function [shootAtAngleAndDistance] angle distanceAway
     eval [ entityAngle - 90 ] + angle --> adjustedAngle
     toradian adjustedAngle --> angleInRad
 
-    eval entityX + 25 --> entityCenterX
-    eval entityY + 25 --> entityCenterY
+    eval entityX + 40 --> entityCenterX
+    eval entityY + 40 --> entityCenterY
 
     cos angleInRad --> cosVal
     sin angleInRad --> sinVal
@@ -32,6 +32,15 @@ function [shootAtAngleAndDistance] angle distanceAway
 
     spawnBullet fireX fireY fireR
 
+return
+
+
+function [shootRow] angle distanceFromStart bulletCount displacement
+    eval [ -1 * displacement ] * [ [ bulletCount - 1 ] / 2 ] --> currentDisplacement
+    for j = 0 and j < bulletCount
+        callscriptfunction 1 [shootPerpendicularAtAngleAndDistance] angle distanceFromStart currentDisplacement
+        eval currentDisplacement + displacement --> currentDisplacement
+    next j + 1 --> j
 return
 
 

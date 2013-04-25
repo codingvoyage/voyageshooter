@@ -19,7 +19,7 @@ label [donothing]
     faceplayer
 
     for count = 0 and count < 5
-        callscriptfunction 25 [shoot]
+        callscriptfunction 1 [shoot]
         wait 50
     next count + 1 --> count
 

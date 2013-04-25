@@ -67,6 +67,7 @@ label [LOOP]
     endif
 
     if currentState == 3
+        -- Rains a curtain of bullets upon the enemy. A desperation move
 
         wait 300
     endif
