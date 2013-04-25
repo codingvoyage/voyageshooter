@@ -1,8 +1,8 @@
 function [shoot]
 
-    fire 90 50
-    fire 80 50
-    fire 100 50
+    fire 0 50
+    fire -10 50
+    fire 10 50
 
 return
 
