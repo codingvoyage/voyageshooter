@@ -14,6 +14,21 @@ newvelocity 1.0
 
 move 500
 
+branch [testingtesting]
+
+setvar done false
+        setvar rateoffire 5
+        while done == false
+            for i = 0 and i < rateoffire
+                -- rand min max --> var
+                rand 0 
+
+            next
+            
+        wend
+
+goto [testingtesting]
+
 
 branch [myloop]
 
@@ -27,10 +42,10 @@ print rotationamount
     eval i + 270 --> fire3
 
 
-    callscriptfunction 1 [shootRow] i 20 5 20 
-    callscriptfunction 1 [shootRow] fire1 20 5 20 
-    callscriptfunction 1 [shootRow] fire2 20 5 20 
-    callscriptfunction 1 [shootRow] fire3 20 5 20 
+    callscriptfunction 1 [shootRow] i 20 11 30 
+    callscriptfunction 1 [shootRow] fire1 20 11 30 
+    callscriptfunction 1 [shootRow] fire2 20 11 30 
+    callscriptfunction 1 [shootRow] fire3 20 11 30 
 
 rotate rotationamount
 

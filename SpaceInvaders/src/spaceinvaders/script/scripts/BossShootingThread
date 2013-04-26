@@ -72,7 +72,16 @@ label [LOOP]
         -- setrotation to 0 or something, just face down.
         -- spawn groups of bullets of random velocities... 
 
+        setvar done false
+        setvar rateoffire 5
+        while done == false
+            for i = 0 and i < rateoffire
+                -- rand min max --> var
+                rand 0 
 
+            next
+            
+        wend
 
         wait 300
     endif
