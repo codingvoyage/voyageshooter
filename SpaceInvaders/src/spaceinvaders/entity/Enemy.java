@@ -87,7 +87,6 @@ public class Enemy extends MovableEntity implements Attacker, Defender {
         if(weapon == null) 
             weapon = (Weapon)EntityGroup.getEntity(weapons);
         
-        System.out.println("FIRING");
         float distanceOffsetX = (float)(Math.cos(Math.toRadians(
                 getRotation() - ROTATION_FACTOR + angle))*distanceAway);
         float distanceOffsetY = (float)(Math.sin(Math.toRadians(

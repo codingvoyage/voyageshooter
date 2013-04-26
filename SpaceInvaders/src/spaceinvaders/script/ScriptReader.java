@@ -156,7 +156,6 @@ public class ScriptReader
                 result = ((MovableEntity)currentScriptable).continueMove(currentDeltaTime, currentThread);
                 break;
             case 53:
-                System.out.println("continuing le orbitee");
                 result = ((MovableEntity)currentScriptable).continueOrbit(currentDeltaTime, currentThread);
                 break;
         }
@@ -513,13 +512,12 @@ public class ScriptReader
                 break;
                 
             case 53:
-                //ORBIT
-                double angle = currentLine.getDoubleParameter(0);
-                double radius = currentLine.getDoubleParameter(1);
-                //0 is CW, else CCW6
-                double direction = currentLine.getDoubleParameter(2);
-                    ((MovableEntity)currentScriptable).beginOrbit(90, radius, 0,
-                            EntityGroup.getPlayer(), currentThread);
+                
+                double radius = currentLine.getDoubleParameter(0);
+                boolean clockwise = currentLine.getBooleanParameter(1);
+
+                    ((MovableEntity)currentScriptable).beginOrbit(radius, clockwise,
+                            SpaceInvaders.player, currentThread);
                     
                 continueExecuting = false;
                 

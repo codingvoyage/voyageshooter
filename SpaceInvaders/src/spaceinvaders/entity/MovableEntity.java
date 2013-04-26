@@ -1,5 +1,6 @@
-0package spaceinvaders.entity;
+package spaceinvaders.entity;
 
+import org.newdawn.slick.geom.Vector2f;
 import spaceinvaders.script.*;
 
 /**
@@ -163,7 +164,6 @@ public abstract class MovableEntity extends Entity implements Movable {
         
         if (tempParam.getDoubleValue() < 0)
         {
-            System.out.println("We're done walking.");
             //Oh, so we're done moving. Great.
             mainThread.setRunningState(false);
             return false;
@@ -201,7 +201,6 @@ public abstract class MovableEntity extends Entity implements Movable {
         
         if (newParam.getDoubleValue() < 0)
         {
-            System.out.println("We're done walking.");
             //Oh, so we're done moving. Great.
             actingThread.setRunningState(false);
             return false;
@@ -220,7 +219,7 @@ public abstract class MovableEntity extends Entity implements Movable {
      * @param entity the entity to orbit around
      */
     public void beginOrbit(double radius, boolean clockwise, 
-            MovableEntity entity, spaceinvaders.script.Thread actingThread) {
+        Entity entity, spaceinvaders.script.Thread actingThread) {
 
         // Create an array containing the angle, radius, and clockwise selection
         Object[] orbitParams = {radius, clockwise, entity};
@@ -253,6 +252,7 @@ public abstract class MovableEntity extends Entity implements Movable {
          * 2 - origin entity
          */
         
+        
         // distance from entity
         float radius = (float)(double)(Double)(params[0]);
         
@@ -260,36 +260,45 @@ public abstract class MovableEntity extends Entity implements Movable {
         boolean clockwise = (boolean)(Boolean)(params[1]);
         
         // the origin entity
-        Entity origin = (Entity)params[3];
+        Entity origin = (Entity)params[2];
         
         // current distance from the origin
         float distance = position.distance(origin.position);
         
         // is distance the radius? if not, move!
-        if (distance != radius) {
+        if (Math.floor(Math.abs(distance - radius)) > 150 || Math.abs(distance - radius) < 20) {
+            
+            System.out.println("Moving");
+            setRotation(origin);
+            
             // normal movement step size
-            float step = (float)this.getVelocity() * (float)delta;
+            float step = (float)getVelocity() * (float)delta;
 
             // move normally
             move(step * Math.sin(Math.toRadians(getRotation())), -step * Math.cos(Math.toRadians(getRotation())));
             
             // didn't even orbit yet so of course continue
             return true;
+            
+        } else {
+        
+            setRotation((float)(new Vector2f(position)).sub(origin.position).getTheta());
+            
+            System.out.println("Orbiting");
+            // angular velocity
+            double velocity = v/radius;
+
+            // orbit step size
+            double step = v * delta;
+
+            double xmove = step * Math.sin(Math.toRadians(getRotation()));
+            double ymove = -step * Math.cos(Math.toRadians(getRotation()));
+
+            move(xmove, ymove);
+            rotate((float)(Math.toDegrees(velocity)*delta));
+
+            return true;
         }
-        
-        // angular velocity
-        double velocity = v/(Double)(params[1]);
-        
-        // orbit step size
-        double step = v * delta;
-        
-        double xmove = step * Math.sin(Math.toRadians(getRotation()));
-        double ymove = -step * Math.cos(Math.toRadians(getRotation()));
-        
-        move(xmove, ymove);
-        rotate((float)(Math.toDegrees(velocity)*delta));
-        
-        return true;
     }
      
     /**

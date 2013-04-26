@@ -2,7 +2,7 @@ wait 1000
 
 
 
--- spawn "Space Guardian" "sg1" 420 -300
+ spawn "Space Guardian" "sg1" 420 -300
 -- wait 40000
 
 
