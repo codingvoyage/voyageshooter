@@ -52,6 +52,8 @@ callthreadfunction 21
 -- getThreadID var
 getThreadID 22
 
+-- Sets this Thread's "ourEntity" to the entity marked by entityID
+-- bindthreadtomarionette ourID ENTITYID
 bindthreadtomarionette 23
 
 -- getLinkedEntityID --> var

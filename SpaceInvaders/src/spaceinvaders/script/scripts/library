@@ -43,6 +43,14 @@ function [shootRow] angle distanceFromStart bulletCount displacement
     next j + 1 --> j
 return
 
+function [shootRowNonCentered] angle distanceFromStart bulletCount displacement initialDisplacement
+    setvar currentDisplacement initialDisplacement
+    for j = 0 and j < bulletCount
+        callscriptfunction 1 [shootPerpendicularAtAngleAndDistance] angle distanceFromStart currentDisplacement
+        eval currentDisplacement + displacement --> currentDisplacement
+    next j + 1 --> j
+return
+
 
 function [shootPerpendicularAtAngleAndDistance] angle distanceAway displacement
     -- Magic variable 25 is BULLET_OFFSET

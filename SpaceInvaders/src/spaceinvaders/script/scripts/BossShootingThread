@@ -71,16 +71,16 @@ label [LOOP]
 
         -- setrotation to 0 or something, just face down.
         -- spawn groups of bullets of random velocities... 
-
         setvar done false
         setvar rateoffire 5
         while done == false
             for i = 0 and i < rateoffire
                 -- rand min max --> var
-                rand 0 
-
-            next
-            
+                rand 0 700 --> initialDisplacement
+                eval initialDisplacement - 450 --> initialDisplacement
+                callscriptfunction 1 [shootRowNonCentered] 0 50 rateoffire 20 initialDisplacement
+            next i + 1 --> i
+            wait 500
         wend
 
         wait 300
