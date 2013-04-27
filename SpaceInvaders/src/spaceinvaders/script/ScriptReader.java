@@ -603,14 +603,22 @@ public class ScriptReader
                 
             case 65:
                 // spawnbullet xLoc yLoc myAngle
-                ((Attacker)currentScriptable).getWeapon().fire(
+                Weapon w = ((Attacker)currentScriptable).getWeapon().fire(
                         (float)identifierCheck(currentLine, 0).getDoubleValue(), 
                         (float)identifierCheck(currentLine, 1).getDoubleValue(),
                         (float)identifierCheck(currentLine, 2).getDoubleValue());
                 break;
                 
+            case 66:
+                //spawnbulletatvelocity xLoc yLoc myAngle customVelocity
+                Weapon velW = ((Attacker)currentScriptable).getWeapon().fireAtVelocity(
+                        (float)identifierCheck(currentLine, 0).getDoubleValue(), 
+                        (float)identifierCheck(currentLine, 1).getDoubleValue(),
+                        (float)identifierCheck(currentLine, 2).getDoubleValue(),
+                        (float)identifierCheck(currentLine, 3).getDoubleValue());
+                break;
                 
-            case 67:
+            case 67: 
                 //isThereEntity "entityname" --> resultbool
                 Entity target = EntityGroup.active.get(
                         identifierCheck(currentLine, 0).getStringValue());

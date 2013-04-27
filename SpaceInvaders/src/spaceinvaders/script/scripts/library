@@ -34,6 +34,33 @@ function [shootAtAngleAndDistance] angle distanceAway
 
 return
 
+function [shootAtAngleDistanceVelocity] angle distanceAway velocity
+    -- Magic variable 40 is BULLET_OFFSET
+    -- Magic variable 90 is ROTATION_FACTOR
+
+    getEntityX entityX
+    getEntityY entityY
+    getEntityAngle entityAngle
+
+    eval [ entityAngle - 90 ] + angle --> adjustedAngle
+    toradian adjustedAngle --> angleInRad
+
+    eval entityX + 40 --> entityCenterX
+    eval entityY + 40 --> entityCenterY
+
+    cos angleInRad --> cosVal
+    sin angleInRad --> sinVal
+    eval cosVal * distanceAway --> distanceOffsetX
+    eval sinVal * distanceAway --> distanceOffsetY
+
+    eval entityCenterX + distanceOffsetX --> fireX
+    eval entityCenterY + distanceOffsetY --> fireY
+    eval entityAngle + angle --> fireR
+
+    spawnBullet fireX fireY fireR velocity
+
+return
+
 
 function [shootRow] angle distanceFromStart bulletCount displacement
     eval [ -1 * displacement ] * [ [ bulletCount - 1 ] / 2 ] --> currentDisplacement
@@ -47,6 +74,22 @@ function [shootRowNonCentered] angle distanceFromStart bulletCount displacement 
     setvar currentDisplacement initialDisplacement
     for j = 0 and j < bulletCount
         callscriptfunction 1 [shootPerpendicularAtAngleAndDistance] angle distanceFromStart currentDisplacement
+        eval currentDisplacement + displacement --> currentDisplacement
+    next j + 1 --> j
+return
+
+function [shootRowVelocity] angle distanceFromStart bulletCount displacement velocity
+    eval [ -1 * displacement ] * [ [ bulletCount - 1 ] / 2 ] --> currentDisplacement
+    for j = 0 and j < bulletCount
+        callscriptfunction 1 [shootPerpendicularAtAngleDistanceVelocity] angle distanceFromStart currentDisplacement velocity
+        eval currentDisplacement + displacement --> currentDisplacement
+    next j + 1 --> j
+return
+
+function [shootRowNonCenteredVelocity] angle distanceFromStart bulletCount displacement initialDisplacement velocity
+    setvar currentDisplacement initialDisplacement
+    for j = 0 and j < bulletCount
+        callscriptfunction 1 [shootPerpendicularAtAngleDistanceVelocity] angle distanceFromStart currentDisplacement velocity
         eval currentDisplacement + displacement --> currentDisplacement
     next j + 1 --> j
 return
@@ -95,8 +138,47 @@ function [shootPerpendicularAtAngleAndDistance] angle distanceAway displacement
     spawnBullet fireX fireY fireR
 return
 
-function [infrontrowshoot]
+function [shootPerpendicularAtAngleDistanceVelocity] angle distanceAway displacement velocity
+    -- Magic variable 25 is BULLET_OFFSET
+    -- Magic variable 90 is ROTATION_FACTOR
 
+    getEntityX entityX
+    getEntityY entityY
+    getEntityAngle entityAngle
+
+    eval [ entityAngle - 90 ] + angle --> adjustedAngle
+    toradian adjustedAngle --> angleInRad
+
+    eval entityX + 25 --> entityCenterX
+    eval entityY + 25 --> entityCenterY
+
+    cos angleInRad --> cosVal
+    sin angleInRad --> sinVal
+    eval cosVal * distanceAway --> distanceOffsetX
+    eval sinVal * distanceAway --> distanceOffsetY
+
+    eval entityCenterX + distanceOffsetX --> fireX
+    eval entityCenterY + distanceOffsetY --> fireY
+    eval entityAngle + angle --> fireR
+
+
+    -- Now, we must transform fireX and fireY
+    -- so that it is perpendicular to the angle?
+
+    eval entityAngle + angle --> theAngle
+    toradian theAngle --> theAngle
+
+    cos theAngle --> cosAngle
+    sin theAngle --> sinAngle
+
+    eval displacement * cosAngle --> xStuff
+    eval displacement * sinAngle --> yStuff
+
+    eval fireX - xStuff --> fireX
+    eval fireY - yStuff --> fireY
+
+
+    spawnBulletAtVelocity fireX fireY fireR velocity
 return
 
 

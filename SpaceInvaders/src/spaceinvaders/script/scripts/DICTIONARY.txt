@@ -117,6 +117,8 @@ getEntityHP 64
 -- spawnbullet xLoc yLoc myAngle
 spawnBullet 65
 
+spawnBulletAtVelocity 66
+
 -- isThereEntity "entityname" --> resultbool
 isThereEntity 67
 

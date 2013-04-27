@@ -97,6 +97,8 @@ label [LOOP]
 
     if currentState == 3
         print "herp"
+        setRotation 180
+        place 450 150
         wait 300
     endif
 

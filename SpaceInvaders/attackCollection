@@ -1,0 +1,180 @@
+-- Rains a curtain of bullets upon the enemy. A desperation move
+function [samespeedcurtain]
+        -- setrotation to 0 or something, just face down.
+        -- spawn groups of bullets of random velocities... 
+        setvar done false
+        setvar rateoffire 5
+        while done == false
+            for i = 0 and i < rateoffire
+                -- rand min max --> var
+                rand 0 700 --> initialDisplacement
+                eval initialDisplacement - 450 --> initialDisplacement
+                callscriptfunction 1 [shootRowNonCentered] 0 50 rateoffire 20 initialDisplacement
+            next i + 1 --> i
+            wait 500
+        wend
+
+        wait 300
+return
+
+function [TshapedShooting]
+
+    for j = 0 and j < 3
+        callscriptfunction 1 [shootRow] 0 50 7 25
+
+        for k = 0 and k < 4
+            wait 100
+            fire 0 50
+        next k + 1 --> k
+
+        wait 300
+        rotate 40
+    next j + 1 --> j
+
+return
+
+function [fourSidedRandomVelocityRows]
+
+    wait 250
+
+    setvar i 0
+    eval i + 90 --> fire1
+    eval i + 180 --> fire2
+    eval i + 270 --> fire3
+
+    rand 8 20 --> randvelocity1
+    rand 8 20 --> randvelocity2
+    rand 8 20 --> randvelocity3
+    rand 8 20 --> randvelocity4
+
+    callscriptfunction 1 [shootRowVelocity] i 20 11 50 randvelocity1
+    callscriptfunction 1 [shootRowVelocity] fire1 20 11 50 randvelocity2
+    callscriptfunction 1 [shootRowVelocity] fire2 20 11 50 randvelocity3
+    callscriptfunction 1 [shootRowVelocity] fire3 20 11 50 randvelocity4
+
+    -- callscriptfunction 1 [shootRow] i 20 11 50 
+    -- callscriptfunction 1 [shootRow] fire1 20 11 50 
+    -- callscriptfunction 1 [shootRow] fire2 20 11 50 
+    -- callscriptfunction 1 [shootRow] fire3 20 11 50 
+
+    rotate rotationamount
+    wait 200
+
+return
+
+function [spinAndShootExpandingClumps]
+
+    var bulletthing 5
+    var rotationamount 15
+
+    for i = 0 and i < [ bulletthing * 15 ]
+        fire i 20
+    next i + 15 --> i
+
+    rotate rotationamount
+    wait 200
+
+return
+
+function [customBulletRain]
+
+    branch [Attack]
+
+            -- Updated bullet rain, using random velocities and displacements to make
+            -- this a challenging, yet reasonable rain of bullets to avoid.
+
+            setvar done false
+            while done == false
+
+                -- Fire from four to eight bullets.
+                rand 4 8 --> rateoffire
+
+                for i = 0 and i < rateoffire
+
+                    -- BULLET SETTINGS
+                    -- Randomize initialDisplacement of rows, spacing, and velocity
+                    rand -450 350 --> initialDisplacement
+                    rand 75 100 --> spaceBetweenBullets
+                    rand 15 50 --> velocity
+                    setvar angle 0
+                    setvar distanceFromStart 50
+
+                    -- callscriptfunction 1 [shootRowNonCenteredVelocity] 0 50 rateoffire spaceBetweenBullets initialDisplacement velocity
+                    -- WE MODIFY SHOOT-ROWS-WITH-CUSTOM-VELOCITY-NON-CENTERED
+                    -- SO THAT WE CAN HAVE A BIT OF A WOBBLE!
+
+                    setvar bulletCount rateoffire
+                    setvar displacement spaceBetweenBullets
+                    setvar currentDisplacement initialDisplacement
+
+                    -- function [shootRowNonCenteredVelocity] angle distanceFromStart bulletCount displacement initialDisplacement velocity
+                    for j = 0 and j < bulletCount
+
+                        -- ============================================================
+                        -- --------------------BEGIN FUNCTION -------------------------
+                        -- ============================================================
+                        -- Magic variable 25 is BULLET_OFFSET
+                        -- Magic variable 90 is ROTATION_FACTOR
+
+                        getEntityX entityX
+                        getEntityY entityY
+                        getEntityAngle entityAngle
+
+                        eval [ entityAngle - 90 ] + angle --> adjustedAngle
+                        toradian adjustedAngle --> angleInRad
+
+                        eval entityX + 25 --> entityCenterX
+                        eval entityY + 25 --> entityCenterY
+
+                        cos angleInRad --> cosVal
+                        sin angleInRad --> sinVal
+                        eval cosVal * distanceFromStart --> distanceOffsetX
+                        eval sinVal * distanceFromStart --> distanceOffsetY
+
+                        eval entityCenterX + distanceOffsetX --> fireX
+                        eval entityCenterY + distanceOffsetY --> fireY
+                        eval entityAngle + angle --> fireR
+
+                        -- Now, we must transform fireX and fireY
+                        -- so that it is perpendicular to the angle?
+
+                        eval entityAngle + angle --> theAngle
+                        toradian theAngle --> theAngle
+
+                        cos theAngle --> cosAngle
+                        sin theAngle --> sinAngle
+
+                        eval currentDisplacement * cosAngle --> xStuff
+                        eval currentDisplacement * sinAngle --> yStuff
+
+                        eval fireX - xStuff --> fireX
+                        eval fireY - yStuff --> fireY
+
+                        -- Now the wobble depends on how much we mess with fireR
+                        rand 0.5 8.5 --> wobbleFactor
+                        rand 0 1 --> posNeg
+                        if posNeg == 0
+                            -- Negative
+                            eval wobbleFactor * -1 --> wobbleFactor
+                        endif
+                        eval fireR + wobbleFactor --> fireR
+
+                        spawnBulletAtVelocity fireX fireY fireR velocity
+                        -- ============================================================
+                        -- ----------------------END FUNCTION -------------------------
+                        -- ============================================================
+
+                        eval currentDisplacement + displacement --> currentDisplacement
+                    next j + 1 --> j
+
+                next i + 1 --> i
+
+                rand 300 500 --> delay
+                wait delay
+            wend
+
+            wait 300
+
+    goto [Attack]
+
+return

@@ -54,12 +54,14 @@ public class Weapon extends MovableEntity implements Attacker {
      * @param x starting x coordinate
      * @param y starting y coordinate
      * @param angle angle <em>relative</em> to the entity to fire from
+     * @return the Weapon entity which was just spawned
      */
-    public void fire(float x, float y, float angle) {
+    public Weapon fire(float x, float y, float angle) {
         Weapon newWeapon = EntityGroup.spawn(getName(), "bullet" + Math.random(), x, y);
         EntityGroup.bullets.add(newWeapon);
         newWeapon.setRotation(angle);
         newWeapon.draw();
+        return newWeapon;
     }
     
     /**
@@ -68,17 +70,45 @@ public class Weapon extends MovableEntity implements Attacker {
      * @param y starting y coordinate
      * @param angle angle <em>relative</em> to the entity to fire from
      * @param entity the entity being fired from
+     * @return the Weapon entity which was just spawned
      */
-    public void fire(float x, float y, float angle, Attacker entity) {
-        Weapon newWeapon = EntityGroup.spawn(getName(), "bullet" + Math.random(), x, y);
-        EntityGroup.bullets.add(newWeapon);
+    public Weapon fire(float x, float y, float angle, Attacker entity) {
+        Weapon newWeapon = fire(x, y, angle);
         newWeapon.setAttack(newWeapon.getAttack() + entity.getAttack());
-        newWeapon.setRotation(angle);
-        newWeapon.draw();
+        return newWeapon;
     }
     
     /**
-     * Fire from another entity with attack boost
+     * Fire from another entity with attack boost and at a custom velocity
+     * @param x starting x coordinate
+     * @param y starting y coordinate
+     * @param angle angle <em>relative</em> to the entity to fire from
+     * @param entity the entity being fired from
+     * @return the Weapon entity which was just spawned
+     */
+    public Weapon fireAtVelocity(float x, float y, float angle, double velocity, Attacker entity) {
+        Weapon newWeapon = fire(x, y, angle, entity);
+        newWeapon.setVelocity(velocity);
+        return newWeapon;
+    }
+    
+    /**
+     * Fire at a custom velocity
+     * @param x starting x coordinate
+     * @param y starting y coordinate
+     * @param angle angle <em>relative</em> to the entity to fire from
+     * @param entity the entity being fired from
+     * @return the Weapon entity which was just spawned
+     */
+    public Weapon fireAtVelocity(float x, float y, float angle, double velocity) {
+        Weapon newWeapon = fire(x, y, angle);
+        newWeapon.setVelocity(velocity);
+        return newWeapon;
+    }
+    
+    
+    /**
+     * Fire from another entity with attack boost, and it might be from player
      * @param x starting x coordinate
      * @param y starting y coordinate
      * @param angle angle <em>relative</em> to the entity to fire from
@@ -86,10 +116,7 @@ public class Weapon extends MovableEntity implements Attacker {
      * @param fromPlayer whether or not the bullet is fired from the player
      */
     public void fire(float x, float y, float angle, Attacker entity, boolean fromPlayer) {
-        Weapon newWeapon = EntityGroup.spawn(getName(), "bullet" + Math.random(), x, y);
-        EntityGroup.bullets.add(newWeapon);
-        newWeapon.setAttack(newWeapon.getAttack() + entity.getAttack());
-        newWeapon.setRotation(angle);
+        Weapon newWeapon = fire(x, y, angle, entity);
         newWeapon.setSource(fromPlayer);
         newWeapon.draw();
     }

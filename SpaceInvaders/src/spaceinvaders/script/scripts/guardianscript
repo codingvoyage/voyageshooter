@@ -6,65 +6,109 @@ newthread 41 customDeathThreadIDName
     wait 20
     callthreadfunction customDeathThreadIDName [configure] ourScriptID theEntityID
 
-var bulletthing 5
-var rotationamount 15
-
 rotate 180
-newvelocity 1.0
+newvelocity 0.7
 
-move 500
+move 350
 
-branch [myloop]
+branch [Attack]
 
-wait 250
+        -- Updated bullet rain, using random velocities and displacements to make
+        -- this a challenging, yet reasonable rain of bullets to avoid.
 
-print rotationamount
+        setvar done false
+        while done == false
 
-    setvar i 0
-    eval i + 90 --> fire1
-    eval i + 180 --> fire2
-    eval i + 270 --> fire3
+            -- Randomize the number fired and the delay between firings
+            rand 3 6 --> rateoffire
+            rand 150 300 --> delay
 
+            for i = 0 and i < rateoffire
 
-    callscriptfunction 1 [shootRow] i 20 11 30 
-    callscriptfunction 1 [shootRow] fire1 20 11 30 
-    callscriptfunction 1 [shootRow] fire2 20 11 30 
-    callscriptfunction 1 [shootRow] fire3 20 11 30 
+                -- BULLET SETTINGS
+                -- Randomize initialDisplacement of rows, spacing, and velocity
+                rand -450 350 --> initialDisplacement
+                rand 75 100 --> spaceBetweenBullets
+                rand 15 50 --> velocity
+                setvar angle 0
+                setvar distanceFromStart 20
 
-rotate rotationamount
+                -- callscriptfunction 1 [shootRowNonCenteredVelocity] 0 50 rateoffire spaceBetweenBullets initialDisplacement velocity
+                -- WE MODIFY SHOOT-ROWS-WITH-CUSTOM-VELOCITY-NON-CENTERED
+                -- SO THAT WE CAN HAVE A BIT OF A WOBBLE!
 
-goto [myloop]
+                setvar bulletCount rateoffire
+                setvar displacement spaceBetweenBullets
+                setvar currentDisplacement initialDisplacement
 
+                -- function [shootRowNonCenteredVelocity] angle distanceFromStart bulletCount displacement initialDisplacement velocity
+                for j = 0 and j < bulletCount
 
+                    -- ============================================================
+                    -- --------------------BEGIN FUNCTION -------------------------
+                    -- ============================================================
+                    -- Magic variable 25 is BULLET_OFFSET
+                    -- Magic variable 90 is ROTATION_FACTOR
 
-branch [firetesting]
+                    getEntityX entityX
+                    getEntityY entityY
+                    getEntityAngle entityAngle
 
--- callscriptfunction 1 [shootAtAngleAndDistance] 0 80
--- callscriptfunction 1 [shootPerpendicularAtAngleAndDistance] 0 80 -100
+                    eval [ entityAngle - 90 ] + angle --> adjustedAngle
+                    toradian adjustedAngle --> angleInRad
 
-for j = 0 and j < 3
+                    eval entityX + 25 --> entityCenterX
+                    eval entityY + 25 --> entityCenterY
 
-    setvar shoothere -100
+                    cos angleInRad --> cosVal
+                    sin angleInRad --> sinVal
+                    eval cosVal * distanceFromStart --> distanceOffsetX
+                    eval sinVal * distanceFromStart --> distanceOffsetY
 
-    for i = 0 and i < 10
-        eval shoothere + 20 --> shoothere
-        callscriptfunction 1 [shootPerpendicularAtAngleAndDistance] 0 80 shoothere 
-    next i + 1 --> i
+                    eval entityCenterX + distanceOffsetX --> fireX
+                    eval entityCenterY + distanceOffsetY --> fireY
+                    eval entityAngle + angle --> fireR
 
-    setvar fireasdf 80
-    for k = 8 and k > -12
-        -- callscriptfunction 1 [shootAtAngleAndDistance] 0 fireasdf
-        fire 0 fireasdf
-        eval fireasdf - 30 --> fireasdf
-    next k - 1 --> k
+                    -- Now, we must transform fireX and fireY
+                    -- so that it is perpendicular to the angle?
 
-    wait 500
-    rotate 40
+                    eval entityAngle + angle --> theAngle
+                    toradian theAngle --> theAngle
 
-next j + 1 --> j
+                    cos theAngle --> cosAngle
+                    sin theAngle --> sinAngle
 
-goto [firetesting]
+                    eval currentDisplacement * cosAngle --> xStuff
+                    eval currentDisplacement * sinAngle --> yStuff
 
+                    eval fireX - xStuff --> fireX
+                    eval fireY - yStuff --> fireY
+
+                    -- Now the wobble depends on how much we mess with fireR
+                    rand 0.5 8.5 --> wobbleFactor
+                    rand 0 1 --> posNeg
+                    if posNeg == 0
+                        -- Negative
+                        eval wobbleFactor * -1 --> wobbleFactor
+                    endif
+                    eval fireR + wobbleFactor --> fireR
+
+                    spawnBulletAtVelocity fireX fireY fireR velocity
+                    -- ============================================================
+                    -- ----------------------END FUNCTION -------------------------
+                    -- ============================================================
+
+                    eval currentDisplacement + displacement --> currentDisplacement
+                next j + 1 --> j
+
+            next i + 1 --> i
+
+            wait delay
+        wend
+
+        wait 300
+
+goto [Attack]
 
 wait 500
 orbit 90 80 0
@@ -78,18 +122,11 @@ next i + 1 --> i
 
 rotate rotationamount
 
-goto [myloop]
-
-
 
 function [otherway]
     setThreadVariable rotationamount -15
     -- print rotationamount
 return
-
-
-
-
 
 
 -- as it gets lower, bullets are more frequent
