@@ -84,22 +84,51 @@ label [LOOP]
     -- Hover around the middle
     -- ====================
     if currentState == 2
-
-            -- Fly into the center of the screen...
-            -- if 
-
+            print "asdf"
             place 450 200
             faceplayer
             wait 800
 
-
     endif
 
+    -- ====================
+    -- Move to the center.
+    -- ====================
     if currentState == 3
-        print "herp"
-        setRotation 180
-        place 450 150
-        wait 300
+            -- Fly into the center of the screen from a random location
+            -- We must get random two coordinates around now
+            -- Start by choosing from a range of x
+            rand -150 1200 --> xplace
+
+            -- If it's within the limits of the screen's width...
+            -- then we will just spawn from above...
+            if [ xplace < 1000 ] && [ xplace > -100 ]
+                var yplace -100
+                goto [skiplol]
+            endif
+                -- Otherwise, then we picked to spawn it from the sides, so now
+                -- choose somewhere between -100 and 400 to spawn.
+                rand -100 400 --> yplace
+            branch [skiplol]
+
+            -- Plop the entity at the designated spot
+            place xplace yplace
+
+            -- Now face the center.
+            facepoint 450 150
+
+            -- Find the distance to the center now, and move to it.
+            callscriptfunction 1 [getDistanceToPoint] xplace yplace 450 150 --> moveDistance
+            move moveDistance
+
+            -- Make sure to shoot straight down.
+            setRotation 180
+
+            -- We're done. This is the enemy's last attack, so just wait to die
+            setvar loop true
+            while loop == true
+                wait 5000
+            wend
     endif
 
     wait 100

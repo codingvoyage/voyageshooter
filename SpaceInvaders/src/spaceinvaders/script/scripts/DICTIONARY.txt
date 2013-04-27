@@ -100,6 +100,9 @@ fire 57
 faceplayer 58
 targetplayer 58
 
+-- facepoint xLoc yLoc
+facepoint 59
+
 changevelocity 60
 newvelocity 60
 
@@ -140,3 +143,5 @@ toradian 83
 sin 85
 cos 86
 tan 87
+sqrt 88
+squareroot 88

@@ -480,7 +480,7 @@ public class ScriptReader
             case 51:
                 //Moving
                 System.out.println("Starting to walk....");
-                double pixelsToWalk = currentLine.getDoubleParameter(0);
+                double pixelsToWalk = identifierCheck(currentLine, 0).getDoubleValue();
                 ((MovableEntity)currentScriptable).beginMove(pixelsToWalk,
                         currentThread);
                 continueExecuting = false;
@@ -567,6 +567,12 @@ public class ScriptReader
                 ((Entity)currentScriptable).setRotation(SpaceInvaders.player);
                 break;
                 
+            case 59:
+                //Faces a point
+                ((Entity)currentScriptable).setRotation(
+                        (int)identifierCheck(currentLine, 0).getDoubleValue(),
+                        (int)identifierCheck(currentLine, 1).getDoubleValue());
+                break;
                 
             case 60:
                 //new velocity
@@ -704,6 +710,13 @@ public class ScriptReader
             case 87:
                 break;
 
+            //sqrt blah --> var
+            case 88:
+                Parameter sqrt = new Parameter(
+                        Math.sqrt(identifierCheck(currentLine, 0).getDoubleValue()));
+                currentThread.setVariable(currentLine.getStringParameter(2),
+                            sqrt);
+                break;
                 
             
         }

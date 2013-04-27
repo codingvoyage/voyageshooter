@@ -6,6 +6,14 @@ function [shoot]
 
 return
 
+function [getDistanceToPoint] sourceX sourceY destinationX destinationY
+    eval destinationX - sourceX --> a
+    eval destinationY - sourceY --> b
+    eval [ a * a ] + [ b * b ] --> sum
+    print sum
+    sqrt sum --> distance
+    print distance
+return distance
 
 function [shootAtAngleAndDistance] angle distanceAway
     -- Magic variable 40 is BULLET_OFFSET

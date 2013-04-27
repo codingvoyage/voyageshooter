@@ -172,6 +172,21 @@ public class Entity extends ScriptableClass {
     }
     
     /**
+     * Set the rotation to face a point - I think...
+     * <strong>Note:</strong> Use the rotate (unscripted) or beginRotate (scripted) methods to 
+     * create a smooth rotation
+     * @param entity the entity to face
+     */
+    public void setRotation(int xLoc, int yLoc) {
+        angle = (float)(new Vector2f(position)).sub(new Vector2f(xLoc, yLoc)).getTheta() - ROTATION_FACTOR;
+        sprite.setRotation(angle);
+        if (angle >= 360)
+            angle = 360 - angle;
+        if(sprite.getRotation() >= 360)
+            sprite.setRotation(360 - angle);
+    }
+    
+    /**
      * Rotate the entity
      * <strong>Note:</strong> For a smooth rotation, include a
      * delta time parameter
