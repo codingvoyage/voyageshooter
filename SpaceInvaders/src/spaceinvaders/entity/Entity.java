@@ -172,6 +172,22 @@ public class Entity extends ScriptableClass {
     }
     
     /**
+     * Set the rotation to face another entity without rotating the sprite
+     * <strong>Note:</strong> Use the rotate (unscripted) or beginRotate (scripted) methods to 
+     * create a smooth rotation
+     * @param entity the entity to face
+     */
+    public void setRotation(Entity entity, boolean spriteRotate) {
+        angle = (float)(new Vector2f(position)).sub(entity.position).getTheta() - ROTATION_FACTOR;
+        if (spriteRotate)
+            sprite.setRotation(angle);
+        if (angle >= 360)
+            angle = 360 - angle;
+        if(sprite.getRotation() >= 360)
+            sprite.setRotation(360 - angle);
+    }
+    
+    /**
      * Rotate the entity
      * <strong>Note:</strong> For a smooth rotation, include a
      * delta time parameter

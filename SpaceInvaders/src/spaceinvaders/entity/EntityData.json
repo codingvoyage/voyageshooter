@@ -57,7 +57,7 @@
             "defense" : 10.0,
             "hp" : 1000,
             "weapons" : "Blue Destroyer",
-            "v" : 1.5,
+            "v" : 0.5,
             "image" : "spaceguardian",
             "radius" : 50,
             "scriptID" : 35

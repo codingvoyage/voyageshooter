@@ -14,7 +14,7 @@ newvelocity 1.0
 
 move 500
 
-orbit 100 true
+orbit 300 false
 
 
 branch [myloop]

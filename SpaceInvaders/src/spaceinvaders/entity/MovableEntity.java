@@ -27,6 +27,9 @@ public abstract class MovableEntity extends Entity implements Movable {
     /** back up size */
     public static final float BACK_SIZE = 0.075f;
     
+    /** orbiting starting */
+    private boolean orbitStart;
+    
     /**
      * Constructs a new MovableEntity
      */
@@ -221,6 +224,8 @@ public abstract class MovableEntity extends Entity implements Movable {
     public void beginOrbit(double radius, boolean clockwise, 
         Entity entity, spaceinvaders.script.Thread actingThread) {
 
+        orbitStart = true;
+        
         // Create an array containing the angle, radius, and clockwise selection
         Object[] orbitParams = {radius, clockwise, entity};
 
@@ -251,8 +256,7 @@ public abstract class MovableEntity extends Entity implements Movable {
          * 1 - clockwise
          * 2 - origin entity
          */
-        
-        
+
         // distance from entity
         float radius = (float)(double)(Double)(params[0]);
         
@@ -265,40 +269,45 @@ public abstract class MovableEntity extends Entity implements Movable {
         // current distance from the origin
         float distance = position.distance(origin.position);
         
+        //System.out.println(distance);
+        
         // is distance the radius? if not, move!
-        if (Math.floor(Math.abs(distance - radius)) > 150 || Math.abs(distance - radius) < 20) {
+        if ((Math.abs(distance - radius)) < 25 || (Math.abs(distance - radius)) > 50) {
             
-            System.out.println("Moving");
             setRotation(origin);
             
             // normal movement step size
-            float step = (float)getVelocity() * (float)delta;
+            float step = (float)(getVelocity() * delta);
 
             // move normally
             move(step * Math.sin(Math.toRadians(getRotation())), -step * Math.cos(Math.toRadians(getRotation())));
             
             // didn't even orbit yet so of course continue
-            return true;
+            //return true;
             
-        } else {
+        } 
         
-            setRotation((float)(new Vector2f(position)).sub(origin.position).getTheta());
-            
-            System.out.println("Orbiting");
-            // angular velocity
-            double velocity = v/radius;
+        // angular velocity - unncessary
+        //double velocity = v/radius;
+        
+        if (clockwise)
+            setRotation((float)(new Vector2f(position)).sub(origin.position).getTheta() - (float)Math.toRadians(ROTATION_FACTOR));
+        else
+            setRotation((float)(new Vector2f(origin.position)).sub(position).getTheta() - (float)Math.toRadians(ROTATION_FACTOR));
+        
+        // orbit step size
+        double step = v * delta;
 
-            // orbit step size
-            double step = v * delta;
+        double xmove = step * Math.sin(Math.toRadians(getRotation()));
+        double ymove = -step * Math.cos(Math.toRadians(getRotation()));
 
-            double xmove = step * Math.sin(Math.toRadians(getRotation()));
-            double ymove = -step * Math.cos(Math.toRadians(getRotation()));
+        move(xmove, ymove);
+        
+        // rotate with angular velocity - unncessary
+        // rotate((float)(Math.toDegrees(velocity)*delta));
 
-            move(xmove, ymove);
-            rotate((float)(Math.toDegrees(velocity)*delta));
-
-            return true;
-        }
+        return true;
+        
     }
      
     /**
