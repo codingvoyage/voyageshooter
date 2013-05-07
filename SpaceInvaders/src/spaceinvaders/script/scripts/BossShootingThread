@@ -67,7 +67,7 @@ label [LOOP]
     endif
 
     if currentState == 3
-        wait 500
+        wait 2000
 
         -- Updated bullet rain, using random velocities and displacements to make
         -- this a challenging, yet reasonable rain of bullets to avoid.

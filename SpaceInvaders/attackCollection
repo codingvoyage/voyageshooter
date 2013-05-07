@@ -17,6 +17,41 @@ function [samespeedcurtain]
         wait 300
 return
 
+function [stacksRounded]
+    setvar howManyRows 5
+    setvar angleDistance 5
+    setvar angleOffset 0
+    setvar delayTime 50
+
+    for i = 0 and i < howManyRows
+        -- fire that many...
+
+        eval [ -1 * angleDistance ] * [ [ i - 1 ] / 2 ] --> currentangle
+        for j = 0 and j < i
+            fire currentangle 10
+            eval currentangle + angleDistance --> currentangle
+        next j + 1 --> j
+        wait delayTime
+    next i + 1 --> i
+
+    wait 5000
+return
+
+function [stacksPerpendicular]
+    setvar howManyRows 5
+    setvar gapSpace
+    setvar angleOffset 0
+    setvar delayTime 50
+
+    for i = 0 and i < howManyRows
+        -- fire that many...
+        callscriptfunction 1 [shootRow] angleOffset 20 i gapSpace
+        wait delayTime
+    next i + 1 --> i
+
+    wait 5000
+return
+
 function [TshapedShooting]
 
     for j = 0 and j < 3

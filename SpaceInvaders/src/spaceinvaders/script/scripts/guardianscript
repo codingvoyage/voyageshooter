@@ -13,101 +13,25 @@ move 350
 
 branch [Attack]
 
-        -- Updated bullet rain, using random velocities and displacements to make
-        -- this a challenging, yet reasonable rain of bullets to avoid.
+        --
 
         setvar done false
         while done == false
 
-            -- Randomize the number fired and the delay between firings
-            rand 3 6 --> rateoffire
-            rand 150 300 --> delay
+            setvar howManyRows 5
+            setvar gapSpace 30
+            setvar angleOffset 0
+            setvar delayTime 90
 
-            for i = 0 and i < rateoffire
-
-                -- BULLET SETTINGS
-                -- Randomize initialDisplacement of rows, spacing, and velocity
-                rand -450 350 --> initialDisplacement
-                rand 75 100 --> spaceBetweenBullets
-                rand 15 50 --> velocity
-                setvar angle 0
-                setvar distanceFromStart 20
-
-                -- callscriptfunction 1 [shootRowNonCenteredVelocity] 0 50 rateoffire spaceBetweenBullets initialDisplacement velocity
-                -- WE MODIFY SHOOT-ROWS-WITH-CUSTOM-VELOCITY-NON-CENTERED
-                -- SO THAT WE CAN HAVE A BIT OF A WOBBLE!
-
-                setvar bulletCount rateoffire
-                setvar displacement spaceBetweenBullets
-                setvar currentDisplacement initialDisplacement
-
-                -- function [shootRowNonCenteredVelocity] angle distanceFromStart bulletCount displacement initialDisplacement velocity
-                for j = 0 and j < bulletCount
-
-                    -- ============================================================
-                    -- --------------------BEGIN FUNCTION -------------------------
-                    -- ============================================================
-                    -- Magic variable 25 is BULLET_OFFSET
-                    -- Magic variable 90 is ROTATION_FACTOR
-
-                    getEntityX entityX
-                    getEntityY entityY
-                    getEntityAngle entityAngle
-
-                    eval [ entityAngle - 90 ] + angle --> adjustedAngle
-                    toradian adjustedAngle --> angleInRad
-
-                    eval entityX + 25 --> entityCenterX
-                    eval entityY + 25 --> entityCenterY
-
-                    cos angleInRad --> cosVal
-                    sin angleInRad --> sinVal
-                    eval cosVal * distanceFromStart --> distanceOffsetX
-                    eval sinVal * distanceFromStart --> distanceOffsetY
-
-                    eval entityCenterX + distanceOffsetX --> fireX
-                    eval entityCenterY + distanceOffsetY --> fireY
-                    eval entityAngle + angle --> fireR
-
-                    -- Now, we must transform fireX and fireY
-                    -- so that it is perpendicular to the angle?
-
-                    eval entityAngle + angle --> theAngle
-                    toradian theAngle --> theAngle
-
-                    cos theAngle --> cosAngle
-                    sin theAngle --> sinAngle
-
-                    eval currentDisplacement * cosAngle --> xStuff
-                    eval currentDisplacement * sinAngle --> yStuff
-
-                    eval fireX - xStuff --> fireX
-                    eval fireY - yStuff --> fireY
-
-                    -- Now the wobble depends on how much we mess with fireR
-                    rand 0.5 8.5 --> wobbleFactor
-                    rand 0 1 --> posNeg
-                    if posNeg == 0
-                        -- Negative
-                        eval wobbleFactor * -1 --> wobbleFactor
-                    endif
-                    eval fireR + wobbleFactor --> fireR
-
-                    spawnBulletAtVelocity fireX fireY fireR velocity
-                    -- ============================================================
-                    -- ----------------------END FUNCTION -------------------------
-                    -- ============================================================
-
-                    eval currentDisplacement + displacement --> currentDisplacement
-                next j + 1 --> j
-
+            for i = 0 and i < howManyRows
+                -- fire that many...
+                callscriptfunction 1 [shootRow] angleOffset 20 i gapSpace
+                wait delayTime
             next i + 1 --> i
 
-            wait delay
+            wait 5000
+
         wend
-
-        wait 300
-
 goto [Attack]
 
 wait 500

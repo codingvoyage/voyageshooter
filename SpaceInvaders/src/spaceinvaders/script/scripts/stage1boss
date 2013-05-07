@@ -43,7 +43,7 @@ while desperation != true
     if alternate == 0
         -- CHARGE ATTACK
         setvar state 1
-        wait 4000
+        wait 15000
         setvar alternate 1
 
         goto [CONTINUE]
@@ -65,7 +65,7 @@ while desperation != true
             spawn "Minion" "m2" 750 -300
         endif
 
-        wait 3000
+        wait 8000
         setvar alternate 0
         goto [CONTINUE]
     endif
@@ -74,7 +74,7 @@ while desperation != true
 
     -- If health is below 200, go to desperation mode
     getEntityHP "boss" --> hp
-    if hp < 200
+    if hp < 300
         print "DESPERATION MOVE GO!"
         setvar desperation true
     endif
