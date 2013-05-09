@@ -8,6 +8,7 @@ package gui;
  * @author Brian Yang
  * @version 1.0
  */
-public abstract class Gui<E> {
+public interface Gui<E> {
+    
     
 }
