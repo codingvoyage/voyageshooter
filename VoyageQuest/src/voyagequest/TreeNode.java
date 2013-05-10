@@ -17,25 +17,19 @@ public class TreeNode {
     public int level;
     public int size;
     
-    public LinkedList<Entity> myobjects = new LinkedList<Entity>();
+    public LinkedList<Entity> entities = new LinkedList<Entity>();
     
-    public TreeNode(TreeNode parent, int cX, int cY, int size, int level, QuadTree tree) {
+    public TreeNode(TreeNode parent, Rectangle boundary, int size, int level, QuadTree tree) {
         this.tree = tree;
         this.parent = parent;
-        this.cX = cX;
-        this.cY = cY;
+        this.boundary = boundary;
         this.size = size;
         this.level = level;
-        int halfSize = size/2;
-        startX = cX - halfSize;
-        endX = cX + halfSize;
-        startY = cY - halfSize;
-        endY = cY + halfSize;
     }
     
 
-    public void removeObject(Entity obj) {
-      this.myobjects.remove(obj);
+    public void removeEntity(Entity e) {
+      this.entities.remove(e);
     }
   
     private void splitBranches()
@@ -48,7 +42,7 @@ public class TreeNode {
     }
     
     
-    public boolean addGameObject(GameObject obj) {
+    public boolean addEntity(Entity e) {
         // If a leaf partition then simply add the object here
         if(level == tree.maxLevel) {
           myobjects.add(obj);
