@@ -7,40 +7,50 @@ import java.util.LinkedList;
  * @author user
  */
 public class TreeNode {
-    private QuadTree tree;
+    public static final int UL = 0;
+    public static final int UR = 1;
+    public static final int BL = 2;
+    public static final int BR = 3;
     
+    private QuadTree tree;
     private TreeNode parent;
     private TreeNode[] children;
-    
-    Rectangle boundary;
-    
     public int level;
-    public int size;
-    
+    Rectangle boundary;
     public LinkedList<Entity> entities = new LinkedList<Entity>();
     
-    public TreeNode(TreeNode parent, Rectangle boundary, int size, int level, QuadTree tree) {
+    
+    public TreeNode(TreeNode parent, Rectangle boundary, int level, QuadTree tree) {
         this.tree = tree;
         this.parent = parent;
         this.boundary = boundary;
-        this.size = size;
         this.level = level;
-    }
-    
-
-    public void removeEntity(Entity e) {
-      this.entities.remove(e);
     }
   
     private void splitBranches()
     {
+        //
+        int halfWidth = (int)(boundary.getWidth() / 2);
+        int halfHeight = (int)(boundary.getHeight() / 2);
+        int topULX = (int)(boundary.getX();
+        int topULY = (int)(boundary.getY();
+        
+        Rectangle ULRect = new Rectange(topULX, topULY, halfWidth, halfHeight);
+        Rectangle URRect = new Rectange(topULX + halfWidth, topULY, halfWidth, halfHeight);
+        Rectangle BLRect = new Rectange(topULX, topULY + halfHeight, halfWidth, halfHeight);
+        Rectangle BRRect = new Rectange(topULX + halfWidth, topULY + halfHeight, halfWidth, halfHeight);
+        
+        //public TreeNode(TreeNode parent, Rectangle boundary, int level, QuadTree tree)
         children = new TreeNode[4];
-        children[0] = new TreeNode(this, cX - size/4, cY + size/4, size/2, level + 1, tree);
-        children[1] = new TreeNode(this, cX + size/4, cY + size/4, size/2, level + 1, tree);
-        children[2] = new TreeNode(this, cX - size/4, cY - size/4, size/2, level + 1, tree);
-        children[3] = new TreeNode(this, cX + size/4, cY - size/4, size/2, level + 1, tree);
+        children[UL] = new TreeNode(this, ULRect, this.level + 1, tree)
+        children[UR] = new TreeNode(this, URRect, this.level + 1, tree)
+        children[BL] = new TreeNode(this, BLRect, this.level + 1, tree)
+        children[BR] = new TreeNode(this, BRRect, this.level + 1, tree)
     }
-    
+
+    public void removeEntity(Entity e) {
+      this.entities.remove(e);
+    }
     
     public boolean addEntity(Entity e) {
         // If a leaf partition then simply add the object here
