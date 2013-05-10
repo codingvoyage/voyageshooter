@@ -1,10 +1,12 @@
-package gui;
+package gui.types;
+
+import gui.Displayable;
 
 /**
- * Dialog boxes
+ * Dialog box GUI element
  * @author Brian Yang
  */
-public class DialogBox extends BoundedGui {
+public class Dialog implements Displayable {
     
     /** The String to be printed */
     private String text;
@@ -21,17 +23,33 @@ public class DialogBox extends BoundedGui {
      * @param height
      * @param text 
      */
-    public DialogBox(float x, float y, int width, int height, String text) {
-        super(x, y, width, height);
+    public Dialog(String text) {
         this.text = text;
     }
     
     /**
-     * 
+     * Print the dialog
      */
-    public void print() throws InterruptedException {
+    @Override
+    public void print(float x, float y) throws InterruptedException {
         DialogParser parser = new DialogParser(text, this);
         thread = new Thread(parser);
         thread.start();
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public String getText() {
+        return text;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public Thread getThread() {
+        return thread;
     }
 }

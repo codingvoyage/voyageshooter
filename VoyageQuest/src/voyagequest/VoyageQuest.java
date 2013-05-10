@@ -1,5 +1,6 @@
 package voyagequest;
 
+import gui.types.Dialog;
 import org.newdawn.slick.*;
 // import scripting.*;
 import gui.*;
@@ -21,7 +22,7 @@ public class VoyageQuest extends BasicGame {
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     
-    private DialogBox dialog;
+    private Dialog dialog;
     
     private boolean print = true;
     
@@ -40,13 +41,6 @@ public class VoyageQuest extends BasicGame {
     @Override
     public void init(GameContainer gc) throws SlickException {
         
-        String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in mauris nisl. Duis eget quam ut quam aliquet mollis nec eget nulla. Vivamus laoreet rhoncus est sed malesuada. Ut adipiscing interdum hendrerit. Suspendisse potenti. Suspendisse potenti. Quisque tincidunt nisi id lorem malesuada commodo. Sed et dignissim erat. Maecenas a tortor metus. In lacinia aliquam libero, ut fringilla sem aliquam et. Aenean sed lorem magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan justo convallis enim semper condimentum.";
-        DialogBox dialog = new DialogBox(10, 10, 10, 10, lorem);
-        try {
-            dialog.print();
-        } catch (InterruptedException ex) {}
-
-        System.out.println();
     }
 
 
@@ -81,8 +75,6 @@ public class VoyageQuest extends BasicGame {
      */
     public static void main(String[] args) throws SlickException, InterruptedException {
         
-        
-        
         // Start new game window
         AppGameContainer app = new AppGameContainer(new VoyageQuest());
         
@@ -91,7 +83,6 @@ public class VoyageQuest extends BasicGame {
         app.setTargetFrameRate(60);
 
         app.start();
-        
         
     }
 }

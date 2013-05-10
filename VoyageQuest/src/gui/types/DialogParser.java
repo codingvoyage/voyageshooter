@@ -1,5 +1,6 @@
-package gui;
+package gui.types;
 
+import gui.types.Dialog;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.TrueTypeFont;
@@ -15,7 +16,7 @@ public class DialogParser implements Runnable {
     /** Words of the String */
     private String[] words;
     /** The dialog box */
-    private DialogBox box;
+    private Dialog box;
     /** Update interval */
     private int delta;
     /** Font */
@@ -26,7 +27,7 @@ public class DialogParser implements Runnable {
      * @param text
      * @param box 
      */
-    public DialogParser(String text, DialogBox box) {
+    public DialogParser(String text, Dialog box) {
         this.box = box;
         words = text.split(" ");
     }

@@ -8,7 +8,11 @@ package gui;
  * @author Brian Yang
  * @version 1.0
  */
-public interface Gui<E> {
+public interface Gui<E extends Displayable> {
     
+    /** Draw the GUI element */
+    public void draw();
     
+    /** Return the object contained in the GUI element */
+    public E getObject();
 }
