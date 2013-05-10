@@ -1,10 +1,10 @@
 package gui;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.fills.GradientFill;
 import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.geom.ShapeRenderer;
-import org.newdawn.slick.fills.GradientFill;
+import org.newdawn.slick.geom.Vector2f;
         
 /**
  * Fixed dimension GUI element
@@ -179,17 +179,19 @@ public class BoundedGui<E extends Displayable> implements Gui {
     @Override
     public void draw() {
         ShapeRenderer.fill(rect, (new GradientFill(0, 0, start, width/3, height/3, end, true)) );
+        
     }
     
     /**
      * Display the contained element
      */
-    public void display() throws InterruptedException {
+    public void display() {
+        draw();
         object.print(position.x, position.y);
     }
     
     /**
-     * Get the contained object
+ * Get the contained object
      * @return the object contained the GUI element
      */
     @Override

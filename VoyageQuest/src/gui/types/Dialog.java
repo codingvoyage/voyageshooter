@@ -10,10 +10,12 @@ public class Dialog implements Displayable {
     
     /** The String to be printed */
     private String text;
-    /** The Thread handling the printing */
-    private Thread thread;
     /** Is the dialog being printed? */
     private boolean isPrinting;
+    /** width */
+    private int width;
+    /** height */
+    private int height;
     
     /**
      * 
@@ -23,18 +25,19 @@ public class Dialog implements Displayable {
      * @param height
      * @param text 
      */
-    public Dialog(String text) {
+    public Dialog(String text, int width, int height) {
         this.text = text;
+        this.width = width;
+        this.height = height;
     }
     
     /**
      * Print the dialog
      */
     @Override
-    public void print(float x, float y) throws InterruptedException {
-        DialogParser parser = new DialogParser(text, this);
-        thread = new Thread(parser);
-        thread.start();
+    public void print(float x, float y) {
+        DialogParser parser = new DialogParser(text, this, x, y);
+        parser.draw();
     }
     
     /**
@@ -45,11 +48,7 @@ public class Dialog implements Displayable {
         return text;
     }
     
-    /**
-     * 
-     * @return 
-     */
-    public Thread getThread() {
-        return thread;
+    public int getWidth() {
+        return width;
     }
 }

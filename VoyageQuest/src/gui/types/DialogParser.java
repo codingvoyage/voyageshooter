@@ -11,7 +11,7 @@ import voyagequest.Globals;
  * and fit it to the dialog box.
  * @author Brian Yang
  */
-public class DialogParser implements Runnable {
+public class DialogParser {
     
     /** Words of the String */
     private String[] words;
@@ -22,44 +22,55 @@ public class DialogParser implements Runnable {
     /** Font */
     public static final TrueTypeFont FONT = Globals.FONT;
     
+    /** x coordinate */
+    private float x;
+    /** y coordinate */
+    private float y;
+    
+    /** dialog box offset */
+    public static final float DIALOG_OFFSET = 50.0f;
+    
     /**
      * 
      * @param text
      * @param box 
      */
-    public DialogParser(String text, Dialog box) {
+    public DialogParser(String text, Dialog box, float x, float y) {
         this.box = box;
         words = text.split(" ");
+        this.x = x;
+        this.y = y;
     }
     
     /**
      * Processes and prints the dialog box
      */
-    @Override
-    public void run() {
-        int totalWidth = 300;
-        int curPos = 0;
+    public void draw() {
+        
+        float xStart = x + DIALOG_OFFSET/2;
+        x += DIALOG_OFFSET/2;
+        int totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_OFFSET;
+        
         for (String s : words) {
             int width = FONT.getWidth(s);
             
-            if (curPos + width > totalWidth) {
-                curPos = 0;
+            if (x + width > totalWidth) {
+                System.out.println(x);
+                x = xStart;
                 System.out.println();
+                y += FONT.getLineHeight();
             }
             
             char[] chars = s.toCharArray();
-                for (char c : chars) {           
-                    System.out.print(c);
-                    
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(DialogParser.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+            for (char c : chars) {           
+                FONT.drawString(x, y, Character.toString(c));
+
+                x += FONT.getWidth(Character.toString(c));
+            }
+
+            FONT.drawString(x, y, " ");
+            x+= FONT.getWidth(" ");
                 
-                System.out.print(" ");
-                curPos += width;
         }
    }
 

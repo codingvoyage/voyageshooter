@@ -4,6 +4,7 @@ import gui.types.Dialog;
 import org.newdawn.slick.*;
 // import scripting.*;
 import gui.*;
+import gui.special.*;
 
 /**
  * Voyage Quest RPG
@@ -22,9 +23,7 @@ public class VoyageQuest extends BasicGame {
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     
-    private Dialog dialog;
-    
-    private boolean print = true;
+    public DialogBox dialog;
     
     /**
      * Construct a new game
@@ -41,6 +40,11 @@ public class VoyageQuest extends BasicGame {
     @Override
     public void init(GameContainer gc) throws SlickException {
         
+        Color start = new Color(166, 250, 252, 75); // Color: #A6FAFC with alpha 75%
+        Color end = new Color(205, 255, 145, 75); // Color #CDFF91 with alpha 75%
+        
+        String lorem = "Hello Team Coding Voyage. This is a test of dialog box parsin and automatic splitting into nice lines. Let's start the test now shall we?";
+        dialog = new DialogBox(250, 250, 600, 150, lorem, start, end);
     }
 
 
@@ -52,7 +56,7 @@ public class VoyageQuest extends BasicGame {
      */
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
-
+        
         
     }
 
@@ -64,7 +68,8 @@ public class VoyageQuest extends BasicGame {
      */
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-          Globals.FONT.drawString(600, 100, "Check the console for now!", Color.yellow);
+        Globals.FONT.drawString(600, 100, "Check the console for now!", Color.yellow);
+        dialog.start();
     }
 
     /**
