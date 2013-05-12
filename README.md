@@ -6,7 +6,8 @@ This project is created as a final project for AP Computer Science at Hunter Col
 
 System Requirements
 ------------------------
-* Java Runtime Environment 6 or later
+* Java Runtime Environment 7 or later (run)
+* Java Development Kit 7 or later (build)
 
 Open Source
 ------------------------
@@ -14,6 +15,8 @@ Project makes use of the following open source libraries:
 * [Slick 2D] (http://www.slick2d.org/)
 * [Lightweight Java Game Library] (http://www.lwjgl.org/)
 * [Google GSON] (http://code.google.com/p/google-gson/)
+
+All required libraries and command line arguments are included in this repository. After cloning the repository, the project should work immediately without any additional configuration with Netbeans IDE 7.2+.
 
 License
 ------------------------
