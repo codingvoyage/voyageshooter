@@ -18,8 +18,8 @@ public class TreeNode {
     private TreeNode[] children;
     
     public int level;
-    Rectangle boundary;
-    private boolean isLeaf;
+    Rectangle boundary; 
+   private boolean isLeaf;
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public TreeNode(TreeNode parent, Rectangle boundary, int level, QuadTree tree)
