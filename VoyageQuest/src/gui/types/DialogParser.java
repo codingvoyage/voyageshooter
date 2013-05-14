@@ -30,6 +30,9 @@ public class DialogParser {
     /** Iterator for inner list */
     private ListIterator<String> charIterator;
     
+    /** Begin a new word */
+    private boolean newWord;
+    
     /** x coordinate */
     private float x;
     /** y coordinate */
@@ -55,6 +58,8 @@ public class DialogParser {
         words = text.split(" ");
 
         chars = new LinkedList<>();
+        
+        newWord = true;
         
         boolean first = true;
         // For each word, split into characters
@@ -124,6 +129,29 @@ public class DialogParser {
             } else {
                 throw new VoyageGuiException("There is no next character!");
             }
+        }
+        
+        if (newWord) {
+            String currentWord = "";
+            
+            wordIterator.previous();
+            ListIterator<String> tempWord = wordIterator.next().listIterator();
+            while (tempWord.hasNext()) {
+                currentWord += tempWord.next();
+            }
+            
+            float xStart = x + DIALOG_PADDING;
+            x += DIALOG_PADDING;
+            y += DIALOG_PADDING;
+            int totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 2;
+            
+            int width = FONT.getWidth(currentWord);
+            
+            if (x + width > totalWidth) {
+                x = xStart;
+                y += FONT.getLineHeight();
+            }
+            
         }
         
         /*
