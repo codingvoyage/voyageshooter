@@ -94,7 +94,42 @@ public class TreeNode {
      */
     public void adjustPartitions(Entity e)
     {
+        //Alright, if this is a leaf, then we're done.
+        if (isLeaf) return;
         
+        //Okay so this is not a leaf...
+        for (TreeNode t : children)
+        {
+            t.adjustPartitions(e);
+        }
+        
+        //Now, are we a 
+        if (children[UL].isLeaf == true &&
+            children[UR].isLeaf == true &&
+            children[BL].isLeaf == true &&
+            children[BR].isLeaf == true)
+        {
+                    
+            if (this.getSize() <= tree.MAX_OBJECTS) {
+                this.merge();
+            }
+        }
+        
+    }
+    
+    private void merge()
+    {
+        this.entities = new ArrayList<Entity>();
+        
+        //Take the this.entities from the children branch and put them in our branch
+        this.entities.addAll(children[UL].getEntities());
+        this.entities.addAll(children[UR].getEntities());
+        this.entities.addAll(children[BL].getEntities());
+        this.entities.addAll(children[BR].getEntities());
+        
+        //We are now a childless leaf
+        children = null;
+        isLeaf = true;
     }
     
     public ArrayList<Entity> rectQuery(Rectangle queryRect)
@@ -116,21 +151,6 @@ public class TreeNode {
             }
             return childrenEntities;
         }
-    }
-    
-    private void merge()
-    {
-        entities = new ArrayList<Entity>();
-        
-        //Take the entities from the children branch and put them in our branch
-        entities.addAll(children[UL].getEntities());
-        entities.addAll(children[UR].getEntities());
-        entities.addAll(children[BL].getEntities());
-        entities.addAll(children[BR].getEntities());
-        
-        //We are now a childless leaf
-        children = null;
-        isLeaf = true;
     }
     
     private void splitBranches()

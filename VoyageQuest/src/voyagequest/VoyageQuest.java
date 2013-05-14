@@ -131,7 +131,7 @@ public class VoyageQuest extends BasicGame {
      */
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-        camera.draw(g);
+        camera.legitDraw(g);
         dialog.start();
         Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
     }
