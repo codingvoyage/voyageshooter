@@ -10,8 +10,14 @@ import voyagequest.VoyageQuest;
  * @author Edmund
  */
 public class Camera {
+    public int x, y;
     
     public Camera()
+    {
+        x =0;y=0;
+    }
+    
+    Camera.attemptMove()
     {
         
     }
@@ -19,10 +25,11 @@ public class Camera {
     public Rectangle getViewRect()
     {
         
-        return new Rectangle(0, 0, 1200, 800);
+        return new Rectangle(x, y, VoyageQuest.X_RESOLUTION,
+                VoyageQuest.Y_RESOLUTION);
     }
     
-    public void legitDraw(Graphics g)
+    public void display(Graphics g)
     {
         drawPartitionBoxes(g);
         
@@ -36,32 +43,14 @@ public class Camera {
         for (Entity e : entList)
         {
             g.drawRect(
-                    e.r.x,
-                    e.r.y,
+                    e.r.x - x,
+                    e.r.y - y,
                     e.r.width,
                     e.r.height);
         }
                 
     }
-    
-    
-    public void draw(Graphics g)
-    {
-        drawPartitionBoxes(g);
-        
-        g.setColor(org.newdawn.slick.Color.blue);
-        for (int i = 0; i < VoyageQuest.entities.size(); i++)
-        {
-            Entity e = VoyageQuest.entities.get(i);
-            g.drawRect(
-                    e.r.x,
-                    e.r.y,
-                    e.r.width,
-                    e.r.height);
-        }
-        
-    }
-    
+  
     public void drawPartitionBoxes(Graphics g)
     {
         g.setColor(org.newdawn.slick.Color.yellow);

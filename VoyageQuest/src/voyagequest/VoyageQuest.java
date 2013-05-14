@@ -55,15 +55,15 @@ public class VoyageQuest extends BasicGame {
         gc.setMaximumLogicUpdateInterval(20);
         
         camera = new Camera();
-        partitionTree = new QuadTree(3, 5,
-                new Rectangle(0, 0, X_RESOLUTION, 
-                Y_RESOLUTION));
+        partitionTree = new QuadTree(3, 15,
+                new Rectangle(0, 0, 5 * X_RESOLUTION, 
+                5 * Y_RESOLUTION));
         entities = new ArrayList<>();
         
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 500; i++)
         {
-            int randX = Util.rand(0, X_RESOLUTION - 20);
-            int randY = Util.rand(0, Y_RESOLUTION - 20);
+            int randX = Util.rand(0, 5 * X_RESOLUTION - 20);
+            int randY = Util.rand(0, 5 * Y_RESOLUTION - 20);
             int randWidth = Util.rand(2, 20);
             int randHeight = Util.rand(2, 20);
             
@@ -88,6 +88,31 @@ public class VoyageQuest extends BasicGame {
      */
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
+        
+        Input input = gc.getInput();
+        
+        double step = delta * 500;
+        /* tilt and move to the left */
+        if (input.isKeyDown(Input.KEY_LEFT)) {
+            Camera.attemptMove(-step, 0);
+        }
+        
+        if(input.isKeyDown(Input.KEY_RIGHT)) {
+            
+        }
+        
+        if(input.isKeyDown(Input.KEY_UP)) {
+          
+        }
+        
+        if(input.isKeyDown(Input.KEY_DOWN)) {
+           
+        }
+        
+        if(!input.isKeyDown(Input.KEY_UP) && !input.isKeyDown(Input.KEY_DOWN)) {
+            
+        }
+        
         
         deltaCounter += delta;
         removeCounter += delta;
@@ -115,7 +140,7 @@ public class VoyageQuest extends BasicGame {
         {
             removeCounter = 0;
             //now let's remove one.
-            if (index < 100) {
+            if (index < 1000) {
                 Entity toBeRemoved = entities.get(index);
                 partitionTree.removeEntity(toBeRemoved);
                 index++;
@@ -131,8 +156,11 @@ public class VoyageQuest extends BasicGame {
      */
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-        camera.legitDraw(g);
+        //if there isn't a full screen GUI...
+        camera.display(g);
+        //gui.display
         dialog.start();
+        //if the settings say we're doing FPS displaying...
         Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
     }
 
