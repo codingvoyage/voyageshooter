@@ -1,9 +1,10 @@
 package gui.types;
 
-import org.newdawn.slick.UnicodeFont;
-import voyagequest.Util;
+import gui.VoyageGuiException;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import org.newdawn.slick.UnicodeFont;
+import voyagequest.Util;
 
 /**
  * Processes the dialog text to print out one character at a time 
@@ -113,11 +114,15 @@ public class DialogParser {
     /**
      * Processes and prints the dialog box
      */
-    public void drawNext() {
+    public void drawNext() throws VoyageGuiException {
+        
+        String next = "";
         
         if (time >= 300) {
             if (hasNext()) {
-                String next = next();
+                next = next();
+            } else {
+                throw new VoyageGuiException("There is no next character!");
             }
         }
         
