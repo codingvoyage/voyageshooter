@@ -27,7 +27,7 @@ public class QuadTree {
     public void removeEntity(Entity e)
     {
         treeRootNode.removeEntity(e);
-        treeRootNode.adjustPartitions(e);
+        //treeRootNode.adjustPartitions(e);
     }
     
     public int getSize()

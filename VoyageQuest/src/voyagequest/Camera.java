@@ -17,7 +17,7 @@ public class Camera {
     public Rectangle getViewRect()
     {
         
-        return new Rectangle(0, 0, 300, 300);
+        return new Rectangle(0, 0, 1200, 800);
     }
     
     public void legitDraw(Graphics g)

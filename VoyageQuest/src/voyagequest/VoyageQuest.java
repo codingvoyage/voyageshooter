@@ -27,6 +27,7 @@ public class VoyageQuest extends BasicGame {
     public static ArrayList<Entity> entities;
     public static QuadTree partitionTree;
     
+    int index = 0;
     int whichDraw = -1;
     int deltaCounter = 0;
     int removeCounter = 0;
@@ -50,17 +51,17 @@ public class VoyageQuest extends BasicGame {
         gc.setMaximumLogicUpdateInterval(20);
         
         camera = new Camera();
-        partitionTree = new QuadTree(5, 20,
+        partitionTree = new QuadTree(3, 5,
                 new Rectangle(0, 0, X_RESOLUTION, 
                 Y_RESOLUTION));
         entities = new ArrayList<Entity>();
         
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < 100; i++)
         {
-            int randX = Util.rand(0, X_RESOLUTION - 10);
-            int randY = Util.rand(0, Y_RESOLUTION - 10);
-            int randWidth = Util.rand(2, 4);
-            int randHeight = Util.rand(2, 4);
+            int randX = Util.rand(0, X_RESOLUTION - 20);
+            int randY = Util.rand(0, Y_RESOLUTION - 20);
+            int randWidth = Util.rand(2, 20);
+            int randHeight = Util.rand(2, 20);
             
             Entity e = new Entity(new Rectangle(randX, randY, randWidth, randHeight));
             entities.add(e);
@@ -102,14 +103,14 @@ public class VoyageQuest extends BasicGame {
             
         }
         
-        if (removeCounter > 19)
+        if (removeCounter > 50)
         {
             removeCounter = 0;
             //now let's remove one.
-            if (entities.size() > 0) {
-                int index = Util.rand(0, entities.size() - 1);
-                Entity toBeRemoved = entities.remove(index);
+            if (index < 100) {
+                Entity toBeRemoved = entities.get(index);
                 partitionTree.removeEntity(toBeRemoved);
+                index++;
             }
         }
     }
@@ -122,7 +123,7 @@ public class VoyageQuest extends BasicGame {
      */
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-        camera.draw(g);
+        camera.legitDraw(g);
         //gui.draw(g);
           
     }
