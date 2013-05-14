@@ -10,16 +10,33 @@ import voyagequest.VoyageQuest;
  * @author Edmund
  */
 public class Camera {
-    public int x, y;
+    private double x, y;
     
     public Camera()
     {
-        x =0;y=0;
+        x = 0.0;
+        y= 0.0;
     }
     
-    Camera.attemptMove()
+    public void attemptMove(double xMove, double yMove)
     {
-        
+           //Where would we end up at
+           double tempX = x + xMove;
+           double tempY = y + yMove;
+
+           double mapWidth = 5 * VoyageQuest.X_RESOLUTION;
+           double mapHeight = 5 * VoyageQuest.Y_RESOLUTION;
+           //If we don't end up going less than 0, and if we don't
+           //end up rendering stuff off the map...
+           if (tempX >= 0 && tempY >= 0)
+           {
+                  if ((tempX < mapWidth - VoyageQuest.X_RESOLUTION)
+                     && (tempY < mapHeight - VoyageQuest.Y_RESOLUTION)
+                  {
+                           x = tempX; y = tempY;
+                  }
+                  
+            }
     }
     
     public Rectangle getViewRect()
