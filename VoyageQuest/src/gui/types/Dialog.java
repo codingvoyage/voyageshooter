@@ -16,6 +16,8 @@ public class Dialog implements Displayable {
     private int width;
     /** height */
     private int height;
+    /** the dialog parser */
+    private DialogParser parser;
     
     /**
      * 
@@ -36,8 +38,8 @@ public class Dialog implements Displayable {
      */
     @Override
     public void print(float x, float y) {
-        DialogParser parser = new DialogParser(text, this, x, y);
-        parser.draw();
+        DialogParser tempparser = new DialogParser(text, this, x, y);
+        tempparser.draw();
     }
     
     /**

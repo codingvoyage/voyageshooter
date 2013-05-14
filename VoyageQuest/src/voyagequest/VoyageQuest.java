@@ -1,12 +1,9 @@
 package voyagequest;
 
-import gui.types.Dialog;
+import map.*;
 import org.newdawn.slick.*;
 import java.util.ArrayList;
 import java.awt.Rectangle;
-
-// import scripting.*;
-import gui.*;
 import gui.special.*;
 
 /**
@@ -49,7 +46,10 @@ public class VoyageQuest extends BasicGame {
      */
     @Override
     public void init(GameContainer gc) throws SlickException {
-        //Set the minimum and maximum update intervals please
+        // Get rid of the default FPS count so we can use our own font
+        gc.setShowFPS(false);
+        
+        // Set the minimum and maximum update intervals please
         gc.setMinimumLogicUpdateInterval(20);
         gc.setMaximumLogicUpdateInterval(20);
         
@@ -57,7 +57,7 @@ public class VoyageQuest extends BasicGame {
         partitionTree = new QuadTree(5, 20,
                 new Rectangle(0, 0, X_RESOLUTION, 
                 Y_RESOLUTION));
-        entities = new ArrayList<Entity>();
+        entities = new ArrayList<>();
         
         for (int i = 0; i < 200; i++)
         {
@@ -71,12 +71,11 @@ public class VoyageQuest extends BasicGame {
             partitionTree.addEntity(e);
         }
         
-        
         Color start = new Color(166, 250, 252, 75); // Color: #A6FAFC with alpha 75%
         Color end = new Color(205, 255, 145, 75); // Color #CDFF91 with alpha 75%
         
-        String lorem = "Hello Team Coding Voyage. This is a test of dialog box parsin and automatic splitting into nice lines. Let's start the test now shall we?";
-        dialog = new DialogBox(250, 250, 600, 150, lorem, start, end);
+        String lorem = "The dialog box system is currently under construction. This is merely a test of automatic line breaks. Do not modify the gui.* packages.";
+        dialog = new DialogBox(250, 550, 600, 150, lorem, start, end);
     }
 
 
@@ -98,15 +97,15 @@ public class VoyageQuest extends BasicGame {
             whichDraw *= -1;
             if (whichDraw == 1)
             {
-                Util.sop("We will now traverse the tree to draw");
+                Util.p("We will now traverse the tree to draw");
             }
             else 
             {
-                Util.sop("We will now draw the entity list");
+                Util.p("We will now draw the entity list");
             }
             
-            Util.sop("Total number of entities in Tree: " + partitionTree.getSize());
-            Util.sop("Total number of partitions in Tree: " + partitionTree.getPartitionCount());
+            Util.p("Total number of entities in Tree: " + partitionTree.getSize());
+            Util.p("Total number of partitions in Tree: " + partitionTree.getPartitionCount());
             
             
         }
@@ -132,8 +131,8 @@ public class VoyageQuest extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
         camera.draw(g);
-        //gui.draw(g);
-          
+        dialog.start();
+        Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
     }
 
     /**

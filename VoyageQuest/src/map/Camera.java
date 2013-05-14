@@ -1,8 +1,9 @@
-package voyagequest;
+package map;
 
 import org.newdawn.slick.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import voyagequest.VoyageQuest;
 /**
  *
  * @author Edmund

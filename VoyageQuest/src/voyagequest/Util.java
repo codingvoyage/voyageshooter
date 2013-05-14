@@ -1,12 +1,30 @@
 package voyagequest;
 
+import org.newdawn.slick.UnicodeFont;
+
 /**
- * A utility class of random useful functions I don't want to hardcode repeatedly
- * elsewhere.
+ * A utility class of random useful functions and variables
  * 
- * @author Edmund
+ * @author Edmund Qiu
+ * @author Brian Yang
  */
-public class Util {
+public final class Util {
+    
+    /** Font to be used throughout */
+    public static final UnicodeFont FONT;
+    static {
+        UnicodeFont newFont;
+        try {
+            newFont = new UnicodeFont("/src/voyagequest/DroidSans.ttf", 24, false, false);
+            newFont.addAsciiGlyphs();
+            newFont.getEffects().add(new org.newdawn.slick.font.effects.ColorEffect(new java.awt.Color(218, 249, 248))); 
+            newFont.loadGlyphs(); 
+        } catch (org.newdawn.slick.SlickException e) {
+            newFont = new UnicodeFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 24));
+        }
+        FONT = newFont;
+    }
+    
     /**
      * Given an integer bound, returns a random integer from
      * [min, max], so it's inclusive of min and max.
@@ -23,16 +41,29 @@ public class Util {
     
     /**
      * Nobody likes typing out System.out.println();
-     * It's easier to type Util.sop();
-     * @param blah 
+     * @param s the String to print 
      */
-    public static void sop(String blah)
+    public static void p(String s)
     {
-        System.out.println(blah);
+        System.out.println(s);
     }
     
-    public static void sop(int blah)
+    /**
+     * Nobody likes typing out System.out.println();
+     * @param i the integer to print
+     */
+    public static void p(int i)
     {
-        System.out.println(blah);
+        System.out.println(i);
+    }
+    
+    
+    /**
+     * Nobody likes typing out System.out.println();
+     * @param b the boolean value to print 
+     */
+    public static void p(boolean b)
+    {
+        System.out.println(b);
     }
 }

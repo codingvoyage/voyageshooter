@@ -1,10 +1,8 @@
 package gui.types;
 
-import gui.types.Dialog;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.newdawn.slick.TrueTypeFont;
-import voyagequest.Globals;
+import org.newdawn.slick.UnicodeFont;
+import voyagequest.Util;
+import java.util.LinkedList;
 
 /**
  * Processes the dialog text to print out one character at a time 
@@ -20,7 +18,10 @@ public class DialogParser {
     /** Update interval */
     private int delta;
     /** Font */
-    public static final TrueTypeFont FONT = Globals.FONT;
+    public static final UnicodeFont FONT = Util.FONT;
+    
+    /** Linked list of characters */
+    private LinkedList<LinkedList<String>> chars;
     
     /** x coordinate */
     private float x;
@@ -28,7 +29,7 @@ public class DialogParser {
     private float y;
     
     /** dialog box offset */
-    public static final float DIALOG_OFFSET = 50.0f;
+    public static final float DIALOG_PADDING = 25.0f;
     
     /**
      * 
@@ -37,9 +38,28 @@ public class DialogParser {
      */
     public DialogParser(String text, Dialog box, float x, float y) {
         this.box = box;
-        words = text.split(" ");
+        
         this.x = x;
         this.y = y;
+        
+        // Split the text up into different words
+        words = text.split(" ");
+
+        /*
+        chars = new LinkedList<>();
+        
+        // For each word, split into characters
+        for (String s : words) {
+            char[] tempChars = s.toCharArray();
+            
+            // For each character array, make a new linked list
+            LinkedList<String> charList = new LinkedList<>();
+            for (char c : tempChars) {
+                charList.add(Character.toString(c));
+            }
+            chars.add(charList);
+        }
+        */
     }
     
     /**
@@ -47,9 +67,13 @@ public class DialogParser {
      */
     public void draw() {
         
-        float xStart = x + DIALOG_OFFSET/2;
-        x += DIALOG_OFFSET/2;
-        int totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_OFFSET;
+        
+        
+        
+        float xStart = x + DIALOG_PADDING;
+        x += DIALOG_PADDING;
+        y += DIALOG_PADDING;
+        int totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 2;
         
         for (String s : words) {
             int width = FONT.getWidth(s);
@@ -72,6 +96,7 @@ public class DialogParser {
             x+= FONT.getWidth(" ");
                 
         }
+        
    }
 
     
