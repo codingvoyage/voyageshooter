@@ -3,6 +3,7 @@ package gui.types;
 import org.newdawn.slick.UnicodeFont;
 import voyagequest.Util;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * Processes the dialog text to print out one character at a time 
@@ -15,13 +16,18 @@ public class DialogParser {
     private String[] words;
     /** The dialog box */
     private Dialog box;
-    /** Update interval */
-    private int delta;
+    
+    /** Elapsed time */
+    private int time;
     /** Font */
     public static final UnicodeFont FONT = Util.FONT;
     
     /** Linked list of characters */
     private LinkedList<LinkedList<String>> chars;
+    /** Iterator for outer list */
+    private ListIterator<LinkedList<String>> wordIterator;
+    /** Iterator for inner list */
+    private ListIterator<String> charIterator;
     
     /** x coordinate */
     private float x;
@@ -34,7 +40,9 @@ public class DialogParser {
     /**
      * 
      * @param text
-     * @param box 
+     * @param box
+     * @param x
+     * @param y 
      */
     public DialogParser(String text, Dialog box, float x, float y) {
         this.box = box;
@@ -45,9 +53,9 @@ public class DialogParser {
         // Split the text up into different words
         words = text.split(" ");
 
-        /*
         chars = new LinkedList<>();
         
+        boolean first = true;
         // For each word, split into characters
         for (String s : words) {
             char[] tempChars = s.toCharArray();
@@ -57,19 +65,63 @@ public class DialogParser {
             for (char c : tempChars) {
                 charList.add(Character.toString(c));
             }
+            // Add a space after each word
+            charList.add(" ");
+            // Add this character list to the outer list of words
             chars.add(charList);
+            // Start the character iterator with the first word
+            if (first) {
+                charIterator = charList.listIterator();
+                first = false;
+            }
         }
-        */
+        
+        wordIterator = chars.listIterator();
+    }
+    
+    /**
+     * 
+     * @param delta 
+     */
+    public void update(int delta) {
+        time += delta;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public boolean hasNext() {
+        return charIterator.hasNext() || wordIterator.hasNext();
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public String next() {
+        if (charIterator.hasNext())
+            return charIterator.next();
+        else if (wordIterator.hasNext()) {
+            charIterator = wordIterator.next().listIterator();
+            return next();
+        } else
+            // if this method was called correctly, it should never reach this point, but just in case
+            return "";      
     }
     
     /**
      * Processes and prints the dialog box
      */
-    public void draw() {
+    public void drawNext() {
         
+        if (time >= 300) {
+            if (hasNext()) {
+                String next = next();
+            }
+        }
         
-        
-        
+        /*
         float xStart = x + DIALOG_PADDING;
         x += DIALOG_PADDING;
         y += DIALOG_PADDING;
@@ -96,6 +148,7 @@ public class DialogParser {
             x+= FONT.getWidth(" ");
                 
         }
+        */
         
    }
 

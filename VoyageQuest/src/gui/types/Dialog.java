@@ -39,7 +39,7 @@ public class Dialog implements Displayable {
     @Override
     public void print(float x, float y) {
         DialogParser tempparser = new DialogParser(text, this, x, y);
-        tempparser.draw();
+        //tempparser.draw();
     }
     
     /**

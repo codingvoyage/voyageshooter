@@ -98,15 +98,15 @@ public class VoyageQuest extends BasicGame {
             whichDraw *= -1;
             if (whichDraw == 1)
             {
-                Util.p("We will now traverse the tree to draw");
+                //Util.p("We will now traverse the tree to draw");
             }
             else 
             {
-                Util.p("We will now draw the entity list");
+                //Util.p("We will now draw the entity list");
             }
             
-            Util.p("Total number of entities in Tree: " + partitionTree.getSize());
-            Util.p("Total number of partitions in Tree: " + partitionTree.getPartitionCount());
+            //Util.p("Total number of entities in Tree: " + partitionTree.getSize());
+            //Util.p("Total number of partitions in Tree: " + partitionTree.getPartitionCount());
             
             
         }
