@@ -1,6 +1,7 @@
 package gui.types;
 
 import gui.Displayable;
+import gui.VoyageGuiException;
 
 /**
  * Dialog box GUI element
@@ -27,19 +28,27 @@ public class Dialog implements Displayable {
      * @param height
      * @param text 
      */
-    public Dialog(String text, int width, int height) {
+    public Dialog(float x, float y, String text, int width, int height) {
         this.text = text;
         this.width = width;
         this.height = height;
+        parser = new DialogParser(text, this, x, y);
     }
     
     /**
      * Print the dialog
      */
     @Override
-    public void print(float x, float y) {
-        DialogParser tempparser = new DialogParser(text, this, x, y);
-        //tempparser.draw();
+    public void print() throws VoyageGuiException {
+        parser.drawNext();
+    }
+    
+    /**
+     * 
+     */
+    public void next(int delta) {
+        parser.update(delta);
+        parser.next();
     }
     
     /**

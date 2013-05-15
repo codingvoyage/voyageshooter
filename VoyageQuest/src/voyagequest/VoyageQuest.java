@@ -1,5 +1,6 @@
 package voyagequest;
 
+import gui.VoyageGuiException;
 import map.*;
 import org.newdawn.slick.*;
 import java.util.ArrayList;
@@ -121,6 +122,8 @@ public class VoyageQuest extends BasicGame {
                 index++;
             }
         }
+        
+        dialog.next(delta);
     }
 
     /**
@@ -132,7 +135,10 @@ public class VoyageQuest extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
         camera.legitDraw(g);
-        dialog.start();
+        try {
+            dialog.start();
+            dialog.printNext();
+        } catch (VoyageGuiException ex) {}
         Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
     }
 

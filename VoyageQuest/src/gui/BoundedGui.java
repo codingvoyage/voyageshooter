@@ -179,19 +179,17 @@ public class BoundedGui<E extends Displayable> implements Gui {
     @Override
     public void draw() {
         ShapeRenderer.fill(rect, (new GradientFill(0, 0, start, width/3, height/3, end, true)) );
-        
     }
     
     /**
-     * Display the contained element
+     * 
      */
-    public void display() {
-        draw();
-        object.print(position.x, position.y);
+    public void display() throws VoyageGuiException {
+        object.print();
     }
     
     /**
- * Get the contained object
+     * Get the contained object
      * @return the object contained the GUI element
      */
     @Override

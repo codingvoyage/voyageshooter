@@ -13,8 +13,6 @@ import voyagequest.Util;
  */
 public class DialogParser {
     
-    /** Words of the String */
-    private String[] words;
     /** The dialog box */
     private Dialog box;
     
@@ -23,12 +21,17 @@ public class DialogParser {
     /** Font */
     public static final UnicodeFont FONT = Util.FONT;
     
-    /** Linked list of characters */
+    /** Linked list of characters to be printed */
     private LinkedList<LinkedList<String>> chars;
-    /** Iterator for outer list */
+    /** Iterator for outer list to be printed */
     private ListIterator<LinkedList<String>> wordIterator;
-    /** Iterator for inner list */
+    /** Iterator for inner list to be printed */
     private ListIterator<String> charIterator;
+    
+    /** number of words printed */
+    private int wordIndex;
+    /** number of characters of the last word printed */
+    private int charIndex;
     
     /** Begin a new word */
     private boolean newWord;
@@ -55,11 +58,14 @@ public class DialogParser {
         this.y = y;
         
         // Split the text up into different words
-        words = text.split(" ");
+        String[] words = text.split(" ");
 
+        wordIndex = 0;
+        charIndex = 0;
+        
         chars = new LinkedList<>();
         
-        newWord = true;
+        newWord = false;
         
         boolean first = true;
         // For each word, split into characters
@@ -106,10 +112,15 @@ public class DialogParser {
      * @return 
      */
     public String next() {
-        if (charIterator.hasNext())
+        if (charIterator.hasNext()) {
+            charIndex++;
             return charIterator.next();
+        }
         else if (wordIterator.hasNext()) {
             charIterator = wordIterator.next().listIterator();
+            wordIndex++;
+            charIndex = 0;
+            newWord = true;
             return next();
         } else
             // if this method was called correctly, it should never reach this point, but just in case
@@ -124,11 +135,10 @@ public class DialogParser {
         String next = "";
         
         if (time >= 300) {
-            if (hasNext()) {
+            if (hasNext()) 
                 next = next();
-            } else {
+            else 
                 throw new VoyageGuiException("There is no next character!");
-            }
         }
         
         if (newWord) {
@@ -152,38 +162,29 @@ public class DialogParser {
                 y += FONT.getLineHeight();
             }
             
+            newWord = false;
+            
         }
         
-        /*
-        float xStart = x + DIALOG_PADDING;
-        x += DIALOG_PADDING;
-        y += DIALOG_PADDING;
-        int totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 2;
+        Util.p(x + ", " + y);
+        FONT.drawString(x, y, next);
+        x += FONT.getWidth(next);
         
-        for (String s : words) {
-            int width = FONT.getWidth(s);
-            
-            if (x + width > totalWidth) {
-                System.out.println(x);
-                x = xStart;
-                System.out.println();
-                y += FONT.getLineHeight();
+    }
+    
+    public void printPrevious() {
+        
+        ListIterator<LinkedList<String>> words = chars.listIterator();
+        for (int i = 0; i <= wordIndex; i++) {
+            if (i == wordIndex) {
+                ListIterator<String> tempChars = words.next().listIterator();
+                for (int j = 0; j <= charIndex; j++) {
+                    
+                }
             }
-            
-            char[] chars = s.toCharArray();
-            for (char c : chars) {           
-                FONT.drawString(x, y, Character.toString(c));
-
-                x += FONT.getWidth(Character.toString(c));
-            }
-
-            FONT.drawString(x, y, " ");
-            x+= FONT.getWidth(" ");
-                
         }
-        */
         
-   }
+    }
 
     
 }
