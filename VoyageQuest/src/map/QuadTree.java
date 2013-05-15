@@ -1,7 +1,7 @@
 package map;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  *
@@ -27,7 +27,7 @@ public class QuadTree {
     public void removeEntity(Entity e)
     {
         treeRootNode.removeEntity(e);
-        //treeRootNode.adjustPartitions(e);
+        treeRootNode.adjustPartitions(e);
     }
     
     public int getSize()
@@ -40,12 +40,12 @@ public class QuadTree {
         return getPartitions().size();
     }
     
-    public ArrayList<TreeNode> getPartitions()
+    public LinkedList<TreeNode> getPartitions()
     {
         return treeRootNode.getPartitionBoxes();
     }
     
-    public ArrayList<Entity> rectQuery(Rectangle queryRect)
+    public LinkedList<Entity> rectQuery(Rectangle queryRect)
     {
         return treeRootNode.rectQuery(queryRect);
     }

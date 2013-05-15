@@ -1,7 +1,8 @@
 package map;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  *
@@ -19,8 +20,8 @@ public class TreeNode {
     
     public int level;
     Rectangle boundary; 
-   private boolean isLeaf;
-    private ArrayList<Entity> entities = new ArrayList<Entity>();
+    private boolean isLeaf;
+    private LinkedList<Entity> entities = new LinkedList<Entity>();
     
     public TreeNode(TreeNode parent, Rectangle boundary, int level, QuadTree tree)
     {
@@ -55,7 +56,7 @@ public class TreeNode {
                 }
                 
                 //Now, get rid of our entities
-                entities = new ArrayList<>();
+                entities = new LinkedList<>();
             }
         }
         else
@@ -100,26 +101,140 @@ public class TreeNode {
         //Okay so this is not a leaf...
         for (TreeNode t : children)
         {
-            t.adjustPartitions(e);
+            if (t.contains(e)) 
+                t.adjustPartitions(e);
         }
         
-        //Now, are we a 
+        //Now, are we a penultimate node, with all-leaf children?
         if (children[UL].isLeaf == true &&
             children[UR].isLeaf == true &&
             children[BL].isLeaf == true &&
             children[BR].isLeaf == true)
         {
+            //We need to check whether the number of entities (without repeats)
+            //is less than or equal to the MAX. If it is less than or equal to,
+            //then we merge. If at any point it's greater than, then we bail.
+            
+            //Get all the candidates.
+            LinkedList<Entity> candidateList = new LinkedList<>();
+            for (TreeNode t : children)
+                candidateList.addAll(t.getEntities());
+          
+            //Make one pass through the list to remove the ones that fit.
+            ListIterator iter = candidateList.listIterator();
+            LinkedList<Entity> cleanedList = new LinkedList<>();
+            while (iter.hasNext())
+            {
+                Entity ent = (Entity)iter.next();
+                //If it fits perfectly...
+                if (getIndex(ent.r) != -1)
+                {
+                    cleanedList.add(ent);
+                    iter.remove();
                     
-            if (this.getSize() <= tree.MAX_OBJECTS) {
-                this.merge();
+                    //If we've hit the limit already, then we don't merge.
+                    if (cleanedList.size() > tree.MAX_OBJECTS)
+                        return;
+                }
             }
+            
+            //Now, candidateList is filled with the duplicates!
+            //For each given thing on candidateList, there is either one copy or
+            //three copies. 
+            while (iter.hasNext())
+            {
+                iter = candidateList.listIterator();
+                Entity ent = (Entity)iter.next();
+                iter.remove();
+                boolean searching = true;
+                int numberFound = 0;
+                while (searching)
+                {
+                    Entity currentComparisonEnt = (Entity)iter.next();
+                    if (currentComparisonEnt.equals(ent))
+                    {
+                        iter.remove();
+                        numberFound++;
+                        
+                        if (numberFound > 1)
+                        {
+                            if (numberFound == 3)
+                            {
+                                searching = false;
+                                cleanedList.add(ent);
+                            }
+                        }
+                        else 
+                        {
+                            //Alright, well... are there two more to go? (Like, 
+                            int collNumber = 0;
+                            for (TreeNode t : children)
+                            {
+                                if (t.contains(ent)) collNumber++;
+                            }
+                            if (collNumber == 2)
+                            {
+                                searching = false;
+                                cleanedList.add(ent);
+                            }
+                        }
+                    }
+                }
+                    
+                //If at any point we can bail...
+                if (cleanedList.size() > tree.MAX_OBJECTS)
+                    return;
+            }
+            
+            entities = cleanedList;
+            children = null;
+            isLeaf = true;
+            
         }
         
     }
     
+    
+    /*
+ * Determine which node the object belongs to. -1 means
+ * object cannot completely fit within a child node and is part
+ * of the parent node
+ */
+    private int getIndex(Rectangle pRect) {
+        int index = -1;
+        double verticalMidpoint = boundary.getX() + (boundary.getWidth() / 2);
+        double horizontalMidpoint = boundary.getY() + (boundary.getHeight() / 2);
+
+        // Object can completely fit within the top quadrants
+        boolean topQuadrant = (pRect.getY() < horizontalMidpoint && pRect.getY() + pRect.getHeight() < horizontalMidpoint);
+        // Object can completely fit within the bottom quadrants
+        boolean bottomQuadrant = (pRect.getY() > horizontalMidpoint);
+
+        // Object can completely fit within the left quadrants
+        if (pRect.getX() < verticalMidpoint && pRect.getX() + pRect.getWidth() < verticalMidpoint) {
+           if (topQuadrant) {
+             index = 1;
+           }
+           else if (bottomQuadrant) {
+             index = 2;
+           }
+         }
+         // Object can completely fit within the right quadrants
+         else if (pRect.getX() > verticalMidpoint) {
+          if (topQuadrant) {
+            index = 0;
+          }
+          else if (bottomQuadrant) {
+            index = 3;
+          }
+        }
+
+        return index;
+    }
+ 
     private void merge()
     {
-        this.entities = new ArrayList<Entity>();
+        this.entities = new LinkedList<Entity>();
         
         //Take the this.entities from the children branch and put them in our branch
         this.entities.addAll(children[UL].getEntities());
@@ -132,7 +247,7 @@ public class TreeNode {
         isLeaf = true;
     }
     
-    public ArrayList<Entity> rectQuery(Rectangle queryRect)
+    public LinkedList<Entity> rectQuery(Rectangle queryRect)
     {
         if (isLeaf)
         {
@@ -143,7 +258,7 @@ public class TreeNode {
         {
             //For each child node, see if it touches the rect. If so, recursively
             //make the child node inspect its options too.
-            ArrayList<Entity> childrenEntities = new ArrayList<>();
+            LinkedList<Entity> childrenEntities = new LinkedList<>();
             for (TreeNode t : children)
             {
                 if (t.contains(queryRect))
@@ -176,9 +291,9 @@ public class TreeNode {
         isLeaf = false;
     }
     
-    public ArrayList<TreeNode> getPartitionBoxes()
+    public LinkedList<TreeNode> getPartitionBoxes()
     {
-        ArrayList<TreeNode> containedBoxes = new ArrayList<>();
+        LinkedList<TreeNode> containedBoxes = new LinkedList<>();
         containedBoxes.add(this);
         if (!isLeaf)
         {
@@ -227,7 +342,7 @@ public class TreeNode {
         return parent;
     }
     
-    public ArrayList<Entity> getEntities()
+    public LinkedList<Entity> getEntities()
     {
         return entities;
     }

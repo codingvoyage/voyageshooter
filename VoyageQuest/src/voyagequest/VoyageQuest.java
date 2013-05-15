@@ -22,6 +22,10 @@ public class VoyageQuest extends BasicGame {
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     
+    public static int MAP_WIDTH = VoyageQuest.X_RESOLUTION * 2;
+    public static int MAP_HEIGHT = VoyageQuest.Y_RESOLUTION * 3;
+    public static int ENTITY_TEST_COUNT = 5000;
+    
     public static Camera camera;
     public static ArrayList<Entity> entities;
     public static QuadTree partitionTree;
@@ -55,15 +59,14 @@ public class VoyageQuest extends BasicGame {
         gc.setMaximumLogicUpdateInterval(20);
         
         camera = new Camera();
-        partitionTree = new QuadTree(3, 15,
-                new Rectangle(0, 0, 5 * X_RESOLUTION, 
-                5 * Y_RESOLUTION));
+        partitionTree = new QuadTree(5, 20,
+                new Rectangle(0, 0, MAP_WIDTH, MAP_HEIGHT));
         entities = new ArrayList<>();
         
-        for (int i = 0; i < 500; i++)
+        for (int i = 0; i < 5000; i++)
         {
-            int randX = Util.rand(0, 5 * X_RESOLUTION - 20);
-            int randY = Util.rand(0, 5 * Y_RESOLUTION - 20);
+            int randX = Util.rand(0, MAP_WIDTH - 20);
+            int randY = Util.rand(0, MAP_HEIGHT - 20);
             int randWidth = Util.rand(2, 20);
             int randHeight = Util.rand(2, 20);
             
@@ -91,28 +94,35 @@ public class VoyageQuest extends BasicGame {
         
         Input input = gc.getInput();
         
-        double step = delta * 500;
+        double step = delta * 2;
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {
-            Camera.attemptMove(-step, 0);
+            camera.attemptMove(-step, 0);
         }
         
         if(input.isKeyDown(Input.KEY_RIGHT)) {
-            
+            camera.attemptMove(step, 0);
         }
         
         if(input.isKeyDown(Input.KEY_UP)) {
-          
+            camera.attemptMove(0, -step);
         }
         
         if(input.isKeyDown(Input.KEY_DOWN)) {
-           
+            camera.attemptMove(0, step);
         }
         
-        if(!input.isKeyDown(Input.KEY_UP) && !input.isKeyDown(Input.KEY_DOWN)) {
-            
+        if(input.isKeyDown(Input.KEY_ENTER))
+        {
+            if (partitionTree.getSize() > 0)
+            {
+                for (int i = 0; i < entities.size(); i++)
+                {
+                    Entity toBeRemoved = entities.get(i);
+                    partitionTree.removeEntity(toBeRemoved);
+                }
+            }
         }
-        
         
         deltaCounter += delta;
         removeCounter += delta;
@@ -136,11 +146,11 @@ public class VoyageQuest extends BasicGame {
             
         }
         
-        if (removeCounter > 50)
+        if (removeCounter > 19)
         {
             removeCounter = 0;
             //now let's remove one.
-            if (index < 1000) {
+            if (index < ENTITY_TEST_COUNT) {
                 Entity toBeRemoved = entities.get(index);
                 partitionTree.removeEntity(toBeRemoved);
                 index++;
@@ -155,7 +165,8 @@ public class VoyageQuest extends BasicGame {
      * @throws SlickException something went horribly wrong with Slick
      */
     @Override
-    public void render(GameContainer gc, Graphics g) throws SlickException {
+    public void render(GameContainer gc, Graphics g) throws SlickException
+    {
         //if there isn't a full screen GUI...
         camera.display(g);
         //gui.display

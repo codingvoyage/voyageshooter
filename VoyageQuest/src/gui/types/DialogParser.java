@@ -79,9 +79,9 @@ public class DialogParser {
             int width = FONT.getWidth(s);
             
             if (x + width > totalWidth) {
-                System.out.println(x);
+                //System.out.println(x);
                 x = xStart;
-                System.out.println();
+                //System.out.println();
                 y += FONT.getLineHeight();
             }
             

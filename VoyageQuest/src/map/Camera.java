@@ -2,7 +2,7 @@ package map;
 
 import org.newdawn.slick.Graphics;
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import voyagequest.VoyageQuest;
 
 /**
@@ -10,12 +10,12 @@ import voyagequest.VoyageQuest;
  * @author Edmund
  */
 public class Camera {
-    private double x, y;
+    private int x, y;
     
     public Camera()
     {
-        x = 0.0;
-        y= 0.0;
+        x = 0;
+        y= 0;
     }
     
     public void attemptMove(double xMove, double yMove)
@@ -24,16 +24,17 @@ public class Camera {
            double tempX = x + xMove;
            double tempY = y + yMove;
 
-           double mapWidth = 5 * VoyageQuest.X_RESOLUTION;
-           double mapHeight = 5 * VoyageQuest.Y_RESOLUTION;
+           double mapWidth = VoyageQuest.MAP_WIDTH;
+           double mapHeight = VoyageQuest.MAP_HEIGHT;
            //If we don't end up going less than 0, and if we don't
            //end up rendering stuff off the map...
            if (tempX >= 0 && tempY >= 0)
            {
                   if ((tempX < mapWidth - VoyageQuest.X_RESOLUTION)
-                     && (tempY < mapHeight - VoyageQuest.Y_RESOLUTION)
+                     && (tempY < mapHeight - VoyageQuest.Y_RESOLUTION))
                   {
-                           x = tempX; y = tempY;
+                           x = (int)tempX;
+                           y = (int)tempY;
                   }
                   
             }
@@ -54,7 +55,7 @@ public class Camera {
         Rectangle vRect = getViewRect();
         
         //get the entities which we need to draw:
-        ArrayList<Entity> entList = VoyageQuest.partitionTree.rectQuery(vRect);
+        LinkedList<Entity> entList = VoyageQuest.partitionTree.rectQuery(vRect);
         
         //now draw them all
         for (Entity e : entList)
@@ -71,13 +72,13 @@ public class Camera {
     public void drawPartitionBoxes(Graphics g)
     {
         g.setColor(org.newdawn.slick.Color.yellow);
-        ArrayList<TreeNode> partitionBoxes = VoyageQuest.partitionTree.getPartitions();
+        LinkedList<TreeNode> partitionBoxes = VoyageQuest.partitionTree.getPartitions();
         for (TreeNode t : partitionBoxes)
         {
             Rectangle r = t.boundary;
             g.drawRect(
-                    r.x,
-                    r.y,
+                    r.x - x,
+                    r.y - y,
                     r.width,
                     r.height);
             
