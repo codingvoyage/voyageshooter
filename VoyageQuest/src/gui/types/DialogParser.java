@@ -160,11 +160,13 @@ public class DialogParser {
         
         ListIterator<LinkedList<String>> words = chars.listIterator();
         for (int i = 0; i <= wordIndex; i++) {
-            if (i == wordIndex) {
-                ListIterator<String> tempChars = words.next().listIterator();
-                for (int j = 0; j <= charIndex; j++) {
-                    
-                }
+            ListIterator<String> tempChars = words.next().listIterator();
+            if (i == wordIndex)
+                calcPosition(tempChars, charIndex);
+            else {
+                words.previous();
+                LinkedList<String> currentChars = words.next();
+                calcPosition(tempChars, currentChars.size());
             }
         }
         
@@ -178,6 +180,7 @@ public class DialogParser {
         int charsPrinted = 0;
         while (charsPrinted <= numChars && tempWord.hasNext()) {
             currentWord += tempWord.next();
+            charsPrinted++;
         }
 
         float xStart = x + DIALOG_PADDING;
