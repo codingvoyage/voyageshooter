@@ -144,23 +144,7 @@ public class DialogParser {
         if (newWord) {
             String currentWord = "";
             
-            wordIterator.previous();
-            ListIterator<String> tempWord = wordIterator.next().listIterator();
-            while (tempWord.hasNext()) {
-                currentWord += tempWord.next();
-            }
-            
-            float xStart = x + DIALOG_PADDING;
-            x += DIALOG_PADDING;
-            y += DIALOG_PADDING;
-            int totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 2;
-            
-            int width = FONT.getWidth(currentWord);
-            
-            if (x + width > totalWidth) {
-                x = xStart;
-                y += FONT.getLineHeight();
-            }
+            calcPosition(wordIterator);
             
             newWord = false;
             
@@ -184,6 +168,29 @@ public class DialogParser {
             }
         }
         
+    }
+    
+    private void calcPosition(ListIterator<LinkedList<String>> iterator, int numChars) {
+        String currentWord = "";
+            
+        iterator.previous();
+        ListIterator<String> tempWord = iterator.next().listIterator();
+        int charsPrinted = 0;
+        while (charsPrinted <= numChars && tempWord.hasNext()) {
+            currentWord += tempWord.next();
+        }
+
+        float xStart = x + DIALOG_PADDING;
+        x += DIALOG_PADDING;
+        y += DIALOG_PADDING;
+        int totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 2;
+
+        int width = FONT.getWidth(currentWord);
+
+        if (x + width > totalWidth) {
+            x = xStart;
+            y += FONT.getLineHeight();
+        }
     }
 
     
