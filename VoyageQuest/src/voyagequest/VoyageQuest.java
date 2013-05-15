@@ -69,8 +69,13 @@ public class VoyageQuest extends BasicGame {
             int randY = Util.rand(0, MAP_HEIGHT - 20);
             int randWidth = Util.rand(2, 20);
             int randHeight = Util.rand(2, 20);
+            float randXVelocity = (float)Util.rand(0.3f, 1.5f);
+            float randYVelocity = (float)Util.rand(0.3f, 1.5f);
             
             Entity e = new Entity(new Rectangle(randX, randY, randWidth, randHeight));
+            e.vx = randXVelocity;
+            e.vy = randYVelocity;
+            
             entities.add(e);
             partitionTree.addEntity(e);
         }
@@ -93,6 +98,17 @@ public class VoyageQuest extends BasicGame {
     public void update(GameContainer gc, int delta) throws SlickException {
         
         Input input = gc.getInput();
+        
+        for (int i = 0; i < entities.size(); i++)
+        {
+           Entity e = entities.get(i);
+           if (e != null)
+           {
+               e.act(delta);
+           }
+        }
+        
+        
         
         double step = delta * 2;
         /* tilt and move to the left */

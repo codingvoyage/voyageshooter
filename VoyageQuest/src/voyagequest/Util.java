@@ -39,6 +39,13 @@ public final class Util {
         return randomNumber;
     }
     
+    public static float rand(float min, float max)
+    {
+        float randomNumber = min + (float)(Math.random() * ((max - min + 1)));
+        return randomNumber;
+    }
+    
+    
     /**
      * Nobody likes typing out System.out.println();
      * @param s the String to print 
