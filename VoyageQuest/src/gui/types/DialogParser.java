@@ -152,7 +152,7 @@ public class DialogParser {
         
         Util.p(x + ", " + y);
         FONT.drawString(x, y, next);
-        x += FONT.getWidth(next);
+        // x += FONT.getWidth(next);
         
     }
     
@@ -161,18 +161,21 @@ public class DialogParser {
         ListIterator<LinkedList<String>> words = chars.listIterator();
         for (int i = 0; i <= wordIndex; i++) {
             ListIterator<String> tempChars = words.next().listIterator();
-            if (i == wordIndex)
-                calcPosition(tempChars, charIndex);
-            else {
+            String word;
+            if (i == wordIndex) {
+                word = calcPosition(tempChars, charIndex);
+            } else {
                 words.previous();
                 LinkedList<String> currentChars = words.next();
-                calcPosition(tempChars, currentChars.size());
+                word = calcPosition(tempChars, currentChars.size());
             }
+            FONT.drawString(x, y, word);
+            // x += FONT.getWidth(word);
         }
         
     }
     
-    private void calcPosition(ListIterator<LinkedList<String>> iterator, int numChars) {
+    private String calcPosition(ListIterator<LinkedList<String>> iterator, int numChars) {
         String currentWord = "";
             
         iterator.previous();
@@ -194,7 +197,8 @@ public class DialogParser {
             x = xStart;
             y += FONT.getLineHeight();
         }
+        
+        return currentWord;
     }
 
-    
 }
