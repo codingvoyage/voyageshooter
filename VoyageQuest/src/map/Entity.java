@@ -1,6 +1,6 @@
 package map;
 
-import org.newdawn.slick.geom.Rectangle;
+import java.awt.Rectangle;
 import java.util.LinkedList;
 import voyagequest.VoyageQuest;
 
@@ -9,8 +9,8 @@ import voyagequest.VoyageQuest;
  * @author user
  */
 public class Entity {
+    
     Rectangle r;
-   
     public float vx;
     public float vy;
     
@@ -23,41 +23,22 @@ public class Entity {
     
     public void act(double deltaT)
     {
-        float candidateX = r.getX() + (float)(vx * deltaT/1000.0f);
-        float candidateY = r.getY() + (float)(vy * deltaT/1000.0f);
-
-         Rectangle 
-        newRCandidate = new Rectangle(candidateX, candidateY, r.getWidth(), r.getHeight());;
+        int candidateX = (int)(vx * deltaT);
+        int candidateY = (int)(vy * deltaT);
+        
+        Rectangle candidate = new Rectangle(candidateX, candidateY, r.width, r.height);
+        
+        LinkedList<Entity> collisionCandidates = VoyageQuest.partitionTree.rectQuery(candidate);
         
         //Now we see if collides
         boolean collides = false;
-        
-        if (!VoyageQuest.screen.intersects(newRCandidate))
-            collides = true;
-
-        LinkedList<Entity> collisionCandidates =
-                VoyageQuest.partitionTree.rectQuery(newRCandidate);
-        
-//        for (Entity asdf : collisionCandidates)
-//        {
-//            if (newRCandidate.intersects(asdf.r))
-//            {
-//                collides = true;
-//                break;
-//            }
-//        }
-        
-        if (collides)
+        for (Entity e : collisionCandidates)
         {
-            vx *= -1;
-            vy *= -1;
-        }
-        else
-        {
-            VoyageQuest.partitionTree.removeEntity(this);
-            r.setX(candidateX);
-            r.setY(candidateY);
-            VoyageQuest.partitionTree.addEntity(this);
+            if (e.r.intersects(candidate))
+            {
+                collides = true;
+                break;
+            }
         }
     }
     

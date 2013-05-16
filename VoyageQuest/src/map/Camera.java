@@ -1,7 +1,7 @@
 package map;
 
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Rectangle;
+import java.awt.Rectangle;
 import java.util.LinkedList;
 import voyagequest.VoyageQuest;
 
@@ -10,22 +10,22 @@ import voyagequest.VoyageQuest;
  * @author Edmund
  */
 public class Camera {
-    private float x, y;
+    private int x, y;
     
     public Camera()
     {
-        x = 0.0f;
-        y = 0.0f;
+        x = 0;
+        y= 0;
     }
     
-    public void attemptMove(float xMove, float yMove)
+    public void attemptMove(double xMove, double yMove)
     {
            //Where would we end up at
-           float tempX = x + xMove;
-           float tempY = y + yMove;
+           double tempX = x + xMove;
+           double tempY = y + yMove;
 
-           float mapWidth = VoyageQuest.MAP_WIDTH;
-           float mapHeight = VoyageQuest.MAP_HEIGHT;
+           double mapWidth = VoyageQuest.MAP_WIDTH;
+           double mapHeight = VoyageQuest.MAP_HEIGHT;
            //If we don't end up going less than 0, and if we don't
            //end up rendering stuff off the map...
            if (tempX >= 0 && tempY >= 0)
@@ -61,10 +61,10 @@ public class Camera {
         for (Entity e : entList)
         {
             g.drawRect(
-                    e.r.getX() - x,
-                    e.r.getY() - y,
-                    e.r.getWidth(),
-                    e.r.getHeight());
+                    e.r.x - x,
+                    e.r.y - y,
+                    e.r.width,
+                    e.r.height);
         }
                 
     }
@@ -77,10 +77,10 @@ public class Camera {
         {
             Rectangle r = t.boundary;
             g.drawRect(
-                    r.getX() - x,
-                    r.getY() - y,
-                    r.getWidth(),
-                    r.getHeight());
+                    r.x - x,
+                    r.y - y,
+                    r.width,
+                    r.height);
             
         }
         
