@@ -46,6 +46,13 @@ public final class Util {
     }
     
     
+    public static double rand(double min, double max)
+    {
+        double randomNumber = min + (double)(Math.random() * ((max - min + 1)));
+        return randomNumber;
+    }
+    
+    
     /**
      * Nobody likes typing out System.out.println();
      * @param s the String to print 

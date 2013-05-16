@@ -1,7 +1,7 @@
 package map;
 
 import org.newdawn.slick.Graphics;
-import java.awt.Rectangle;
+import voyagequest.DoubleRect;
 import java.util.LinkedList;
 import voyagequest.VoyageQuest;
 
@@ -40,10 +40,10 @@ public class Camera {
             }
     }
     
-    public Rectangle getViewRect()
+    public DoubleRect getViewRect()
     {
         
-        return new Rectangle(x, y, VoyageQuest.X_RESOLUTION,
+        return new DoubleRect(x, y, VoyageQuest.X_RESOLUTION,
                 VoyageQuest.Y_RESOLUTION);
     }
     
@@ -52,7 +52,7 @@ public class Camera {
         drawPartitionBoxes(g);
         
         //get the rectangle representing the Camera's range of vision
-        Rectangle vRect = getViewRect();
+        DoubleRect vRect = getViewRect();
         
         //get the entities which we need to draw:
         LinkedList<Entity> entList = VoyageQuest.partitionTree.rectQuery(vRect);
@@ -61,10 +61,10 @@ public class Camera {
         for (Entity e : entList)
         {
             g.drawRect(
-                    e.r.x - x,
-                    e.r.y - y,
-                    e.r.width,
-                    e.r.height);
+                    (float)e.r.x - x,
+                    (float)e.r.y - y,
+                    (float)e.r.width,
+                    (float)e.r.height);
         }
                 
     }
@@ -75,12 +75,12 @@ public class Camera {
         LinkedList<TreeNode> partitionBoxes = VoyageQuest.partitionTree.getPartitions();
         for (TreeNode t : partitionBoxes)
         {
-            Rectangle r = t.boundary;
+            DoubleRect r = t.boundary;
             g.drawRect(
-                    r.x - x,
-                    r.y - y,
-                    r.width,
-                    r.height);
+                   (float) r.x - x,
+                    (float)r.y - y,
+                    (float)r.width,
+                    (float)r.height);
             
         }
         

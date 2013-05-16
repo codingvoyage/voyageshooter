@@ -1,6 +1,6 @@
 package map;
 
-import java.awt.Rectangle;
+import voyagequest.DoubleRect;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -19,11 +19,11 @@ public class TreeNode {
     private TreeNode[] children;
     
     public int level;
-    Rectangle boundary; 
+    DoubleRect boundary; 
     private boolean isLeaf;
     private LinkedList<Entity> entities = new LinkedList<Entity>();
     
-    public TreeNode(TreeNode parent, Rectangle boundary, int level, QuadTree tree)
+    public TreeNode(TreeNode parent, DoubleRect boundary, int level, QuadTree tree)
     {
         this.tree = tree;
         this.parent = parent;
@@ -48,7 +48,7 @@ public class TreeNode {
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        if (children[i].contains(toBeMoved))
+                        if (children[i].boundary.intersects(toBeMoved.r))
                         {
                             children[i].addEntity(toBeMoved);
                         }
@@ -64,7 +64,7 @@ public class TreeNode {
             //Not a leaf... then simply add to whichever child needs it
             for (int i = 0; i < 4; i++)
             {
-                if (children[i].contains(e))
+                if (children[i].boundary.intersects(e.r))
                 {
                     children[i].addEntity(e);
                 }
@@ -83,7 +83,7 @@ public class TreeNode {
         {
             //Recurse through ...
             for (TreeNode child : children)
-                if (child.contains(e)) child.removeEntity(e);
+                if (child.boundary.intersects(e.r)) child.removeEntity(e);
         }
     }
     
@@ -101,7 +101,7 @@ public class TreeNode {
         //Okay so this is not a leaf...
         for (TreeNode t : children)
         {
-            if (t.contains(e)) 
+            if (t.boundary.intersects(e.r)) 
                 t.adjustPartitions(e);
         }
         
@@ -127,7 +127,7 @@ public class TreeNode {
             {
                 Entity ent = (Entity)iter.next();
                 //If it fits perfectly...
-                if (getIndex(ent.r) != -1)
+                if (this.boundary.contains(ent.r))
                 {
                     cleanedList.add(ent);
                     iter.remove();
@@ -170,7 +170,7 @@ public class TreeNode {
                             int collNumber = 0;
                             for (TreeNode t : children)
                             {
-                                if (t.contains(ent)) collNumber++;
+                                if (t.boundary.intersects(ent.r)) collNumber++;
                             }
                             if (collNumber == 2)
                             {
@@ -195,43 +195,6 @@ public class TreeNode {
     }
     
     
-    /*
- * Determine which node the object belongs to. -1 means
- * object cannot completely fit within a child node and is part
- * of the parent node
- */
-    private int getIndex(Rectangle pRect) {
-        int index = -1;
-        double verticalMidpoint = boundary.getX() + (boundary.getWidth() / 2);
-        double horizontalMidpoint = boundary.getY() + (boundary.getHeight() / 2);
-
-        // Object can completely fit within the top quadrants
-        boolean topQuadrant = (pRect.getY() < horizontalMidpoint && pRect.getY() + pRect.getHeight() < horizontalMidpoint);
-        // Object can completely fit within the bottom quadrants
-        boolean bottomQuadrant = (pRect.getY() > horizontalMidpoint);
-
-        // Object can completely fit within the left quadrants
-        if (pRect.getX() < verticalMidpoint && pRect.getX() + pRect.getWidth() < verticalMidpoint) {
-           if (topQuadrant) {
-             index = 1;
-           }
-           else if (bottomQuadrant) {
-             index = 2;
-           }
-         }
-         // Object can completely fit within the right quadrants
-         else if (pRect.getX() > verticalMidpoint) {
-          if (topQuadrant) {
-            index = 0;
-          }
-          else if (bottomQuadrant) {
-            index = 3;
-          }
-        }
-
-        return index;
-    }
- 
     private void merge()
     {
         this.entities = new LinkedList<Entity>();
@@ -247,7 +210,7 @@ public class TreeNode {
         isLeaf = true;
     }
     
-    public LinkedList<Entity> rectQuery(Rectangle queryRect)
+    public LinkedList<Entity> rectQuery(DoubleRect queryRect)
     {
         if (isLeaf)
         {
@@ -261,7 +224,7 @@ public class TreeNode {
             LinkedList<Entity> childrenEntities = new LinkedList<>();
             for (TreeNode t : children)
             {
-                if (t.contains(queryRect))
+                if (t.boundary.intersects(queryRect))
                     childrenEntities.addAll(t.rectQuery(queryRect));
             }
             return childrenEntities;
@@ -275,12 +238,12 @@ public class TreeNode {
         int topULX = (int)(boundary.getX());
         int topULY = (int)(boundary.getY());
         
-        Rectangle ULRect = new Rectangle(topULX, topULY, halfWidth, halfHeight);
-        Rectangle URRect = new Rectangle(topULX + halfWidth, topULY, halfWidth, halfHeight);
-        Rectangle BLRect = new Rectangle(topULX, topULY + halfHeight, halfWidth, halfHeight);
-        Rectangle BRRect = new Rectangle(topULX + halfWidth, topULY + halfHeight, halfWidth, halfHeight);
+        DoubleRect ULRect = new DoubleRect(topULX, topULY, halfWidth, halfHeight);
+        DoubleRect URRect = new DoubleRect(topULX + halfWidth, topULY, halfWidth, halfHeight);
+        DoubleRect BLRect = new DoubleRect(topULX, topULY + halfHeight, halfWidth, halfHeight);
+        DoubleRect BRRect = new DoubleRect(topULX + halfWidth, topULY + halfHeight, halfWidth, halfHeight);
         
-        //public TreeNode(TreeNode parent, Rectangle boundary, int level, QuadTree tree)
+        //public TreeNode(TreeNode parent, DoubleRect boundary, int level, QuadTree tree)
         children = new TreeNode[4];
         children[UL] = new TreeNode(this, ULRect, this.level + 1, tree);
         children[UR] = new TreeNode(this, URRect, this.level + 1, tree);
@@ -303,16 +266,6 @@ public class TreeNode {
             }
         }
         return containedBoxes;
-    }
-    
-    public boolean contains(Entity e)
-    {
-        return contains(e.r);
-    }
-    
-    public boolean contains(Rectangle r)
-    {
-        return boundary.intersects(r);
     }
     
     public boolean isLeaf()

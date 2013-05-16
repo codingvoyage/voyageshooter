@@ -3,7 +3,7 @@ package voyagequest;
 import map.*;
 import org.newdawn.slick.*;
 import java.util.ArrayList;
-import java.awt.Rectangle;
+import voyagequest.DoubleRect;
 import gui.special.*;
 
 /**
@@ -22,9 +22,10 @@ public class VoyageQuest extends BasicGame {
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     
-    public static int MAP_WIDTH = VoyageQuest.X_RESOLUTION * 2;
-    public static int MAP_HEIGHT = VoyageQuest.Y_RESOLUTION * 3;
-    public static int ENTITY_TEST_COUNT = 5000;
+    public static int MAP_WIDTH = VoyageQuest.X_RESOLUTION;
+    public static int MAP_HEIGHT = VoyageQuest.Y_RESOLUTION;
+    public static DoubleRect SCREEN_RECT = new DoubleRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
+    public static int ENTITY_TEST_COUNT = 20;
     
     public static Camera camera;
     public static ArrayList<Entity> entities;
@@ -59,20 +60,20 @@ public class VoyageQuest extends BasicGame {
         gc.setMaximumLogicUpdateInterval(20);
         
         camera = new Camera();
-        partitionTree = new QuadTree(5, 20,
-                new Rectangle(0, 0, MAP_WIDTH, MAP_HEIGHT));
+        partitionTree = new QuadTree(8, 50,
+                new DoubleRect(0, 0, MAP_WIDTH, MAP_HEIGHT));
         entities = new ArrayList<>();
         
-        for (int i = 0; i < 5000; i++)
+        for (int i = 0; i < ENTITY_TEST_COUNT; i++)
         {
             int randX = Util.rand(0, MAP_WIDTH - 20);
             int randY = Util.rand(0, MAP_HEIGHT - 20);
-            int randWidth = Util.rand(2, 20);
-            int randHeight = Util.rand(2, 20);
-            float randXVelocity = (float)Util.rand(0.3f, 1.5f);
-            float randYVelocity = (float)Util.rand(0.3f, 1.5f);
+            int randWidth = Util.rand(18, 20);
+            int randHeight = Util.rand(18, 20);
+            double randXVelocity = 0.1d;
+            double randYVelocity = 0.1d;
             
-            Entity e = new Entity(new Rectangle(randX, randY, randWidth, randHeight));
+            Entity e = new Entity(new DoubleRect(randX, randY, randWidth, randHeight));
             e.vx = randXVelocity;
             e.vy = randYVelocity;
             

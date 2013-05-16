@@ -1,6 +1,6 @@
 package map;
 
-import java.awt.Rectangle;
+import voyagequest.DoubleRect;
 import java.util.LinkedList;
 
 /**
@@ -12,7 +12,7 @@ public class QuadTree {
     public final int MAX_OBJECTS;
     private TreeNode treeRootNode;
     
-    public QuadTree(int maxLevel, int maxObjects, Rectangle boundary)
+    public QuadTree(int maxLevel, int maxObjects, DoubleRect boundary)
     {
         MAX_LEVELS = maxLevel;
         MAX_OBJECTS = maxObjects;
@@ -45,7 +45,7 @@ public class QuadTree {
         return treeRootNode.getPartitionBoxes();
     }
     
-    public LinkedList<Entity> rectQuery(Rectangle queryRect)
+    public LinkedList<Entity> rectQuery(DoubleRect queryRect)
     {
         return treeRootNode.rectQuery(queryRect);
     }
