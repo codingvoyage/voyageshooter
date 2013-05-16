@@ -3,7 +3,7 @@ package voyagequest;
 import map.*;
 import org.newdawn.slick.*;
 import java.util.ArrayList;
-import java.awt.Rectangle;
+import org.newdawn.slick.geom.Rectangle;
 import gui.special.*;
 
 /**
@@ -16,15 +16,16 @@ import gui.special.*;
 
 public class VoyageQuest extends BasicGame {
     /** x resolution */
-    public static int X_RESOLUTION = 1024;
+    public static float X_RESOLUTION = 1024;
     /** y resolution */
-    public static int Y_RESOLUTION = 768;
+    public static float Y_RESOLUTION = 768;
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     
-    public static int MAP_WIDTH = VoyageQuest.X_RESOLUTION * 2;
-    public static int MAP_HEIGHT = VoyageQuest.Y_RESOLUTION * 3;
-    public static int ENTITY_TEST_COUNT = 5000;
+    public static float MAP_WIDTH = VoyageQuest.X_RESOLUTION * 5;
+    public static float MAP_HEIGHT = VoyageQuest.Y_RESOLUTION * 5;
+    public static int ENTITY_TEST_COUNT = 200;
+    public static Rectangle screen = new Rectangle(0.0f, 0.0f, MAP_WIDTH, MAP_HEIGHT);
     
     public static Camera camera;
     public static ArrayList<Entity> entities;
@@ -59,18 +60,18 @@ public class VoyageQuest extends BasicGame {
         gc.setMaximumLogicUpdateInterval(20);
         
         camera = new Camera();
-        partitionTree = new QuadTree(5, 20,
+        partitionTree = new QuadTree(15, 10,
                 new Rectangle(0, 0, MAP_WIDTH, MAP_HEIGHT));
         entities = new ArrayList<>();
         
-        for (int i = 0; i < 5000; i++)
+        for (int i = 0; i < ENTITY_TEST_COUNT; i++)
         {
-            int randX = Util.rand(0, MAP_WIDTH - 20);
-            int randY = Util.rand(0, MAP_HEIGHT - 20);
-            int randWidth = Util.rand(2, 20);
-            int randHeight = Util.rand(2, 20);
-            float randXVelocity = (float)Util.rand(0.3f, 1.5f);
-            float randYVelocity = (float)Util.rand(0.3f, 1.5f);
+            float randX = Util.rand(0.0f, MAP_WIDTH - 50.0f);
+            float randY = Util.rand(0.0f, MAP_HEIGHT - 50.0f);
+            float randWidth = Util.rand(50.0f, 50.0f);
+            float randHeight = Util.rand(50.0f, 50.0f);
+            float randXVelocity = (float)Util.rand(50.0f, 50.0f);
+            float randYVelocity = (float)Util.rand(50.0f, 50.0f);
             
             Entity e = new Entity(new Rectangle(randX, randY, randWidth, randHeight));
             e.vx = randXVelocity;
@@ -110,7 +111,7 @@ public class VoyageQuest extends BasicGame {
         
         
         
-        double step = delta * 2;
+        float step = delta * 2;
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {
             camera.attemptMove(-step, 0);
@@ -135,6 +136,7 @@ public class VoyageQuest extends BasicGame {
                 for (int i = 0; i < entities.size(); i++)
                 {
                     Entity toBeRemoved = entities.get(i);
+                    if (toBeRemoved != null)
                     partitionTree.removeEntity(toBeRemoved);
                 }
             }
@@ -201,7 +203,7 @@ public class VoyageQuest extends BasicGame {
         // Start new game window
         AppGameContainer app = new AppGameContainer(new VoyageQuest());
         
-        app.setDisplayMode(X_RESOLUTION, Y_RESOLUTION, FULLSCREEN);
+        app.setDisplayMode((int)X_RESOLUTION, (int)Y_RESOLUTION, FULLSCREEN);
         app.setAlwaysRender(true);
         app.setTargetFrameRate(60);
 

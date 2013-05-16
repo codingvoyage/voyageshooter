@@ -1,6 +1,6 @@
 package map;
 
-import java.awt.Rectangle;
+import org.newdawn.slick.geom.Rectangle;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -196,17 +196,18 @@ public class TreeNode {
     
     
     /*
- * Determine which node the object belongs to. -1 means
- * object cannot completely fit within a child node and is part
- * of the parent node
- */
+     * Determine which node the object belongs to. -1 means
+     * object cannot completely fit within a child node and is part
+     * of the parent node
+     */
     private int getIndex(Rectangle pRect) {
         int index = -1;
         double verticalMidpoint = boundary.getX() + (boundary.getWidth() / 2);
         double horizontalMidpoint = boundary.getY() + (boundary.getHeight() / 2);
 
         // Object can completely fit within the top quadrants
-        boolean topQuadrant = (pRect.getY() < horizontalMidpoint && pRect.getY() + pRect.getHeight() < horizontalMidpoint);
+        boolean topQuadrant = (pRect.getY() < horizontalMidpoint &&
+                pRect.getY() + pRect.getHeight() < horizontalMidpoint);
         // Object can completely fit within the bottom quadrants
         boolean bottomQuadrant = (pRect.getY() > horizontalMidpoint);
 
@@ -231,21 +232,45 @@ public class TreeNode {
 
         return index;
     }
- 
-    private void merge()
-    {
-        this.entities = new LinkedList<Entity>();
-        
-        //Take the this.entities from the children branch and put them in our branch
-        this.entities.addAll(children[UL].getEntities());
-        this.entities.addAll(children[UR].getEntities());
-        this.entities.addAll(children[BL].getEntities());
-        this.entities.addAll(children[BR].getEntities());
-        
-        //We are now a childless leaf
-        children = null;
-        isLeaf = true;
+    
+    /*
+     * Determine which node the object belongs to. -1 means
+     * object cannot completely fit within a child node and is part
+     * of the parent node
+     */
+    private int getIndex(int rectX, int rectY, int rectWidth, int rectHeight) {
+        int index = -1;
+        double verticalMidpoint = boundary.getX() + (boundary.getWidth() / 2);
+        double horizontalMidpoint = boundary.getY() + (boundary.getHeight() / 2);
+
+        // Object can completely fit within the top quadrants
+        boolean topQuadrant = (rectY < horizontalMidpoint &&
+                rectY + rectHeight < horizontalMidpoint);
+        // Object can completely fit within the bottom quadrants
+        boolean bottomQuadrant = (rectY > horizontalMidpoint);
+
+        // Object can completely fit within the left quadrants
+        if (rectX < verticalMidpoint && rectX + rectWidth < verticalMidpoint) {
+           if (topQuadrant) {
+             index = 1;
+           }
+           else if (bottomQuadrant) {
+             index = 2;
+           }
+         }
+         // Object can completely fit within the right quadrants
+         else if (rectX > verticalMidpoint) {
+          if (topQuadrant) {
+            index = 0;
+          }
+          else if (bottomQuadrant) {
+            index = 3;
+          }
+        }
+
+        return index;
     }
+ 
     
     public LinkedList<Entity> rectQuery(Rectangle queryRect)
     {
@@ -261,7 +286,7 @@ public class TreeNode {
             LinkedList<Entity> childrenEntities = new LinkedList<>();
             for (TreeNode t : children)
             {
-                if (t.contains(queryRect))
+                if (t.boundary.intersects(queryRect))
                     childrenEntities.addAll(t.rectQuery(queryRect));
             }
             return childrenEntities;

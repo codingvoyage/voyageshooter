@@ -1,6 +1,6 @@
 package map;
 
-import java.awt.Rectangle;
+import org.newdawn.slick.geom.Rectangle;
 import java.util.LinkedList;
 
 /**
