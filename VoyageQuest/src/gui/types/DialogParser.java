@@ -30,13 +30,6 @@ public class DialogParser {
     
     /** Linked list of printed characters mapped to their coordinates to avoid repetitive calculations */
     private LinkedList<Coordinate> printedChars;
-    /** Iterator for list of printed characters */
-    private ListIterator<Coordinate> printedIterator;
-    
-    /** number of words printed */
-    private int wordIndex;
-    /** number of characters of the last word printed */
-    private int charIndex;
     
     /** Begin a new word */
     private boolean newWord;
@@ -72,9 +65,6 @@ public class DialogParser {
         
         // Split the text up into different words
         String[] words = text.split(" ");
-
-        wordIndex = 0;
-        charIndex = 0;
         
         xStart = x + DIALOG_PADDING;
         this.x += DIALOG_PADDING;
