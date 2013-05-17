@@ -28,6 +28,11 @@ public class DialogParser {
     /** Iterator for inner list to be printed */
     private ListIterator<String> charIterator;
     
+    /** Linked list of printed characters mapped to their coordinates to avoid repetitive calculations */
+    private LinkedList<Coordinate> printedChars;
+    /** Iterator for list of printed characters */
+    private ListIterator<Coordinate> printedIterator;
+    
     /** number of words printed */
     private int wordIndex;
     /** number of characters of the last word printed */
@@ -44,11 +49,19 @@ public class DialogParser {
     /** dialog box offset */
     public static final float DIALOG_PADDING = 25.0f;
     
+    /** left margin */
+    private float xStart;
+    /** width of the text area */
+    private int totalWidth;
+    
+    /** speed of text printing in milliseconds */
+    public static final int PRINT_SPEED = 25;
+    
     /**
-     * 
-     * @param text
-     * @param box
-     * @param x
+     * Print a new dialog message
+     * @param text the text to print
+     * @param box the box to print it in
+     * @param x x-coordinate of this
      * @param y 
      */
     public DialogParser(String text, Dialog box, float x, float y) {
@@ -63,9 +76,14 @@ public class DialogParser {
         wordIndex = 0;
         charIndex = 0;
         
+        xStart = x + DIALOG_PADDING;
+        this.x += DIALOG_PADDING;
+        this.y += DIALOG_PADDING;
+        totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 2;
+        
         chars = new LinkedList<>();
         
-        newWord = false;
+        newWord = true;
         
         boolean first = true;
         // For each word, split into characters
@@ -89,42 +107,42 @@ public class DialogParser {
         }
         
         wordIterator = chars.listIterator();
+        if (wordIterator.hasNext())
+            wordIterator.next();
+        printedChars = new LinkedList<>();
+        
     }
     
     /**
-     * 
-     * @param delta 
+     * Update the time
+     * @param delta the time interval
      */
     public void update(int delta) {
         time += delta;
     }
     
     /**
-     * 
-     * @return 
+     * Check if there is more to print
+     * @return boolean indicating whether or not there is more to print
      */
     public boolean hasNext() {
         return charIterator.hasNext() || wordIterator.hasNext();
     }
     
     /**
-     * 
-     * @return 
+     * Get the next character
+     * @return the next character
      */
     public String next() {
         if (charIterator.hasNext()) {
-            charIndex++;
             return charIterator.next();
-        }
-        else if (wordIterator.hasNext()) {
+        } else if (wordIterator.hasNext()) {
             charIterator = wordIterator.next().listIterator();
-            wordIndex++;
-            charIndex = 0;
             newWord = true;
             return next();
         } else
             // if this method was called correctly, it should never reach this point, but just in case
-            return "";      
+            return ""; 
     }
     
     /**
@@ -132,59 +150,50 @@ public class DialogParser {
      */
     public void drawNext() throws VoyageGuiException {
         
-        String next = "";
-        
-        if (time >= 300) {
-            if (hasNext()) 
-                next = next();
-            else 
-                throw new VoyageGuiException("There is no next character!");
-        }
-        
-        if (newWord) {
-            String currentWord = "";
+        printPrevious();
+        if (time >= PRINT_SPEED) {
+            String next = next();
+            time = 0;
+
+            if (newWord) {
+                String currentWord = "";
+
+                wordIterator.previous();
+                ListIterator<String> tempWord = wordIterator.next().listIterator();
+                while (tempWord.hasNext()) {
+                    currentWord += tempWord.next();
+                }
+
+                int width = FONT.getWidth(currentWord);
+                
+                if (x + width > totalWidth) {
+                    x = xStart;
+                    y += FONT.getLineHeight();
+                }
+
+                newWord = false;
             
-            wordIterator.previous();
-            ListIterator<String> tempWord = wordIterator.next().listIterator();
-            while (tempWord.hasNext()) {
-                currentWord += tempWord.next();
             }
             
-            float xStart = x + DIALOG_PADDING;
-            x += DIALOG_PADDING;
-            y += DIALOG_PADDING;
-            int totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 2;
-            
-            int width = FONT.getWidth(currentWord);
-            
-            if (x + width > totalWidth) {
-                x = xStart;
-                y += FONT.getLineHeight();
-            }
-            
-            newWord = false;
+            FONT.drawString(x, y, next);
+            printedChars.add(new Coordinate<>(next, x, y));
+            x += FONT.getWidth(next);  
             
         }
-        
-        Util.p(x + ", " + y);
-        FONT.drawString(x, y, next);
-        x += FONT.getWidth(next);
         
     }
     
+    /**
+     * Render what is already printed
+     */
     public void printPrevious() {
         
-        ListIterator<LinkedList<String>> words = chars.listIterator();
-        for (int i = 0; i <= wordIndex; i++) {
-            if (i == wordIndex) {
-                ListIterator<String> tempChars = words.next().listIterator();
-                for (int j = 0; j <= charIndex; j++) {
-                    
-                }
-            }
+        ListIterator<Coordinate> print = printedChars.listIterator();
+        while (print.hasNext()) {
+            Coordinate<String> next = print.next();
+            FONT.drawString(next.getPosition()[0], next.getPosition()[1], next.getObject());
         }
         
     }
-
     
 }

@@ -11,6 +11,10 @@ public class Dialog implements Displayable {
     
     /** The String to be printed */
     private String text;
+    /** x coordinate */
+    private float x;
+    /** y coordinate */
+    private float y;
     /** Is the dialog being printed? */
     private boolean isPrinting;
     /** width */
@@ -48,7 +52,6 @@ public class Dialog implements Displayable {
      */
     public void next(int delta) {
         parser.update(delta);
-        parser.next();
     }
     
     /**
@@ -59,7 +62,19 @@ public class Dialog implements Displayable {
         return text;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public int getWidth() {
         return width;
+    }
+    
+    public float getX() {
+        return x;
+    }
+    
+    public float getY() {
+        return y;
     }
 }
