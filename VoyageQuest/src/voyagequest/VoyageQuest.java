@@ -22,10 +22,10 @@ public class VoyageQuest extends BasicGame {
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     
-    public static int MAP_WIDTH = VoyageQuest.X_RESOLUTION;
-    public static int MAP_HEIGHT = VoyageQuest.Y_RESOLUTION;
+    public static int MAP_WIDTH = VoyageQuest.X_RESOLUTION * 100;
+    public static int MAP_HEIGHT = VoyageQuest.Y_RESOLUTION * 80;
     public static DoubleRect SCREEN_RECT = new DoubleRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
-    public static int ENTITY_TEST_COUNT = 20;
+    public static int ENTITY_TEST_COUNT = 50000;
     
     public static Camera camera;
     public static ArrayList<Entity> entities;
@@ -60,7 +60,7 @@ public class VoyageQuest extends BasicGame {
         gc.setMaximumLogicUpdateInterval(20);
         
         camera = new Camera();
-        partitionTree = new QuadTree(8, 50,
+        partitionTree = new QuadTree(20, 20,
                 new DoubleRect(0, 0, MAP_WIDTH, MAP_HEIGHT));
         entities = new ArrayList<>();
         
@@ -68,10 +68,10 @@ public class VoyageQuest extends BasicGame {
         {
             int randX = Util.rand(0, MAP_WIDTH - 20);
             int randY = Util.rand(0, MAP_HEIGHT - 20);
-            int randWidth = Util.rand(18, 20);
+            int randWidth = Util.rand(20, 50);
             int randHeight = Util.rand(18, 20);
-            double randXVelocity = 0.1d;
-            double randYVelocity = 0.1d;
+            double randXVelocity = 0.3d;
+            double randYVelocity = 0.3d;
             
             Entity e = new Entity(new DoubleRect(randX, randY, randWidth, randHeight));
             e.vx = randXVelocity;
@@ -98,8 +98,7 @@ public class VoyageQuest extends BasicGame {
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
         
-        Input input = gc.getInput();
-        
+        double before = System.nanoTime();
         for (int i = 0; i < entities.size(); i++)
         {
            Entity e = entities.get(i);
@@ -108,9 +107,11 @@ public class VoyageQuest extends BasicGame {
                e.act(delta);
            }
         }
+        double after = System.nanoTime();
+        double seconds = (after - before)/(1000000000.0d);
+        System.out.println(seconds);
         
-        
-        
+        Input input = gc.getInput();
         double step = delta * 2;
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {
