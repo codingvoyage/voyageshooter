@@ -25,16 +25,17 @@ public class VoyageQuest extends BasicGame {
     public static int MAP_WIDTH = VoyageQuest.X_RESOLUTION * 100;
     public static int MAP_HEIGHT = VoyageQuest.Y_RESOLUTION * 80;
     public static DoubleRect SCREEN_RECT = new DoubleRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
-    public static int ENTITY_TEST_COUNT = 50000;
     
-    public static Camera camera;
-    public static ArrayList<Entity> entities;
-    public static QuadTree partitionTree;
+    public static final double SCALING_FACTOR = 2;
+    
+    public static Entity player;
     
     int index = 0;
     int whichDraw = -1;
     int deltaCounter = 0;
     int removeCounter = 0;
+    
+    double time;
     
     public DialogBox dialog;
     
@@ -59,27 +60,14 @@ public class VoyageQuest extends BasicGame {
         gc.setMinimumLogicUpdateInterval(20);
         gc.setMaximumLogicUpdateInterval(20);
         
-        camera = new Camera();
-        partitionTree = new QuadTree(20, 20,
-                new DoubleRect(0, 0, MAP_WIDTH, MAP_HEIGHT));
-        entities = new ArrayList<>();
+        Global.currentMap = new Map("res/MAPTEST.tmx");
+        player = new Entity(new DoubleRect(0, 0, 64, 128));
         
-        for (int i = 0; i < ENTITY_TEST_COUNT; i++)
-        {
-            int randX = Util.rand(0, MAP_WIDTH - 20);
-            int randY = Util.rand(0, MAP_HEIGHT - 20);
-            int randWidth = Util.rand(20, 50);
-            int randHeight = Util.rand(18, 20);
-            double randXVelocity = 0.3d;
-            double randYVelocity = 0.3d;
-            
-            Entity e = new Entity(new DoubleRect(randX, randY, randWidth, randHeight));
-            e.vx = randXVelocity;
-            e.vy = randYVelocity;
-            
-            entities.add(e);
-            partitionTree.addEntity(e);
-        }
+        Global.currentMap.collisions.addEntity(player);
+        Global.currentMap.entities.add(player);
+        
+        Global.camera = new Camera();
+        Global.camera.setMap(Global.currentMap);
         
         Color start = new Color(166, 250, 252, 75); // Color: #A6FAFC with alpha 75%
         Color end = new Color(205, 255, 145, 75); // Color #CDFF91 with alpha 75%
@@ -97,83 +85,40 @@ public class VoyageQuest extends BasicGame {
      */
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
-        
-        double before = System.nanoTime();
-        for (int i = 0; i < entities.size(); i++)
+        for (int i = 0; i < Global.currentMap.entities.size(); i++)
         {
-           Entity e = entities.get(i);
-           if (e != null)
-           {
-               e.act(delta);
-           }
+            Entity e = Global.currentMap.entities.get(i);
+            if (e != null)
+            {
+                e.act(delta);
+            }
         }
-        double after = System.nanoTime();
-        double seconds = (after - before)/(1000000000.0d);
-        System.out.println(seconds);
         
         Input input = gc.getInput();
-        double step = delta * 2;
+        double step = 0.3*delta;
+            
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {
-            camera.attemptMove(-step, 0);
+            player.attemptMove(-step, 0);
         }
-        
+
         if(input.isKeyDown(Input.KEY_RIGHT)) {
-            camera.attemptMove(step, 0);
+            player.attemptMove(step, 0);
         }
-        
+
         if(input.isKeyDown(Input.KEY_UP)) {
-            camera.attemptMove(0, -step);
+            player.attemptMove(0, -step);
         }
         
         if(input.isKeyDown(Input.KEY_DOWN)) {
-            camera.attemptMove(0, step);
+            player.attemptMove(0, step);
         }
-        
+
         if(input.isKeyDown(Input.KEY_ENTER))
         {
-            if (partitionTree.getSize() > 0)
-            {
-                for (int i = 0; i < entities.size(); i++)
-                {
-                    Entity toBeRemoved = entities.get(i);
-                    partitionTree.removeEntity(toBeRemoved);
-                }
-            }
-        }
-        
-        deltaCounter += delta;
-        removeCounter += delta;
-        
-        if (deltaCounter > 1000)
-        {
-            deltaCounter = 0;
-            whichDraw *= -1;
-            if (whichDraw == 1)
-            {
-                Util.p("We will now traverse the tree to draw");
-            }
-            else 
-            {
-                Util.p("We will now draw the entity list");
-            }
-            
-            Util.p("Total number of entities in Tree: " + partitionTree.getSize());
-            Util.p("Total number of partitions in Tree: " + partitionTree.getPartitionCount());
-            
             
         }
-        
-        if (removeCounter > 19)
-        {
-            removeCounter = 0;
-            //now let's remove one.
-            if (index < ENTITY_TEST_COUNT) {
-                Entity toBeRemoved = entities.get(index);
-                partitionTree.removeEntity(toBeRemoved);
-                index++;
-            }
-        }
+
     }
 
     /**
@@ -185,11 +130,11 @@ public class VoyageQuest extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException
     {
-        //if there isn't a full screen GUI...
-        camera.display(g);
-        //gui.display
+        //If there isn't a full screen GUI... draw what the Camera sees
+        Global.camera.display(g);
+        
+        //Draw the GUI
         dialog.start();
-        //if the settings say we're doing FPS displaying...
         Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
     }
 
@@ -200,13 +145,10 @@ public class VoyageQuest extends BasicGame {
      * @throws SlickException something went horribly wrong with Slick
      */
     public static void main(String[] args) throws SlickException {
-        // Start new game window
         AppGameContainer app = new AppGameContainer(new VoyageQuest());
-        
         app.setDisplayMode(X_RESOLUTION, Y_RESOLUTION, FULLSCREEN);
         app.setAlwaysRender(true);
         app.setTargetFrameRate(60);
-
         app.start();
         
     }

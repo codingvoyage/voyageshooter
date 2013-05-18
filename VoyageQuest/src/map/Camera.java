@@ -4,19 +4,23 @@ import org.newdawn.slick.Graphics;
 import voyagequest.DoubleRect;
 import java.util.LinkedList;
 import voyagequest.VoyageQuest;
-
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 /**
  *
  * @author Edmund
  */
 public class Camera {
-    private int x, y;
+    private double x, y;
+    public Map map;
     
-    public Camera()
+    public Camera() 
     {
-        x = 0;
-        y= 0;
+        x = 0.0d;
+        y = 2000.0d;
     }
+    
+    public void setMap(Map map) { this.map = map; }
     
     public void attemptMove(double xMove, double yMove)
     {
@@ -33,8 +37,8 @@ public class Camera {
                   if ((tempX < mapWidth - VoyageQuest.X_RESOLUTION)
                      && (tempY < mapHeight - VoyageQuest.Y_RESOLUTION))
                   {
-                           x = (int)tempX;
-                           y = (int)tempY;
+                           x = tempX;
+                           y = tempY;
                   }
                   
             }
@@ -42,45 +46,48 @@ public class Camera {
     
     public DoubleRect getViewRect()
     {
+        //Center around the player
+        return new DoubleRect((double)VoyageQuest.player.r.getX() - 32,
+                (double)VoyageQuest.player.r.getY() - 64, VoyageQuest.X_RESOLUTION,
+             VoyageQuest.Y_RESOLUTION);
         
-        return new DoubleRect(x, y, VoyageQuest.X_RESOLUTION,
-                VoyageQuest.Y_RESOLUTION);
+//        return new DoubleRect(x, y, VoyageQuest.X_RESOLUTION,
+//                VoyageQuest.Y_RESOLUTION);
     }
     
     public void display(Graphics g)
     {
-        drawPartitionBoxes(g);
-        
         //get the rectangle representing the Camera's range of vision
         DoubleRect vRect = getViewRect();
         
-        //get the entities which we need to draw:
-        LinkedList<Entity> entList = VoyageQuest.partitionTree.rectQuery(vRect);
+        int extraX = (int)(vRect.x % 64);
+        int extraY = (int)(vRect.y % 64);
         
-        //now draw them all
+        map.tileMap.render(-extraX, -extraY, (int)(vRect.x/64), (int)(vRect.y/64), 20, 15);
+
+        
+        //get the entities which we need to draw:
+        LinkedList<Entity> entList = map.collisions.rectQuery(vRect);
+        
+        drawPartitionBoxes(g);
         for (Entity e : entList)
         {
-            g.drawRect(
-                    (float)e.r.x - x,
-                    (float)e.r.y - y,
-                    (float)e.r.width,
-                    (float)e.r.height);
+            e.draw(g, (float)x, (float)y);
         }
-                
     }
   
     public void drawPartitionBoxes(Graphics g)
     {
         g.setColor(org.newdawn.slick.Color.yellow);
-        LinkedList<TreeNode> partitionBoxes = VoyageQuest.partitionTree.getPartitions();
+        LinkedList<TreeNode> partitionBoxes = map.collisions.getPartitions();
         for (TreeNode t : partitionBoxes)
         {
             DoubleRect r = t.boundary;
             g.drawRect(
-                   (float) r.x - x,
-                    (float)r.y - y,
-                    (float)r.width,
-                    (float)r.height);
+                    (float)(r.x - x),
+                    (float)(r.y - y),
+                    (float)(r.width),
+                    (float)(r.height));
             
         }
         
