@@ -1,5 +1,6 @@
 package map;
 
+import voyagequest.Global;
 import org.newdawn.slick.Graphics;
 import voyagequest.DoubleRect;
 import java.util.LinkedList;
@@ -12,7 +13,6 @@ import org.newdawn.slick.SlickException;
  */
 public class Camera {
     private double x, y;
-    public Map map;
     
     public Camera() 
     {
@@ -20,16 +20,15 @@ public class Camera {
         y = 2000.0d;
     }
     
-    public void setMap(Map map) { this.map = map; }
-    
-    public void attemptMove(double xMove, double yMove)
+    public void pan(double xMove, double yMove)
     {
-           //Where would we end up at
+           //Where would we end up at if we were to pan
            double tempX = x + xMove;
            double tempY = y + yMove;
 
-           double mapWidth = VoyageQuest.MAP_WIDTH;
-           double mapHeight = VoyageQuest.MAP_HEIGHT;
+           double mapWidth = Global.currentMap.MAP_WIDTH;
+           double mapHeight = Global.currentMap.MAP_HEIGHT;
+           
            //If we don't end up going less than 0, and if we don't
            //end up rendering stuff off the map...
            if (tempX >= 0 && tempY >= 0)
@@ -47,12 +46,11 @@ public class Camera {
     public DoubleRect getViewRect()
     {
         //Center around the player
-        return new DoubleRect((double)VoyageQuest.player.r.getX() - 32,
-                (double)VoyageQuest.player.r.getY() - 64, VoyageQuest.X_RESOLUTION,
-             VoyageQuest.Y_RESOLUTION);
-        
-//        return new DoubleRect(x, y, VoyageQuest.X_RESOLUTION,
-//                VoyageQuest.Y_RESOLUTION);
+        return new DoubleRect(
+                (double)VoyageQuest.player.r.getX() - 32,
+                (double)VoyageQuest.player.r.getY() - 64, 
+                VoyageQuest.X_RESOLUTION,
+                VoyageQuest.Y_RESOLUTION);
     }
     
     public void display(Graphics g)
@@ -63,11 +61,10 @@ public class Camera {
         int extraX = (int)(vRect.x % 64);
         int extraY = (int)(vRect.y % 64);
         
-        map.tileMap.render(-extraX, -extraY, (int)(vRect.x/64), (int)(vRect.y/64), 20, 15);
-
+        Global.currentMap.tileMap.render(-extraX, -extraY, (int)(vRect.x/64), (int)(vRect.y/64), 20, 15);
         
         //get the entities which we need to draw:
-        LinkedList<Entity> entList = map.collisions.rectQuery(vRect);
+        LinkedList<Entity> entList = Global.currentMap.collisions.rectQuery(vRect);
         
         drawPartitionBoxes(g);
         for (Entity e : entList)
@@ -79,7 +76,7 @@ public class Camera {
     public void drawPartitionBoxes(Graphics g)
     {
         g.setColor(org.newdawn.slick.Color.yellow);
-        LinkedList<TreeNode> partitionBoxes = map.collisions.getPartitions();
+        LinkedList<TreeNode> partitionBoxes = Global.currentMap.collisions.getPartitions();
         for (TreeNode t : partitionBoxes)
         {
             DoubleRect r = t.boundary;

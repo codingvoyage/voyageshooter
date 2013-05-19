@@ -21,12 +21,8 @@ public class VoyageQuest extends BasicGame {
     public static int Y_RESOLUTION = 768;
     /** full screen mode */
     public static boolean FULLSCREEN = false;
-    
-    public static int MAP_WIDTH = VoyageQuest.X_RESOLUTION * 100;
-    public static int MAP_HEIGHT = VoyageQuest.Y_RESOLUTION * 80;
-    public static DoubleRect SCREEN_RECT = new DoubleRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
-    
-    public static final double SCALING_FACTOR = 2;
+    /** a rectangle of the screen*/
+    public static final DoubleRect SCREEN_RECT = new DoubleRect(0, 0, X_RESOLUTION, Y_RESOLUTION);
     
     public static Entity player;
     
@@ -60,14 +56,16 @@ public class VoyageQuest extends BasicGame {
         gc.setMinimumLogicUpdateInterval(20);
         gc.setMaximumLogicUpdateInterval(20);
         
+        //Create the current Map
         Global.currentMap = new Map("res/MAPTEST.tmx");
+        
+        //Create and add the player to the Map
         player = new Entity(new DoubleRect(0, 0, 64, 128));
-        
-        Global.currentMap.collisions.addEntity(player);
         Global.currentMap.entities.add(player);
+        Global.currentMap.collisions.addEntity(player);
         
+        //Now create the Camera.
         Global.camera = new Camera();
-        Global.camera.setMap(Global.currentMap);
         
         Color start = new Color(166, 250, 252, 75); // Color: #A6FAFC with alpha 75%
         Color end = new Color(205, 255, 145, 75); // Color #CDFF91 with alpha 75%

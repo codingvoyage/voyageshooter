@@ -41,8 +41,9 @@ public class Entity {
         double tempX = r.getX() + xMove;
         double tempY = r.getY() + yMove;
 
-        double mapWidth = VoyageQuest.MAP_WIDTH;
-        double mapHeight = VoyageQuest.MAP_HEIGHT;
+        double mapWidth = Global.currentMap.MAP_WIDTH;
+        double mapHeight = Global.currentMap.MAP_HEIGHT;
+        
         //If we don't end up going less than 0, and if we don't
         //end up rendering stuff off the map...
         if (tempX >= 0 && tempY >= 0)
