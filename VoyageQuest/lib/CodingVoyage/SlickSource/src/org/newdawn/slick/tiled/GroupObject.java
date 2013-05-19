@@ -147,11 +147,19 @@ public class GroupObject {
 	 *             Indicates a failure to parse the XML group
 	 */
 	public GroupObject(Element element, TiledMapPlus map) throws SlickException {
+
 		this.map = map;
 		if (element.getAttribute("gid") != "") {
 			gid = Integer.parseInt(element.getAttribute("gid"));
 			this.objectType = ObjectType.IMAGE;
 		}
+                if (element.getElementsByTagName("polyline").item(0) != null)
+			this.objectType = ObjectType.POLYLINE;
+		else if (element.getElementsByTagName("polygon").item(0) != null)
+			this.objectType = ObjectType.POLYGON;
+		else
+			this.objectType = ObjectType.RECTANGLE;
+                
 		if (objectType == ObjectType.IMAGE) {
 			if (element.getAttribute("width") != "") {
 				width = Integer.parseInt(element.getAttribute("width"));
