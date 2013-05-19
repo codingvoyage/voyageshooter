@@ -69,41 +69,79 @@ public class Camera {
         
         //We render from (int)(vRect.x/64) and (int)(vRect.y/64)
         
+//        for each row...
+//        {
         
-        ListIterator deferIterator = null;
-        LinkedList<Rectangular> drawingDeferrals = new LinkedList<>();
+        Layer objLayer = Global.currentMap.tileMap.getLayers().get(2);
+        int tile_length = Global.currentMap.TILE_LENGTH;
         
-        //Draw things in the buffer if our current row contains the bottom.
-        deferIterator = drawingDeferrals.listIterator();
-        while (deferIterator.hasNext())
+        int startRow = (int)(vRect.y/64) - 4;
+        int endRow = startRow + 17;
+        int rowsDrawn = 0;
+        
+        
+//        objLayer.render(0, 0, (int)(vRect.x/64), (int)(vRect.y/64), 17, 1,
+//                            false, tile_length, tile_length);
+//        
+        for (int i = startRow; i < endRow; i++)
         {
-            Rectangular currentRectangular = (Rectangular)deferIterator.next();
-            //The Rectangular is likely to be an entity, and getRect() for an Entity returns
-            //the boundary for the entity. Therefore, to get the lower Y bound for this Rectangular,
-            //add its height to its UL y-position
-            double lowerY = currentRectangular.getRect().y + currentRectangular.getRect().height;
-            if (lowerY fits inside this row)
-            {
-                //Draw currentRectangular
-                if (currentRectangular instanceof Entity && ((Entity)e).isPlayer)
-                {
-                    ((Entity)currentRectangular).draw(g,
-                           (float)(currentRectangular.getRect().x - vRect.x),
-                           (float)(currentRectangular.getRect().y - vRect.y));
-                }
-                
-                //Remove currentRectangular from the drawingDeferrals list.
-                deferIterator.remove();
-            }
-            else
-            {
-                //Do nothing...
-            }
-        }
+            
+            ///////////////////////////////////////////////////////////////////
+            //=======================/RENDER THIS ROW/=========================
+            ///////////////////////////////////////////////////////////////////
+            objLayer.render(extraX,
+                    rowsDrawn*tile_length + extraY - 4*tile_length,
+                    (int)(vRect.x/64), 
+                    i, 
+                    17, 1,
+                    false, tile_length, tile_length);
+            rowsDrawn++;
+            
+            
+            //Draw anything in our buffer if it can be drawn now
+            
+            
+            ///////////////////////////////////////////////////////////////////
+            //==================/READY THE DELAYED BUFFER=======================
+            ///////////////////////////////////////////////////////////////////
 
-        //Examine the next row now to see which things can be drawn immediately...
+            ListIterator deferIterator = null;
+            LinkedList<Rectangular> drawingDeferrals = new LinkedList<>();
+
+            //Draw things in the buffer if our current row contains the bottom.
+            deferIterator = drawingDeferrals.listIterator();
+            while (deferIterator.hasNext())
+            {
+                Rectangular currentRectangular = (Rectangular)deferIterator.next();
+                //The Rectangular is likely to be an entity, and getRect() for an Entity returns
+                //the boundary for the entity. Therefore, to get the lower Y bound for this Rectangular,
+                //add its height to its UL y-position
+                double lowerY = currentRectangular.getRect().y + currentRectangular.getRect().height;
+                if (lowerY fits inside this row)
+                {
+                    //Draw currentRectangular
+                    if (currentRectangular instanceof Entity && ((Entity)e).isPlayer)
+                    {
+                        ((Entity)currentRectangular).draw(g,
+                               (float)(currentRectangular.getRect().x - vRect.x),
+                               (float)(currentRectangular.getRect().y - vRect.y));
+                    }
+
+                    //Remove currentRectangular from the drawingDeferrals list.
+                    deferIterator.remove();
+                }
+                else
+                {
+                    //Do nothing...
+                }
+            }
+
         
-        
+            //Examine the next row now to see which things can be drawn immediately...
+
+            
+        }
+            
         
         //Get the entities which we need to draw:
         LinkedList<Rectangular> entList = Global.currentMap.collisions.rectQuery(vRect);
@@ -118,19 +156,19 @@ public class Camera {
             }
             
         }
-        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
-                        2, false);
-        
-        
-        
-        
-        
-        //Draw the things which tower above all else.
+//        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+//                        2, false);
+//        
+//        
+//        
+//        
+//        
+//        //Draw the things which tower above all else.
         Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
                         3, false);
         Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
                         4, false);
-        
+//        
         //The partitions help me debug, so draw these too
         drawPartitionBoxes(g);
         
