@@ -45,10 +45,13 @@ public class Camera {
     
     public DoubleRect getViewRect()
     {
+        x = (double)VoyageQuest.player.r.getX();
+        y = (double)VoyageQuest.player.r.getY(); 
+        
         //Center around the player
         return new DoubleRect(
-                (double)VoyageQuest.player.r.getX() - 32,
-                (double)VoyageQuest.player.r.getY() - 64, 
+                (double)VoyageQuest.player.r.getX(),
+                (double)VoyageQuest.player.r.getY(), 
                 VoyageQuest.X_RESOLUTION,
                 VoyageQuest.Y_RESOLUTION);
     }
@@ -58,10 +61,12 @@ public class Camera {
         //get the rectangle representing the Camera's range of vision
         DoubleRect vRect = getViewRect();
         
-        int extraX = (int)(vRect.x % 64);
-        int extraY = (int)(vRect.y % 64);
         
-        Global.currentMap.tileMap.render(-extraX, -extraY, (int)(vRect.x/64), (int)(vRect.y/64), 20, 15);
+        int extraX = -(int)(vRect.x % 64);
+        int extraY = -(int)(vRect.y % 64);
+        
+        
+        //Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 20, 15);
         
         //get the entities which we need to draw:
         LinkedList<Entity> entList = Global.currentMap.collisions.rectQuery(vRect);
@@ -70,7 +75,15 @@ public class Camera {
         for (Entity e : entList)
         {
             e.draw(g, (float)x, (float)y);
+            g.drawRect(
+                    (float)(e.r.x - x),
+                    (float)(e.r.y - y),
+                    (float)(e.r.width),
+                    (float)(e.r.height));
         }
+        
+        
+        
     }
   
     public void drawPartitionBoxes(Graphics g)

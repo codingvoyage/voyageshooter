@@ -64,6 +64,9 @@ public class VoyageQuest extends BasicGame {
         Global.currentMap.entities.add(player);
         Global.currentMap.collisions.addEntity(player);
         
+        //As a terrible temporary solution...
+        Global.character = new Image("res/CHARACTER.png");
+                
         //Now create the Camera.
         Global.camera = new Camera();
         
@@ -93,7 +96,7 @@ public class VoyageQuest extends BasicGame {
         }
         
         Input input = gc.getInput();
-        double step = 0.3*delta;
+        double step = 2*delta;
             
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {

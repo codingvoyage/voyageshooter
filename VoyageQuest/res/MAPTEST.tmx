@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="70" height="70" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="hyptosis_tile-art-batch-1" tilewidth="64" tileheight="64">
-  <image source="test/hyptosis_tile-art-batch-1.png" width="960" height="960"/>
+  <image source="test/hyptosis_tile-art-batch-1.png" width="1920" height="1920"/>
  </tileset>
  <tileset firstgid="901" name="Castle2" tilewidth="64" tileheight="64">
-  <image source="test/Castle2.png" width="512" height="512"/>
+  <image source="test/Castle2.png" width="1024" height="1024"/>
  </tileset>
  <tileset firstgid="1157" name="hyptosis_til-art-batch-2" tilewidth="64" tileheight="64">
-  <image source="test/hyptosis_til-art-batch-2.png" width="960" height="960"/>
+  <image source="test/hyptosis_til-art-batch-2.png" width="1920" height="1920"/>
  </tileset>
  <tileset firstgid="2057" name="hyptosis_tile-art-batch-3" tilewidth="64" tileheight="64">
-  <image source="test/hyptosis_tile-art-batch-3.png" width="960" height="960"/>
+  <image source="test/hyptosis_tile-art-batch-3.png" width="1920" height="1920"/>
  </tileset>
  <tileset firstgid="2957" name="hyptosis_tile-art-batch-4" tilewidth="64" tileheight="64">
-  <image source="test/hyptosis_tile-art-batch-4.png" width="960" height="960"/>
+  <image source="test/hyptosis_tile-art-batch-4.png" width="1920" height="1920"/>
  </tileset>
  <layer name="Tile Layer 1" width="70" height="70">
   <data encoding="base64" compression="gzip">
@@ -25,9 +25,9 @@
    H4sIAAAAAAAAC+3QMQ0AIAwAwSb4VwRSCAoIGujOyADDnYLPRwAAAAAAAAAAAMA7tUS08rriPz2fDF8OM58sXw6eAAAAAAAAAABwYwOAfiMGkEwAAA==
   </data>
  </layer>
- <layer name="Tile Layer 2" width="70" height="70">
+ <layer name="Tile Layer 2" width="70" height="70" opacity="0.97">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2Yy07CQBSGJ5mGaGChC13oRhe61zfQB9DoA2i8bX0HdSn4AggvALr2gq69ENdeiC+A8Rk8k3bSw7QdLEJwyv8lf9rQYTLny3QgRwgAAAAAAAAAAAAAAAAAAAAAAAAAAAB+x6kUoshyJoe9ovSoGkoDyDmlElyrDnopB2vnqfQQcw4eF73UaM2XrIaLP6YUvDfcsYtenmW4Z/j6b+n+LmUalHvpu9Ze6oF31/hI8KJ8tYI02X23z16k77QczKdduUY7wYvyNeEJMelF6zfDx33KcA9WmSsXifOifM1RrfOULxmfKXo27XWO+5bhHqzK0JWLxHmxMeb51wW6LnrR523mRbtykV685GJ8mHO6+DvESeNl1vNzCC8daC8z8BIhP8Jelqju5YTa88F7lLe4yaqXFap5tcueGEUvG1TzJqt7je7XDQ/Ki/4PM24kq152qLZd5mGL7rcNL+q3Wv+HyRnJqpd+zAkv8XOOuhezb1kMeguj7oX3/OosLvZdOP30oudoOdp34QzKi6v9BU2vXvS5YnrR/RlX+wsaXVfc+WmL/l5FRvdLFqgZ52Wa/n9dZuus5ag+dcMSs+cfF33Gun7WclSfumnJFeWacmMZo3vbrp+1HNWntvX7HyiPlCfLGO3D9bOW05bJPX+VV8ob5d0yJks+gBB7BSH2KQeFYa/kf3FEPo4pJ/ACAAAADI0fhDvPxZBMAAA=
+   H4sIAAAAAAAAC+2Yy04CMRSGm3RCNLDQhS50owvd6xvoA2j0ATTetr6DuhR8AYQXAF17QddeiGsvxBfA+AyewpzMsQxVEIId/i/5Mw1TmvZLpzM5SgEAAAAAAAAAAAAAAAAAAAAAAAAAAPA7jrVSWZETPegZdY5ZQ64POaUUwmvRQy/5cO4yhS5ijyHjo5cSzflcrOHsj8mFz4107KOXRx3tGTn/a2rfdJgK5VY3XbOXcujdN97aeDG+amGqov3Tb0+66TQfjseufKPexovxNRYoNR60rt+O7Peuoz1YFK58JM6L8TVDa52lfOj4TNC9yeB7v08d7cGijlz5SJwXFyNB8zpH1/mg9X5deGFXPtKNl1SMD3tMH99Dkk68TAfN7MNLgwXysBhEXqbgpcESeVgOXaSH2AvvD2aN2uvCi3mO0g43SfUi94dhi9rblodh9CL3h2GF2qsxXvgbZtRKUr3Y+2OD2puWF/Ou5m+YlJWkeunFmPASP+awe7HrltmwtjDsXmTNryziY91F0ksvPEbN07qLpF9efK0vMN164XPF9sL1GV/rCwyvK+78dIX/V9Ct+yUJlKzzspP6f1kn66yVmDp1xRG75h8XPmN9P2slpk5ddeSCckm5cvTh2rbvZ63E1Kld9f47yj3lwdGHffh+1krqun3N3+SZ8kJ5dfRJkg+g1E5GqV3KXmbQM/lfHJCPQ8oRvAAAAAAD4wvGpP7ZkEwAAA==
   </data>
  </layer>
  <layer name="Tile Layer 3" width="70" height="70">
@@ -35,5 +35,28 @@
    H4sIAAAAAAAAC+3ZMQrCQBAF0EAC28TaJjY2XsOTeRJP4oU8gk0Ei21MGAMLC8r6Hkwx3fLhN7NdBwAAAAAAAAAAAHU8+zws7YY8LB2GPJEkr9BeLqGTXOCjy/jtF/ymq1xCN7kAAACwMle4+d8b/DcYK9wkHw3mMrnVFjum7f1fndP2Du/0KKZHlNCjmB5RopUevQCgYDn8kEwAAA==
   </data>
  </layer>
- <objectgroup name="Object Layer 1" width="70" height="70"/>
+ <objectgroup name="Object Layer 1" width="70" height="70">
+  <object x="297" y="315" width="431" height="307"/>
+  <object x="572" y="729" width="311" height="137"/>
+  <object x="348" y="721" width="99" height="83"/>
+  <object x="812" y="160" width="119" height="455"/>
+  <object x="1411" y="2881" width="120" height="44"/>
+  <object x="1409" y="3009" width="125" height="60"/>
+  <object x="1158" y="3014" width="118" height="44"/>
+  <object x="1030" y="2829" width="54" height="51"/>
+  <object x="1737" y="2945" width="437" height="119"/>
+  <object x="1601" y="2561" width="122" height="315"/>
+  <object x="1733" y="2819" width="54" height="118"/>
+  <object x="1540" y="2627" width="52" height="119"/>
+  <object x="1729" y="2494" width="125" height="64"/>
+  <object x="1247" y="2376" width="63" height="119">
+   <properties>
+    <property name="teleport" value="map3"/>
+   </properties>
+  </object>
+  <object x="1316" y="2239" width="568" height="251"/>
+  <object x="1161" y="2240" width="83" height="254"/>
+  <object x="1954" y="2238" width="138" height="250"/>
+  <object x="1602" y="2495" width="123" height="60"/>
+ </objectgroup>
 </map>

@@ -1,9 +1,12 @@
 package map;
 
 import java.util.LinkedList;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Animation;
+
 import voyagequest.VoyageQuest;
 import voyagequest.DoubleRect;
 import voyagequest.Global;
@@ -13,9 +16,26 @@ import voyagequest.Global;
  * @author user
  */
 public class Entity {
+    //Temporary, will eventually be replaced by...
     Image character;
     
+    double accumulatedDeltaT = 0.0d;
+    int currentFrame = 0;
+    
+    
+    /** The entity's boundary rectangle. For this, r.x and r.y are
+      * the actual coordinates of the Entity in Map space. Width and
+      * height are the width and height of the entity, which are likely
+      * to be 64, 128 respectively.
+      */
     DoubleRect r;
+    
+    /**
+     * This describes the 
+     */
+    DoubleRect collisionRect;
+    
+    
     public double vx;
     public double vy;
     boolean hasDrawn;
@@ -23,13 +43,12 @@ public class Entity {
     public Entity(DoubleRect r) throws SlickException
     {
         this.r = r;
-        character = new Image("res/CHARACTER.png");
 
     }
     
     public void draw(Graphics g, float xOffset, float yOffset)
     {
-        character.draw((float)(VoyageQuest.X_RESOLUTION/2 - 32),
+        Global.character.draw((float)(VoyageQuest.X_RESOLUTION/2 - 32),
                         (float)(VoyageQuest.Y_RESOLUTION/2 - 64),
                         (float)r.width,
                         (float)r.height);
