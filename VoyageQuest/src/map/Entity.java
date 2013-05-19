@@ -16,8 +16,6 @@ import voyagequest.Global;
  * @author user
  */
 public class Entity {
-    //Temporary, will eventually be replaced by...
-    Image character;
     
     double accumulatedDeltaT = 0.0d;
     int currentFrame = 0;
@@ -39,6 +37,7 @@ public class Entity {
     public double vx;
     public double vy;
     boolean hasDrawn;
+    public boolean isPlayer = false;
     
     public Entity(DoubleRect r) throws SlickException
     {

@@ -4,6 +4,7 @@ import voyagequest.Global;
 import org.newdawn.slick.Graphics;
 import voyagequest.DoubleRect;
 import java.util.LinkedList;
+import org.newdawn.slick.Color;
 import voyagequest.VoyageQuest;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -60,26 +61,33 @@ public class Camera {
     {
         //get the rectangle representing the Camera's range of vision
         DoubleRect vRect = getViewRect();
-        
-        
+
         int extraX = -(int)(vRect.x % 64);
         int extraY = -(int)(vRect.y % 64);
-        
-        
-        //Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 20, 15);
-        
+
+        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 20, 15);
+
         //get the entities which we need to draw:
         LinkedList<Entity> entList = Global.currentMap.collisions.rectQuery(vRect);
-        
+
         drawPartitionBoxes(g);
         for (Entity e : entList)
         {
-            e.draw(g, (float)x, (float)y);
-            g.drawRect(
-                    (float)(e.r.x - x),
-                    (float)(e.r.y - y),
-                    (float)(e.r.width),
-                    (float)(e.r.height));
+            if (e.isPlayer)
+            {
+                e.draw(g, (float)x, (float)y);
+            }
+            else
+            {
+                g.setLineWidth(2.0f);
+                g.setColor(Color.black);
+                g.drawRect(
+                        (float)(e.r.x - x),
+                        (float)(e.r.y - y),
+                        (float)(e.r.width),
+                        (float)(e.r.height));
+            }
+            
         }
         
         

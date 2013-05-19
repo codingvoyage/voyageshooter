@@ -61,6 +61,7 @@ public class VoyageQuest extends BasicGame {
         
         //Create and add the player to the Map
         player = new Entity(new DoubleRect(0, 0, 64, 128));
+        player.isPlayer = true;
         Global.currentMap.entities.add(player);
         Global.currentMap.collisions.addEntity(player);
         
