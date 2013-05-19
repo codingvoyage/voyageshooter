@@ -97,7 +97,7 @@ public class VoyageQuest extends BasicGame {
         }
         
         Input input = gc.getInput();
-        double step = 2*delta;
+        double step = 0.5*delta;
             
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {
