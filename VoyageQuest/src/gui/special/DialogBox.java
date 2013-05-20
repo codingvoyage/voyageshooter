@@ -1,6 +1,7 @@
 package gui.special;
 
 import gui.BoundedGui;
+import gui.VoyageGuiException;
 import gui.types.Dialog;
 import org.newdawn.slick.Color;
 
@@ -24,7 +25,7 @@ public class DialogBox {
      * @param text 
      */
     public DialogBox(float x, float y, int width, int height, String text, Color start, Color end) {
-        this.window = new BoundedGui<>(x, y, width, height, start, end, new Dialog(text, width, height));
+        this.window = new BoundedGui<>(x, y, width, height, start, end, new Dialog(x, y, text, width, height));
         dialog = window.getObject();
     }
     
@@ -32,7 +33,15 @@ public class DialogBox {
      * 
      */
     public void start() {
-        window.display();
+        window.draw();
+    }
+    
+    public void next(int delta) {
+        dialog.next(delta);
+    }
+    
+    public void printNext() throws VoyageGuiException {
+        dialog.print();
     }
     
     /**

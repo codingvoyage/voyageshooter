@@ -1,5 +1,6 @@
 package voyagequest;
 
+import gui.VoyageGuiException;
 import map.*;
 import org.newdawn.slick.*;
 import java.util.ArrayList;

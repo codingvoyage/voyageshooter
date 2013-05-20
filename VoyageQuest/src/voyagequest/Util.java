@@ -71,6 +71,15 @@ public final class Util {
         System.out.println(i);
     }
     
+    /**
+     * Nobody likes typing out System.out.println();
+     * @param f the float to print
+     */
+    public static void p(float f)
+    {
+        System.out.println(f);
+    }
+    
     
     /**
      * Nobody likes typing out System.out.println();

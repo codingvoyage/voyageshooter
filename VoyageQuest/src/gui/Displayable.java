@@ -12,5 +12,5 @@ public interface Displayable {
      * @param y top right y-coordinate
      * @throws InterruptedException 
      */
-    public void print(float x, float y);
+    public void print() throws VoyageGuiException;
 }
