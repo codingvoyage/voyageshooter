@@ -62,7 +62,7 @@ public class Map {
             DoubleRect newRect = new DoubleRect(o.x, o.y, o.width, o.height);
             if (o.props != null && o.props.containsValue("map3"))
             {
-                System.out.println("Are you shitting me");
+                System.out.println("value read");
             }
             
             Entity e = new Entity(newRect);
