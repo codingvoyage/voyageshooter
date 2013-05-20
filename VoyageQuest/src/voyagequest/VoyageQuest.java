@@ -20,6 +20,7 @@ public class VoyageQuest extends BasicGame {
     public static int X_RESOLUTION = 1024;
     /** y resolution */
     public static int Y_RESOLUTION = 768;
+    
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     /** a rectangle of the screen*/
@@ -61,7 +62,7 @@ public class VoyageQuest extends BasicGame {
         Global.currentMap = new Map("res/MAPTEST.tmx");
         
         //Create and add the player to the Map
-        player = new Entity(new DoubleRect(600, 1600, 64, 128));
+        player = new Entity(new DoubleRect(1400, 4300, 64, 128));
         player.isPlayer = true;
         Global.currentMap.entities.add(player);
         Global.currentMap.collisions.addEntity(player);
@@ -76,7 +77,7 @@ public class VoyageQuest extends BasicGame {
         Color end = new Color(205, 255, 145, 100); // Color #CDFF91 with alpha 75%
         
         String lorem = "The dialog box system is currently under construction. This is merely a test of automatic line breaks. Do not modify the gui.* packages.";
-        dialog = new DialogBox(250, 550, 600, 150, lorem, start, end);
+        dialog = new DialogBox(50, 550, 900, 200, lorem, start, end);
     }
 
 
@@ -98,7 +99,7 @@ public class VoyageQuest extends BasicGame {
         }
         
         Input input = gc.getInput();
-        double step = 0.5*delta;
+        double step = 0.25*delta;
             
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {
@@ -142,6 +143,12 @@ public class VoyageQuest extends BasicGame {
             dialog.printNext();
         } catch (VoyageGuiException ex) {}
         Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
+        
+        double entityX = player.r.x;
+        double entityY = player.r.y;
+        
+        
+        Util.FONT.drawString(10, 40, "Coordinates of player: (" + entityX + ", " + entityY + ")");
     }
 
     /**
