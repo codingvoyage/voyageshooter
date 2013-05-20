@@ -72,8 +72,8 @@ public class VoyageQuest extends BasicGame {
         //Now create the Camera.
         Global.camera = new Camera();
         
-        Color start = new Color(166, 250, 252, 75); // Color: #A6FAFC with alpha 75%
-        Color end = new Color(205, 255, 145, 75); // Color #CDFF91 with alpha 75%
+        Color start = new Color(166, 250, 252, 100); // Color: #A6FAFC with alpha 75%
+        Color end = new Color(205, 255, 145, 100); // Color #CDFF91 with alpha 75%
         
         String lorem = "The dialog box system is currently under construction. This is merely a test of automatic line breaks. Do not modify the gui.* packages.";
         dialog = new DialogBox(250, 550, 600, 150, lorem, start, end);
@@ -121,7 +121,8 @@ public class VoyageQuest extends BasicGame {
         {
             
         }
-
+           
+        dialog.next(delta);
     }
 
     /**
@@ -136,8 +137,10 @@ public class VoyageQuest extends BasicGame {
         //If there isn't a full screen GUI... draw what the Camera sees
         Global.camera.display(g);
         
-        //Draw the GUI
-        dialog.start();
+        try {
+            dialog.start();
+            dialog.printNext();
+        } catch (VoyageGuiException ex) {}
         Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
     }
 
