@@ -8,7 +8,7 @@ import java.util.ListIterator;
  *
  * @author Edmund Qiu
  */
-public class TreeNode {
+public class TreeNode<E extends Rectangular> {
     public static final int UL = 0;
     public static final int UR = 1;
     public static final int BL = 2;
@@ -21,7 +21,7 @@ public class TreeNode {
     public int level;
     DoubleRect boundary; 
     private boolean isLeaf;
-    private LinkedList<Entity> entities = new LinkedList<Entity>();
+    private LinkedList<E> entities = new LinkedList<>();
     
     public TreeNode(TreeNode parent, DoubleRect boundary, int level, QuadTree tree)
     {
@@ -32,7 +32,7 @@ public class TreeNode {
         this.isLeaf = true;
     }
 
-    public void addEntity(Entity e)
+    public void addEntity(E e)
     {
         if (isLeaf)
         {
@@ -44,11 +44,11 @@ public class TreeNode {
                 this.splitBranches();
                 
                 //Now, distribute the stuff in our List between our new branches.
-                for (Entity toBeMoved : entities)
+                for (E toBeMoved : entities)
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        if (children[i].boundary.intersects(toBeMoved.r))
+                        if (children[i].boundary.intersects(toBeMoved.getRect()))
                         {
                             children[i].addEntity(toBeMoved);
                         }
@@ -64,7 +64,7 @@ public class TreeNode {
             //Not a leaf... then simply add to whichever child needs it
             for (int i = 0; i < 4; i++)
             {
-                if (children[i].boundary.intersects(e.r))
+                if (children[i].boundary.intersects(e.getRect()))
                 {
                     children[i].addEntity(e);
                 }
@@ -72,7 +72,7 @@ public class TreeNode {
         }
     }
 
-    public void removeEntity(Entity e)
+    public void removeEntity(E e)
     {
         //If this is a leaf...
         if (isLeaf)
@@ -83,7 +83,7 @@ public class TreeNode {
         {
             //Recurse through ...
             for (TreeNode child : children)
-                if (child.boundary.intersects(e.r)) child.removeEntity(e);
+                if (child.boundary.intersects(e.getRect())) child.removeEntity(e);
         }
     }
     
@@ -93,7 +93,7 @@ public class TreeNode {
      * of under the QuadTree's maximum.
      * @param e 
      */
-    public void adjustPartitions(Entity e)
+    public void adjustPartitions(E e)
     {
         //Alright, if this is a leaf, then we're done.
         if (isLeaf) return;
@@ -101,7 +101,7 @@ public class TreeNode {
         //Okay so this is not a leaf...
         for (TreeNode t : children)
         {
-            if (t.boundary.intersects(e.r)) 
+            if (t.boundary.intersects(e.getRect())) 
                 t.adjustPartitions(e);
         }
         
@@ -116,18 +116,19 @@ public class TreeNode {
             //then we merge. If at any point it's greater than, then we bail.
             
             //Get all the candidates.
-            LinkedList<Entity> candidateList = new LinkedList<>();
+            LinkedList<E> candidateList = new LinkedList<>();
             for (TreeNode t : children)
                 candidateList.addAll(t.getEntities());
           
             //Make one pass through the list to remove the ones that fit.
             ListIterator iter = candidateList.listIterator();
-            LinkedList<Entity> cleanedList = new LinkedList<>();
+            LinkedList<E> cleanedList = new LinkedList<>();
+            
             while (iter.hasNext())
             {
-                Entity ent = (Entity)iter.next();
+                E ent = (E)iter.next();
                 //If it fits perfectly...
-                if (this.boundary.contains(ent.r))
+                if (this.boundary.contains(ent.getRect()))
                 {
                     cleanedList.add(ent);
                     iter.remove();
@@ -144,13 +145,13 @@ public class TreeNode {
             while (iter.hasNext())
             {
                 iter = candidateList.listIterator();
-                Entity ent = (Entity)iter.next();
+                E ent = (E)iter.next();
                 iter.remove();
                 boolean searching = true;
                 int numberFound = 0;
                 while (searching)
                 {
-                    Entity currentComparisonEnt = (Entity)iter.next();
+                    E currentComparisonEnt = (E)iter.next();
                     if (currentComparisonEnt.equals(ent))
                     {
                         iter.remove();
@@ -170,7 +171,7 @@ public class TreeNode {
                             int collNumber = 0;
                             for (TreeNode t : children)
                             {
-                                if (t.boundary.intersects(ent.r)) collNumber++;
+                                if (t.boundary.intersects(ent.getRect())) collNumber++;
                             }
                             if (collNumber == 2)
                             {
@@ -197,7 +198,7 @@ public class TreeNode {
     
     private void merge()
     {
-        this.entities = new LinkedList<Entity>();
+        this.entities = new LinkedList<>();
         
         //Take the this.entities from the children branch and put them in our branch
         this.entities.addAll(children[UL].getEntities());
@@ -210,7 +211,7 @@ public class TreeNode {
         isLeaf = true;
     }
     
-    public LinkedList<Entity> rectQuery(DoubleRect queryRect)
+    public LinkedList<E> rectQuery(DoubleRect queryRect)
     {
         if (isLeaf)
         {
@@ -221,7 +222,7 @@ public class TreeNode {
         {
             //For each child node, see if it touches the rect. If so, recursively
             //make the child node inspect its options too.
-            LinkedList<Entity> childrenEntities = new LinkedList<>();
+            LinkedList<E> childrenEntities = new LinkedList<>();
             for (TreeNode t : children)
             {
                 if (t.boundary.intersects(queryRect))
@@ -295,7 +296,7 @@ public class TreeNode {
         return parent;
     }
     
-    public LinkedList<Entity> getEntities()
+    public LinkedList<E> getEntities()
     {
         return entities;
     }

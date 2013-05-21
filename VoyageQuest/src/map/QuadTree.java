@@ -7,24 +7,24 @@ import java.util.LinkedList;
  *
  * @author Edmund
  */
-public class QuadTree {
+public class QuadTree<E extends Rectangular> {
     public final int MAX_LEVELS;
     public final int MAX_OBJECTS;
-    private TreeNode treeRootNode;
+    private TreeNode<E> treeRootNode;
     
     public QuadTree(int maxLevel, int maxObjects, DoubleRect boundary)
     {
         MAX_LEVELS = maxLevel;
         MAX_OBJECTS = maxObjects;
-        treeRootNode = new TreeNode(null, boundary, 0, this);
+        treeRootNode = new TreeNode<>(null, boundary, 0, this);
     }
     
-    public void addEntity(Entity e)
-    {
+    public void addEntity(E e)
+    {  
         treeRootNode.addEntity(e);
     }
     
-    public void removeEntity(Entity e)
+    public void removeEntity(E e)
     {
         treeRootNode.removeEntity(e);
         treeRootNode.adjustPartitions(e);
@@ -45,7 +45,7 @@ public class QuadTree {
         return treeRootNode.getPartitionBoxes();
     }
     
-    public LinkedList<Entity> rectQuery(DoubleRect queryRect)
+    public LinkedList<E> rectQuery(DoubleRect queryRect)
     {
         return treeRootNode.rectQuery(queryRect);
     }

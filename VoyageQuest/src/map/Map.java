@@ -15,9 +15,16 @@ import voyagequest.VoyageQuest;
  * @author Edmund
  */
 public class Map {
+    //The tile based map provided by slick and tiled
     public TiledMapPlus tileMap;
+    
+    //For collision detection and such
     public QuadTree collisions;
     public QuadTree boundaries;
+    public static LinkedList<Rectangular> allCollisions;
+    public static LinkedList<Rectangular> allBoundaries;
+    
+    //all the entities
     public static LinkedList<Entity> entities;
     
     //The length and width of each tile.
@@ -41,48 +48,69 @@ public class Map {
         MAP_RECT = new DoubleRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
         
         //Create the LinkedList of all entities
+        allCollisions = new LinkedList<>();
+        allBoundaries = new LinkedList<>();
         entities = new LinkedList<>();
         
         //Initialize the QuadTrees of collisions and boundaries
-        collisions = new QuadTree(20, 10, MAP_RECT);
-        boundaries = new QuadTree(20, 10, MAP_RECT);
+        collisions = new QuadTree<>(20, 10, MAP_RECT);
+        boundaries = new QuadTree<>(20, 10, MAP_RECT);
         
         //Now that QuadTree is initialized, we are free to initialize the
-        //collision rects
+        //collision rects.
         ArrayList<ObjectGroup> objLayers = tileMap.getObjectGroups();
-        for (GroupObject o : objLayers.get(0).getObjects())
+        
+        //Get the collision layer
+        //Get the boundary layer
+        ArrayList<GroupObject> collisionLayer = objLayers.get(0).getObjects();
+        ArrayList<GroupObject> boundaryLayer = objLayers.get(1).getObjects();
+        
+        //First up, fill the collisionlayer. I favor the wrapper over the GroupObject approach, since 
+        //that enables easy access to the properties and other methods provided by GroupObject.
+        for (GroupObject o : collisionLayer)
         {
-            //As a temporary solution, insert a rectangle with the same
-            //dimensions as the object. WARNING WARNING WARNING WARNING
-            //WARNING we need to later change things so that we can
-            //insert GroupObjects which conveniently can store properties, so
-            //DEFINITELY change this in the future.
-            System.out.println(o.x);
-            System.out.println(o.y);
-            DoubleRect newRect = new DoubleRect(o.x, o.y, o.width, o.height);
-            if (o.props != null && o.props.containsValue("map3"))
+            GroupObjectWrapper collisionBox = new GroupObjectWrapper(o);
+            collisions.addEntity(collisionBox);
+            allCollisions.add(collisionBox);
+//            if (o.props != null && o.props.containsValue("map3"))
+//            {
+//                System.out.println("value read");
+//            }
+        }
+        
+        //Now, fill up the boundaryLayer...
+        for (GroupObject o : boundaryLayer)
+        {
+            //Find the collision GroupObject which fits entirely within the
+            //boundary GroupObject!
+            System.out.println("Blah");
+            
+            GroupObjectWrapper boundaryWrapper = new GroupObjectWrapper(o);
+            for (Rectangular candidate : allCollisions)
             {
-                System.out.println("value read");
+                //If the candidate is a GroupObjectWrapper, and if it contains
+                //the candidate...
+                if (candidate instanceof GroupObjectWrapper
+                 && boundaryWrapper.getRect().contains(candidate.getRect()))
+                {
+                    //... then create a TwoFieldGroupObjectWrapper with the extra
+                    //GroupObject 
+                    BoundaryWrapper newBoundary =
+                            new BoundaryWrapper(o, (GroupObjectWrapper)candidate);
+                    allBoundaries.add(newBoundary);
+                    boundaries.addEntity(newBoundary);
+                    
+                    //STOP CHECKING AND GO ON TO THE NEXT ELEMENT IN BOUNDARYLAYER
+                    break;
+                }
+                    
             }
-            
-            Entity e = new Entity(newRect);
-            collisions.addEntity(e);
-            entities.add(e);
         }
         
-        for (Entity e : entities)
-        {
-            System.out.println(e.r.x + " " + e.r.y + " " + e.r.width + " " + e.r.height);
-            
-        }
-        
-        System.out.println(collisions.getSize());
-        System.out.println(entities.size());
-        System.out.println("layercount: " + tileMap.getLayers().size());
-        
-        
-        
-        
+//        System.out.println(collisions.getSize());
+//        System.out.println(entities.size());
+//        System.out.println("layercount: " + tileMap.getLayers().size());
+//        
     }
     
 }

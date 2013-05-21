@@ -15,24 +15,29 @@
  <tileset firstgid="2957" name="hyptosis_tile-art-batch-4" tilewidth="64" tileheight="64">
   <image source="test/hyptosis_tile-art-batch-4.png" width="1920" height="1920"/>
  </tileset>
- <layer name="Tile Layer 1" width="70" height="70" visible="0">
+ <layer name="Terrain" width="70" height="70">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+2by00DMRBALeUAFz4nviVATuFbBv8+UgiCOx0AoQFKSAkpIVKgA8ZKrDjW2GObXY29GUtPKOxm5XlrT9Yj71ApNRQEQRAEQRAEQRAEQRCK4AV4tf5y96cEtItni68C+lQCo4WL0cILd39K4R34VMtxI/NoyUAtx4vMo1X0uPlQ87HD3RdBENaHQ+AIOC6gLyVxCVwB1wX0RRCEOqHyq+94zXk5ppZA5Vff8VrzMlZLwO7xA/AIPHmu4zvu+/9bjz/2EFgtAbvHbTXu+H1gtQTsHuv721TT1zLX447fxZ4rMbWEySKO7c1Vcpr9XW4PLu5coWoJbXj57s3hdmFj5krs+dMWvIx7c9/cLv5L014mHfYSg+97egxOO+BlmOklBHc84kW8tAW2DrhR87bOXrB1gO1ltqHUD8HvRve8YOsA28tWRLw7HRwvGOLFT9e95NbQTCxd9ZJbQzOxnACnBP0KvVC1N8pLU5ReszNQ86spH3bjjjkGan6phtzo+sK40HodBjW/Ql5mCc9ztXmhCHkxv1H6d2iXmENTq1bMHRNG6h5U3XSuTPVifJbswnbi24Pqy7+mUV7c/Op+5o49RGgPqi//pnpxx0wNdcvQHlRf/l0HLwOVvgc11GwvvlZDPdd4SdmDijVzLMYLd8wc2F7cYzXt9UjtK3V+yIsvj5f4rkrqmpo6P+QFy+OlvquSuqamzg95wajtXZXcXGB7MTndZQ/YBw5Ufe+q5NasYrycAefAhcp7TuAkt2YV4+UWuAPuVd5zQo3EeKHgjqENTM23X7GXPy0HOLaQTAAA
   </data>
  </layer>
- <layer name="WallFixLayer" width="70" height="70" visible="0">
+ <layer name="Second background" width="70" height="70">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+3QMQ0AIAwAwSb4VwRSCAoIGujOyADDnYLPRwAAAAAAAAAAAMA7tUS08rriPz2fDF8OM58sXw6eAAAAAAAAAABwYwOAfiMGkEwAAA==
   </data>
  </layer>
- <layer name="Tile Layer 2" width="70" height="70" visible="0" opacity="0.97">
+ <layer name="With Player Height" width="70" height="70" opacity="0.97">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+2Yy04CMRSGm3RCNLDQhS50owvd6xvoA2j0ATTetr6DuhR8AYQXAF17QddeiGsvxBfA+AyewpzMsQxVEIId/i/5Mw1TmvZLpzM5SgEAAAAAAAAAAAAAAAAAAAAAAAAAAPA7jrVSWZETPegZdY5ZQ64POaUUwmvRQy/5cO4yhS5ijyHjo5cSzflcrOHsj8mFz4107KOXRx3tGTn/a2rfdJgK5VY3XbOXcujdN97aeDG+amGqov3Tb0+66TQfjseufKPexovxNRYoNR60rt+O7Peuoz1YFK58JM6L8TVDa52lfOj4TNC9yeB7v08d7cGijlz5SJwXFyNB8zpH1/mg9X5deGFXPtKNl1SMD3tMH99Dkk68TAfN7MNLgwXysBhEXqbgpcESeVgOXaSH2AvvD2aN2uvCi3mO0g43SfUi94dhi9rblodh9CL3h2GF2qsxXvgbZtRKUr3Y+2OD2puWF/Ou5m+YlJWkeunFmPASP+awe7HrltmwtjDsXmTNryziY91F0ksvPEbN07qLpF9efK0vMN164XPF9sL1GV/rCwyvK+78dIX/V9Ct+yUJlKzzspP6f1kn66yVmDp1xRG75h8XPmN9P2slpk5ddeSCckm5cvTh2rbvZ63E1Kld9f47yj3lwdGHffh+1krqun3N3+SZ8kJ5dfRJkg+g1E5GqV3KXmbQM/lfHJCPQ8oRvAAAAAAD4wvGpP7ZkEwAAA==
   </data>
  </layer>
- <layer name="Tile Layer 3" width="70" height="70" visible="0">
+ <layer name="Above entities" width="70" height="70">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+3ZMQrCQBAF0EAC28TaJjY2XsOTeRJP4oU8gk0Ei21MGAMLC8r6Hkwx3fLhN7NdBwAAAAAAAAAAAHU8+zws7YY8LB2GPJEkr9BeLqGTXOCjy/jtF/ymq1xCN7kAAACwMle4+d8b/DcYK9wkHw3mMrnVFjum7f1fndP2Du/0KKZHlNCjmB5RopUevQCgYDn8kEwAAA==
+  </data>
+ </layer>
+ <layer name="Highest" width="70" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAK8Gfpd2NZBMAAA=
   </data>
  </layer>
  <objectgroup name="Object Layer 1" width="70" height="70">
@@ -59,5 +64,23 @@
   <object x="1954" y="2238" width="138" height="250"/>
   <object x="1602" y="2495" width="123" height="60"/>
   <object x="293" y="163" width="134" height="67"/>
+  <object x="1287" y="3935" width="53" height="29"/>
+  <object x="1542" y="3928" width="52" height="37"/>
+  <object x="1544" y="4122" width="52" height="34"/>
+  <object x="1287" y="4123" width="53" height="33"/>
+  <object x="1544" y="4314" width="50" height="33"/>
+  <object x="1287" y="4314" width="52" height="32"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 2" width="70" height="70">
+  <object x="1150" y="2815" width="133" height="253"/>
+  <object x="1018" y="2711" width="72" height="173"/>
+  <object x="1405" y="2943" width="132" height="129"/>
+  <object x="1407" y="2688" width="128" height="241"/>
+  <object x="1537" y="3845" width="65" height="124"/>
+  <object x="1282" y="3848" width="65" height="120"/>
+  <object x="1279" y="4036" width="70" height="125"/>
+  <object x="1539" y="4036" width="65" height="125"/>
+  <object x="1281" y="4229" width="64" height="122"/>
+  <object x="1538" y="4227" width="64" height="125"/>
  </objectgroup>
 </map>

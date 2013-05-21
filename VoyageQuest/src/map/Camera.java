@@ -3,12 +3,14 @@ package map;
 import voyagequest.Global;
 import voyagequest.DoubleRect;
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 import voyagequest.VoyageQuest;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -28,30 +30,6 @@ public class Camera {
         screenCenterX = VoyageQuest.X_RESOLUTION/2.0;
         screenCenterY = VoyageQuest.Y_RESOLUTION/2.0;
     }
-    
-//    public void pan(double xMove, double yMove)
-//    {
-//           //Where would we end up at if we were to pan
-//           double tempX = x + xMove;
-//           double tempY = y + yMove;
-//
-//           double mapWidth = Global.currentMap.MAP_WIDTH;
-//           double mapHeight = Global.currentMap.MAP_HEIGHT;
-//           
-//           //If we don't end up going less than 0, and if we don't
-//           //end up rendering stuff off the map...
-//           if (tempX >= 0 && tempY >= 0)
-//           {
-//                  if ((tempX < mapWidth - VoyageQuest.X_RESOLUTION)
-//                     && (tempY < mapHeight - VoyageQuest.Y_RESOLUTION))
-//                  {
-//                           x = tempX;
-//                           y = tempY;
-//                  }
-//                  
-//            }
-//    }
-    
     
     //Center around the player
     public DoubleRect getViewRect()
@@ -81,37 +59,81 @@ public class Camera {
         int extraY = -(int)(vRect.y % 64);
 
         //Draw the tilemap. This part will need serious refactoring
-        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13);
-
+        
+        //Draw the bottom two layers which are below everything else.
+        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+                        0, false);
+        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+                        1, false);
+        
+        
+        
+        
+        
+        
+        
+        //Get the entities which we need to draw:
+        LinkedList<Rectangular> entList = Global.currentMap.collisions.rectQuery(vRect);
+        for (Rectangular e : entList)
+        {
+            //Temporary solution... only draw player
+            if (e instanceof Entity && ((Entity)e).isPlayer)
+            {
+                ((Entity)e).draw(g,
+                       (float)(e.getRect().x - vRect.x),
+                       (float)(e.getRect().y - vRect.y));
+            }
+            
+        }
+        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+                        2, false);
+        
+        
+        
+        
+        
+        //Draw the things which tower above all else.
+        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+                        3, false);
+        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+                        4, false);
+        
         //The partitions help me debug, so draw these too
         drawPartitionBoxes(g);
         
-        //Get the entities which we need to draw:
-        LinkedList<Entity> entList = Global.currentMap.collisions.rectQuery(vRect);
-
-        
-        for (Entity e : entList)
+        //Draw all of the collision rectangles.
+        for (Rectangular e : entList)
         {
             //Temporary solution...
-            if (e.isPlayer)
+            if (!(e instanceof Entity))
             {
-                e.draw(g, (float)x, (float)y);
-            }
-            else
-            {
-                
+                //It was a GroupObjectWrapper...
                 g.setLineWidth(2.0f);
                 g.setColor(Color.black);
+                DoubleRect ourRect = e.getRect();
                 g.drawRect(
-                        (float)(e.r.x - vRect.x),
-                        (float)(e.r.y - vRect.y),
-                        (float)(e.r.width),
-                        (float)(e.r.height));
+                        (float)(ourRect.x - vRect.x),
+                        (float)(ourRect.y - vRect.y),
+                        (float)(ourRect.width),
+                        (float)(ourRect.height));
             }
             
         }
         
-        
+        //Draw the awkward boundary boxes too
+        g.setColor(Color.red);
+        entList = Global.currentMap.boundaries.rectQuery(vRect);
+        for (Rectangular e : entList)
+        {
+            //It was a GroupObjectWrapper...
+                    g.setLineWidth(2.0f);
+                    DoubleRect ourRect = e.getRect();
+                    g.drawRect(
+                            (float)(ourRect.x - vRect.x),
+                            (float)(ourRect.y - vRect.y),
+                            (float)(ourRect.width),
+                            (float)(ourRect.height));
+        }
         
     }
   
