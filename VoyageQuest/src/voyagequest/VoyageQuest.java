@@ -38,6 +38,8 @@ public class VoyageQuest extends BasicGame {
     
     public DialogBox dialog;
     
+    int guiTestCounter;
+    
     /**
      * Construct a new game
      */
