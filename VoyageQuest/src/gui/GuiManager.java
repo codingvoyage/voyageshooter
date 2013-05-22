@@ -77,6 +77,22 @@ public abstract class GuiManager {
     }
         
     /**
+     * Mouse has been clicked, but where? 
+     * If within one of the Gui's, then pass information about this click to the Gui object
+     */
+    public static void mouseClicked() {
+        
+    }
+    
+    /**
+     * Mouse has been dragged, but from where and to where?
+     * If within one of the Gui's, then pass information about this drag to the Gui object
+     */
+    public static void mouseDragged() {
+        
+    }
+    
+    /**
      * Retrieve a list of Gui elements
      * @return linked list of Gui element
      */

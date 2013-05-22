@@ -1,6 +1,6 @@
 package gui.special;
 
-import gui.BoundedGui;
+import gui.Gui;
 import gui.VoyageGuiException;
 import gui.types.Dialog;
 import org.newdawn.slick.Color;
@@ -13,7 +13,7 @@ import org.newdawn.slick.GameContainer;
 public class DialogBox {
     
     /** The GUI element */
-    private BoundedGui<Dialog> window;
+    private Gui<Dialog> window;
     
     public static final int DEFAULT_X = 150;
     public static final int DEFAULT_Y = 550;
@@ -26,7 +26,7 @@ public class DialogBox {
      */
     public DialogBox(String text) {
         Dialog dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        this.window = new BoundedGui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, dialog);
+        this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, dialog);
         dialog.setWindow(window);
     }
     
@@ -38,7 +38,7 @@ public class DialogBox {
      */
     public DialogBox(String text, Color start, Color end) {
         Dialog dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        this.window = new BoundedGui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
+        this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
         dialog.setWindow(window);
     }
     
@@ -51,7 +51,7 @@ public class DialogBox {
      * @param text 
      */
     public DialogBox(float x, float y, int width, int height, String text) {
-        this.window = new BoundedGui<>(x, y, width, height, new Dialog(x, y, text, width, height));
+        this.window = new Gui<>(x, y, width, height, new Dialog(x, y, text, width, height));
     }
     
     /**
@@ -65,7 +65,7 @@ public class DialogBox {
      * @param end 
      */
     public DialogBox(float x, float y, int width, int height, String text, Color start, Color end) {
-        this.window = new BoundedGui<>(x, y, width, height, start, end, new Dialog(x, y, text, width, height));
+        this.window = new Gui<>(x, y, width, height, start, end, new Dialog(x, y, text, width, height));
     }
     
     /**
@@ -103,7 +103,7 @@ public class DialogBox {
      * Get Gui element
      * @return the gui window
      */
-    public BoundedGui<Dialog> getGui() {
+    public Gui<Dialog> getGui() {
         return window;
     }
     

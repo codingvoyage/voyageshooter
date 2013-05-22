@@ -59,6 +59,9 @@ public class VoyageQuest extends BasicGame {
         gc.setMinimumLogicUpdateInterval(20);
         gc.setMaximumLogicUpdateInterval(20);
         
+        // Give the event listener the game container to use
+        EventListener.initGc(gc);
+        
         //Create the current Map
         Global.currentMap = new Map("res/MAPTEST.tmx");
         
@@ -102,29 +105,8 @@ public class VoyageQuest extends BasicGame {
         }
         
         Input input = gc.getInput();
-        double step = 0.25*delta;
-            
-        /* tilt and move to the left */
-        if (input.isKeyDown(Input.KEY_LEFT)) {
-            player.attemptMove(-step, 0);
-        }
-
-        if(input.isKeyDown(Input.KEY_RIGHT)) {
-            player.attemptMove(step, 0);
-        }
-
-        if(input.isKeyDown(Input.KEY_UP)) {
-            player.attemptMove(0, -step);
-        }
         
-        if(input.isKeyDown(Input.KEY_DOWN)) {
-            player.attemptMove(0, step);
-        }
-
-        if(input.isKeyDown(Input.KEY_ENTER))
-        {
-            
-        }
+        EventListener.keyboardControl(player, delta);
         
         if(input.isKeyDown(Input.KEY_E))
         {
@@ -185,4 +167,25 @@ public class VoyageQuest extends BasicGame {
         app.start();
         
     }
+    
+    /**
+         * @see org.newdawn.slick.InputListener#mouseMoved(int, int, int, int)
+         */
+        public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+            //EventListener.mouseMoved(oldx, oldy, newx, newy);
+        }
+
+        /**
+         * @see org.newdawn.slick.InputListener#mouseDragged(int, int, int, int)
+         */
+        public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+            EventListener.mouseDragged(oldx, oldy, newx, newy);
+        }
+        
+        /**
+         * @see org.newdawn.slick.InputListener#mouseClicked(int, int, int, int)
+         */
+        public void mouseClicked(int button, int x, int y, int clickCount) {
+           //EventListener.mouseClicked(button, x, y, clickCount);
+        }
 }

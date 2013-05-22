@@ -1,6 +1,6 @@
 package gui.types;
 
-import gui.BoundedGui;
+import gui.Gui;
 import gui.Displayable;
 import gui.Gui;
 import gui.VoyageGuiException;
@@ -27,7 +27,7 @@ public class Dialog implements Displayable {
     /** the dialog parser */
     private DialogParser parser;
     /** the current Gui window */
-    private BoundedGui<Dialog> window;
+    private Gui<Dialog> window;
     
     /**
      * 
@@ -49,7 +49,7 @@ public class Dialog implements Displayable {
      * Used only for closing the dialog box from the parser
      * @param window the super window
      */
-    public void setWindow(BoundedGui<Dialog> window) {
+    public void setWindow(Gui<Dialog> window) {
         this.window = window;
     }
     
@@ -58,7 +58,7 @@ public class Dialog implements Displayable {
      * Used only for closing the dialog box from the parser
      * @return the window
      */
-    public BoundedGui<Dialog> getWindow() {
+    public Gui<Dialog> getWindow() {
         return window;
     }
     
