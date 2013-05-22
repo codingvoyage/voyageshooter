@@ -2,6 +2,7 @@ package gui.types;
 
 import gui.Displayable;
 import gui.VoyageGuiException;
+import org.newdawn.slick.GameContainer;
 
 /**
  * Dialog box GUI element
@@ -48,10 +49,12 @@ public class Dialog implements Displayable {
     }
     
     /**
-     * 
+     * Update with delta time
+     * @param delta delta time
      */
-    public void next(int delta) {
-        parser.update(delta);
+    @Override
+    public void next(GameContainer gc, int delta) {
+        parser.update(gc, delta);
     }
     
     /**
@@ -68,6 +71,10 @@ public class Dialog implements Displayable {
      */
     public int getWidth() {
         return width;
+    }
+    
+    public int getHeight() {
+        return height;
     }
     
     public float getX() {

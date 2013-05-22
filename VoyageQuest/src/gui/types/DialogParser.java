@@ -3,6 +3,8 @@ package gui.types;
 import gui.VoyageGuiException;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.UnicodeFont;
 import voyagequest.Util;
 
@@ -44,18 +46,30 @@ public class DialogParser {
     
     /** left margin */
     private float xStart;
+    /** top margin */
+    private float yStart;
     /** width of the text area */
     private int totalWidth;
+    /** height of the text area */
+    private int totalHeight;
     
     /** speed of text printing in milliseconds */
-    public static final int PRINT_SPEED = 25;
+    public static final int PRINT_SPEED = 20;
+    
+    /** waiting for user */
+    private boolean waiting = false;
+    
+    /** blink continue cursor */
+    private boolean blink = true;
+    /** blink speed */
+    public int blinkTimer = 0;
     
     /**
      * Print a new dialog message
      * @param text the text to print
      * @param box the box to print it in
      * @param x x-coordinate of this
-     * @param y 
+     * @param y y-coordinate of this
      */
     public DialogParser(String text, Dialog box, float x, float y) {
         this.box = box;
@@ -67,9 +81,11 @@ public class DialogParser {
         String[] words = text.split(" ");
         
         xStart = x + DIALOG_PADDING;
+        yStart = y + DIALOG_PADDING;
         this.x += DIALOG_PADDING;
         this.y += DIALOG_PADDING;
-        totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 2;
+        totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 3;
+        totalHeight = box.getHeight() + (int)yStart - (int)DIALOG_PADDING * 3;
         
         chars = new LinkedList<>();
         
@@ -107,8 +123,25 @@ public class DialogParser {
      * Update the time
      * @param delta the time interval
      */
-    public void update(int delta) {
+    public void update(GameContainer gc, int delta) {
         time += delta;
+        
+        if (waiting) {
+            Input input = gc.getInput();
+            if (input.isKeyDown(Input.KEY_Z)) {
+                waiting = false;
+                printedChars.clear();
+                x = xStart;
+                y = yStart;
+            }
+        }
+        
+        blinkTimer += delta;
+        
+        if (blinkTimer >= 400) {
+            blink = !blink;
+            blinkTimer = 0;
+        }
     }
     
     /**
@@ -141,34 +174,44 @@ public class DialogParser {
     public void drawNext() throws VoyageGuiException {
         
         printPrevious();
-        if (time >= PRINT_SPEED) {
-            String next = next();
-            time = 0;
+        if (!waiting) {
+            if (time >= PRINT_SPEED) {
+                String next = next();
+                time = 0;
 
-            if (newWord) {
-                String currentWord = "";
+                if (newWord) {
+                    String currentWord = "";
 
-                wordIterator.previous();
-                ListIterator<String> tempWord = wordIterator.next().listIterator();
-                while (tempWord.hasNext()) {
-                    currentWord += tempWord.next();
+                    wordIterator.previous();
+                    ListIterator<String> tempWord = wordIterator.next().listIterator();
+                    while (tempWord.hasNext()) {
+                        currentWord += tempWord.next();
+                    }
+
+                    int width = FONT.getWidth(currentWord);
+
+                    if (x + width > totalWidth) {
+                        x = xStart;
+                        y += FONT.getLineHeight();
+                        if (y > totalHeight) {
+                            waiting = true;
+                            charIterator.previous();
+                            return;
+                        }
+                    }
+
+                    newWord = false;
+
                 }
 
-                int width = FONT.getWidth(currentWord);
-                
-                if (x + width > totalWidth) {
-                    x = xStart;
-                    y += FONT.getLineHeight();
-                }
+                FONT.drawString(x, y, next);
+                printedChars.add(new Coordinate<>(next, x, y));
+                x += FONT.getWidth(next);  
 
-                newWord = false;
-            
             }
-            
-            FONT.drawString(x, y, next);
-            printedChars.add(new Coordinate<>(next, x, y));
-            x += FONT.getWidth(next);  
-            
+        } else {
+            if (blink)
+                FONT.drawString(xStart + box.getWidth(), yStart + box.getHeight(), "Press Z");
         }
         
     }

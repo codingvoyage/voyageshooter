@@ -1,6 +1,7 @@
 package gui;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.fills.GradientFill;
 import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.geom.ShapeRenderer;
@@ -174,6 +175,14 @@ public class BoundedGui<E extends Displayable> implements Gui {
     }
     
     /**
+     * Starts the Gui element
+     */
+    @Override
+    public void start() {
+        GuiManager.add(this);
+    }
+    
+    /**
      * Draw the GUI element
      */
     @Override
@@ -182,8 +191,17 @@ public class BoundedGui<E extends Displayable> implements Gui {
     }
     
     /**
-     * 
+     * Update with delta time
      */
+    @Override
+    public void next(GameContainer gc, int delta) {
+        object.next(gc, delta);
+    }
+    
+    /**
+     * Display the contained object
+     */
+    @Override
     public void display() throws VoyageGuiException {
         object.print();
     }

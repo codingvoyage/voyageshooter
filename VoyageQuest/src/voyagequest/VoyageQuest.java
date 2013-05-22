@@ -1,6 +1,7 @@
 package voyagequest;
 
 import gui.VoyageGuiException;
+import gui.GuiManager;
 import map.*;
 import org.newdawn.slick.*;
 import java.util.ArrayList;
@@ -76,8 +77,15 @@ public class VoyageQuest extends BasicGame {
         Color start = new Color(166, 250, 252, 100); // Color: #A6FAFC with alpha 75%
         Color end = new Color(205, 255, 145, 100); // Color #CDFF91 with alpha 75%
         
-        String lorem = "The dialog box system is currently under construction. This is merely a test of automatic line breaks. Do not modify the gui.* packages.";
-        dialog = new DialogBox(50, 550, 900, 200, lorem, start, end);
+        String lorem = "This dialog box will be removed in 60 seconds. Tue May 21 00:46:27 EDT 2013 INFO:Slick Build #264 \n" +
+"Tue May 21 00:46:27 EDT 2013 INFO:LWJGL Version: 2.9.0 \n" +
+"Tue May 21 00:46:27 EDT 2013 INFO:OriginalDisplayMode: 1920 x 1080 x 32 @60Hz \n" +
+"Tue May 21 00:46:27 EDT 2013 INFO:TargetDisplayMode: 1024 x 768 x 0 @0Hz \n" +
+"Tue May 21 00:46:28 EDT 2013 INFO:Starting display 1024x768 \n" +
+"Tue May 21 00:46:28 EDT 2013 INFO:Use Java PNG Loader = true \n" +
+"WARNING: Found unknown Windows version: Windows 7 :) :) :) If you are seeing this, then the test is successful. This dialog box is done and will be removed when the timer is up.";
+        dialog = new DialogBox(250, 550, 600, 150, lorem, start, end);
+        dialog.start();
     }
 
 
@@ -123,7 +131,12 @@ public class VoyageQuest extends BasicGame {
             
         }
            
-        dialog.next(delta);
+        GuiManager.update(gc, delta);
+        
+        if (guiTestCounter > 60000)
+            GuiManager.close(dialog.getGui());
+        else
+            guiTestCounter += delta;
     }
 
     /**
@@ -139,8 +152,8 @@ public class VoyageQuest extends BasicGame {
         Global.camera.display(g);
         
         try {
-            dialog.start();
-            dialog.printNext();
+            GuiManager.draw();
+            GuiManager.display();
         } catch (VoyageGuiException ex) {}
         Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
         
