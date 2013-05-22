@@ -38,8 +38,6 @@ public class VoyageQuest extends BasicGame {
     
     public DialogBox dialog;
     
-    int guiTestCounter;
-    
     /**
      * Construct a new game
      */
@@ -76,17 +74,12 @@ public class VoyageQuest extends BasicGame {
         //Now create the Camera.
         Global.camera = new Camera();
         
-        Color start = new Color(166, 250, 252, 100); // Color: #A6FAFC with alpha 75%
-        Color end = new Color(205, 255, 145, 100); // Color #CDFF91 with alpha 75%
-        
-        String lorem = "This dialog box will be removed in 60 seconds. Tue May 21 00:46:27 EDT 2013 INFO:Slick Build #264 \n" +
-"Tue May 21 00:46:27 EDT 2013 INFO:LWJGL Version: 2.9.0 \n" +
-"Tue May 21 00:46:27 EDT 2013 INFO:OriginalDisplayMode: 1920 x 1080 x 32 @60Hz \n" +
-"Tue May 21 00:46:27 EDT 2013 INFO:TargetDisplayMode: 1024 x 768 x 0 @0Hz \n" +
-"Tue May 21 00:46:28 EDT 2013 INFO:Starting display 1024x768 \n" +
-"Tue May 21 00:46:28 EDT 2013 INFO:Use Java PNG Loader = true \n" +
-"WARNING: Found unknown Windows version: Windows 7 :) :) :) If you are seeing this, then the test is successful. This dialog box is done and will be removed when the timer is up.";
-        dialog = new DialogBox(250, 550, 600, 150, lorem, start, end);
+        String lorem = "Welcome to VoyageQuest! I am your commander, Bakesale. I will now guide you through this test "
+                + "of my dialog box system. When this dialog box is finished, press E to create a new one. "
+                + "This box should automatically disappear after you press Z for the last time when it's done printing. "
+                + "This has been a successful test of my dialog box system. Remember, press E gently or it will spawn multiple ones stacked on top of each other for now. ! "
+                + "Thank you and I hope you enjoy your adventure, which beings NOW!";
+        dialog = new DialogBox(lorem);
         dialog.start();
     }
 
@@ -132,13 +125,25 @@ public class VoyageQuest extends BasicGame {
         {
             
         }
+        
+        if(input.isKeyDown(Input.KEY_E))
+        {
+            int rand = (int)(Math.random() * 2);
+            String lorem = "Hi I'm Panther. I'm a cool tester entity that Edmund is using to test his new fancy map "
+                    + "system with cool collision boxes. But check it out, I'm speaking! I'm actually speaking! "
+                    + "This is filler space so the dialog box overflows and requires you to press Z to continue "
+                    + "reading. Woohoo it works! Next step are the windows which is still in progress.";
+            String lorem2 = "Hi I'm Edmund. I'm a cool tester entity that Bakesale is using to test his fancy dialog "
+                    + "box printing with automatic line breaks and section breaks. I'm speaking! I'm actually speaking! "
+                    + "This is filler space so the dialog box overflows and requires you to press Z to continue "
+                    + "reading. Woohoo it works! Next step are the windows which is still in progress.";
+            if (rand < 1)
+                player.speak(lorem);
+            else
+                player.speak(lorem2);
+        } 
            
         GuiManager.update(gc, delta);
-        
-        if (guiTestCounter > 60000)
-            GuiManager.close(dialog.getGui());
-        else
-            guiTestCounter += delta;
     }
 
     /**

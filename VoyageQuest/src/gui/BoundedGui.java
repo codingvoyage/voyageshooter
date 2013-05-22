@@ -26,10 +26,10 @@ public class BoundedGui<E extends Displayable> implements Gui {
     /** corner radius */
     public final float CORNER_RADIUS;
     
-    /** gradient color start */
-    private Color start;
-    /** gradient color end */
-    private Color end;
+    /** gradient start color */
+    private Color start = new Color(166, 250, 252, 95); // Color: #A6FAFC with alpha
+    /** gradient end color */
+    private Color end = new Color(205, 255, 145, 95); // Color #CDFF91 with alpha
     
     /** the object contained in the GUI element */
     private E object;
@@ -50,9 +50,6 @@ public class BoundedGui<E extends Displayable> implements Gui {
         CORNER_RADIUS = 40.0f;
         rect = new RoundedRectangle(x, y, width, height, CORNER_RADIUS);
         
-        start = new Color(166, 250, 252, 75); // Color: #A6FAFC with alpha 75%
-        end = new Color(205, 255, 145, 75); // Color #CDFF91 with alpha 75%
-        
         this.object = object;
     }
     
@@ -72,9 +69,6 @@ public class BoundedGui<E extends Displayable> implements Gui {
         
         CORNER_RADIUS = cornerRadius;
         rect = new RoundedRectangle(x, y, width, height, CORNER_RADIUS);
-        
-        start = new Color(166, 250, 252, 75); // Color: #A6FAFC with alpha 75%
-        end = new Color(205, 255, 145, 75); // Color #CDFF91 with alpha 75%
         
         this.object = object;
     }

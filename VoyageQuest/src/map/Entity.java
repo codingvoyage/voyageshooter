@@ -7,6 +7,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Animation;
 
+import gui.GuiManager;
+import gui.special.DialogBox;
+
 import voyagequest.VoyageQuest;
 import voyagequest.DoubleRect;
 import voyagequest.Global;
@@ -100,6 +103,14 @@ public class Entity implements Rectangular {
         
     }
     
+    
+    /**
+     * Make the entity speak with a dialog box
+     * @param text the dialog text
+     */
+    public void speak(String text) {
+        (new DialogBox(text)).start();
+    }
     
     
 }
