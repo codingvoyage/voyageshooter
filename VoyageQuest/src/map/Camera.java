@@ -4,6 +4,7 @@ import voyagequest.Global;
 import voyagequest.DoubleRect;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import voyagequest.VoyageQuest;
 
@@ -66,9 +67,41 @@ public class Camera {
         Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
                         1, false);
         
+        //We render from (int)(vRect.x/64) and (int)(vRect.y/64)
         
         
+        ListIterator deferIterator = null;
+        LinkedList<Rectangular> drawingDeferrals = new LinkedList<>();
         
+        //Draw things in the buffer if our current row contains the bottom.
+        deferIterator = drawingDeferrals.listIterator();
+        while (deferIterator.hasNext())
+        {
+            Rectangular currentRectangular = (Rectangular)deferIterator.next();
+            //The Rectangular is likely to be an entity, and getRect() for an Entity returns
+            //the boundary for the entity. Therefore, to get the lower Y bound for this Rectangular,
+            //add its height to its UL y-position
+            double lowerY = currentRectangular.getRect().y + currentRectangular.getRect().height;
+            if (lowerY fits inside this row)
+            {
+                //Draw currentRectangular
+                if (currentRectangular instanceof Entity && ((Entity)e).isPlayer)
+                {
+                    ((Entity)currentRectangular).draw(g,
+                           (float)(currentRectangular.getRect().x - vRect.x),
+                           (float)(currentRectangular.getRect().y - vRect.y));
+                }
+                
+                //Remove currentRectangular from the drawingDeferrals list.
+                deferIterator.remove();
+            }
+            else
+            {
+                //Do nothing...
+            }
+        }
+
+        //Examine the next row now to see which things can be drawn immediately...
         
         
         
