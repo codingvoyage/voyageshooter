@@ -36,6 +36,11 @@ public class Entity implements Rectangular {
         colldimy = 80.0d;
     }
     
+    public DoubleRect getCollRect()
+    {
+        return new DoubleRect(r.x + colldimx, r.y + colldimy, 50.0d, 50.0d);
+    }
+    
     public void draw(Graphics g, float xOffset, float yOffset)
     {
         Global.character.draw(xOffset, yOffset);
@@ -53,7 +58,7 @@ public class Entity implements Rectangular {
         DoubleRect collCandidate = new DoubleRect(candidateX, candidateY, 50.0d, 50.0d);
 
         LinkedList<Rectangular> collisionCandidates = Global.currentMap.collisions.rectQuery(collCandidate);
-        System.out.println(collisionCandidates.size());
+        //System.out.println(collisionCandidates.size());
 
         //Now we see if collides
         boolean collides = false;

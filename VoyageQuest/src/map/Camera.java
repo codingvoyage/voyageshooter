@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 import voyagequest.VoyageQuest;
+import map.Entity;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Color;
@@ -55,6 +56,10 @@ public class Camera {
         //get the rectangle representing the Camera's range of vision
         DoubleRect vRect = getViewRect();
 
+        //The starting tiles of the map to draw
+        int startX = (int)(vRect.x/Global.currentMap.TILE_LENGTH);
+        int startY = (int)(vRect.y/Global.currentMap.TILE_LENGTH);
+        
         //Compensate for distance between tiles
         int extraX = -(int)(vRect.x % 64);
         int extraY = -(int)(vRect.y % 64);
@@ -62,15 +67,11 @@ public class Camera {
         //Draw the tilemap. This part will need serious refactoring
         
         //Draw the bottom two layers which are below everything else.
-        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+        Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
                         0, false);
-        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+        Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
                         1, false);
-        
-        //We render from (int)(vRect.x/64) and (int)(vRect.y/64)
-        
-//        for each row...
-//        {
+      
         
         Layer objLayer = Global.currentMap.tileMap.getLayers().get(2);
         int tile_length = Global.currentMap.TILE_LENGTH;
@@ -79,48 +80,44 @@ public class Camera {
         int endRow = startRow + 17;
         int rowsDrawn = 0;
         
-        
-//        objLayer.render(0, 0, (int)(vRect.x/64), (int)(vRect.y/64), 17, 1,
-//                            false, tile_length, tile_length);
-//        
+        LinkedList<Rectangular> drawingDeferrals = new LinkedList<>();
+        ListIterator deferIterator = null;
+
         for (int i = startRow; i < endRow; i++)
         {
-            
             ///////////////////////////////////////////////////////////////////
             //=======================/RENDER THIS ROW/=========================
             ///////////////////////////////////////////////////////////////////
             objLayer.render(extraX,
                     rowsDrawn*tile_length + extraY - 4*tile_length,
-                    (int)(vRect.x/64), 
+                    startX, 
                     i, 
                     17, 1,
                     false, tile_length, tile_length);
             rowsDrawn++;
             
-            
-            //Draw anything in our buffer if it can be drawn now
-            
-            
             ///////////////////////////////////////////////////////////////////
-            //==================/READY THE DELAYED BUFFER=======================
+            ///======/Draw things in the buffer if our current row/=========///
+            ///======/contains the bottom of the thing in the buffer/.======///
             ///////////////////////////////////////////////////////////////////
-
-            ListIterator deferIterator = null;
-            LinkedList<Rectangular> drawingDeferrals = new LinkedList<>();
-
-            //Draw things in the buffer if our current row contains the bottom.
+            
             deferIterator = drawingDeferrals.listIterator();
+            System.out.println(drawingDeferrals.size());
             while (deferIterator.hasNext())
             {
                 Rectangular currentRectangular = (Rectangular)deferIterator.next();
+                
                 //The Rectangular is likely to be an entity, and getRect() for an Entity returns
                 //the boundary for the entity. Therefore, to get the lower Y bound for this Rectangular,
                 //add its height to its UL y-position
                 double lowerY = currentRectangular.getRect().y + currentRectangular.getRect().height;
-                if (lowerY fits inside this row)
+                double rowYLower = rowsDrawn*tile_length + extraY - 4*tile_length;
+                double rowYHigher = rowYLower + tile_length;
+                
+                if (rowYLower <= lowerY && lowerY <= rowYHigher)
                 {
                     //Draw currentRectangular
-                    if (currentRectangular instanceof Entity && ((Entity)e).isPlayer)
+                    if (currentRectangular instanceof Entity && ((Entity)currentRectangular).isPlayer)
                     {
                         ((Entity)currentRectangular).draw(g,
                                (float)(currentRectangular.getRect().x - vRect.x),
@@ -136,60 +133,93 @@ public class Camera {
                 }
             }
 
-        
-            //Examine the next row now to see which things can be drawn immediately...
-
+            //////////////////////////////////////////////////////////////////
+            ///=============/Fill the buffer for the next row/=============///
+            //////////////////////////////////////////////////////////////////
+            double nextRowXLower = startX*tile_length + extraX;
+            double nextRowYLower = (i + 1)*tile_length + extraY;
+            DoubleRect queryRect = new DoubleRect(nextRowXLower, nextRowYLower,
+                    VoyageQuest.X_RESOLUTION, tile_length);
+            
+            LinkedList<Rectangular> entitiesToConsider = Global.currentMap.collisions.rectQuery(queryRect);
+            ListIterator entityIterator = entitiesToConsider.listIterator();
+            while (entityIterator.hasNext())
+            {
+                Rectangular currentRectangular = (Rectangular)entityIterator.next();
+                if ((currentRectangular instanceof GroupObjectWrapper) 
+                    || 
+                            
+                        !(
+                            nextRowYLower <= ((Entity)currentRectangular).getRect().y 
+                            && ((Entity)currentRectangular).getRect().y <= nextRowYLower + tile_length
+                        ) )
+                            
+                    entityIterator.remove();
+            }
+            
+            
+            
+            entityIterator = entitiesToConsider.listIterator();
+            
+            while (entityIterator.hasNext())
+            {
+                Rectangular currentRectangular = (Rectangular)entityIterator.next();
+                //Get the first entity it collides with.
+                LinkedList<Rectangular> collRectangulars =
+                        Global.currentMap.boundaries.rectQuery(currentRectangular.getRect());
+                if (collRectangulars.size() != 0)
+                {
+                    Rectangular boundary = collRectangulars.getFirst();
+                    //if the boundaryEntity's collisionrect's y is less than the boundary
+                    if (
+                            (!(currentRectangular instanceof GroupObjectWrapper)) &&
+                            (((Entity)currentRectangular).getCollRect().y
+                             <= ((BoundaryWrapper)boundary).getSecondaryGroupObject().getRect().y))
+                            
+                    {
+                        //Draw it immediately.
+                        ((Entity)currentRectangular).draw(g,
+                               (float)(currentRectangular.getRect().x - vRect.x),
+                               (float)(currentRectangular.getRect().y - vRect.y));
+                        
+                    }
+                    else
+                    {
+                        //Place it in the deferredList
+                        drawingDeferrals.add(currentRectangular);
+                    }
+                }
+                
+                
+            }
+            
             
         }
             
         
         //Get the entities which we need to draw:
         LinkedList<Rectangular> entList = Global.currentMap.collisions.rectQuery(vRect);
-        for (Rectangular e : entList)
-        {
-            //Temporary solution... only draw player
-            if (e instanceof Entity && ((Entity)e).isPlayer)
-            {
-                ((Entity)e).draw(g,
-                       (float)(e.getRect().x - vRect.x),
-                       (float)(e.getRect().y - vRect.y));
-            }
-            
-        }
-//        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
-//                        2, false);
-//        
-//        
-//        
-//        
-//        
-//        //Draw the things which tower above all else.
-        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+//        for (Rectangular e : entList)
+//        {
+//            //Temporary solution... only draw player
+//            if (e instanceof Entity && ((Entity)e).isPlayer)
+//            {
+//                ((Entity)e).draw(g,
+//                       (float)(e.getRect().x - vRect.x),
+//                       (float)(e.getRect().y - vRect.y));
+//            }
+//            
+//        }
+
+        //Draw the things which tower above all else.
+        Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
                         3, false);
-        Global.currentMap.tileMap.render(extraX, extraY, (int)(vRect.x/64), (int)(vRect.y/64), 17, 13,
+        Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
                         4, false);
-//        
+
         //The partitions help me debug, so draw these too
         drawPartitionBoxes(g);
-        
-        //Draw all of the collision rectangles.
-        for (Rectangular e : entList)
-        {
-            //Temporary solution...
-            if (!(e instanceof Entity))
-            {
-                //It was a GroupObjectWrapper...
-                g.setLineWidth(2.0f);
-                g.setColor(Color.black);
-                DoubleRect ourRect = e.getRect();
-                g.drawRect(
-                        (float)(ourRect.x - vRect.x),
-                        (float)(ourRect.y - vRect.y),
-                        (float)(ourRect.width),
-                        (float)(ourRect.height));
-            }
-            
-        }
+ 
         
         //Draw the awkward boundary boxes too
         g.setColor(Color.red);
@@ -204,6 +234,18 @@ public class Camera {
                             (float)(ourRect.y - vRect.y),
                             (float)(ourRect.width),
                             (float)(ourRect.height));
+                    
+            //Draw its corresponding Boundary Wrapper
+            GroupObjectWrapper asdf = ((BoundaryWrapper)e).getSecondaryGroupObject();
+            g.setColor(Color.black);
+                g.setLineWidth(2.0f);
+                ourRect = asdf.getRect();
+                g.drawRect(
+                        (float)(ourRect.x - vRect.x),
+                        (float)(ourRect.y - vRect.y),
+                        (float)(ourRect.width),
+                        (float)(ourRect.height));
+
         }
         
     }
