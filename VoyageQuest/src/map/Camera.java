@@ -115,7 +115,7 @@ public class Camera {
             ///////////////////////////////////////////////////////////////////
             
             deferIterator = drawingDeferrals.listIterator();
-            //System.out.println(drawingDeferrals.size());
+            System.out.println(drawingDeferrals.size());
             while (deferIterator.hasNext())
             {
                 System.out.println("!!");
@@ -125,14 +125,17 @@ public class Camera {
                 //the boundary for the entity. Therefore, to get the lower Y bound for this Rectangular,
                 //add its height to its UL y-position
                 double lowerY = currentRectangular.getRect().y + currentRectangular.getRect().height;
-                double rowYLower = rowsDrawn*tile_length + extraY - 4*tile_length;
+                System.out.println("Lower Y for this Entity is " + lowerY);
+                double rowYLower = rowsDrawn*tile_length + extraY - 4*tile_length + vRect.y;
                 double rowYHigher = rowYLower + tile_length;
+                System.out.println("Does it fall between " + rowYLower + " and " + rowYHigher + "?");
                 
                 if (rowYLower < lowerY && lowerY < rowYHigher)
                 {
                     //Draw currentRectangular
                     if (currentRectangular instanceof Entity && ((Entity)currentRectangular).isPlayer)
                     {
+                        System.out.println("draw from the deferred list");
                         ((Entity)currentRectangular).draw(g,
                                (float)(currentRectangular.getRect().x - vRect.x),
                                (float)(currentRectangular.getRect().y - vRect.y));
