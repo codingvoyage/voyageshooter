@@ -80,9 +80,22 @@ public class Camera {
         int endRow = startRow + 17;
         int rowsDrawn = 0;
         
+        //The deferred list is the list of Entities which must wait...
         LinkedList<Rectangular> drawingDeferrals = new LinkedList<>();
         ListIterator deferIterator = null;
 
+        //Query the region for entities. Do so by eliminating all Rectangulars which are GroupObjects
+        DoubleRect queryRect = this.getViewRect();
+        LinkedList<Rectangular> entitiesToConsider = Global.currentMap.collisions.rectQuery(queryRect);
+        ListIterator entityIterator = entitiesToConsider.listIterator();
+        while (entityIterator.hasNext())
+        {
+            Rectangular currentRectangular = (Rectangular)entityIterator.next();
+            if (currentRectangular instanceof GroupObjectWrapper)
+                entityIterator.remove();
+        }
+            
+            
         for (int i = startRow; i < endRow; i++)
         {
             ///////////////////////////////////////////////////////////////////
@@ -102,9 +115,10 @@ public class Camera {
             ///////////////////////////////////////////////////////////////////
             
             deferIterator = drawingDeferrals.listIterator();
-            System.out.println(drawingDeferrals.size());
+            //System.out.println(drawingDeferrals.size());
             while (deferIterator.hasNext())
             {
+                System.out.println("!!");
                 Rectangular currentRectangular = (Rectangular)deferIterator.next();
                 
                 //The Rectangular is likely to be an entity, and getRect() for an Entity returns
@@ -114,7 +128,7 @@ public class Camera {
                 double rowYLower = rowsDrawn*tile_length + extraY - 4*tile_length;
                 double rowYHigher = rowYLower + tile_length;
                 
-                if (rowYLower <= lowerY && lowerY <= rowYHigher)
+                if (rowYLower < lowerY && lowerY < rowYHigher)
                 {
                     //Draw currentRectangular
                     if (currentRectangular instanceof Entity && ((Entity)currentRectangular).isPlayer)
@@ -137,59 +151,78 @@ public class Camera {
             ///=============/Fill the buffer for the next row/=============///
             //////////////////////////////////////////////////////////////////
             double nextRowXLower = startX*tile_length + extraX;
-            double nextRowYLower = (i + 1)*tile_length + extraY;
-            DoubleRect queryRect = new DoubleRect(nextRowXLower, nextRowYLower,
+            double nextRowYLower = (i+1)*tile_length + extraY;
+            DoubleRect rowRect = new DoubleRect(nextRowXLower, nextRowYLower,
                     VoyageQuest.X_RESOLUTION, tile_length);
             
-            LinkedList<Rectangular> entitiesToConsider = Global.currentMap.collisions.rectQuery(queryRect);
-            ListIterator entityIterator = entitiesToConsider.listIterator();
-            while (entityIterator.hasNext())
-            {
-                Rectangular currentRectangular = (Rectangular)entityIterator.next();
-                if ((currentRectangular instanceof GroupObjectWrapper) 
-                    || 
-                            
-                        !(
-                            nextRowYLower <= ((Entity)currentRectangular).getRect().y 
-                            && ((Entity)currentRectangular).getRect().y <= nextRowYLower + tile_length
-                        ) )
-                            
-                    entityIterator.remove();
-            }
-            
-            
-            
             entityIterator = entitiesToConsider.listIterator();
-            
             while (entityIterator.hasNext())
             {
-                Rectangular currentRectangular = (Rectangular)entityIterator.next();
+                Entity currentEntity = (Entity)entityIterator.next();
+                
+                //We're iterating through the list of entities. If it is not in the row, continue to
+                //the next Entity...
+                
+                if (!(rowRect.intersects(currentEntity.getRect())))
+                    continue;
+                        
+                //So we are in the right row.
                 //Get the first entity it collides with.
                 LinkedList<Rectangular> collRectangulars =
-                        Global.currentMap.boundaries.rectQuery(currentRectangular.getRect());
-                if (collRectangulars.size() != 0)
+                        Global.currentMap.boundaries.rectQuery(currentEntity.getRect());
+                System.out.println(collRectangulars.size());
+                
+                //If the size of this list is 0, then continue to the next Entity...
+                if (collRectangulars.size() == 0) 
                 {
-                    Rectangular boundary = collRectangulars.getFirst();
-                    //if the boundaryEntity's collisionrect's y is less than the boundary
-                    if (
-                            (!(currentRectangular instanceof GroupObjectWrapper)) &&
-                            (((Entity)currentRectangular).getCollRect().y
-                             <= ((BoundaryWrapper)boundary).getSecondaryGroupObject().getRect().y))
-                            
+                    continue;
+                }
+                
+                //Oh, so we have a hit. Get the boundary object. 
+                BoundaryWrapper boundary = null;
+                //Find first intsersection...
+                for (Rectangular r : collRectangulars)
+                {
+                    if (currentEntity.getRect().intersects(r.getRect()))
                     {
-                        //Draw it immediately.
-                        ((Entity)currentRectangular).draw(g,
-                               (float)(currentRectangular.getRect().x - vRect.x),
-                               (float)(currentRectangular.getRect().y - vRect.y));
-                        
-                    }
-                    else
-                    {
-                        //Place it in the deferredList
-                        drawingDeferrals.add(currentRectangular);
+                        boundary = (BoundaryWrapper)r;
+                        break;
                     }
                 }
                 
+                //If boundary is still null, just draw - we collide with nothing
+                if (boundary == null)
+                {
+                    
+                    currentEntity.draw(g,
+                           (float)(currentEntity.getRect().x - vRect.x),
+                           (float)(currentEntity.getRect().y - vRect.y));
+                    entityIterator.remove();
+                    break;
+                }
+                
+                
+                System.out.println("====================");
+                //if the boundaryEntity's collisionrect's y is less than the boundary's coll-rect
+                if (currentEntity.getCollRect().y
+                         < boundary.getSecondaryGroupObject().getRect().y)
+                {
+                    System.out.println("draw!!");
+                    //Draw it immediately.
+                    currentEntity.draw(g,
+                           (float)(currentEntity.getRect().x - vRect.x),
+                           (float)(currentEntity.getRect().y - vRect.y));
+
+                }
+                else
+                {
+                    System.out.println("deferall");
+                    //Place it in the deferredList
+                    drawingDeferrals.add(currentEntity);
+                }
+                
+                //If we're reached this point, then we can remove it from the entitiesToConsider list
+                entityIterator.remove();
                 
             }
             
@@ -197,20 +230,6 @@ public class Camera {
         }
             
         
-        //Get the entities which we need to draw:
-        LinkedList<Rectangular> entList = Global.currentMap.collisions.rectQuery(vRect);
-//        for (Rectangular e : entList)
-//        {
-//            //Temporary solution... only draw player
-//            if (e instanceof Entity && ((Entity)e).isPlayer)
-//            {
-//                ((Entity)e).draw(g,
-//                       (float)(e.getRect().x - vRect.x),
-//                       (float)(e.getRect().y - vRect.y));
-//            }
-//            
-//        }
-
         //Draw the things which tower above all else.
         Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
                         3, false);
@@ -219,11 +238,10 @@ public class Camera {
 
         //The partitions help me debug, so draw these too
         drawPartitionBoxes(g);
- 
         
         //Draw the awkward boundary boxes too
         g.setColor(Color.red);
-        entList = Global.currentMap.boundaries.rectQuery(vRect);
+        LinkedList<Rectangular> entList = Global.currentMap.boundaries.rectQuery(vRect);
         for (Rectangular e : entList)
         {
             //It was a GroupObjectWrapper...
