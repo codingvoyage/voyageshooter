@@ -11,7 +11,7 @@ import org.newdawn.slick.geom.Vector2f;
  * Fixed dimension GUI element
  * @author Brian Yang
  */
-public class Gui<E extends Displayable> {
+public class Gui<E extends Displayable> implements Displayable {
     
     /** position */
     private Vector2f position;
@@ -179,7 +179,14 @@ public class Gui<E extends Displayable> {
     /**
      * Draw the GUI element
      */
+    @Override
+    public void print() {
+        draw();
+    }
     
+    /**
+     * Draw the GUI element
+     */
     public void draw() {
         ShapeRenderer.fill(rect, (new GradientFill(0, 0, start, width/3, height/3, end, true)) );
     }
@@ -187,7 +194,6 @@ public class Gui<E extends Displayable> {
     /**
      * Update with delta time
      */
-    
     public void next(GameContainer gc, int delta) {
         object.next(gc, delta);
     }
@@ -198,6 +204,56 @@ public class Gui<E extends Displayable> {
     
     public void display() throws VoyageGuiException {
         object.print();
+    }
+    
+    /**
+     * Retrieve the rounded rectangle, used by event listener
+     * @return the rectangle used by the Gui element
+     */
+    public RoundedRectangle getRect() {
+        return rect;
+    }
+    
+    /**
+     * 
+     * @param x 
+     */
+    public void setX(float x) {
+        position.x = x;
+        rect.setX(x);
+    }
+    
+    /**
+     * 
+     * @param y 
+     */
+    public void setY(float y) {
+        position.y = y;
+        rect.setY(y);
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public Vector2f getPos() {
+        return position;
+    }
+    
+    /**
+     * Retrieve x position
+     * @return the x position
+     */
+    public float getX() {
+        return position.x;
+    }
+    
+    /**
+     * Retrieve y position
+     * @return the y position
+     */
+    public float getY() {
+        return position.y;
     }
     
     /**

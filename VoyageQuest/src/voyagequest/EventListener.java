@@ -1,5 +1,6 @@
 package voyagequest;
 
+import gui.GuiManager;
 import map.Entity;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -65,7 +66,7 @@ public abstract class EventListener {
      * Called when the mouse is dragged
      */
     public static void mouseDragged(int oldx, int oldy, int newx, int newy) {
-        Util.p("Dragged");
+        GuiManager.mouseDragged(oldx, oldy, newx, newy);
     }
 
     /**

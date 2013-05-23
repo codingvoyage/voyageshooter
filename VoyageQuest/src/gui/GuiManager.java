@@ -3,6 +3,7 @@ package gui;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import org.newdawn.slick.GameContainer;
+import voyagequest.Util;
 
 /**
  * Manages all active Gui objects
@@ -77,19 +78,34 @@ public abstract class GuiManager {
     }
         
     /**
-     * Mouse has been clicked, but where? 
-     * If within one of the Gui's, then pass information about this click to the Gui object
+     * Called when the mouse is moved
      */
-    public static void mouseClicked() {
-        
+    public static void mouseMoved(int oldx, int oldy, int newx, int newy) {
+        Util.p("Moved");
     }
-    
+
     /**
-     * Mouse has been dragged, but from where and to where?
-     * If within one of the Gui's, then pass information about this drag to the Gui object
+     * Called when the mouse is dragged
      */
-    public static void mouseDragged() {
-        
+    public static void mouseDragged(int oldx, int oldy, int newx, int newy) {
+        ListIterator<Gui> activeIterator = activeGui.listIterator();
+        while (activeIterator.hasNext()) {
+            Gui next = activeIterator.next();
+            Util.p(next.getX() + ", " + next.getY());
+            if (next.getRect().contains(oldx, oldy)) {
+                next.setX(newx);
+                next.setY(newy);
+                Util.p("Expected: " + newy + ", " + newy);
+                Util.p("New: " + next.getX() + ", " + next.getY());
+            }
+        }
+    }
+
+    /**
+     * Called when the mouse is clicked (but not dragged)
+     */
+    public static void mouseClicked(int button, int x, int y, int clickCount) {
+        Util.p("Clicked");
     }
     
     /**
