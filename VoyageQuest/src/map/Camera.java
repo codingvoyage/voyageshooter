@@ -110,6 +110,46 @@ public class Camera {
                     false, tile_length, tile_length);
             rowsDrawn++;
             
+            ///////////////////////////////////////////////////////////////////
+            ///======/Draw things in the buffer if our current row/=========///
+            ///======/contains the bottom of the thing in the buffer/.======///
+            ///////////////////////////////////////////////////////////////////
+            
+            deferIterator = drawingDeferrals.listIterator();
+            System.out.println(drawingDeferrals.size());
+            while (deferIterator.hasNext())
+            {
+                Rectangular currentRectangular = (Rectangular)deferIterator.next();
+                
+                //The Rectangular is likely to be an entity, and getRect() for an Entity returns
+                //the boundary for the entity. Therefore, to get the lower Y bound for this Rectangular,
+                //add its height to its UL y-position
+                double lowerY = currentRectangular.getRect().y + currentRectangular.getRect().height;
+                System.out.println("Lower Y for this Entity is " + lowerY);
+                double rowYLower = rowsDrawn*tile_length + extraY - 4*tile_length + vRect.y;
+                double rowYHigher = rowYLower + tile_length;
+                System.out.println("Does it fall between " + rowYLower + " and " + rowYHigher + "?");
+                
+                if (rowYLower < lowerY && lowerY < rowYHigher)
+                {
+                    //Draw currentRectangular
+                    if (currentRectangular instanceof Entity && ((Entity)currentRectangular).isPlayer)
+                    {
+                        System.out.println("draw from the deferred list");
+                        System.out.println("Current row happens to be " + i);
+                        ((Entity)currentRectangular).draw(g,
+                               (float)(currentRectangular.getRect().x - vRect.x),
+                               (float)(currentRectangular.getRect().y - vRect.y));
+                    }
+
+                    //Remove currentRectangular from the drawingDeferrals list.
+                    deferIterator.remove();
+                }
+                else
+                {
+                    //Do nothing...
+                }
+            }
             //////////////////////////////////////////////////////////////////
             ///=============/Fill the buffer for the next row/=============///
             //////////////////////////////////////////////////////////////////
@@ -188,49 +228,6 @@ public class Camera {
                 //If we're reached this point, then we can remove it from the entitiesToConsider list
                 entityIterator.remove();
                 
-            }
-            
-            
-            ///////////////////////////////////////////////////////////////////
-            ///======/Draw things in the buffer if our current row/=========///
-            ///======/contains the bottom of the thing in the buffer/.======///
-            ///////////////////////////////////////////////////////////////////
-            
-            deferIterator = drawingDeferrals.listIterator();
-            System.out.println(drawingDeferrals.size());
-            while (deferIterator.hasNext())
-            {
-                System.out.println("!!");
-                Rectangular currentRectangular = (Rectangular)deferIterator.next();
-                
-                //The Rectangular is likely to be an entity, and getRect() for an Entity returns
-                //the boundary for the entity. Therefore, to get the lower Y bound for this Rectangular,
-                //add its height to its UL y-position
-                double lowerY = currentRectangular.getRect().y + 128;
-                System.out.println("Lower Y for this Entity is " + lowerY);
-                double rowYLower = rowsDrawn*tile_length + extraY - 4*tile_length + vRect.y;
-                double rowYHigher = rowYLower + tile_length;
-                System.out.println("Does it fall between " + rowYLower + " and " + rowYHigher + "?");
-                
-                if (rowYLower < lowerY && lowerY < rowYHigher)
-                {
-                    //Draw currentRectangular
-                    if (currentRectangular instanceof Entity && ((Entity)currentRectangular).isPlayer)
-                    {
-                        System.out.println("draw from the deferred list");
-                        System.out.println("Current row happens to be " + i);
-                        ((Entity)currentRectangular).draw(g,
-                               (float)(currentRectangular.getRect().x - vRect.x),
-                               (float)(currentRectangular.getRect().y - vRect.y));
-                    }
-
-                    //Remove currentRectangular from the drawingDeferrals list.
-                    deferIterator.remove();
-                }
-                else
-                {
-                    //Do nothing...
-                }
             }
 
         }
