@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.LinkedList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.fills.GradientFill;
@@ -33,6 +34,9 @@ public class Gui<E extends Displayable> implements Displayable {
     
     /** the object contained in the GUI element */
     private E object;
+    
+    /** nested Gui objects */
+    private LinkedList<Gui> nested = new LinkedList<>();
     
     /**
      * Construct a new default bounded GUI
@@ -204,6 +208,13 @@ public class Gui<E extends Displayable> implements Displayable {
     
     public void display() throws VoyageGuiException {
         object.print();
+    }
+    
+    /**
+     * 
+     */
+    public void add(Gui nested) {
+        this.nested.add(nested);
     }
     
     /**

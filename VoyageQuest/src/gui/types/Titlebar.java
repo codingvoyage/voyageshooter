@@ -1,21 +1,14 @@
 package gui.types;
 
 import gui.Displayable;
-import gui.DualGui;
 import gui.Gui;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.geom.RoundedRectangle;
-import org.newdawn.slick.geom.Vector2f;
 
 /**
- * Windows are designed to display useful information 
- * and typically contain multiple nested Window elements
+ * Titlebar for Gui windows
  * @author Brian Yang
  */
-public class Window<E extends Displayable> extends Gui<E> implements Displayable {
-
-    
-    private DualGui<Gui> nested;
+public class Titlebar<E extends Displayable> extends Gui<E> implements Displayable {
     
     /**
      * Construct a new default bounded GUI
@@ -25,7 +18,7 @@ public class Window<E extends Displayable> extends Gui<E> implements Displayable
      * @param height height of window
      * @param object the object contained in the GUI element
      */
-    public Window(float x, float y, int width, int height, E object) {
+    public Titlebar(float x, float y, int width, int height, E object) {
         super(x, y, width, height, object);
     }
     
@@ -38,7 +31,7 @@ public class Window<E extends Displayable> extends Gui<E> implements Displayable
      * @param cornerRadius rounded corner radius
      * @param object the object contained in the GUI element
      */
-    public Window(float x, float y, int width, int height, float cornerRadius, E object) {
+    public Titlebar(float x, float y, int width, int height, float cornerRadius, E object) {
         super(x, y, width, height, object);
     }
     
@@ -52,7 +45,7 @@ public class Window<E extends Displayable> extends Gui<E> implements Displayable
      * @param color the color throughout
      * @param object the object contained in the GUI element
      */
-    public Window(float x, float y, int width, int height, float cornerRadius, Color color, E object) {
+    public Titlebar(float x, float y, int width, int height, float cornerRadius, Color color, E object) {
         super(x, y, width, height, object);
     }
     
@@ -67,7 +60,7 @@ public class Window<E extends Displayable> extends Gui<E> implements Displayable
      * @param end the end gradient color
      * @param object the object contained in the GUI element
      */
-    public Window(float x, float y, int width, int height, float cornerRadius, Color start, Color end, E object) {
+    public Titlebar(float x, float y, int width, int height, float cornerRadius, Color start, Color end, E object) {
         super(x, y, width, height, cornerRadius, start, end, object);
     }
     
@@ -80,7 +73,7 @@ public class Window<E extends Displayable> extends Gui<E> implements Displayable
      * @param color the color throughout
      * @param object the object contained in the GUI element
      */
-    public Window(float x, float y, int width, int height, Color color, E object) {
+    public Titlebar(float x, float y, int width, int height, Color color, E object) {
         super(x, y, width, height, color, object);
     }
     
@@ -94,7 +87,8 @@ public class Window<E extends Displayable> extends Gui<E> implements Displayable
      * @param end the end gradient color
      * @param object the object contained in the GUI element
      */
-    public Window(float x, float y, int width, int height, Color start, Color end, E object) {
+    public Titlebar(float x, float y, int width, int height, Color start, Color end, E object) {
         super(x, y, width, height, start, end, object);
     }
+    
 }

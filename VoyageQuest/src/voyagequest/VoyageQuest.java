@@ -1,7 +1,9 @@
 package voyagequest;
 
+import gui.Gui;
 import gui.VoyageGuiException;
 import gui.GuiManager;
+import gui.types.Dialog;
 import map.*;
 import org.newdawn.slick.*;
 import java.util.ArrayList;
@@ -84,6 +86,7 @@ public class VoyageQuest extends BasicGame {
                 + "Thank you and I hope you enjoy your adventure, which beings NOW!";
         dialog = new DialogBox(lorem);
         dialog.start();
+        
     }
 
 
