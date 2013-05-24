@@ -23,6 +23,8 @@ public class Entity implements Rectangular {
       */
     public DoubleRect r;
     
+    public RenderSetting renderSetting;
+    
     private double colldimx, colldimy;
     boolean hasDrawn;
     public boolean isPlayer = false;

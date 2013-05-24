@@ -52,6 +52,20 @@ public final class Util {
         return randomNumber;
     }
     
+    /**
+     * 
+     * @param xCoord 
+     * @param yCoord
+     * @return a DoubleRect in which x and y are the tile coordinates.
+     */
+    public static DoubleRect coordinateToTile(double xCoord, double yCoord)
+    {
+        int xMapCoord = (int)(xCoord / Global.currentMap.TILE_LENGTH);
+        int yMapCoord = (int)(yCoord/ Global.currentMap.TILE_LENGTH);
+        
+        return new DoubleRect(xMapCoord, yMapCoord, 0, 0);
+    }
+    
     
     /**
      * Nobody likes typing out System.out.println();

@@ -2,19 +2,19 @@ package map;
 
 import voyagequest.Global;
 import voyagequest.DoubleRect;
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.ListIterator;
-
+import voyagequest.Util;
 import voyagequest.VoyageQuest;
 import map.Entity;
+
+import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.HashMap;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.SlickException;
-import voyagequest.Util;
 
 /**
  *
@@ -95,9 +95,17 @@ public class Camera {
         {
             Rectangular currentRectangular = (Rectangular)entityIterator.next();
             if (currentRectangular instanceof GroupObjectWrapper)
+            {
                 entityIterator.remove();
+            }
+            else
+            {
+                //Also don't forget to set their rendersettings to null
+                ((Entity)currentRectangular).renderSetting = null;
+            }
         }
-            
+        
+        
         //The following procedure will associate each Entity with a RenderSetting object which
         //describes which tile it should be rendered in, and...
         for (Rectangular r : entitiesToConsider)
@@ -108,6 +116,9 @@ public class Camera {
             
             //Get a list of all the BoundaryWrappers this Entity could collide with
             LinkedList<Rectangular> collisionChoices = Global.currentMap.boundaries.rectQuery(e.getRect());
+            
+            //RenderSetting to be set soon.
+            RenderSetting newRenderSetting;
             
             //Find the first one it actually collides with. 
             BoundaryWrapper chosenBoundary = null;
@@ -128,20 +139,74 @@ public class Camera {
             if (chosenBoundary == null)
             {
                 System.out.println("We can just draw it!");
+                
+                //Find the UL corner's x,y and get the tile it belongs in
+                DoubleRect entityUL = Util.coordinateToTile(
+                        e.getRect().x, e.getRect().y);
+                
+                
+                System.out.println("We should render right after tile " + 
+                        entityUL.toString());
+                
+                newRenderSetting = new RenderSetting((int)entityUL.y, false);
+                e.renderSetting = newRenderSetting;
                 continue;
             }
             
-            
             System.out.println("Need to figure out a way to draw it!");
             
+            //Compare the collisionbox of the entity with the collisionbox in
+            //the boundary to determine what should be done
+            GroupObjectWrapper boundaryColl = chosenBoundary.getSecondaryGroupObject();
+            double boundaryCollY = boundaryColl.getRect().getY();
             
+            DoubleRect entityColl = e.getCollRect();
+            double entityCollY = entityColl.getY();
             
+            System.out.println("Entity collision Y: " + entityCollY);
+            System.out.println("Boundary collision Y: " + boundaryCollY);
+            
+            if (entityCollY >= boundaryCollY)
+            {
+                //This means that the entity is ahead of the boundary.
+                System.out.println("The entity is ahead of the object");
+                DoubleRect setting = chosenBoundary.getLowestTile();
+                System.out.println("We should render right after tile " + 
+                        setting.toString());
+            }
+            else
+            {
+                System.out.println("The entity is behind the object");
+                DoubleRect setting = chosenBoundary.getTopTile();
+                System.out.println("We should render right before tile " + 
+                        setting.toString());
+            }
         }
         
         
             
         for (int i = startRow; i < endRow; i++)
         {
+            //Render all objects which are in the row and
+            //are supposed to be behind the tile
+            entityIterator = entitiesToConsider.listIterator();
+            while (entityIterator.hasNext())
+            {
+                Entity e = (Entity)entityIterator.next();
+                
+                if (e.renderSetting.drawnRow == i &&
+                    e.renderSetting.drawBefore == true)
+                {
+                    e.draw(g,
+                            (float)(e.r.x - vRect.getX()),
+                            (float)(e.r.y - vRect.getY())
+                           );
+                    entityIterator.remove();
+                }
+            }
+            
+            
+            
             ///////////////////////////////////////////////////////////////////
             //=======================/RENDER THIS ROW/=========================
             ///////////////////////////////////////////////////////////////////
@@ -153,8 +218,22 @@ public class Camera {
                     false, tile_length, tile_length);
             rowsDrawn++;
             
-            
-            
+            //Render all objects which are in the row and after
+            entityIterator = entitiesToConsider.listIterator();
+            while (entityIterator.hasNext())
+            {
+                Entity e = (Entity)entityIterator.next();
+                
+                if (e.renderSetting.drawnRow == i &&
+                    e.renderSetting.drawBefore == false)
+                {
+                    e.draw(g,
+                            (float)(e.r.x - vRect.getX()),
+                            (float)(e.r.y - vRect.getY())
+                           );
+                    entityIterator.remove();
+                }
+            }
             
 
         }
@@ -176,6 +255,7 @@ public class Camera {
         for (int i = 0; i < 17; i++)
         {
             g.drawLine(i * tile_length + extraX, 0, i * tile_length + extraX, 800);
+            
         }
         
         
@@ -232,18 +312,6 @@ public class Camera {
             
         }
         
-    }
-    
-    private class RenderSetting 
-    {
-        public int drawnRow;
-        public boolean drawBefore;
-        
-        public RenderSetting(int drawnRow, boolean isDrawnBeforeTile)
-        {
-            this.drawnRow = drawnRow;
-            drawBefore = isDrawnBeforeTile;
-        }
     }
     
 }
