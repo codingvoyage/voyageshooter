@@ -1,6 +1,7 @@
 package gui.types;
 
 import gui.Displayable;
+import gui.DualGui;
 import gui.Gui;
 import org.newdawn.slick.Color;
 
