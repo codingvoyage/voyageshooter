@@ -173,6 +173,10 @@ public class Camera {
                 DoubleRect setting = chosenBoundary.getLowestTile();
                 System.out.println("We should render right after tile " + 
                         setting.toString());
+                
+                newRenderSetting = new RenderSetting((int)setting.y, false);
+                e.renderSetting = newRenderSetting;
+                
             }
             else
             {
@@ -180,13 +184,17 @@ public class Camera {
                 DoubleRect setting = chosenBoundary.getTopTile();
                 System.out.println("We should render right before tile " + 
                         setting.toString());
+                newRenderSetting = new RenderSetting((int)setting.y, true);
+                e.renderSetting = newRenderSetting;
             }
+            
         }
         
         
             
         for (int i = startRow; i < endRow; i++)
         {
+            
             //Render all objects which are in the row and
             //are supposed to be behind the tile
             entityIterator = entitiesToConsider.listIterator();
@@ -205,8 +213,6 @@ public class Camera {
                 }
             }
             
-            
-            
             ///////////////////////////////////////////////////////////////////
             //=======================/RENDER THIS ROW/=========================
             ///////////////////////////////////////////////////////////////////
@@ -218,7 +224,8 @@ public class Camera {
                     false, tile_length, tile_length);
             rowsDrawn++;
             
-            //Render all objects which are in the row and after
+            //Render all objects which are in the row and
+            //are supposed to be ahead of the tile
             entityIterator = entitiesToConsider.listIterator();
             while (entityIterator.hasNext())
             {
@@ -234,8 +241,6 @@ public class Camera {
                     entityIterator.remove();
                 }
             }
-            
-
         }
         
             
@@ -246,6 +251,7 @@ public class Camera {
                         4, false);
         
         //Draw the tile borders
+        g.setColor(Color.black);
         g.setLineWidth(1.0f);
         for (int i = 0; i < 17; i++)
         {
