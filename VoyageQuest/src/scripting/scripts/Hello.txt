@@ -13,7 +13,7 @@ print k
 
 
 
-messageBox "Oh boy, I love crates!"
+messageBox "Herp the derp."
 
 endthread
 
