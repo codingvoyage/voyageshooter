@@ -2,11 +2,14 @@ package voyagequest;
 
 import gui.VoyageGuiException;
 import gui.GuiManager;
+import gui.special.*;
+import voyagequest.DoubleRect;
+import scripting.*;
+import scripting.Thread;
 import map.*;
+
 import org.newdawn.slick.*;
 import java.util.ArrayList;
-import voyagequest.DoubleRect;
-import gui.special.*;
 
 /**
  * Voyage Quest RPG
@@ -27,12 +30,14 @@ public class VoyageQuest extends BasicGame {
     /** a rectangle of the screen*/
     public static final DoubleRect SCREEN_RECT = new DoubleRect(0, 0, X_RESOLUTION, Y_RESOLUTION);
     
-    public static Entity player;
+    /** All the scripts to be read */
+    public static ScriptManager scriptCollection;
+    /** The actual script reader */
+    public static ScriptReader scriptReader;
+    /** Manages all the scripting threads */
+    public static ThreadManager threadManager;
     
-    int index = 0;
-    int whichDraw = -1;
-    int deltaCounter = 0;
-    int removeCounter = 0;
+    public static Entity player;
     
     double time;
     
@@ -60,6 +65,9 @@ public class VoyageQuest extends BasicGame {
         // Set the minimum and maximum update intervals please
         gc.setMinimumLogicUpdateInterval(20);
         gc.setMaximumLogicUpdateInterval(20);
+        
+        //Load all the scripts
+        loadScripts();
         
         //Create the current Map
         Global.currentMap = new Map("res/MAPTEST.tmx");
@@ -91,6 +99,47 @@ public class VoyageQuest extends BasicGame {
     }
 
 
+     /**
+     * Loads all scripting relating things
+     */
+    private void loadScripts() throws SlickException {
+        //Initialize the ScriptManager
+        scriptCollection = new ScriptManager();
+        
+        //Load the loader script...
+        scriptCollection.loadScript("loader.cfg", 0);
+        
+        //Initialize ScriptReader, passing it the ScriptManager handle
+        scriptReader = new ScriptReader(scriptCollection);
+        
+        //Initialize the collection of threads
+        threadManager = new ThreadManager(scriptReader);
+        scriptReader.setThreadHandle(threadManager);
+        
+        //Now create a thread that uses the loading script, 
+        //adding it to threadManager and running it
+        Thread loadingThread = new Thread(0);
+        threadManager.addThread(loadingThread);
+        threadManager.act(0.0);
+        
+        //scriptReader.setEntityHandle(entities);
+        
+        //Create a thread which governs this entity with Script 
+        Thread testThread = new Thread(1);
+        
+        //Set the main thread of the entity to this thread.
+        //testEntity.setMainThread(entityThread);
+        
+        //Set the details of the thread
+        testThread.setLineNumber(0);
+        testThread.setName("main");
+        testThread.setRunningState(false);
+        //entityThread.setScriptable(testEntity);
+        
+        //Add this thread to the collection of threads
+        threadManager.addThread(testThread);
+    }
+    
     /**
      * Update the screen
      * @param gc the game container
@@ -108,6 +157,9 @@ public class VoyageQuest extends BasicGame {
             }
         }
         
+        threadManager.act(delta);
+        
+        
         Input input = gc.getInput();
         double step = 0.25*delta;
             
@@ -116,15 +168,15 @@ public class VoyageQuest extends BasicGame {
             player.attemptMove(-step, 0);
         }
 
-        if(input.isKeyDown(Input.KEY_RIGHT)) {
+        if (input.isKeyDown(Input.KEY_RIGHT)) {
             player.attemptMove(step, 0);
         }
 
-        if(input.isKeyDown(Input.KEY_UP)) {
+        if (input.isKeyDown(Input.KEY_UP)) {
             player.attemptMove(0, -step);
         }
         
-        if(input.isKeyDown(Input.KEY_DOWN)) {
+        if (input.isKeyDown(Input.KEY_DOWN)) {
             player.attemptMove(0, step);
         }
 
