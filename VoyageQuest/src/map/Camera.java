@@ -184,7 +184,7 @@ public class Camera {
                 DoubleRect setting = chosenBoundary.getTopTile();
                 System.out.println("We should render right before tile " + 
                         setting.toString());
-                newRenderSetting = new RenderSetting((int)setting.y, true);
+                newRenderSetting = new RenderSetting((int)setting.y - 1, true);
                 e.renderSetting = newRenderSetting;
             }
             

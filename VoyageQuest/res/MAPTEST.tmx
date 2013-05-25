@@ -45,8 +45,8 @@
   <object x="572" y="729" width="311" height="137"/>
   <object x="348" y="721" width="99" height="83"/>
   <object x="812" y="160" width="119" height="455"/>
-  <object x="1411" y="2881" width="120" height="44"/>
-  <object x="1409" y="3009" width="125" height="60"/>
+  <object x="1414" y="2885" width="116" height="40"/>
+  <object x="1414" y="3014" width="116" height="50"/>
   <object x="1158" y="3014" width="118" height="44"/>
   <object x="1030" y="2829" width="54" height="51"/>
   <object x="1737" y="2945" width="437" height="119"/>
@@ -65,24 +65,24 @@
   <object x="1602" y="2495" width="123" height="60"/>
   <object x="293" y="163" width="134" height="67"/>
   <object x="1287" y="3935" width="53" height="29"/>
-  <object x="1542" y="3928" width="52" height="37"/>
+  <object x="1545" y="3930" width="48" height="32"/>
   <object x="1544" y="4122" width="52" height="34"/>
-  <object x="1287" y="4123" width="53" height="33"/>
-  <object x="1544" y="4314" width="50" height="33"/>
-  <object x="1287" y="4314" width="52" height="32"/>
+  <object x="1286" y="4122" width="53" height="33"/>
+  <object x="1544" y="4314" width="48" height="32"/>
+  <object x="1287" y="4314" width="47" height="30"/>
   <object x="1671" y="4270" width="48" height="73"/>
  </objectgroup>
- <objectgroup name="Object Layer 2" width="70" height="70">
+ <objectgroup name="Object Layer 2" width="70" height="70" visible="0">
   <object x="1150" y="2815" width="133" height="253"/>
   <object x="1018" y="2711" width="72" height="173"/>
-  <object x="1405" y="2943" width="132" height="129"/>
-  <object x="1407" y="2685" width="130" height="244"/>
-  <object x="1531" y="3835" width="67" height="138"/>
+  <object x="1412" y="2948" width="119" height="119"/>
+  <object x="1412" y="2693" width="119" height="244"/>
+  <object x="1540" y="3844" width="57" height="121"/>
   <object x="1282" y="3848" width="61" height="121"/>
-  <object x="1278" y="4029" width="71" height="133"/>
+  <object x="1283" y="4035" width="57" height="121"/>
   <object x="1534" y="4030" width="69" height="135"/>
-  <object x="1281" y="4229" width="64" height="122"/>
-  <object x="1538" y="4227" width="64" height="125"/>
+  <object x="1285" y="4229" width="56" height="120"/>
+  <object x="1538" y="4227" width="58" height="121"/>
   <object x="1662" y="4154" width="68" height="202"/>
  </objectgroup>
 </map>
