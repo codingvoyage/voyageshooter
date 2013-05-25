@@ -23,44 +23,64 @@ public class Entity implements Rectangular {
       */
     public DoubleRect r;
     
+    /** 
+     * The entity's collision rectangle RELATIVE to its boundary.
+     */
+    public DoubleRect collRect;
+    
     public RenderSetting renderSetting;
     
-    private double colldimx, colldimy;
     boolean hasDrawn;
     public boolean isPlayer = false;
     double accumulatedDeltaT = 0.0d;
     int currentFrame = 0;
 
-    public Entity(DoubleRect r) throws SlickException
+    /**
+     * Constructs an Entity with only its boundary Rectangle
+     * 
+     * @param r the boundary Rectangle
+     * @throws SlickException 
+     */
+    public Entity(DoubleRect boundaryRect) throws SlickException
     {
-        this.r = r;
-        colldimx = 5.0d;
-        colldimy = 80.0d;
+        this.r = boundaryRect;
+        this.collRect = new DoubleRect(5.0d, 70.0d, 50.0d, 50.0d);
     }
+    
     
     public DoubleRect getCollRect()
     {
-        return new DoubleRect(r.x + colldimx, r.y + colldimy, 50.0d, 50.0d);
+        return new DoubleRect(
+                r.x + collRect.x,
+                r.y + collRect.y,
+                collRect.width,
+                collRect.height);
     }
     
     public void draw(Graphics g, float xOffset, float yOffset)
     {
         Global.character.draw(xOffset, yOffset);
-        g.drawRect((float)(VoyageQuest.X_RESOLUTION/2 - 32 + colldimx),
-                   (float)(VoyageQuest.Y_RESOLUTION/2 - 64 + colldimy),
-                   50.0f,
-                   50.0f);
+        
+        //If debugging, then draw the boundary boxes and the collision boxes
+        if (VoyageQuest.DEBUG_MODE == true)
+        {
+            g.drawRect(xOffset, yOffset, (float)r.width, (float)r.height);
+            g.drawRect((float)(xOffset + collRect.x),
+                       (float)(yOffset + collRect.y),
+                       (float)collRect.width,
+                       (float)collRect.height);
+        }
+        
     }
     
     public void attemptMove(double xMove, double yMove)
     {
         //Where would we end up at
-        double candidateX = r.x + colldimx + xMove;
-        double candidateY = r.y + colldimy + yMove;
+        double candidateX = r.x + collRect.x + xMove;
+        double candidateY = r.y + collRect.y + yMove;
         DoubleRect collCandidate = new DoubleRect(candidateX, candidateY, 50.0d, 50.0d);
 
         LinkedList<Rectangular> collisionCandidates = Global.currentMap.collisions.rectQuery(collCandidate);
-        //System.out.println(collisionCandidates.size());
 
         //Now we see if collides
         boolean collides = false;
@@ -69,7 +89,6 @@ public class Entity implements Rectangular {
             if (collCandidate.intersects(e.getRect()) && !e.equals(this))
             {
                 collides = true;
-                //System.out.println("collides with something at " + e.getRect().x + " " + e.getRect().y);
                 break;
             }
         }

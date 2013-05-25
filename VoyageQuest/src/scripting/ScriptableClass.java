@@ -39,7 +39,6 @@ public class ScriptableClass implements Scriptable {
         memoryBox = new HashMap<String, Parameter>();
     }
     
-    
     public ScriptableClass() 
     {
         memoryBox = new HashMap<String, Parameter>();

@@ -138,22 +138,21 @@ public class Camera {
             //we don't have to deal with touching something on the map.
             if (chosenBoundary == null)
             {
-                System.out.println("We can just draw it!");
+//                System.out.println("We can just draw it!");
                 
                 //Find the UL corner's x,y and get the tile it belongs in
                 DoubleRect entityUL = Util.coordinateToTile(
                         e.getRect().x, e.getRect().y);
                 
-                
-                System.out.println("We should render right after tile " + 
-                        entityUL.toString());
+//                System.out.println("We should render right after tile " + 
+//                        entityUL.toString());
                 
                 newRenderSetting = new RenderSetting((int)entityUL.y, false);
                 e.renderSetting = newRenderSetting;
                 continue;
             }
-            
-            System.out.println("Need to figure out a way to draw it!");
+//            
+//            System.out.println("Need to figure out a way to draw it!");
             
             //Compare the collisionbox of the entity with the collisionbox in
             //the boundary to determine what should be done
@@ -163,16 +162,16 @@ public class Camera {
             DoubleRect entityColl = e.getCollRect();
             double entityCollY = entityColl.getY();
             
-            System.out.println("Entity collision Y: " + entityCollY);
-            System.out.println("Boundary collision Y: " + boundaryCollY);
+//            System.out.println("Entity collision Y: " + entityCollY);
+//            System.out.println("Boundary collision Y: " + boundaryCollY);
             
             if (entityCollY >= boundaryCollY)
             {
                 //This means that the entity is ahead of the boundary.
-                System.out.println("The entity is ahead of the object");
+//                System.out.println("The entity is ahead of the object");
                 DoubleRect setting = chosenBoundary.getLowestTile();
-                System.out.println("We should render right after tile " + 
-                        setting.toString());
+//                System.out.println("We should render right after tile " + 
+//                        setting.toString());
                 
                 newRenderSetting = new RenderSetting((int)setting.y, false);
                 e.renderSetting = newRenderSetting;
@@ -180,10 +179,10 @@ public class Camera {
             }
             else
             {
-                System.out.println("The entity is behind the object");
+//                System.out.println("The entity is behind the object");
                 DoubleRect setting = chosenBoundary.getTopTile();
-                System.out.println("We should render right before tile " + 
-                        setting.toString());
+//                System.out.println("We should render right before tile " + 
+//                        setting.toString());
                 newRenderSetting = new RenderSetting((int)setting.y - 1, true);
                 e.renderSetting = newRenderSetting;
             }
@@ -250,49 +249,52 @@ public class Camera {
         Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
                         4, false);
         
-        //Draw the tile borders
-        g.setColor(Color.black);
-        g.setLineWidth(1.0f);
-        for (int i = 0; i < 17; i++)
+        //All the extra things we draw on top if we're in debug mode
+        if (VoyageQuest.DEBUG_MODE == true)
         {
-            g.drawLine(0, i * tile_length + extraY, 1200, i * tile_length + extraY);
-            Util.FONT.drawString(0, i * tile_length + extraY + 30, "Row " + (startY + i));
-        }
-        for (int i = 0; i < 17; i++)
-        {
-            g.drawLine(i * tile_length + extraX, 0, i * tile_length + extraX, 800);
-            
-        }
-        
-        
-        //The partitions help me debug, so draw these too
-        drawPartitionBoxes(g);
-        
-        //Draw the awkward boundary boxes too
-        g.setColor(Color.red);
-        LinkedList<Rectangular> entList = Global.currentMap.boundaries.rectQuery(vRect);
-        for (Rectangular e : entList)
-        {
-            //It was a GroupObjectWrapper...
+            //Draw the tile borders
+            g.setColor(Color.black);
+            g.setLineWidth(1.0f);
+            for (int i = 0; i < 17; i++)
+            {
+                g.drawLine(0, i * tile_length + extraY, 1200, i * tile_length + extraY);
+                Util.FONT.drawString(0, i * tile_length + extraY + 30, "Row " + (startY + i));
+            }
+            for (int i = 0; i < 17; i++)
+            {
+                g.drawLine(i * tile_length + extraX, 0, i * tile_length + extraX, 800);
+
+            }
+
+            //The partitions help me debug, so draw these too
+            drawPartitionBoxes(g);
+
+            //Draw the awkward boundary boxes too
+            g.setColor(Color.red);
+            LinkedList<Rectangular> entList = Global.currentMap.boundaries.rectQuery(vRect);
+            for (Rectangular e : entList)
+            {
+                //It was a GroupObjectWrapper...
+                        g.setLineWidth(2.0f);
+                        DoubleRect ourRect = e.getRect();
+                        g.drawRect(
+                                (float)(ourRect.x - vRect.x),
+                                (float)(ourRect.y - vRect.y),
+                                (float)(ourRect.width),
+                                (float)(ourRect.height));
+
+                //Draw its corresponding Boundary Wrapper
+                GroupObjectWrapper asdf = ((BoundaryWrapper)e).getSecondaryGroupObject();
+                g.setColor(Color.black);
                     g.setLineWidth(2.0f);
-                    DoubleRect ourRect = e.getRect();
+                    ourRect = asdf.getRect();
                     g.drawRect(
                             (float)(ourRect.x - vRect.x),
                             (float)(ourRect.y - vRect.y),
                             (float)(ourRect.width),
                             (float)(ourRect.height));
-                    
-            //Draw its corresponding Boundary Wrapper
-            GroupObjectWrapper asdf = ((BoundaryWrapper)e).getSecondaryGroupObject();
-            g.setColor(Color.black);
-                g.setLineWidth(2.0f);
-                ourRect = asdf.getRect();
-                g.drawRect(
-                        (float)(ourRect.x - vRect.x),
-                        (float)(ourRect.y - vRect.y),
-                        (float)(ourRect.width),
-                        (float)(ourRect.height));
-
+            }
+            
         }
         
     }

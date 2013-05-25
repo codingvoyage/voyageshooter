@@ -24,7 +24,6 @@ public class VoyageQuest extends BasicGame {
     public static int X_RESOLUTION = 1024;
     /** y resolution */
     public static int Y_RESOLUTION = 768;
-    
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     /** a rectangle of the screen*/
@@ -36,6 +35,9 @@ public class VoyageQuest extends BasicGame {
     public static ScriptReader scriptReader;
     /** Manages all the scripting threads */
     public static ThreadManager threadManager;
+    
+    /** Are we debugging? */
+    public static final boolean DEBUG_MODE = true;
     
     public static Entity player;
     

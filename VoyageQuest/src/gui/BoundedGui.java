@@ -11,8 +11,7 @@ import org.newdawn.slick.geom.Vector2f;
  * Fixed dimension GUI element
  * @author Brian Yang
  */
-public class BoundedGui<E extends Displayable> implements Gui {
-    
+public class BoundedGui<E extends Displayable> implements Gui { 
     /** position */
     private Vector2f position;
     

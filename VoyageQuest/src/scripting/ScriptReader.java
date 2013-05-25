@@ -3,11 +3,8 @@ package scripting;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-
 //
 //import spaceinvaders.entity.*;
-
-
 
 
 /**
@@ -24,8 +21,6 @@ public class ScriptReader
 //    private EntityGroup entities;
 //    
 //    
-    
-    
     
     //These will get changed every time act(Scriptable s, double deltaTime)
     //is called. It makes it convenient since now the ScriptReader methods
