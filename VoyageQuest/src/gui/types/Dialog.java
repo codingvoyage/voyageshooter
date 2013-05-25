@@ -79,6 +79,10 @@ public class Dialog implements Displayable {
         parser.update(gc, delta);
     }
     
+    public DialogParser getParser() {
+        return parser;
+    }
+    
     /**
      * 
      * @return 

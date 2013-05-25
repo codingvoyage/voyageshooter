@@ -12,6 +12,8 @@ import org.newdawn.slick.GameContainer;
  */
 public class DialogBox {
     
+    /** The dialog element */
+    private Dialog dialog;
     /** The GUI element */
     private Gui<Dialog> window;
     
@@ -25,7 +27,7 @@ public class DialogBox {
      * @param text 
      */
     public DialogBox(String text) {
-        Dialog dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, dialog);
         dialog.setWindow(window);
     }
@@ -37,35 +39,33 @@ public class DialogBox {
      * @param end 
      */
     public DialogBox(String text, Color start, Color end) {
-        Dialog dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
         dialog.setWindow(window);
     }
     
     /**
-     * 
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * Default dialog box with options and default coordinates
      * @param text 
+     * @param options
      */
-    public DialogBox(float x, float y, int width, int height, String text) {
-        this.window = new Gui<>(x, y, width, height, new Dialog(x, y, text, width, height));
+    public DialogBox(String text, String[] options) {
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, dialog);
+        dialog.setWindow(window);
     }
     
     /**
-     * 
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * Dialog box with options, default coordinates, and specified color
      * @param text
+     * @param options
      * @param start
      * @param end 
      */
-    public DialogBox(float x, float y, int width, int height, String text, Color start, Color end) {
-        this.window = new Gui<>(x, y, width, height, start, end, new Dialog(x, y, text, width, height));
+    public DialogBox(String text, String[] options, Color start, Color end) {
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
+        dialog.setWindow(window);
     }
     
     /**
@@ -121,5 +121,13 @@ public class DialogBox {
      */
     public String getText() {
         return window.getObject().getText();
+    }
+    
+    /**
+     * Get status
+     * @return whether or not it is continuing to print
+     */
+    public boolean continuePrinting() {
+        return dialog.getParser().getStatus();
     }
 }
