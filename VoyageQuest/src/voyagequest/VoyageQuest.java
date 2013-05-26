@@ -1,16 +1,26 @@
 package voyagequest;
 
-import gui.Gui;
-import gui.VoyageGuiException;
 import gui.GuiManager;
-import gui.special.*;
-import voyagequest.DoubleRect;
-import scripting.*;
-import scripting.Thread;
-import map.*;
+import gui.VoyageGuiException;
+import gui.special.DialogBox;
 
-import org.newdawn.slick.*;
-import java.util.ArrayList;
+import map.Camera;
+import map.Entity;
+import map.Map;
+import map.Player;
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+
+import scripting.ScriptManager;
+import scripting.ScriptReader;
+import scripting.Thread;
+import scripting.ThreadManager;
 
 /**
  * Voyage Quest RPG
@@ -69,6 +79,8 @@ public class VoyageQuest extends BasicGame {
         
         //Load all the scripts
         loadScripts();
+        
+        EventListener.initGc(gc);
         
         //Create the current Map
         Global.currentMap = new Map("res/MAPTEST.tmx");
@@ -160,7 +172,7 @@ public class VoyageQuest extends BasicGame {
         
         if(input.isKeyDown(Input.KEY_E))
         {
-            int rand = (int)(Math.random() * 2);
+            
             String lorem = "Hi I'm Panther. I'm a cool tester entity that Edmund is using to test his new fancy map "
                     + "system with cool collision boxes. But check it out, I'm speaking! I'm actually speaking! "
                     + "This is filler space so the dialog box overflows and requires you to press Z to continue "
@@ -169,10 +181,7 @@ public class VoyageQuest extends BasicGame {
                     + "box printing with automatic line breaks and section breaks. I'm speaking! I'm actually speaking! "
                     + "This is filler space so the dialog box overflows and requires you to press Z to continue "
                     + "reading. Woohoo it works! Next step are the windows which is still in progress.";
-            if (rand < 1)
-                player.speak(lorem);
-            else
-                player.speak(lorem2);
+            player.speak(lorem);
         } 
            
         GuiManager.update(gc, delta);
@@ -218,24 +227,27 @@ public class VoyageQuest extends BasicGame {
         
     }
     
-    /**
-         * @see org.newdawn.slick.InputListener#mouseMoved(int, int, int, int)
-         */
-        public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-            //EventListener.mouseMoved(oldx, oldy, newx, newy);
-        }
+   /**
+    * @see org.newdawn.slick.InputListener#mouseMoved(int, int, int, int)
+    */
+    @Override
+   public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+       //EventListener.mouseMoved(oldx, oldy, newx, newy);
+   }
 
-        /**
-         * @see org.newdawn.slick.InputListener#mouseDragged(int, int, int, int)
-         */
-        public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-            EventListener.mouseDragged(oldx, oldy, newx, newy);
-        }
-        
-        /**
-         * @see org.newdawn.slick.InputListener#mouseClicked(int, int, int, int)
-         */
-        public void mouseClicked(int button, int x, int y, int clickCount) {
-           //EventListener.mouseClicked(button, x, y, clickCount);
-        }
+   /**
+    * @see org.newdawn.slick.InputListener#mouseDragged(int, int, int, int)
+    */
+    @Override
+   public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+       EventListener.mouseDragged(oldx, oldy, newx, newy);
+   }
+
+   /**
+    * @see org.newdawn.slick.InputListener#mouseClicked(int, int, int, int)
+    */
+    @Override
+   public void mouseClicked(int button, int x, int y, int clickCount) {
+      //EventListener.mouseClicked(button, x, y, clickCount);
+   }
 }
