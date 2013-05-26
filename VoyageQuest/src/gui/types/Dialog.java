@@ -1,6 +1,8 @@
 package gui.types;
 
+import gui.Gui;
 import gui.Displayable;
+import gui.Gui;
 import gui.VoyageGuiException;
 import org.newdawn.slick.GameContainer;
 
@@ -24,6 +26,8 @@ public class Dialog implements Displayable {
     private int height;
     /** the dialog parser */
     private DialogParser parser;
+    /** the current Gui window */
+    private Gui<Dialog> window;
     
     /**
      * 
@@ -38,6 +42,24 @@ public class Dialog implements Displayable {
         this.width = width;
         this.height = height;
         parser = new DialogParser(text, this, x, y);
+    }
+    
+    /**
+     * Set the window this dialog is contained in
+     * Used only for closing the dialog box from the parser
+     * @param window the super window
+     */
+    public void setWindow(Gui<Dialog> window) {
+        this.window = window;
+    }
+    
+    /**
+     * Get the super window
+     * Used only for closing the dialog box from the parser
+     * @return the window
+     */
+    public Gui<Dialog> getWindow() {
+        return window;
     }
     
     /**

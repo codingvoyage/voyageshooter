@@ -1,5 +1,6 @@
 package gui.types;
 
+import gui.GuiManager;
 import gui.VoyageGuiException;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -133,6 +134,10 @@ public class DialogParser {
                 printedChars.clear();
                 x = xStart;
                 y = yStart;
+                if (!hasNext()) {
+                    GuiManager.close(box.getWindow());
+                    return;
+                }
             }
         }
         
@@ -163,9 +168,10 @@ public class DialogParser {
             charIterator = wordIterator.next().listIterator();
             newWord = true;
             return next();
-        } else
-            // if this method was called correctly, it should never reach this point, but just in case
+        } else {
+            waiting = true;
             return ""; 
+        }
     }
     
     /**
