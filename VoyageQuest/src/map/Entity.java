@@ -6,16 +6,18 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.GameContainer;
 
 import voyagequest.VoyageQuest;
 import voyagequest.DoubleRect;
 import voyagequest.Global;
+import scripting.*;
 
 /**
  *
  * @author user
  */
-public class Entity implements Rectangular {
+public class Entity extends ScriptableClass implements Rectangular {
     /** The entity's boundary rectangle. For this, r.x and r.y are
       * the actual coordinates of the Entity in Map space. Width and
       * height are the width and height of the entity, which are likely
@@ -34,6 +36,8 @@ public class Entity implements Rectangular {
     public boolean isPlayer = false;
     double accumulatedDeltaT = 0.0d;
     int currentFrame = 0;
+    
+    protected Animation currentAnimation;
 
     /**
      * Constructs an Entity with only its boundary Rectangle
@@ -59,9 +63,12 @@ public class Entity implements Rectangular {
     
     public void draw(Graphics g, float xOffset, float yOffset)
     {
+        //currentAnimation.getImage(currentFrame).draw(xOffset, yOffset);
+        
         Global.character.draw(xOffset, yOffset);
         
         //If debugging, then draw the boundary boxes and the collision boxes
+        System.out.println(VoyageQuest.DEBUG_MODE);
         if (VoyageQuest.DEBUG_MODE == true)
         {
             g.drawRect(xOffset, yOffset, (float)r.width, (float)r.height);
@@ -73,13 +80,17 @@ public class Entity implements Rectangular {
         
     }
     
-    public void attemptMove(double xMove, double yMove)
+    public boolean attemptMove(double xMove, double yMove)
     {
         //Where would we end up at
         double candidateX = r.x + collRect.x + xMove;
         double candidateY = r.y + collRect.y + yMove;
-        DoubleRect collCandidate = new DoubleRect(candidateX, candidateY, 50.0d, 50.0d);
+        DoubleRect collCandidate = new DoubleRect(candidateX,
+                                                    candidateY,
+                                                    collRect.getWidth(),
+                                                    collRect.getHeight());
 
+        //Now query the QuadTree for any possible collisions
         LinkedList<Rectangular> collisionCandidates = Global.currentMap.collisions.rectQuery(collCandidate);
 
         //Now we see if collides
@@ -96,14 +107,17 @@ public class Entity implements Rectangular {
 
         if (collides == true)
         {
-            //System.out.println("fuuuu");
+            //Could not move
+            return false;
         }
         else
         {
+            //Move to the proposed location
             Global.currentMap.collisions.removeEntity(this);
             r.x = r.x + xMove;
             r.y = r.y + yMove;
             Global.currentMap.collisions.addEntity(this);
+            return true;
         }
         
     }
@@ -120,7 +134,7 @@ public class Entity implements Rectangular {
         return r;
     }
     
-    public void act(double deltaT)
+    public void act(GameContainer gc, int delta)
     {
         
         

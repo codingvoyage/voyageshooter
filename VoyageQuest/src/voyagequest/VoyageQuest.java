@@ -37,7 +37,7 @@ public class VoyageQuest extends BasicGame {
     public static ThreadManager threadManager;
     
     /** Are we debugging? */
-    public static final boolean DEBUG_MODE = true;
+    public static final boolean DEBUG_MODE = false;
     
     public static Entity player;
     
@@ -75,8 +75,8 @@ public class VoyageQuest extends BasicGame {
         Global.currentMap = new Map("res/MAPTEST.tmx");
         
         //Create and add the player to the Map
-        player = new Entity(new DoubleRect(1400, 4300, 64, 128));
-        player.isPlayer = true;
+        player = new Player(new DoubleRect(1400, 4300, 64, 128));
+        //player.isPlayer = true;
         Global.currentMap.entities.add(player);
         Global.currentMap.collisions.addEntity(player);
         
@@ -155,38 +155,13 @@ public class VoyageQuest extends BasicGame {
             Entity e = Global.currentMap.entities.get(i);
             if (e != null)
             {
-                e.act(delta);
+                e.act(gc, delta);
             }
         }
         
         threadManager.act(delta);
         
         
-        Input input = gc.getInput();
-        double step = 0.25*delta;
-            
-        /* tilt and move to the left */
-        if (input.isKeyDown(Input.KEY_LEFT)) {
-            player.attemptMove(-step, 0);
-        }
-
-        if (input.isKeyDown(Input.KEY_RIGHT)) {
-            player.attemptMove(step, 0);
-        }
-
-        if (input.isKeyDown(Input.KEY_UP)) {
-            player.attemptMove(0, -step);
-        }
-        
-        if (input.isKeyDown(Input.KEY_DOWN)) {
-            player.attemptMove(0, step);
-        }
-
-        if(input.isKeyDown(Input.KEY_ENTER))
-        {
-            
-        }
-           
         GuiManager.update(gc, delta);
         
         if (guiTestCounter > 60000)
