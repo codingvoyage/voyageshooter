@@ -31,6 +31,7 @@ public abstract class EventListener {
         Input input = gc.getInput();
         
         double step = STEP_SIZE*delta;
+        step = player.velocityX;
             
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {
@@ -74,5 +75,9 @@ public abstract class EventListener {
      */
     public static void mouseClicked(int button, int x, int y, int clickCount) {
         Util.p("Clicked");
+        
+        //Later this will be configured so that this is ONLY EXECUTED
+        //when the GUI isn't hit, but for now, let's pretend ...
+        
     }
 }

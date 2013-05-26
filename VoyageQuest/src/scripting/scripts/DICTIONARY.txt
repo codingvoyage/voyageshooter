@@ -145,3 +145,13 @@ cos 86
 tan 87
 sqrt 88
 squareroot 88
+
+
+
+-- voyagequest functions start here
+
+setAnimationDirection 100
+setVelocity 101
+setVelocityStandard 102
+moveTileAmount 103
+movePixelAmount 104

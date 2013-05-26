@@ -87,13 +87,25 @@ public class VoyageQuest extends BasicGame {
         
         //Create and add the player to the Map
         player = new Player(new DoubleRect(1400, 4300, 64, 128));
-        //player.isPlayer = true;
         Global.currentMap.entities.add(player);
         Global.currentMap.collisions.addEntity(player);
+        
+        //Set the main thread of the entity to this thread.
+        //testEntity.setMainThread(entityThread);
+        player.setMainScriptID(1);
+        player.setMainThread(threadManager.getThreadAtName("Sebastian test"));
+        threadManager.getThreadAtName("Sebastian test").setScriptable(player);
         
         //As a terrible temporary solution...
         Global.character = new Image("res/CHARACTER.png");
                 
+        
+        
+        
+        
+        
+        
+        
         //Now create the Camera.
         Global.camera = new Camera();
         
@@ -128,6 +140,8 @@ public class VoyageQuest extends BasicGame {
         //Now create a thread that uses the loading script, 
         //adding it to threadManager and running it
         Thread loadingThread = new Thread(0);
+        loadingThread.setName("loadingThread");
+        loadingThread.setLineNumber(0);
         threadManager.addThread(loadingThread);
         threadManager.act(0.0);
         
@@ -136,14 +150,10 @@ public class VoyageQuest extends BasicGame {
         //Create a thread which governs this entity with Script 
         Thread testThread = new Thread(1);
         
-        //Set the main thread of the entity to this thread.
-        //testEntity.setMainThread(entityThread);
-        
         //Set the details of the thread
         testThread.setLineNumber(0);
-        testThread.setName("main");
+        testThread.setName("Sebastian test");
         testThread.setRunningState(false);
-        //entityThread.setScriptable(testEntity);
         
         //Add this thread to the collection of threads
         threadManager.addThread(testThread);
@@ -169,6 +179,8 @@ public class VoyageQuest extends BasicGame {
         Input input = gc.getInput();
         
         EventListener.keyboardControl(player, delta);
+        
+        threadManager.act(delta);
         
         if(input.isKeyDown(Input.KEY_E))
         {
@@ -248,6 +260,6 @@ public class VoyageQuest extends BasicGame {
     */
     @Override
    public void mouseClicked(int button, int x, int y, int clickCount) {
-      //EventListener.mouseClicked(button, x, y, clickCount);
+      EventListener.mouseClicked(button, x, y, clickCount);
    }
 }

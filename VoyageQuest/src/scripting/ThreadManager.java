@@ -24,6 +24,7 @@ public class ThreadManager {
     
     public Thread getThreadAtName(String targetThread)
     {
+        
         for (Thread t: threadCollection)
         {
             if (t.getName().equals(targetThread))

@@ -35,12 +35,15 @@ public class Entity extends ScriptableClass implements Rectangular {
     
     public RenderSetting renderSetting;
     
-    boolean hasDrawn;
-    public boolean isPlayer = false;
+    
     double accumulatedDeltaT = 0.0d;
     int currentFrame = 0;
     
     protected Animation currentAnimation;
+    
+    public double velocityX;
+    public double velocityY;
+    
 
     /**
      * Constructs an Entity with only its boundary Rectangle
@@ -81,6 +84,64 @@ public class Entity extends ScriptableClass implements Rectangular {
                        (float)collRect.height);
         }
         
+    }
+    
+    public void setVelocity(double vx, double vy)
+    {
+        System.out.println("HAYY");
+        velocityX = vx;
+        velocityY = vy;
+    }
+    
+    public void beginMove(double pixelsToMove) {
+        setTemporaryParameter(new Parameter(pixelsToMove));
+        mainThread.setRunningState(true);
+    }
+    
+    public void beginMove(int tilesToMove) {
+        int pixelsToMove = tilesToMove * Global.currentMap.TILE_LENGTH;
+        setTemporaryParameter(new Parameter(pixelsToMove));
+        mainThread.setRunningState(true);
+    }
+    
+    
+    /**
+     * Checks if the entity should continue moving (straight line)
+     * @param delta elapsed time between checks
+     * @return boolean indicating whether or not the entity should continue moving
+     */
+    public boolean continueMove(double delta) {
+        
+        
+        Parameter tempParam = getTemporaryParameter();
+
+        double xStep = velocityX * delta;
+        double yStep = velocityY * delta;
+        
+        boolean didWeMove = attemptMove(xStep, yStep);
+        
+        if (didWeMove)
+        {
+            //Successfully moved, update temporary variable
+            double movedDistance = Math.sqrt(xStep*xStep + yStep*yStep);
+
+            tempParam.setDoubleValue(
+                   tempParam.getDoubleValue() - 
+                   movedDistance);
+
+            setTemporaryParameter(tempParam);
+
+            if (tempParam.getDoubleValue() < 0)
+            {
+                System.out.println("We're done walking.");
+                //Oh, so we're done moving. Great.
+                mainThread.setRunningState(false);
+                return false;
+            }
+        }
+        
+        //Alright, we still have to move. Keep moving.
+        return true;
     }
     
     public boolean attemptMove(double xMove, double yMove)

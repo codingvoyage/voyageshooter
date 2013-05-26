@@ -10,4 +10,24 @@ next i + 1 --> i
 print k
 
 
+-- walk into the city
+setVelocity 0.0 -0.25
+movePixelAmount 1250
+
+-- move left a bit
+setVelocity -0.25 0
+movePixelAmount 350
+
+-- move up
+setVelocity 0.0 -0.25
+movePixelAmount 220
+
+-- move right a bit now
+setVelocity 0.25 0
+moveTileAmount 3.5
+
+-- move up
+setVelocity 0.0 -0.25
+movePixelAmount 380
+
 endthread

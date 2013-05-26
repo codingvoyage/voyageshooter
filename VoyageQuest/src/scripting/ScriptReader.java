@@ -2,6 +2,8 @@ package scripting;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import map.*;
+import voyagequest.Util;
 
 //
 //import spaceinvaders.entity.*;
@@ -164,6 +166,10 @@ public class ScriptReader
 //                System.out.println("continuing le orbitee");
 //                result = ((MovableEntity)currentScriptable).continueOrbit(currentDeltaTime, currentThread);
 //                break;
+            case 103:
+            case 104:
+                result = ((Entity)currentScriptable).continueMove(currentDeltaTime);
+                break;
         }
         
         return result;
@@ -235,7 +241,7 @@ public class ScriptReader
                 continueExecuting = false;
                 break;
                
-            //createVariable variableType identifier (Optional value)
+            //createVariable identifier (Optional value)
             case 10:
                 createVariable(currentLine);
                 break;
@@ -723,7 +729,49 @@ public class ScriptReader
                             sqrt);
                 break;
                 
-            
+            //setAnimationDirection 100
+            case 100:
+                
+                
+                
+                
+                break;
+                
+            //setVelocity 101
+            case 101:
+                double vx = identifierCheck(currentLine, 0).getDoubleValue();
+                double vy = identifierCheck(currentLine, 1).getDoubleValue();
+              
+                ((Entity)currentScriptable).setVelocity(vx, vy);
+                break;
+                
+            //setVelocityStandard 102
+            //setVelocityStandard vx/vy 0,1,2,3 will do setAnimationDirection too.
+            case 102:
+                double velocity = identifierCheck(currentLine, 0).getDoubleValue();
+                int direction = (int)identifierCheck(currentLine, 1).getDoubleValue();
+                break;
+                
+            //moveTileAmount 103
+            //moveByTiles tile_distance
+            case 103:
+                int tile_distance = (int)identifierCheck(currentLine, 0).getDoubleValue();
+                ((Entity)currentScriptable).beginMove(tile_distance);
+                continueExecuting = false;
+                
+                break;
+                
+            //movePixelAmount 104
+            //moveByPixels distance_in_pixels
+            case 104:
+                System.out.println("WHAT IS UP HAHAYAWFEAWFPY");
+                
+                double pixel_distance = (int)identifierCheck(currentLine, 0).getDoubleValue();
+                ((Entity)currentScriptable).beginMove(pixel_distance);
+                continueExecuting = false;
+                
+                break;
+                
         }
         
         //Returns whether to continue loading more commands
