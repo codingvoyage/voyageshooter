@@ -36,7 +36,7 @@ public class Entity extends ScriptableClass implements Rectangular {
     public RenderSetting renderSetting;
     
     
-    double accumulatedDeltaT = 0.0d;
+    double accumulatedDelta = 0.0d;
     int currentFrame = 0;
     
     protected Animation currentAnimation;
@@ -67,6 +67,26 @@ public class Entity extends ScriptableClass implements Rectangular {
                 collRect.height);
     }
     
+    public void updateAnimation(double delta)
+    {
+        accumulatedDelta += delta;
+        double currentFrameDuration = currentAnimation.getDuration(currentFrame);
+        
+        if (accumulatedDelta > currentFrameDuration)
+        {
+            currentFrame++;
+            if (currentFrame >= currentAnimation.getFrameCount())
+            {
+                currentFrame = 0;
+            }
+            
+            accumulatedDelta =- currentFrameDuration;
+            
+        }
+        
+        
+    }
+    
     public void draw(Graphics g, float xOffset, float yOffset)
     {
         //currentAnimation.getImage(currentFrame).draw(xOffset, yOffset);
@@ -74,7 +94,6 @@ public class Entity extends ScriptableClass implements Rectangular {
         Global.character.draw(xOffset, yOffset);
         
         //If debugging, then draw the boundary boxes and the collision boxes
-        System.out.println(VoyageQuest.DEBUG_MODE);
         if (VoyageQuest.DEBUG_MODE == true)
         {
             g.drawRect(xOffset, yOffset, (float)r.width, (float)r.height);
@@ -88,7 +107,6 @@ public class Entity extends ScriptableClass implements Rectangular {
     
     public void setVelocity(double vx, double vy)
     {
-        System.out.println("HAYY");
         velocityX = vx;
         velocityY = vy;
     }
@@ -211,6 +229,14 @@ public class Entity extends ScriptableClass implements Rectangular {
      */
     public void speak(String text) {
         (new DialogBox(text)).start();
+    }
+    
+    public boolean continueSpeak()
+    {
+        
+        
+        return true;
+        
     }
     
     

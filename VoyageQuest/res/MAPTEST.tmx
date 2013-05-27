@@ -15,19 +15,27 @@
  <tileset firstgid="2957" name="hyptosis_tile-art-batch-4" tilewidth="64" tileheight="64">
   <image source="test/hyptosis_tile-art-batch-4.png" width="1920" height="1920"/>
  </tileset>
- <layer name="Terrain" width="70" height="70">
+ <tileset firstgid="3857" name="CLIFFVEG" tilewidth="64" tileheight="64">
+  <image source="test/CLIFFVEG.png" trans="4b637f" width="1024" height="768"/>
+ </tileset>
+ <layer name="Background 1" width="70" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2bS07DMBBALWUBGz4rvkeArsr3GPzvkYMg2HMDaLkAW3Y9Qo8QqXADbCVW3WjssU2isdOx9IQgaeR5safx4JRCiJJhGIZhGIZhGIZhGIZJghfJq/GTuj8poFw8G3wm0KcUmDYupo0X6v6kwrtkIpbjhufRkrFYjheeR6uocfMh6rFD3ReGYdaHQ8mR5DiBvqTEpeRKcp1AXxiGyRMsv9qO55yXfWoJWH61Hc81L0O1BOgeP0geJU+W69iO2/7+VtDH7gKqJUD3uK9GHb8NqJYA3WN1f7tq6lr6etTxtzHnik8tYd7Esb25SkwzP0vtoU17rmC1hD68fBU11C5M9FzxPb/qwcusqH1Tu/gvXXuZD9iLD7bPqTFYDcBLGenFBXU87IW99AW0DrgRdVtnL9A6wPSy2BDiB+F3Y3heoHWA6WXLI96dAY4XCPZiZ+heYmtoOpaheomtoelYTiSnCKMMvWC1N8xLV6Res9Ng86srH2ajjtkHbH6Jjtyo+sIs0XodBDa/XF4WAc9zuXnBcHnR31Hqe2gXmUOVUSumjgkidA+qaipXhnrRPlN2YTqx7UG15V/dMC/t/Nr+nTp2F649qLb8G+qlPWZyqFu69qDa8u86eBmL8D2oUJvIOL+LVS+2lkM9V3sJ2YMKtbKJ1/RSWf43SR0zBaaX9rGc9nqE9hU73+XFlsdTfFcldE2Nne/yAuXxVN9VCV1TY+e7vEDk9q5KbC4wveic3mZPsi85EPm9qxJbs/LxciY5l1yIuOcESmJrVj5ebiV3knsR95yQIz5eMKhj6ANd8x1l7OUPkyAQUJBMAAA=
+   H4sIAAAAAAAAC+2bS07DMBBALWVRNnxWfI8AXZXvMfjfIwdBsOcG0HIBtrDqEXqESIUbYCux4lq2xzaJxk7H0hOCpJHnxZ7Gg1MyxkqCIAiCIAiCIAiCIAgiCZ45L8pP7P6kgHDxpPCRQJ9SYNa4mDVesPuTCm+cKWvHDc2jlglrxwvNo1XEuHln9djB7gtBEOvDAeeQc5RAX1LignPJuUqgLwRB5AmUX23Hc87LPrUEKL/ajueal021BNM9vuc8cB4t17Edt/39tcCP3YWplmC6x3017PhtmGoJpnss7m9XTVxLXg87fh11rvjUEhZNHFsbNd9FS2iT10jRiz5XoFqC7kWNLdbLZ1GD7UJFzhXf86sevMyL2je2i//StZfFgL34YPucGIPVALyUkV5cYMdDXshLX5jWAdesbuvsxbQOUL0sR4z9APyOhufFtA5QvWx6xLs9wPFigrzYGbqX2BqajGWoXmJraDKWY84JwDhDL1DtDfLSFanX7CTQ/OrKh9qwY/YBml+sIzeivjBPtF5nAppfLi/LgOe53LxAuLzI7yjxPbQDzKFKqX1ix2QidA+qaCJXhnqRPlN2oTqx7UG15V/ZIC96ftV/x47dhWsPqi3/hnrRx0wOdUvXHlRb/l0HLxMWvgfV1KY8zq9i1Yut5VDPlV5C9qCaWtnEq3qpLP9rw44ZA9WLfiynvR6hfYXOd3mx5fEU31UJXVND57u8mPJ4qu+qhK6pofNdXkzk9q5KbC5QvcicrrPL2ePss/zeVYmtWfl4OeWccc5Z3HMCJrE1Kx8vN5xbzh2Le07IER8vENgx9IGs+Y4z9vIHYO8uHJBMAAA=
   </data>
  </layer>
- <layer name="Second background" width="70" height="70">
+ <layer name="Background 2" width="70" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3ZvQmAMBgE0ED2n0gHUCcQFRdQnMGIdv6URuQ9ONJ8Rbj2QgAAAAAAAAAAAIB8ihhCGXP/4nuG1Mmol5M5dbLo5UQnAAAAAADk1sd937hLlVKnNA83f9xGprjvG1fZtMfbHe/VnR0AAIA3rIv8hPCQTAAA
+   H4sIAAAAAAAAC+3ZQUoCYRyG8YE5gKCE2FKJUDqF4SKPUUTYMYoIWyoitTREdN+qDlCdQDS6gNEZfIf5t3KUoQFn9Ht+8DCbGfB7cfd5HgAAAAAAAAAAAAAAAAAAybz4///2Vd++Jfh+X31pk292WfGjTX7ZZQWbAAAAAAAAALsjn/O8gjpQRXuW1GEu7V+WrrLOX1FH6tieVVVzfJe6zn+qLq0TdaaaGdxl7of3G+t6Vx/qc8M7ce9GznX+C3VlmzQyvMvCD+83ogpM7TmzZ9R7ce8B/v4vDdslqKWuM7jLNt3o/LfqzrpXbfXg+C4dnb+relZfPaonx3cZ6PzPamiN1FhNHN8FAOCGJZ/42qOQTAAA
   </data>
  </layer>
- <layer name="With Player Height" width="70" height="70" opacity="0.97">
+ <layer name="Under Entities" width="70" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2Zy0oDMRSGAxmsUhe60IVuVNC9PoGKa0Vxrah160bXgpedlxeo9gW8PIC3F7C4F4svUPEZPGES5jRmplanSCb/Bz+TtiFMPpLMcCoEAAAAAAAAAAAAAAAAAAAAAAAAAAAAP+NECnHKci7/+446R83hrAu5oFzqa81DL1V97zyXv4g9Bo+PXq7onm/ZHG7+mDO9b7hjH708y2TN8Pu/p/Zjh3mgPMnYtfFyrb37xluKF+WroVNn7XbfvcjYaVWPZ1z5RjPFi/I1EAkxGH2fvx3e710ma7DGXPmIy4vyNUZzHad8SHeG6LfhqLXfp0zWYE0mrnzE9rIQZffv1b9P0nXK0bfJvBhXPmJ7Wf2Bl542farSz+cQx/ZSyZjzaBRnJzAv+/3uPtPkYSZKvIwE5uUixcsceZjXLsoBernTXsz6MCxTe4V5UfuonOGmaF4MfH0oNqi9aXkI0QtfH4pFai85vJh3mD4rRfVir481aq9bXtSz2rzD9Fgpqpc8xoQX95ihe7Hrlqe6thC6F17zu2bxse7CydOLGaPhad2F0y0vvtYX8oR7MfUZX+sLeeJz7b+bFOWs5ag69UNGOGl9zBnr+1nLUXXqekY4aX1MbRtnrZtQztqJUnx9la2fQ2e2lP3Zd7b6hahQtlPqlKFyQD4OKUcderH3DfZRTNH3Ud641s1uJMRem/8JikLaPnJ5OSInx4F4SdtH2E/ARVGeR1/3YTTBkEwAAA==
+   H4sIAAAAAAAAC+3QsQmAMBRF0cAXHMER3L+wss8IzqMQUgipLJKA58DtHy8lAAAAAAAAAAAA+CZH6Xg6Y/SaedRfahRXvAMAAAAAAICe1mX0gjltfmna/QLAz9wZHJhakEwAAA==
+  </data>
+ </layer>
+ <layer name="Entity Layer" width="70" height="70" opacity="0.97">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2Zzy4DQRzHJ5lNET1w4MAFCXeeAHEmxJmgri6cJdSNegHaF1AewL8X0LgL8QIVz+A32Znsz9jdWrZkdr6f5JudtpPJziczs5tfhQAAAAAAAAAAAAAAAAAAAAAAAAAAAOB7HEshTlhO5X/fUXbUHGpdyDmlrq8NB72c6Xvnqf8g9hg8Lnq5oHu+YnO4/GVqet9wxy56eZDRmrHv/05myy3lXoaujZem9u4azwlelK8XnRZrd/rukXKjx2wwV67RTvCifA0EQgwGX+dvh/d7ldEabDBXLhLnRfkao7mOU95kfIbot+Hgc793Ga3BhoxcuYjtZSFI79+rf5+k61RM3zbzYly5iO1l9RteSh36nEk3n0Mc20slZc6jQZgdz7zsl+P7TJOHmSDyMuKZl/MEL3PkYV676PfQy7X2YtaHYZnaK8yL2kf9KW6K5sXA14dig9qblgcfvfD1oVik9lKMF/MO02elqF7s9bFG7XXLi3pWm3eYkpWiesljTHiJH9N3L3bd8kTXFnz3wmt+TRYX6y6cPL2YMV4crbtwuuXF1fpCnnAvpj7jan0hT1yu/XeTopy1HFWnvk0JJ6mPOWNdP2s5qk7dSgknqY+pbeOsjceXs3aiJ7w+yc+ffWe2J/2z62yVhahQthPqlL5yQD4OKdWMXux9g30UUvR99BfsBkLsdfifoChk2UdVcnLkiRfsI5CFojyPPgAelCQekEwAAA==
   </data>
  </layer>
  <layer name="Above entities" width="70" height="70">
@@ -65,7 +73,6 @@
   <object x="1286" y="4122" width="53" height="33"/>
   <object x="1544" y="4312" width="48" height="32"/>
   <object x="1287" y="4314" width="47" height="30"/>
-  <object x="1677" y="4270" width="39" height="71"/>
   <object x="840" y="2056" width="162" height="1588"/>
   <object x="1761" y="3592" width="190" height="147"/>
   <object x="2035" y="3592" width="59" height="240"/>
@@ -73,6 +80,31 @@
   <object x="1497" y="3647" width="580" height="185"/>
   <object x="1110" y="2661" width="28" height="20"/>
   <object x="1999" y="4239" width="82" height="32"/>
+  <object x="2957" y="3719" width="24" height="295"/>
+  <object x="2827" y="3981" width="120" height="107"/>
+  <object x="2888" y="3964" width="64" height="15"/>
+  <object x="2911" y="3946" width="43" height="12"/>
+  <object x="2934" y="3931" width="28" height="11"/>
+  <object x="2597" y="3987" width="149" height="54"/>
+  <object x="2623" y="4027" width="128" height="57"/>
+  <object x="2597" y="3717" width="25" height="265"/>
+  <object x="2679" y="3629" width="224" height="15"/>
+  <object x="2619" y="3675" width="23" height="40"/>
+  <object x="2649" y="3646" width="39" height="21"/>
+  <object x="2911" y="3648" width="31" height="15"/>
+  <object x="2934" y="3677" width="40" height="36"/>
+  <object x="394" y="4058" width="173" height="32"/>
+  <object x="1004" y="2051" width="1408" height="125"/>
+  <object x="2128" y="2181" width="288" height="374"/>
+  <object x="2190" y="2536" width="101" height="754"/>
+  <object x="1872" y="3203" width="415" height="307"/>
+  <object x="1884" y="3518" width="211" height="120"/>
+  <object x="985" y="2241" width="223" height="158"/>
+  <object x="1859" y="2208" width="130" height="149"/>
+  <object x="2085" y="2249" width="52" height="171"/>
+  <object x="1293" y="3778" width="86" height="61"/>
+  <object x="1221" y="3791" width="101" height="42"/>
+  <object x="1136" y="3795" width="113" height="34"/>
  </objectgroup>
  <objectgroup name="Boundaries" width="70" height="70">
   <object x="1150" y="2815" width="133" height="253"/>
@@ -85,8 +117,8 @@
   <object x="1539" y="4035" width="57" height="120"/>
   <object x="1285" y="4229" width="56" height="120"/>
   <object x="1538" y="4227" width="58" height="121"/>
-  <object x="1667" y="4164" width="57" height="184"/>
   <object x="1091" y="2500" width="56" height="183"/>
   <object x="1986" y="4162" width="124" height="124"/>
+  <object x="387" y="3970" width="187" height="123"/>
  </objectgroup>
 </map>

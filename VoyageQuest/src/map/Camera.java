@@ -45,6 +45,20 @@ public class Camera {
         double startX = playerCenterX - screenCenterX;
         double startY = playerCenterY - screenCenterY;
         
+        //Now, check if we have to compensate for going off the map in all directions
+        //Over the limit
+        if (startX + VoyageQuest.X_RESOLUTION > Global.currentMap.MAP_WIDTH)
+        {
+            startX = Global.currentMap.MAP_WIDTH - VoyageQuest.X_RESOLUTION;
+        }
+        if (startY + VoyageQuest.Y_RESOLUTION > Global.currentMap.MAP_HEIGHT)
+        {
+            startY = Global.currentMap.MAP_HEIGHT - VoyageQuest.Y_RESOLUTION;
+        }
+        //Tiles less than 0
+        if (startX < 0.0d) startX = 0.0d;
+        if (startY < 0.0d) startY = 0.0d;
+        
         return new DoubleRect(
                 startX,
                 startY, 
@@ -65,20 +79,20 @@ public class Camera {
         int extraX = -(int)(vRect.x % 64);
         int extraY = -(int)(vRect.y % 64);
 
-        //Draw the tilemap. This part will need serious refactoring
+        //Let's calculate how many tiles we need...
+        //The + 2 compensates for that extra tile we would otherwise leak
+        int tileColumnsNeeded = (VoyageQuest.X_RESOLUTION / Global.currentMap.TILE_LENGTH) + 2;
+        int tileRowsNeeded = (VoyageQuest.Y_RESOLUTION / Global.currentMap.TILE_LENGTH) + 2;
         
-        //Draw the bottom two layers which are below everything else.
-        Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
-                        0, false);
-        Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
-                        1, false);
-      
-        //Perform important calculations
-        Layer objLayer = Global.currentMap.tileMap.getLayers().get(2);
-        int tile_length = Global.currentMap.TILE_LENGTH;
-        int startRow = (int)(vRect.y/64) - 4;
-        int endRow = startRow + 17;
-        int rowsDrawn = 0;
+        
+        //Draw the bottom three layers which are below everything else.
+        Global.currentMap.tileMap.render(extraX, extraY, startX, startY,
+                tileColumnsNeeded, tileRowsNeeded, 0, false);
+        Global.currentMap.tileMap.render(extraX, extraY, startX, startY,
+                tileColumnsNeeded, tileRowsNeeded, 1, false);
+        Global.currentMap.tileMap.render(extraX, extraY, startX, startY,
+                tileColumnsNeeded, tileRowsNeeded, 2, false);
+     
         
         //The deferred list is the list of Entities which must wait...
         LinkedList<Rectangular> drawingDeferrals = new LinkedList<>();
@@ -110,12 +124,12 @@ public class Camera {
         //describes which tile it should be rendered in, and...
         for (Rectangular r : entitiesToConsider)
         {
-            //We are in fact working with an Entity here...
+            //We are in fact working with an Entity here, so let's case it now.
             Entity e = (Entity)r;
             DoubleRect entityRect = e.getRect();
             
             //Get a list of all the BoundaryWrappers this Entity could collide with
-            LinkedList<Rectangular> collisionChoices = Global.currentMap.boundaries.rectQuery(e.getRect());
+            LinkedList<Rectangular> collisionChoices = Global.currentMap.boundaries.rectQuery(entityRect);
             
             //RenderSetting to be set soon.
             RenderSetting newRenderSetting;
@@ -138,62 +152,62 @@ public class Camera {
             //we don't have to deal with touching something on the map.
             if (chosenBoundary == null)
             {
-//                System.out.println("We can just draw it!");
+                //We are not touching any Entities, so we can just draw this right after
+                //the tile its UL corner is on.
                 
                 //Find the UL corner's x,y and get the tile it belongs in
                 DoubleRect entityUL = Util.coordinateToTile(
-                        e.getRect().x, e.getRect().y);
-                
-//                System.out.println("We should render right after tile " + 
-//                        entityUL.toString());
+                        entityRect.x, entityRect.y);
                 
                 newRenderSetting = new RenderSetting((int)entityUL.y, false);
                 e.renderSetting = newRenderSetting;
+                
+                //Continue on to the next Entity.
                 continue;
             }
-//            
-//            System.out.println("Need to figure out a way to draw it!");
+            
+            //Alright, so we are in contact with something. Let's figure out when
+            //to draw Entity.
             
             //Compare the collisionbox of the entity with the collisionbox in
             //the boundary to determine what should be done
             GroupObjectWrapper boundaryColl = chosenBoundary.getSecondaryGroupObject();
-            double boundaryCollY = boundaryColl.getRect().getY();
-            
             DoubleRect entityColl = e.getCollRect();
-            double entityCollY = entityColl.getY();
             
-//            System.out.println("Entity collision Y: " + entityCollY);
-//            System.out.println("Boundary collision Y: " + boundaryCollY);
+            double boundaryCollY = boundaryColl.getRect().getY();
+            double entityCollY = entityColl.getY();
             
             if (entityCollY >= boundaryCollY)
             {
-                //This means that the entity is ahead of the boundary.
-//                System.out.println("The entity is ahead of the object");
+                //The Entity is ahead of the object, so we want to render right after the
+                //lowest Tile of that object.
                 DoubleRect setting = chosenBoundary.getLowestTile();
-//                System.out.println("We should render right after tile " + 
-//                        setting.toString());
-                
                 newRenderSetting = new RenderSetting((int)setting.y, false);
                 e.renderSetting = newRenderSetting;
                 
             }
             else
             {
-//                System.out.println("The entity is behind the object");
+                //When the Entity is behind the object
                 DoubleRect setting = chosenBoundary.getTopTile();
-//                System.out.println("We should render right before tile " + 
-//                        setting.toString());
                 newRenderSetting = new RenderSetting((int)setting.y - 1, true);
                 e.renderSetting = newRenderSetting;
             }
             
         }
         
+        //Perform important calculations
+        //EXTRA_ROW_COUNT compensates for an extra tile leaking out
+        Layer objLayer = Global.currentMap.tileMap.getLayers().get(3);
+        int EXTRA_ROW_COUNT = 1;
+        int startRow = (int)(vRect.y/64) - EXTRA_ROW_COUNT;
+        int endRow = startRow + tileRowsNeeded + EXTRA_ROW_COUNT;
+        int rowsDrawn = 0;
         
-            
+        //Now that the preparations are ready, we can now step through, row by row,
+        //rendering the Entities.
         for (int i = startRow; i < endRow; i++)
         {
-            
             //Render all objects which are in the row and
             //are supposed to be behind the tile
             entityIterator = entitiesToConsider.listIterator();
@@ -212,15 +226,25 @@ public class Camera {
                 }
             }
             
-            ///////////////////////////////////////////////////////////////////
             //=======================/RENDER THIS ROW/=========================
-            ///////////////////////////////////////////////////////////////////
+            
+            //rowsDrawn*Global.current.TILE_LENGTH adjusts based on row
+            //extraY adjusts for the space between tiles
+            //-EXTRA_ROW_COUNT*Global.currentMap.TILE_LENGTH compensates for the extra row
+            int objYScreenPosition = 
+                    rowsDrawn*Global.currentMap.TILE_LENGTH +
+                    extraY -
+                    EXTRA_ROW_COUNT*Global.currentMap.TILE_LENGTH;
+                    
             objLayer.render(extraX,
-                    rowsDrawn*tile_length + extraY - 4*tile_length,
+                    objYScreenPosition,
                     startX, 
                     i, 
-                    17, 1,
-                    false, tile_length, tile_length);
+                    tileColumnsNeeded,
+                    1,
+                    false, 
+                    Global.currentMap.TILE_LENGTH,
+                    Global.currentMap.TILE_LENGTH);
             rowsDrawn++;
             
             //Render all objects which are in the row and
@@ -242,12 +266,11 @@ public class Camera {
             }
         }
         
-            
         //Draw the things which tower above all else.
-        Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
-                        3, false);
-        Global.currentMap.tileMap.render(extraX, extraY, startX, startY, 17, 13,
-                        4, false);
+        Global.currentMap.tileMap.render(extraX, extraY, startX, startY,
+                tileColumnsNeeded, tileRowsNeeded, 4, false);
+        Global.currentMap.tileMap.render(extraX, extraY, startX, startY,
+                tileColumnsNeeded, tileRowsNeeded, 5, false);
         
         //All the extra things we draw on top if we're in debug mode
         if (VoyageQuest.DEBUG_MODE == true)
@@ -255,14 +278,20 @@ public class Camera {
             //Draw the tile borders
             g.setColor(Color.black);
             g.setLineWidth(1.0f);
-            for (int i = 0; i < 17; i++)
+            
+            //Draw the lines parallel to x axis
+            for (int i = 0; i < tileRowsNeeded; i++)
             {
-                g.drawLine(0, i * tile_length + extraY, 1200, i * tile_length + extraY);
-                Util.FONT.drawString(0, i * tile_length + extraY + 30, "Row " + (startY + i));
+                float yCoord = (float)(i * Global.currentMap.TILE_LENGTH + extraY);
+                g.drawLine(0.0f, yCoord, VoyageQuest.X_RESOLUTION, yCoord);
+                Util.FONT.drawString(0, i * Global.currentMap.TILE_LENGTH + extraY + 30, "Row " + (startY + i));
             }
-            for (int i = 0; i < 17; i++)
+            
+            //Draw the lines parallel to y axis
+            for (int i = 0; i < tileColumnsNeeded; i++)
             {
-                g.drawLine(i * tile_length + extraX, 0, i * tile_length + extraX, 800);
+                float xCoord = (float)(i * Global.currentMap.TILE_LENGTH + extraX);
+                g.drawLine(xCoord, 0, xCoord, VoyageQuest.Y_RESOLUTION);
 
             }
 

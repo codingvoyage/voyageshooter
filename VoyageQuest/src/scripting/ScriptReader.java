@@ -750,6 +750,31 @@ public class ScriptReader
             case 102:
                 double velocity = identifierCheck(currentLine, 0).getDoubleValue();
                 int direction = (int)identifierCheck(currentLine, 1).getDoubleValue();
+                
+                double velocity_x = 0.0d;
+                double velocity_y = 0.0d;
+                
+                switch (direction)
+                {
+                    //NORTH/UP
+                    case 0:
+                        velocity_y = -velocity;
+                        break;
+                    //SOUTH/DOWN
+                    case 1:
+                        velocity_y = velocity;
+                        break;
+                    //EAST/RIGHT
+                    case 2:
+                        velocity_x = velocity;
+                        break;
+                    //WEST/LEFT
+                    case 3:
+                        velocity_x = -velocity;
+                        break;
+                }
+                ((Entity)currentScriptable).setVelocity(velocity_x, velocity_y);
+                
                 break;
                 
             //moveTileAmount 103
@@ -764,12 +789,15 @@ public class ScriptReader
             //movePixelAmount 104
             //moveByPixels distance_in_pixels
             case 104:
-                System.out.println("WHAT IS UP HAHAYAWFEAWFPY");
-                
                 double pixel_distance = (int)identifierCheck(currentLine, 0).getDoubleValue();
                 ((Entity)currentScriptable).beginMove(pixel_distance);
                 continueExecuting = false;
                 
+                break;
+                
+            case 150:
+                ((Entity)currentScriptable).speak(
+                        identifierCheck(currentLine, 0).getStringValue());
                 break;
                 
         }

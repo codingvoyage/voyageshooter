@@ -37,8 +37,8 @@ public class VoyageQuest extends BasicGame {
     public static int Y_RESOLUTION = 768;
     /** full screen mode */
     public static boolean FULLSCREEN = false;
-    /** a rectangle of the screen*/
-    public static final DoubleRect SCREEN_RECT = new DoubleRect(0, 0, X_RESOLUTION, Y_RESOLUTION);
+    /** Are we debugging? */
+    public static final boolean DEBUG_MODE = false;
     
     /** All the scripts to be read */
     public static ScriptManager scriptCollection;
@@ -47,13 +47,8 @@ public class VoyageQuest extends BasicGame {
     /** Manages all the scripting threads */
     public static ThreadManager threadManager;
     
-    /** Are we debugging? */
-    public static final boolean DEBUG_MODE = false;
-    
     public static Entity player;
-    
     double time;
-    
     public DialogBox dialog;
     
     /**
@@ -98,13 +93,7 @@ public class VoyageQuest extends BasicGame {
         
         //As a terrible temporary solution...
         Global.character = new Image("res/CHARACTER.png");
-                
-        
-        
-        
-        
-        
-        
+              
         
         //Now create the Camera.
         Global.camera = new Camera();
@@ -115,7 +104,7 @@ public class VoyageQuest extends BasicGame {
                 + "This has been a successful test of my dialog box system. Remember, press E gently or it will spawn multiple ones stacked on top of each other for now. ! "
                 + "Thank you and I hope you enjoy your adventure, which beings NOW!";
         dialog = new DialogBox(lorem);
-        dialog.start();
+        //dialog.start();
         
     }
 
