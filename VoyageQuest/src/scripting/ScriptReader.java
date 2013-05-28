@@ -3,6 +3,7 @@ package scripting;
 import java.util.HashMap;
 import java.util.ArrayList;
 import map.*;
+import voyagequest.Global;
 import voyagequest.Util;
 
 //
@@ -169,6 +170,10 @@ public class ScriptReader
             case 103:
             case 104:
                 result = ((Entity)currentScriptable).continueMove(currentDeltaTime);
+                break;
+                
+            case 150:
+                
                 break;
         }
         
@@ -795,12 +800,35 @@ public class ScriptReader
                 
                 break;
                 
+            //freezeThreads 130
+            case 130:
+                Global.isFrozen = true;
+                Global.unfrozenThread = currentThread;
+                break;
+                
+            //freezeInputs 131
+            case 131:
+                
+                break;
+                
+            //unfreezeThreads 133
+            case 133:
+                Global.isFrozen = false;
+                Global.unfrozenThread = null;
+                break;
+                
+            //unfreezeInputs 134
+            case 134:
+                
+                break;
+                
             case 150:
                 ((Entity)currentScriptable).speak(
                         identifierCheck(currentLine, 0).getStringValue());
                 break;
                 
         }
+        
         
         //Returns whether to continue loading more commands
         return continueExecuting;

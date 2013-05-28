@@ -166,4 +166,10 @@ moveTileAmount 103
 movePixelAmount 104
 
 
+freezeThreads 130
+freezeInputs 131
+unfreezeThreads 133
+unfreezeInputs 134
+
 messageBox 150
+

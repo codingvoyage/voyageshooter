@@ -35,6 +35,7 @@ public class Entity extends ScriptableClass implements Rectangular {
     
     public RenderSetting renderSetting;
     
+    public DialogBox dialog;
     
     double accumulatedDelta = 0.0d;
     int currentFrame = 0;
@@ -228,12 +229,13 @@ public class Entity extends ScriptableClass implements Rectangular {
      * @param text the dialog text
      */
     public void speak(String text) {
-        (new DialogBox(text)).start();
+        dialog = new DialogBox(text);
+        dialog.start();
     }
     
     public boolean continueSpeak()
     {
-        
+        //dialog.areWeDone();
         
         return true;
         

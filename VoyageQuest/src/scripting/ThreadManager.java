@@ -1,6 +1,7 @@
 package scripting;
 
 import java.util.ArrayList;
+import voyagequest.Global;
 
 /**
  *
@@ -88,7 +89,20 @@ public class ThreadManager {
             else 
             //Otherwise, just act on it.
             {
-                scriptReader.act(currentThread, delta);
+                if (!Global.isFrozen)
+                {
+                    scriptReader.act(currentThread, delta);
+                }
+                else
+                {
+                    //Else if frozen, run only the one that's permitted to run
+                    if (currentThread.equals(Global.unfrozenThread))
+                        scriptReader.act(currentThread, delta);   
+                }
+                    
+                
+                
+                
                 index++;
             }
             

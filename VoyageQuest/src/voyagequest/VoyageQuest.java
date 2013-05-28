@@ -144,8 +144,15 @@ public class VoyageQuest extends BasicGame {
         testThread.setName("Sebastian test");
         testThread.setRunningState(false);
         
+        
+        Thread asdf = new Thread(5);
+        asdf.setName("1337hax");
+        asdf.setRunningState(false);
+        
+        
         //Add this thread to the collection of threads
         threadManager.addThread(testThread);
+        threadManager.addThread(asdf);
     }
     
     /**
