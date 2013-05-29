@@ -43,11 +43,11 @@ public class DoubleRect
     }
     
     public boolean contains(double x, double y) {
-        return contains(x, y);
+        return contains(x, y, 0, 0);
     }
 
     public boolean contains(int x, int y) {
-        return false;
+        return contains(x, y, 0, 0);
     }
 
     public boolean contains(java.awt.Rectangle r) {

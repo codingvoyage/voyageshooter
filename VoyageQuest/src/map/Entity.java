@@ -191,6 +191,14 @@ public class Entity extends ScriptableClass implements Rectangular {
         if (collides == true)
         {
             //Could not move
+            
+            
+            
+            
+            
+            
+            
+            
             return false;
         }
         else

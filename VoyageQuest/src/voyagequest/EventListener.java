@@ -1,9 +1,12 @@
 package voyagequest;
 
 import gui.GuiManager;
-import map.Entity;
+import map.*;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
+
+import java.util.LinkedList;
 
 /**
  * Listener for keyboard input and mouse interactions
@@ -73,11 +76,32 @@ public abstract class EventListener {
     /**
      * Called when the mouse is clicked (but not dragged)
      */
-    public static void mouseClicked(int button, int x, int y, int clickCount) {
-        Util.p("Clicked");
+    public static void mouseClicked(int button, int x, int y, int clickCount) {     
+        double clickedMapX = Global.camera.getViewRect().x + x;
+        double clickedMapY =  Global.camera.getViewRect().y + y;
         
+        System.out.println(clickedMapX + " " + clickedMapY);
         //Later this will be configured so that this is ONLY EXECUTED
         //when the GUI isn't hit, but for now, let's pretend ...
+        LinkedList<GroupObjectWrapper> possibleBoundaries = 
+                Global.currentMap.events.rectQuery(
+                    new DoubleRect(clickedMapX, clickedMapY, 0, 0));
+        
+        System.out.println(possibleBoundaries.size());
+        GroupObjectWrapper clickedBoundary = null;
+        for (GroupObjectWrapper b : possibleBoundaries)
+        {
+            if (b.getRect().contains(clickedMapX, clickedMapY)) 
+            {
+                clickedBoundary = b;
+                break;
+            }
+        }
+        
+        if (clickedBoundary == null) return;
+        
+        //From here on, clickedBoundary should contain a valid BoundaryWrapper
+        System.out.println("CLICKED LOL");
         
     }
 }

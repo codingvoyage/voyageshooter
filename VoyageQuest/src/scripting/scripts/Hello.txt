@@ -12,6 +12,11 @@ next i + 1 --> i
 print k
 
 
+
+messageBox "Is this the illest place to chillax or what?"
+
+endthread
+
 -- walk into the city
 setVelocity 0.0 -0.25
 movePixelAmount 1250

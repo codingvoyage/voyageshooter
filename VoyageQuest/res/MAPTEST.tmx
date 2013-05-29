@@ -121,4 +121,11 @@
   <object x="1986" y="4162" width="124" height="124"/>
   <object x="387" y="3970" width="187" height="123"/>
  </objectgroup>
+ <objectgroup name="Events" width="70" height="70">
+  <object name="Warp" type="onTouch" x="2751" y="3712" width="67" height="61">
+   <properties>
+    <property name="Transfer" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

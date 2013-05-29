@@ -21,6 +21,7 @@ public class Map {
     //For collision detection and such
     public QuadTree collisions;
     public QuadTree boundaries;
+    public QuadTree events;
     public static LinkedList<Rectangular> allCollisions;
     public static LinkedList<Rectangular> allBoundaries;
     
@@ -55,6 +56,7 @@ public class Map {
         //Initialize the QuadTrees of collisions and boundaries
         collisions = new QuadTree<>(20, 10, MAP_RECT);
         boundaries = new QuadTree<>(20, 10, MAP_RECT);
+        events = new QuadTree<>(20, 10, MAP_RECT);
         
         //Now that QuadTree is initialized, we are free to initialize the
         //collision rects.
@@ -64,6 +66,8 @@ public class Map {
         //Get the boundary layer
         ArrayList<GroupObject> collisionLayer = objLayers.get(0).getObjects();
         ArrayList<GroupObject> boundaryLayer = objLayers.get(1).getObjects();
+        ArrayList<GroupObject> eventLayer = objLayers.get(2).getObjects();
+        
         
         //First up, fill the collisionlayer. I favor the wrapper over the GroupObject approach, since 
         //that enables easy access to the properties and other methods provided by GroupObject.
@@ -72,10 +76,6 @@ public class Map {
             GroupObjectWrapper collisionBox = new GroupObjectWrapper(o);
             collisions.addEntity(collisionBox);
             allCollisions.add(collisionBox);
-//            if (o.props != null && o.props.containsValue("map3"))
-//            {
-//                System.out.println("value read");
-//            }
         }
         
         //Now, fill up the boundaryLayer...
@@ -83,7 +83,6 @@ public class Map {
         {
             //Find the collision GroupObject which fits entirely within the
             //boundary GroupObject!
-            System.out.println("Blah");
             
             GroupObjectWrapper boundaryWrapper = new GroupObjectWrapper(o);
             for (Rectangular candidate : allCollisions)
@@ -107,10 +106,16 @@ public class Map {
             }
         }
         
-//        System.out.println(collisions.getSize());
-//        System.out.println(entities.size());
-//        System.out.println("layercount: " + tileMap.getLayers().size());
-//        
+        //Now fill up the event layer. These are either on click, or on contact, depending on the
+        //specifications done in TILED.
+        //Types: onTouch and onClick
+        for (GroupObject o : eventLayer)
+        {
+            GroupObjectWrapper collisionBox = new GroupObjectWrapper(o);
+            events.addEntity(collisionBox);
+        }
+        
+        System.out.println("ASDF SIZE LOL " + events.getSize());
     }
     
 }
