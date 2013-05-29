@@ -175,16 +175,13 @@ public class VoyageQuest extends BasicGame {
             
             String lorem = "Hi I'm Panther. I'm a cool tester entity that Edmund is using to test his new fancy map "
                     + "system with cool collision boxes. But check it out, I'm speaking! I'm actually speaking! "
-                    + "This is filler space so the dialog box overflows and requires you to press Z to continue "
-                    + "reading. Woohoo it works! Next step are the windows which is still in progress.";
-            String lorem2 = "Hi I'm Edmund. I'm a cool tester entity that Bakesale is using to test his fancy dialog "
-                    + "box printing with automatic line breaks and section breaks. I'm speaking! I'm actually speaking! "
-                    + "This is filler space so the dialog box overflows and requires you to press Z to continue "
-                    + "reading. Woohoo it works! Next step are the windows which is still in progress.";
+                    + "This is filler space so the dialog box overflows and requires you to press Z to continue. "
+                    + "This has been a successful test of my dialog boxes. Good day to you sir.  ";
             player.speak(lorem);
         } 
            
         GuiManager.update(gc, delta);
+        
     }
 
     /**

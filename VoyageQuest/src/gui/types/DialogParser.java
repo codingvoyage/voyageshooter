@@ -65,6 +65,9 @@ public class DialogParser {
     /** blink speed */
     public int blinkTimer = 0;
     
+    /** status */
+    private boolean continuePrinting = true;
+    
     /**
      * Print a new dialog message
      * @param text the text to print
@@ -170,6 +173,7 @@ public class DialogParser {
             return next();
         } else {
             waiting = true;
+            continuePrinting = false;
             return ""; 
         }
     }
@@ -233,6 +237,14 @@ public class DialogParser {
             FONT.drawString(next.getPosition()[0], next.getPosition()[1], next.getObject());
         }
         
+    }
+    
+    /**
+     * Get the status
+     * @return whether or not it should continue printing
+     */
+    public boolean getStatus() {
+        return continuePrinting;
     }
     
 }
