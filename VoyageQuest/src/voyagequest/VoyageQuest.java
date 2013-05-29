@@ -215,7 +215,7 @@ public class VoyageQuest extends BasicGame {
         
         Util.FONT.drawString(10, 40, "Coordinates of player: (" + entityX + ", " + entityY + ")");
         
-        Res.sebastian.getSprite("sf1").draw(200, 500);
+        // Res.sebastian.getSprite("sf1").draw(200, 500);
     }
 
     /**
