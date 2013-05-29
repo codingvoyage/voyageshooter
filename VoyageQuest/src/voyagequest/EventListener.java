@@ -57,11 +57,11 @@ public abstract class EventListener {
 
         if(input.isKeyDown(Input.KEY_ENTER))
         {
-            //map changing test.
+            //map changing test. hardcoded for now
             if (VoyageQuest.haschangedmaps == false)
             {
                 Global.currentMap = new Map("res/House.tmx");
-                VoyageQuest.player.r = new DoubleRect(600, 1400, 64, 128);
+                VoyageQuest.player.r = new DoubleRect(620, 1430, 64, 128);
                 Global.currentMap.entities.add(player);
                 Global.currentMap.collisions.addEntity(player);
                 VoyageQuest.haschangedmaps = true;
