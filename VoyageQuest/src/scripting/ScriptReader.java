@@ -155,6 +155,8 @@ public class ScriptReader
     {
         boolean result = true;
         
+        System.out.println("!!");
+        
         switch (currentLine.getCommandID())
         {
             case 0: //Waiting
@@ -173,7 +175,7 @@ public class ScriptReader
                 break;
                 
             case 150:
-                
+                result = ((Entity)currentScriptable).continueSpeak();
                 break;
         }
         
@@ -825,6 +827,7 @@ public class ScriptReader
             case 150:
                 ((Entity)currentScriptable).speak(
                         identifierCheck(currentLine, 0).getStringValue());
+                continueExecuting = false;
                 break;
                 
         }

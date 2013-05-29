@@ -12,8 +12,18 @@ next i + 1 --> i
 print k
 
 
+print "done"
 
-messageBox "Herp the derp."
+messageBox "Herp the derp. Hurrrrrrrrrrrrrrp"
+
+
+print "done"
+
+messageBox "Derp derp derp."
+messageBox "Hurrrrrrrrrrrrrrp"
+
+
+print "done"
 
 endthread
 

@@ -38,7 +38,7 @@ public class VoyageQuest extends BasicGame {
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     /** Are we debugging? */
-    public static final boolean DEBUG_MODE = false;
+    public static final boolean DEBUG_MODE = true;
     
     /** All the scripts to be read */
     public static ScriptManager scriptCollection;
@@ -166,7 +166,7 @@ public class VoyageQuest extends BasicGame {
         
         //Add this thread to the collection of threads
         threadManager.addThread(testThread);
-        threadManager.addThread(asdf);
+       // threadManager.addThread(asdf);
     }
     
     /**

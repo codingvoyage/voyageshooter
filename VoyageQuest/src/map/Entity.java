@@ -239,11 +239,17 @@ public class Entity extends ScriptableClass implements Rectangular {
     public void speak(String text) {
         dialog = new DialogBox(text);
         dialog.start();
+        mainThread.setRunningState(true);
+        
     }
     
     public boolean continueSpeak()
     {
-        //dialog.areWeDone();
+        if (dialog.continuePrinting() == false)
+        {
+            mainThread.setRunningState(false);
+            return false;
+        }
         
         return true;
         

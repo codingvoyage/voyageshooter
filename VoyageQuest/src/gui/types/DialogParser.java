@@ -133,6 +133,12 @@ public class DialogParser {
         if (waiting) {
             Input input = gc.getInput();
             if (input.isKeyDown(Input.KEY_Z)) {
+                
+                //Bakesale, I moved continuePrinting here.
+                //Before, it used to be in next(), but what we're really looking
+                //for is not next character, but whether we move on (next Z)
+                continuePrinting = false;
+                
                 waiting = false;
                 printedChars.clear();
                 x = xStart;
@@ -173,7 +179,7 @@ public class DialogParser {
             return next();
         } else {
             waiting = true;
-            continuePrinting = false;
+            //continuePrinting = false;
             return ""; 
         }
     }
