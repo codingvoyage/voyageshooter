@@ -51,6 +51,9 @@ public class VoyageQuest extends BasicGame {
     double time;
     public DialogBox dialog;
     
+    //testing
+    public static boolean haschangedmaps = false;
+    
     /**
      * Construct a new game
      */
@@ -78,12 +81,12 @@ public class VoyageQuest extends BasicGame {
         EventListener.initGc(gc);
         
         //Create the current Map
-        //Global.currentMap = new Map("res/MAPTEST.tmx");
-        Global.currentMap = new Map("res/House.tmx");
+        Global.currentMap = new Map("res/MAPTEST.tmx");
+        //Global.currentMap = new Map("res/House.tmx");
         
         //Create and add the player to the Map
-        //player = new Player(new DoubleRect(1400, 4300, 64, 128));
-        player = new Player(new DoubleRect(600, 1400, 64, 128));
+        player = new Player(new DoubleRect(1400, 4300, 64, 128));
+        //player = new Player(new DoubleRect(600, 1400, 64, 128));
         
         
         Global.currentMap.entities.add(player);

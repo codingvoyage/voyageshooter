@@ -5,8 +5,10 @@ import map.*;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
 import java.util.LinkedList;
+import static voyagequest.VoyageQuest.player;
 
 /**
  * Listener for keyboard input and mouse interactions
@@ -30,7 +32,7 @@ public abstract class EventListener {
      * @param player the entity to control
      * @param delta delta time
      */
-    public static void keyboardControl(Entity player, int delta) {
+    public static void keyboardControl(Entity player, int delta) throws SlickException {
         Input input = gc.getInput();
         
         double step = STEP_SIZE*delta;
@@ -55,7 +57,15 @@ public abstract class EventListener {
 
         if(input.isKeyDown(Input.KEY_ENTER))
         {
-            
+            //map changing test.
+            if (VoyageQuest.haschangedmaps == false)
+            {
+                Global.currentMap = new Map("res/House.tmx");
+                VoyageQuest.player.r = new DoubleRect(600, 1400, 64, 128);
+                Global.currentMap.entities.add(player);
+                Global.currentMap.collisions.addEntity(player);
+                VoyageQuest.haschangedmaps = true;
+            }
         }
     }
     
