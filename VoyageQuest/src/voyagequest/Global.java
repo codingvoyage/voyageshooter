@@ -15,4 +15,7 @@ public class Global {
     
     public static boolean isFrozen = false;
     public static Thread unfrozenThread = null;
+    
+    public static boolean isInputFrozen = false;
+    
 }
