@@ -77,6 +77,13 @@ public class VoyageQuest extends BasicGame {
         gc.setMinimumLogicUpdateInterval(20);
         gc.setMaximumLogicUpdateInterval(20);
         
+        // Load animation data
+        JsonReader<Res> reader = new JsonReader<>(Res.class, "src/res/Animations.json");
+        reader.readJson();
+        
+        // Initialize the rest of the resource manager
+        Res.init();
+        
         //Load all the scripts
         loadScripts();
         
@@ -207,6 +214,8 @@ public class VoyageQuest extends BasicGame {
         
         
         Util.FONT.drawString(10, 40, "Coordinates of player: (" + entityX + ", " + entityY + ")");
+        
+        Res.sebastian.getSprite("sf1").draw(200, 500);
     }
 
     /**

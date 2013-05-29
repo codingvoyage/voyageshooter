@@ -1,0 +1,39 @@
+{
+    "about_file": "This file stores information about the different animations used in \n\
+                   VoyageQuest RPG. File by Brian Yang. Graphics by Wenyu Deng.",
+            
+    "animationData": [
+        {
+            "name" : "Sebastian Forward",
+            "id" : "sf",
+            "images" : [
+                    "sf1","sf2","sf3","sf4","sf5","sf6","sf7","sf8"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Sebastian Backwards",
+            "id" : "sb",
+            "images" : [
+                    "sb1","sb2","sb3","sb4","sb5","sb6","sb7","sb8"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Sebastian Left",
+            "id" : "sl",
+            "images" : [
+                    "sl1","sl2","sl3","sl4","sl5","sl6","sfl","sf8"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Sebastian Right",
+            "id" : "sr",
+            "images" : [
+                    "sr1","sr2","sr3","sr4","sr5","sr6","sr7","sr8"
+            ],
+            "duration" : 50
+        }
+    ]
+}
