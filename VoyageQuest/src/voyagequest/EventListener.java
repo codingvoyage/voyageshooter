@@ -37,22 +37,33 @@ public abstract class EventListener {
         
         double step = STEP_SIZE*delta;
             
-        /* tilt and move to the left */
-        if (input.isKeyDown(Input.KEY_LEFT)) {
-            player.attemptMove(-step, 0, delta);
-        }
-
-        if(input.isKeyDown(Input.KEY_RIGHT)) {
-            player.attemptMove(step, 0, delta);
-        }
-
         if(input.isKeyDown(Input.KEY_UP)) {
             player.attemptMove(0, -step, delta);
+            
+            player.setAnimation(0);
         }
         
         if(input.isKeyDown(Input.KEY_DOWN)) {
             player.attemptMove(0, step, delta);
+            
+            player.setAnimation(1);
         }
+        
+        if (input.isKeyDown(Input.KEY_LEFT)) {
+            player.attemptMove(-step, 0, delta);
+            
+            //unless we're moving up or down already in animation
+            if (!input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_UP))
+                player.setAnimation(2);
+        }
+
+        if(input.isKeyDown(Input.KEY_RIGHT)) {
+            player.attemptMove(step, 0, delta);
+            
+            if (!input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_UP))
+                player.setAnimation(3);
+        }
+
 
         if(input.isKeyDown(Input.KEY_ENTER))
         {

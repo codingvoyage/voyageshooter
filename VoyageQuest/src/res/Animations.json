@@ -26,7 +26,7 @@
             "packedSheetID" : "sebastian",
             "id" : "sl",
             "images" : [
-                    "sl1","sl2","sl3","sl4","sl5","sl6","sfl","sf8"
+                    "sl1","sl2","sl3","sl4","sl5","sl6","sl7","sl8"
             ],
             "duration" : 50
         },
@@ -62,7 +62,7 @@
             "packedSheetID" : "njeri",
             "id" : "nl",
             "images" : [
-                    "nl1","nl2","nl3","nl4","nl5","nl6","nfl","nf8"
+                    "nl1","nl2","nl3","nl4","nl5","nl6","nl7","nl8"
             ],
             "duration" : 50
         },

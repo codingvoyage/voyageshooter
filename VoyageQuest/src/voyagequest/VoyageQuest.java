@@ -93,21 +93,28 @@ public class VoyageQuest extends BasicGame {
         
         //Create and add the player to the Map
         player = new Player(new DoubleRect(1400, 4300, 64, 128));
-        //player = new Player(new DoubleRect(600, 1400, 64, 128));
         
+            player.setMainScriptID(1);
+            player.setMainThread(threadManager.getThreadAtName("Sebastian test"));
+
+            player.forward = Res.animations.get("Sebastian Forward");
+            player.backward = Res.animations.get("Sebastian Backwards");
+            player.left = Res.animations.get("Sebastian Left");
+            player.right = Res.animations.get("Sebastian Right");
+            
+            player.forward = Res.animations.get("Njeri Forward");
+            player.backward = Res.animations.get("Njeri Backwards");
+            player.left = Res.animations.get("Njeri Left");
+            player.right = Res.animations.get("Njeri Right");
+            
+            player.setAnimation(0);
         
         Global.currentMap.entities.add(player);
         Global.currentMap.collisions.addEntity(player);
         
         //Set the main thread of the entity to this thread.
         //testEntity.setMainThread(entityThread);
-        player.setMainScriptID(1);
-        player.setMainThread(threadManager.getThreadAtName("Sebastian test"));
         threadManager.getThreadAtName("Sebastian test").setScriptable(player);
-        
-        //As a terrible temporary solution...
-        Global.character = new Image("res/CHARACTER.png");
-              
         
         //Now create the Camera.
         Global.camera = new Camera();
@@ -157,7 +164,6 @@ public class VoyageQuest extends BasicGame {
         testThread.setLineNumber(0);
         testThread.setName("Sebastian test");
         testThread.setRunningState(false);
-        
         
         Thread asdf = new Thread(5);
         asdf.setName("1337hax");

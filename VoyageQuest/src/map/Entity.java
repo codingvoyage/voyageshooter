@@ -49,6 +49,11 @@ public class Entity extends ScriptableClass implements Rectangular {
     public double velocityX;
     public double velocityY;
     
+    public Animation forward;
+    public Animation backward;
+    public Animation left;
+    public Animation right;
+            
 
     /**
      * Constructs an Entity with only its boundary Rectangle
@@ -60,11 +65,47 @@ public class Entity extends ScriptableClass implements Rectangular {
     {
         this.r = boundaryRect;
         this.collRect = new DoubleRect(5.0d, 70.0d, 50.0d, 50.0d);
-        
-        currentAnimation = Res.animations.get("Sebastian Forward");
     }
     
+    public void setAnimation(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                if (currentAnimation != backward) {
+                    currentAnimation = backward;
+                    resetAnimationTiming();
+                }
+                break;
+            case 1:
+                if (currentAnimation != forward) {
+                    currentAnimation = forward;
+                    resetAnimationTiming();
+                }
+                break;
+            case 2:
+                System.out.println(currentAnimation.getFrameCount());
+                if (currentAnimation != left) {
+                    currentAnimation = left;
+                    resetAnimationTiming();
+                }
+                break;
+            case 3:
+                if (currentAnimation != right) {
+                    currentAnimation = right;
+                    resetAnimationTiming();
+                }
+                break;
+        }
+    }
     
+    public void resetAnimationTiming()
+    {
+        currentFrame = 0;
+        //accumulatedDelta = 0.0d;
+    }
+            
+            
     public DoubleRect getCollRect()
     {
         return new DoubleRect(
@@ -90,8 +131,6 @@ public class Entity extends ScriptableClass implements Rectangular {
             accumulatedDelta =- currentFrameDuration;
             
         }
-        
-        
     }
     
     public void draw(Graphics g, float xOffset, float yOffset)
