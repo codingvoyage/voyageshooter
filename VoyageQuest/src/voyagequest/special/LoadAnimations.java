@@ -10,12 +10,17 @@ import java.util.LinkedList;
 public class LoadAnimations {
     
     private String name;
+    private String packedSheetID;
     private String id;
     private LinkedList<String> images;
     private int duration;
     
     public String getName() {
         return name;
+    }
+    
+    public String getPackedSheetID() {
+        return packedSheetID;
     }
     
     public String getId() {

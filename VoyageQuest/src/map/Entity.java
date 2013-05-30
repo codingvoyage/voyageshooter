@@ -15,6 +15,7 @@ import voyagequest.VoyageQuest;
 import voyagequest.DoubleRect;
 import voyagequest.Global;
 import scripting.*;
+import voyagequest.Res;
 
 /**
  *
@@ -33,15 +34,18 @@ public class Entity extends ScriptableClass implements Rectangular {
      */
     public DoubleRect collRect;
     
+    //Used for rendering Entities, set by another class.
     public RenderSetting renderSetting;
     
+    //The dialog box associated with this Entity
     public DialogBox dialog;
     
+    //Animation
     double accumulatedDelta = 0.0d;
     int currentFrame = 0;
-    
     protected Animation currentAnimation;
     
+    //Automated movement with scripting uses these
     public double velocityX;
     public double velocityY;
     
@@ -56,6 +60,8 @@ public class Entity extends ScriptableClass implements Rectangular {
     {
         this.r = boundaryRect;
         this.collRect = new DoubleRect(5.0d, 70.0d, 50.0d, 50.0d);
+        
+        currentAnimation = Res.animations.get("Sebastian Forward");
     }
     
     
@@ -90,9 +96,9 @@ public class Entity extends ScriptableClass implements Rectangular {
     
     public void draw(Graphics g, float xOffset, float yOffset)
     {
-        //currentAnimation.getImage(currentFrame).draw(xOffset, yOffset);
+        currentAnimation.getImage(currentFrame).draw(xOffset, yOffset);
         
-        Global.character.draw(xOffset, yOffset);
+        //Global.character.draw(xOffset, yOffset);
         
         //If debugging, then draw the boundary boxes and the collision boxes
         if (VoyageQuest.DEBUG_MODE == true)
@@ -130,14 +136,13 @@ public class Entity extends ScriptableClass implements Rectangular {
      * @return boolean indicating whether or not the entity should continue moving
      */
     public boolean continueMove(double delta) {
-        
-        
+        //Get the distance left to move...
         Parameter tempParam = getTemporaryParameter();
 
         double xStep = velocityX * delta;
         double yStep = velocityY * delta;
         
-        boolean didWeMove = attemptMove(xStep, yStep);
+        boolean didWeMove = attemptMove(xStep, yStep, delta);
         
         if (didWeMove)
         {
@@ -163,7 +168,7 @@ public class Entity extends ScriptableClass implements Rectangular {
         return true;
     }
     
-    public boolean attemptMove(double xMove, double yMove)
+    public boolean attemptMove(double xMove, double yMove, double delta)
     {
         //Where would we end up at
         double candidateX = r.x + collRect.x + xMove;
@@ -194,20 +199,20 @@ public class Entity extends ScriptableClass implements Rectangular {
             
             
             
-            
-            
-            
-            
-            
             return false;
         }
         else
         {
+            //Update the animation:
+            this.updateAnimation(delta);
+        
+        
             //Move to the proposed location
             Global.currentMap.collisions.removeEntity(this);
             r.x = r.x + xMove;
             r.y = r.y + yMove;
             Global.currentMap.collisions.addEntity(this);
+            
             return true;
         }
         
@@ -227,7 +232,6 @@ public class Entity extends ScriptableClass implements Rectangular {
     
     public void act(GameContainer gc, int delta)
     {
-        
         
     }
     

@@ -99,6 +99,7 @@
   <object x="890" y="1284" width="150" height="47"/>
   <object x="1034" y="1288" width="190" height="40"/>
   <object x="1218" y="1290" width="105" height="37"/>
+  <object x="1282" y="515" width="19" height="188"/>
  </objectgroup>
  <objectgroup name="Boundaries" width="25" height="25">
   <object x="580" y="835" width="183" height="185"/>

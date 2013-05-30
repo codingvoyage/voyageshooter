@@ -1,10 +1,11 @@
 {
     "about_file": "This file stores information about the different animations used in \n\
-                   VoyageQuest RPG. File by Brian Yang. Graphics by Wenyu Deng.",
+                   VoyageQuest RPG. File by Brian Yang and Edmund Qiu. Graphics by Wenyu Deng.",
             
     "animationData": [
         {
             "name" : "Sebastian Forward",
+            "packedSheetID" : "sebastian",
             "id" : "sf",
             "images" : [
                     "sf1","sf2","sf3","sf4","sf5","sf6","sf7","sf8"
@@ -13,6 +14,7 @@
         },
         {
             "name" : "Sebastian Backwards",
+            "packedSheetID" : "sebastian",
             "id" : "sb",
             "images" : [
                     "sb1","sb2","sb3","sb4","sb5","sb6","sb7","sb8"
@@ -21,6 +23,7 @@
         },
         {
             "name" : "Sebastian Left",
+            "packedSheetID" : "sebastian",
             "id" : "sl",
             "images" : [
                     "sl1","sl2","sl3","sl4","sl5","sl6","sfl","sf8"
@@ -29,9 +32,46 @@
         },
         {
             "name" : "Sebastian Right",
+            "packedSheetID" : "sebastian",
             "id" : "sr",
             "images" : [
                     "sr1","sr2","sr3","sr4","sr5","sr6","sr7","sr8"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Njeri Forward",
+            "packedSheetID" : "njeri",
+            "id" : "nf",
+            "images" : [
+                    "nf1","nf2","nf3","nf4","nf5","nf6","nf7","nf8"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Njeri Backwards",
+            "packedSheetID" : "njeri",
+            "id" : "nb",
+            "images" : [
+                    "nb1","nb2","nb3","nb4","nb5","nb6","nb7","nb8"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Njeri Left",
+            "packedSheetID" : "njeri",
+            "id" : "nl",
+            "images" : [
+                    "nl1","nl2","nl3","nl4","nl5","nl6","nfl","nf8"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Njeri Right",
+            "packedSheetID" : "njeri",
+            "id" : "nr",
+            "images" : [
+                    "nr1","nr2","nr3","nr4","nr5","nr6","nr7","nr8"
             ],
             "duration" : 50
         }

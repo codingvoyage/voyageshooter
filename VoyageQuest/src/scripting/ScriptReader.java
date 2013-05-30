@@ -155,8 +155,6 @@ public class ScriptReader
     {
         boolean result = true;
         
-        System.out.println("!!");
-        
         switch (currentLine.getCommandID())
         {
             case 0: //Waiting

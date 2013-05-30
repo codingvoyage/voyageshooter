@@ -36,23 +36,22 @@ public abstract class EventListener {
         Input input = gc.getInput();
         
         double step = STEP_SIZE*delta;
-        step = player.velocityX;
             
         /* tilt and move to the left */
         if (input.isKeyDown(Input.KEY_LEFT)) {
-            player.attemptMove(-step, 0);
+            player.attemptMove(-step, 0, delta);
         }
 
         if(input.isKeyDown(Input.KEY_RIGHT)) {
-            player.attemptMove(step, 0);
+            player.attemptMove(step, 0, delta);
         }
 
         if(input.isKeyDown(Input.KEY_UP)) {
-            player.attemptMove(0, -step);
+            player.attemptMove(0, -step, delta);
         }
         
         if(input.isKeyDown(Input.KEY_DOWN)) {
-            player.attemptMove(0, step);
+            player.attemptMove(0, step, delta);
         }
 
         if(input.isKeyDown(Input.KEY_ENTER))
