@@ -1,58 +1,45 @@
-print "Hello!"
+freezeInputs
+freezeThreads
 
-
-var k 0
-
--- for the lulz, calculate the sum of all numbers from 0 to 499
-
-for i = 0 and i < 500
-   eval k + i --> k
-next i + 1 --> i
-
-print k
-
-
-print "done"
-
-messageBox "Herp the derp. Hurrrrrrrrrrrrrrp"
-
-
-print "done"
-
-messageBox "Derp derp derp."
-messageBox "Hurrrrrrrrrrrrrrp"
-
-
-print "done"
-
-endthread
+messageBox "Alright... this is the town, I guess... "
+messageBox "The boss told me that Njeri would be in the fort."
 
 -- walk into the city
 setVelocity 0.0 -0.25
 movePixelAmount 1250
 
-freezeThreads
+messageBox "I should stop by the Marketplace and see what they've got later on, but I'm running late now."
+messageBox "I guess I should go..."
 
--- move left a bit
+-- move left a bit, avoiding the obstancle
+-- I shan't forget to set the Animation direction.
+setAnimationDirection 2
 setVelocity -0.25 0
 movePixelAmount 350
 
 -- move up
+setAnimationDirection 0
 setVelocity 0.0 -0.25
 movePixelAmount 220
 
 -- move right a bit now
+setAnimationDirection 3
 setVelocity 0.25 0
 moveTileAmount 3.5
 
 -- move up
+setAnimationDirection 0
 setVelocity 0.0 -0.25
 movePixelAmount 380
 
--- "So this is it, isn't it?"
--- messageBox "Bakesale told me that this place was it..."
-messageBox "I guess I should go in when I'm ready. Maybe I'll stop by at the shops first."
+messageBox "Bakesale told me that this place was it..."
+messageBox "I guess I should go in when I'm ready."
+
+-- we're done.
+-- release control to the player again.
+setAnimationDirection 1
 unfreezeThreads
+unfreezeInputs
 
 setVelocity 2.0 2.0
 

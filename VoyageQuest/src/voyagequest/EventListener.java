@@ -37,6 +37,10 @@ public abstract class EventListener {
         
         double step = STEP_SIZE*delta;
             
+        //We can't move if Input is frozen
+        if (Global.isInputFrozen) return;
+            
+            
         if(input.isKeyDown(Input.KEY_UP)) {
             player.attemptMove(0, -step, delta);
             

@@ -175,6 +175,8 @@ public class ScriptReader
             case 150:
                 result = ((Entity)currentScriptable).continueSpeak();
                 break;
+                
+                
         }
         
         return result;
@@ -734,12 +736,15 @@ public class ScriptReader
                             sqrt);
                 break;
                 
+                
+                
+                
+                
+                
             //setAnimationDirection 100
             case 100:
-                
-                
-                
-                
+                ((Entity)currentScriptable).setAnimation(
+                        (int)identifierCheck(currentLine, 0).getDoubleValue());
                 break;
                 
             //setVelocity 101
@@ -808,7 +813,7 @@ public class ScriptReader
                 
             //freezeInputs 131
             case 131:
-                
+                Global.isInputFrozen = true;
                 break;
                 
             //unfreezeThreads 133
@@ -819,7 +824,7 @@ public class ScriptReader
                 
             //unfreezeInputs 134
             case 134:
-                
+                Global.isInputFrozen = false;
                 break;
                 
             case 150:

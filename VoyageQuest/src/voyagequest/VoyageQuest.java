@@ -38,7 +38,7 @@ public class VoyageQuest extends BasicGame {
     /** full screen mode */
     public static boolean FULLSCREEN = false;
     /** Are we debugging? */
-    public static final boolean DEBUG_MODE = true;
+    public static final boolean DEBUG_MODE = false;
     
     /** All the scripts to be read */
     public static ScriptManager scriptCollection;
@@ -101,11 +101,6 @@ public class VoyageQuest extends BasicGame {
             player.backward = Res.animations.get("Sebastian Backwards");
             player.left = Res.animations.get("Sebastian Left");
             player.right = Res.animations.get("Sebastian Right");
-            
-            player.forward = Res.animations.get("Njeri Forward");
-            player.backward = Res.animations.get("Njeri Backwards");
-            player.left = Res.animations.get("Njeri Left");
-            player.right = Res.animations.get("Njeri Right");
             
             player.setAnimation(0);
         
@@ -228,6 +223,8 @@ public class VoyageQuest extends BasicGame {
             GuiManager.draw();
             GuiManager.display();
         } catch (VoyageGuiException ex) {}
+        
+        
         Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
         
         double entityX = player.r.x;
