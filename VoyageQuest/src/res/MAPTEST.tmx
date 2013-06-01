@@ -48,7 +48,7 @@
    H4sIAAAAAAAAC+3YMQ6AIBBFQRIp9QZy/0tqYmGHshUGSWYO8ANbvpQAAAAAAAAAAABgnHMZ/YJ/2rLbvCn5vg1PxV0AAAAAgM6OoFPXDbvVtKONWa1Bj60bdqtpRxuz2oM/1Q271bSjDQAA4FsXPFvEypBMAAA=
   </data>
  </layer>
- <objectgroup name="Collisions" width="70" height="70">
+ <objectgroup name="Collisions" width="70" height="70" visible="0">
   <object x="1414" y="2885" width="116" height="40"/>
   <object x="1414" y="3014" width="116" height="50"/>
   <object x="1158" y="3014" width="118" height="44"/>
@@ -60,7 +60,7 @@
   <object x="1729" y="2494" width="125" height="64"/>
   <object x="1247" y="2376" width="63" height="119">
    <properties>
-    <property name="teleport" value="map3"/>
+    <property name="runScript" value="20"/>
    </properties>
   </object>
   <object x="1316" y="2239" width="568" height="251"/>
@@ -106,7 +106,7 @@
   <object x="1221" y="3791" width="101" height="42"/>
   <object x="1136" y="3795" width="113" height="34"/>
  </objectgroup>
- <objectgroup name="Boundaries" width="70" height="70">
+ <objectgroup name="Boundaries" width="70" height="70" visible="0">
   <object x="1150" y="2815" width="133" height="253"/>
   <object x="1018" y="2711" width="72" height="173"/>
   <object x="1412" y="2948" width="119" height="119"/>
@@ -125,6 +125,11 @@
   <object name="Warp" type="onTouch" x="2751" y="3712" width="67" height="61">
    <properties>
     <property name="Transfer" value=""/>
+   </properties>
+  </object>
+  <object x="1256" y="2397" width="46" height="94">
+   <properties>
+    <property name="runScript" value="20"/>
    </properties>
   </object>
  </objectgroup>

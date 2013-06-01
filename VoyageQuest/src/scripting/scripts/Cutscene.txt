@@ -39,6 +39,7 @@ movePixelAmount 380
 freezeThreads
 messageBox "Bakesale told me that this place was it..."
 messageBox "I guess I should go in when I'm ready."
+messageBox "BY THE WAY, CLICK A DOOR TO MOVE MAPS"
 unfreezeThreads
 
 -- we're done.
@@ -46,6 +47,7 @@ unfreezeThreads
 setAnimationDirection 1
 unfreezeInputs
 
+endthread
 
 print "Changing maps in 5... "
 

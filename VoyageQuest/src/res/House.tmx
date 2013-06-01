@@ -108,5 +108,11 @@
   <object x="1220" y="780" width="57" height="176"/>
   <object x="389" y="1158" width="56" height="55"/>
  </objectgroup>
- <objectgroup name="Events" width="25" height="25"/>
+ <objectgroup name="Events" width="25" height="25">
+  <object x="582" y="1483" width="108" height="115">
+   <properties>
+    <property name="runScript" value="21"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

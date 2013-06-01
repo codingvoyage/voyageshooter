@@ -126,6 +126,8 @@ public class Map {
             events.addEntity(collisionBox);
         }
         
+        System.out.println("We have " + events.getSize() + " events this map");
+        
         
         //Now we load the entities for this map from a Json file.
         //Bakesale! I understand your JsonReader class now! I understand why you did all of this.

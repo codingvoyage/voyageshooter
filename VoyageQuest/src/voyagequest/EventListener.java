@@ -8,7 +8,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import java.util.LinkedList;
-import static voyagequest.VoyageQuest.player;
+import voyagequest.Interaction;
 
 /**
  * Listener for keyboard input and mouse interactions
@@ -127,6 +127,9 @@ public abstract class EventListener {
         if (clickedBoundary == null) return;
         
         //From here on, clickedBoundary should contain a valid BoundaryWrapper
+        new Interaction(clickedBoundary.getObject().props);
+       
+        
         System.out.println("CLICKED LOL");
         
     }
