@@ -3,8 +3,10 @@ package scripting;
 import java.util.HashMap;
 import java.util.ArrayList;
 import map.*;
+import voyagequest.DoubleRect;
 import voyagequest.Global;
 import voyagequest.Util;
+import voyagequest.VoyageQuest;
 
 //
 //import spaceinvaders.entity.*;
@@ -356,7 +358,7 @@ public class ScriptReader
                 break;
                 
             case 18:
-                //next blah blah burp herp blah --> blah
+                //next blah blah blah --> blah
                 
                 //That's actually it. evaluate it.
                 evaluate(currentLine);
@@ -825,6 +827,26 @@ public class ScriptReader
             //unfreezeInputs 134
             case 134:
                 Global.isInputFrozen = false;
+                break;
+                
+                //mapChange NameOfNewMap playernewLocX playernewLocY
+            case 145:
+                //Clear the threads of the current map
+                VoyageQuest.threadManager.clear();
+                
+                //Load map with name
+                try {
+                Global.currentMap = 
+                        new Map(identifierCheck(currentLine, 0).getStringValue());
+                } 
+                catch (Exception e) {}  //Swallow any exceptions because I'm a rebel like that.
+                
+                //Now put the player where the player is supposed to be
+                Entity player = VoyageQuest.player;
+                player.r.x = identifierCheck(currentLine, 1).getDoubleValue();
+                player.r.y = identifierCheck(currentLine, 2).getDoubleValue();
+                Global.currentMap.entities.add(player);
+                Global.currentMap.collisions.addEntity(player);
                 break;
                 
             case 150:

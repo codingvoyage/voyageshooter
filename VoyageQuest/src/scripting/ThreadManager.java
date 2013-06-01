@@ -10,6 +10,7 @@ import voyagequest.Global;
 public class ThreadManager {
     
     ArrayList<Thread> threadCollection;
+    
     ScriptReader scriptReader;
     
     public ThreadManager(ScriptReader scriptReaderInstance) 
@@ -44,6 +45,11 @@ public class ThreadManager {
             return false;
         else
             return true;
+    }
+    
+    public void clear()
+    {
+        threadCollection.clear();
     }
     
     public void markForDeletion(String targetThread)

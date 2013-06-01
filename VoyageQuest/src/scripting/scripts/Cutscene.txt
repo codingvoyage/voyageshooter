@@ -46,6 +46,17 @@ unfreezeThreads
 setAnimationDirection 1
 unfreezeInputs
 
+
+print "Changing maps in 5... "
+
+for i = 4 and i > 0
+    wait 1000
+    print i + "..."
+next i - 1 --> i
+wait 1000
+
+mapChange "src/res/House.tmx" 620 1430
+
 setVelocity 2.0 2.0
 
 endthread

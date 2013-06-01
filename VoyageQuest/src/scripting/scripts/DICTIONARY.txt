@@ -171,5 +171,7 @@ freezeInputs 131
 unfreezeThreads 133
 unfreezeInputs 134
 
+-- mapChange NameOfNewMap playernewLocX playernewLocY
+mapChange 145
 messageBox 150
 
