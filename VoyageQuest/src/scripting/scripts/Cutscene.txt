@@ -34,7 +34,7 @@ moveTileAmount 3.5
 -- move up
 setAnimationDirection 0
 setVelocity 0.0 -0.25
-movePixelAmount 380
+movePixelAmount 350
 
 freezeThreads
 messageBox "Bakesale told me that this place was it..."

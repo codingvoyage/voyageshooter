@@ -1,6 +1,7 @@
 package map;
 
 import java.util.LinkedList;
+import java.util.Properties;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,9 +12,7 @@ import org.newdawn.slick.GameContainer;
 import gui.GuiManager;
 import gui.special.DialogBox;
 
-import voyagequest.VoyageQuest;
-import voyagequest.DoubleRect;
-import voyagequest.Global;
+import voyagequest.*;
 import scripting.*;
 import voyagequest.Res;
 
@@ -215,6 +214,8 @@ public class Entity extends ScriptableClass implements Rectangular {
         //Now query the QuadTree for any possible collisions
         LinkedList<Rectangular> collisionCandidates = Global.currentMap.collisions.rectQuery(collCandidate);
 
+        Rectangular collRectangular = null;
+        
         //Now we see if collides
         boolean collides = false;
         for (Rectangular e : collisionCandidates)
@@ -223,22 +224,52 @@ public class Entity extends ScriptableClass implements Rectangular {
             
             if (e instanceof Entity && collCandidate.intersects(((Entity)e).getCollRect()))
             {
+                collRectangular = e;
                 collides = true;
                 break;
             }
             
             if (!(e instanceof Entity) && collCandidate.intersects(e.getRect()))
             {
-                
+                collRectangular = e;
                 collides = true;
                 break;
             }
         }
 
+        //No matter what, we must check with events...
+        LinkedList<Rectangular> events = Global.currentMap.events.rectQuery(collCandidate);
+        for (Rectangular e : events)
+        {
+            if (collCandidate.intersects(e.getRect()))
+            {
+                Properties asdf = ((GroupObjectWrapper)e).getObject().props;
+                if (asdf != null)
+                    new Interaction(asdf);
+            }
+        }
 
+        
+        
         if (collides == true)
         {
             //Could not move
+            
+            //How we interact depends on our identity and what we collided with...
+            
+            //We were the player and we collided with an Entity
+            if (this instanceof Player && collRectangular instanceof Entity)
+            {
+                //
+            }
+            //Collision grou object wrappers.
+            else if (this instanceof Player && collRectangular instanceof GroupObjectWrapper)
+            {
+                Properties asdf = ((GroupObjectWrapper)collRectangular).getObject().props;
+                if (asdf != null)
+                    new Interaction(asdf);
+            }
+            
             
             
             
@@ -246,6 +277,7 @@ public class Entity extends ScriptableClass implements Rectangular {
         }
         else
         {
+            
             //Update the animation:
             this.updateAnimation(delta);
         
