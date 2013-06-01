@@ -6,8 +6,15 @@ import java.util.LinkedList;
 import org.newdawn.slick.tiled.*;
 import org.newdawn.slick.SlickException;
 
+import voyagequest.special.LoadEntity;
 import voyagequest.DoubleRect;
+import voyagequest.Global;
+import voyagequest.JsonReader;
+import voyagequest.Res;
 import voyagequest.VoyageQuest;
+
+import static voyagequest.VoyageQuest.threadManager;
+import scripting.Thread;
 
 
 /**
@@ -37,6 +44,10 @@ public class Map {
     
     //A rectangle of the entire map.
     public static DoubleRect MAP_RECT;
+    
+    //For loading all the entities...
+    public static LinkedList<LoadEntity> allEntities = new LinkedList<>();
+            
     
     
     public Map(String mapFileLocation) throws SlickException
@@ -115,7 +126,50 @@ public class Map {
             events.addEntity(collisionBox);
         }
         
-        System.out.println("ASDF SIZE LOL " + events.getSize());
+        
+        //Now we load the entities for this map from a Json file.
+        //Bakesale! I understand your JsonReader class now! I understand why you did all of this.
+        //Json is INCREDIBLE. It's such a convenient way of defining data. Thank you.  
+        
+        //Alright, if the map file is at "src/res/mapname.tmx" the json will be at
+        //"src/res/mapname.json". so...
+        String jsonFileLocation = mapFileLocation.replaceFirst(".tmx",".json");
+        
+        JsonReader<Map> reader = new JsonReader<>(Map.class, jsonFileLocation);
+        reader.readJson();
+        
+        for (LoadEntity l : allEntities)
+        {
+            Entity e = new Entity(
+                    new DoubleRect(l.getInitialX(), l.getInitialY(), 
+                    l.getWidth(), l.getHeight()));
+            
+            int mainScriptID = l.getMainScriptID();
+            String mainThreadName = l.getMainThreadName();
+            
+            Thread newThread = new Thread(mainScriptID);  
+                newThread.setName(mainThreadName);
+                newThread.setRunningState(false);
+                
+            threadManager.addThread(newThread);
+            threadManager.getThreadAtName(mainThreadName).setScriptable(e);
+            
+            e.setMainThread(newThread);
+            e.setMainScriptID(mainScriptID);
+        
+            LinkedList<String> animations = l.getAnimations();
+                e.forward = Res.animations.get(animations.get(0));
+                e.backward = Res.animations.get(animations.get(1));
+                e.left = Res.animations.get(animations.get(2));
+                e.right = Res.animations.get(animations.get(3));
+                e.setAnimation(l.getStartingAnimationDirection());
+            
+            entities.add(e);
+            collisions.addEntity(e);
+        }
+        
+        
+        
     }
     
 }

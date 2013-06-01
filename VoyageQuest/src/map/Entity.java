@@ -84,7 +84,6 @@ public class Entity extends ScriptableClass implements Rectangular {
                 }
                 break;
             case 2:
-                System.out.println(currentAnimation.getFrameCount());
                 if (currentAnimation != left) {
                     currentAnimation = left;
                     resetAnimationTiming();
@@ -102,7 +101,7 @@ public class Entity extends ScriptableClass implements Rectangular {
     public void resetAnimationTiming()
     {
         currentFrame = 0;
-        //accumulatedDelta = 0.0d;
+        accumulatedDelta = 0.0d;
     }
             
             
@@ -196,7 +195,6 @@ public class Entity extends ScriptableClass implements Rectangular {
 
             if (tempParam.getDoubleValue() < 0)
             {
-                System.out.println("We're done walking.");
                 //Oh, so we're done moving. Great.
                 mainThread.setRunningState(false);
                 return false;
@@ -210,12 +208,9 @@ public class Entity extends ScriptableClass implements Rectangular {
     public boolean attemptMove(double xMove, double yMove, double delta)
     {
         //Where would we end up at
-        double candidateX = r.x + collRect.x + xMove;
-        double candidateY = r.y + collRect.y + yMove;
-        DoubleRect collCandidate = new DoubleRect(candidateX,
-                                                    candidateY,
-                                                    collRect.getWidth(),
-                                                    collRect.getHeight());
+        DoubleRect collCandidate = this.getCollRect();
+        collCandidate.x += xMove;
+        collCandidate.y += yMove;
 
         //Now query the QuadTree for any possible collisions
         LinkedList<Rectangular> collisionCandidates = Global.currentMap.collisions.rectQuery(collCandidate);
@@ -224,8 +219,17 @@ public class Entity extends ScriptableClass implements Rectangular {
         boolean collides = false;
         for (Rectangular e : collisionCandidates)
         {
-            if (collCandidate.intersects(e.getRect()) && !e.equals(this))
+            if (e.equals(this)) continue;
+            
+            if (e instanceof Entity && collCandidate.intersects(((Entity)e).getCollRect()))
             {
+                collides = true;
+                break;
+            }
+            
+            if (!(e instanceof Entity) && collCandidate.intersects(e.getRect()))
+            {
+                
                 collides = true;
                 break;
             }

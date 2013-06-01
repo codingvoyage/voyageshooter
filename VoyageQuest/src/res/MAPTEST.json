@@ -1,0 +1,19 @@
+{
+    "about_file": "This file spawns the Entities located in the map \"MAPTEST\"",
+            
+    "allEntities": [
+        {
+            "name" : "Njeri",
+            "initialX" : 1800,
+            "initialY" : 3000,
+            "width" : 64,
+            "height" : 128,
+            "mainScriptID" : 5,
+            "mainThreadName" : "Njeri Thread",
+            "animations" : [
+                "Njeri Forward", "Njeri Backwards", "Njeri Left", "Njeri Right"
+            ],
+            "startingAnimationDirection" : 0
+        }
+    ]
+}

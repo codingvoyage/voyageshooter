@@ -74,7 +74,9 @@ public abstract class EventListener {
             //map changing test. hardcoded for now
             if (VoyageQuest.haschangedmaps == false)
             {
-                Global.currentMap = new Map("res/House.tmx");
+                VoyageQuest.threadManager.markForDeletion("Njeri Thread");
+                
+                Global.currentMap = new Map("src/res/House.tmx");
                 VoyageQuest.player.r = new DoubleRect(620, 1430, 64, 128);
                 Global.currentMap.entities.add(player);
                 Global.currentMap.collisions.addEntity(player);

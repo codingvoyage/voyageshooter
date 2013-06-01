@@ -58,7 +58,7 @@ public class VoyageQuest extends BasicGame {
      * Construct a new game
      */
     public VoyageQuest() {
-       super("Voyage Quest Pre-Alpha");
+       super("Voyage Quest Alpha");
     }
 
     /**
@@ -82,14 +82,15 @@ public class VoyageQuest extends BasicGame {
         // Initialize the rest of the resource manager
         Res.init();
         
-        //Load all the scripts
+        // Load all the scripts
         loadScripts();
         
+        // IDK what this is for.
         EventListener.initGc(gc);
         
-        //Create the current Map
-        Global.currentMap = new Map("res/MAPTEST.tmx");
-        //Global.currentMap = new Map("res/House.tmx");
+        // Create the current Map
+        Global.currentMap = new Map("src/res/MAPTEST.tmx");
+        // Global.currentMap = new Map("res/House.tmx");
         
         //Create and add the player to the Map
         player = new Player(new DoubleRect(1400, 4300, 64, 128));
@@ -107,8 +108,6 @@ public class VoyageQuest extends BasicGame {
         Global.currentMap.entities.add(player);
         Global.currentMap.collisions.addEntity(player);
         
-        //Set the main thread of the entity to this thread.
-        //testEntity.setMainThread(entityThread);
         threadManager.getThreadAtName("Sebastian test").setScriptable(player);
         
         //Now create the Camera.
@@ -160,14 +159,8 @@ public class VoyageQuest extends BasicGame {
         testThread.setName("Sebastian test");
         testThread.setRunningState(false);
         
-        Thread asdf = new Thread(5);
-        asdf.setName("1337hax");
-        asdf.setRunningState(false);
-        
-        
         //Add this thread to the collection of threads
         threadManager.addThread(testThread);
-       // threadManager.addThread(asdf);
     }
     
     /**

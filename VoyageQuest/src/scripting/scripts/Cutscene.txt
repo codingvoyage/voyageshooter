@@ -1,17 +1,21 @@
 freezeInputs
-freezeThreads
 
+freezeThreads
 messageBox "Alright... this is the town, I guess... "
 messageBox "The boss told me that Njeri would be in the fort."
+unfreezeThreads
 
 -- walk into the city
 setVelocity 0.0 -0.25
 movePixelAmount 1250
 
+freezeThreads
 messageBox "I should stop by the Marketplace and see what they've got later on, but I'm running late now."
 messageBox "I guess I should go..."
+unfreezeThreads
 
--- move left a bit, avoiding the obstancle
+
+-- move left a bit, avoiding the obstacle
 -- I shan't forget to set the Animation direction.
 setAnimationDirection 2
 setVelocity -0.25 0
@@ -32,13 +36,14 @@ setAnimationDirection 0
 setVelocity 0.0 -0.25
 movePixelAmount 380
 
+freezeThreads
 messageBox "Bakesale told me that this place was it..."
 messageBox "I guess I should go in when I'm ready."
+unfreezeThreads
 
 -- we're done.
 -- release control to the player again.
 setAnimationDirection 1
-unfreezeThreads
 unfreezeInputs
 
 setVelocity 2.0 2.0
