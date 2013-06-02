@@ -114,7 +114,7 @@
     <property name="runScript" value="21"/>
    </properties>
   </object>
-  <object name="Notification" type="onClick" x="392" y="1162" width="48" height="46">
+  <object type="onClick" x="380" y="1150" width="71" height="70">
    <properties>
     <property name="runScript" value="28"/>
    </properties>

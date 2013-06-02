@@ -25,6 +25,7 @@ public class Interaction {
     
     public void executeScript(int scriptIndex)
     {
+        
         Thread t = new Thread(scriptIndex);
         t.setRunningState(false);
         t.setLineNumber(0);

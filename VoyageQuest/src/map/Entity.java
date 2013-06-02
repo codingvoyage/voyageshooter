@@ -212,6 +212,9 @@ public class Entity extends ScriptableClass implements Rectangular {
         return true;
     }
     
+    //The collision --> event code sucks and should be replaced with something in 
+    //the overridden version of Entity --> Player since all of them work only
+    //for the player!
     public boolean attemptMove(double xMove, double yMove, double delta)
     {
         //Where would we end up at

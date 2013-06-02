@@ -1,10 +1,7 @@
-freezeThreads
 freezeInputs
 
-playerMessageBox "This is a potted plant."
-playerMessageBox "Why am I staring at it?"
+playerMessageBox "A generic potted plant."
 
 unfreezeInputs
-unfreezeThreads
 
-endthread   
+endthread

@@ -33,14 +33,12 @@ public abstract class EventListener {
      * @param delta delta time
      */
     public static void keyboardControl(Entity player, int delta) throws SlickException {
+        //We can't move if Input is frozen
+        if (Global.isInputFrozen) return;
+        
         Input input = gc.getInput();
         
         double step = STEP_SIZE*delta;
-            
-        //We can't move if Input is frozen
-        if (Global.isInputFrozen) return;
-            
-            
         if(input.isKeyDown(Input.KEY_UP)) {
             player.attemptMove(0, -step, delta);
             
@@ -102,7 +100,11 @@ public abstract class EventListener {
     /**
      * Called when the mouse is clicked (but not dragged)
      */
-    public static void mouseClicked(int button, int x, int y, int clickCount) {     
+    public static void mouseClicked(int button, int x, int y, int clickCount) { 
+        
+        //If input is frozen, that includes mouse. Return now.
+        if (Global.isInputFrozen == true) return;
+        
         double clickedMapX = Global.camera.getViewRect().x + x;
         double clickedMapY =  Global.camera.getViewRect().y + y;
         
@@ -157,8 +159,6 @@ public abstract class EventListener {
                 break;
             }
         }
-        
-        
         
         if (clickedEntity != null &&
             clickedEntity.onClickScript != -1)

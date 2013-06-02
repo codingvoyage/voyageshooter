@@ -1,4 +1,9 @@
+freezeInputs
 
 -- Nothing happens. Yay.
-playerMessageBox "Please get out of my way..."
+playerMessageBox "GET OUT OF MY WAY."
+
+unfreezeInputs
+
+
 endthread
