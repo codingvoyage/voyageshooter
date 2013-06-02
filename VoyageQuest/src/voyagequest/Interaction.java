@@ -15,12 +15,10 @@ public class Interaction {
             executeScript(Integer.parseInt((String)props.get("runScript")));
     }
     
-    
     public Interaction(int scriptID)
     {
         executeScript(scriptID);
     }
-    
     
     
     public void executeScript(int scriptIndex)

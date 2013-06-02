@@ -1,6 +1,8 @@
 freezeInputs
 
 playerMessageBox "A generic potted plant."
+playerMessageBox "I just clicked on a potted plant."
+playerMessageBox "What is my life??"
 
 unfreezeInputs
 

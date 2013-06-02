@@ -186,15 +186,15 @@ public class VoyageQuest extends BasicGame {
         
         threadManager.act(delta);
         
-        if(input.isKeyDown(Input.KEY_E))
-        {
-            
-            String lorem = "Hi I'm Panther. I'm a cool tester entity that Edmund is using to test his new fancy map "
-                    + "system with cool collision boxes. But check it out, I'm speaking! I'm actually speaking! "
-                    + "This is filler space so the dialog box overflows and requires you to press Z to continue. "
-                    + "This has been a successful test of my dialog boxes. Good day to you sir.  ";
-            player.speak(lorem);
-        } 
+//        if(input.isKeyDown(Input.KEY_E))
+//        {
+//            
+//            String lorem = "Hi I'm Panther. I'm a cool tester entity that Edmund is using to test his new fancy map "
+//                    + "system with cool collision boxes. But check it out, I'm speaking! I'm actually speaking! "
+//                    + "This is filler space so the dialog box overflows and requires you to press Z to continue. "
+//                    + "This has been a successful test of my dialog boxes. Good day to you sir.  ";
+//            player.speak(lorem);
+//        } 
            
         GuiManager.update(gc, delta);
         

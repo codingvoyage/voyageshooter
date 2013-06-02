@@ -281,6 +281,12 @@ public class Entity extends ScriptableClass implements Rectangular {
                 new Interaction(((Entity)collRectangular).onTouchScript);
             }
             
+            
+            //On the other hand if we were the Entity and we collided with the player...
+            if (this instanceof Entity &&
+                collRectangular instanceof Player)
+                System.out.println("OMGGG");
+            
             return false;
         }
         else
