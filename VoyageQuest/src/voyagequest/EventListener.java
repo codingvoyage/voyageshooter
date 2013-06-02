@@ -77,7 +77,7 @@ public abstract class EventListener {
                 VoyageQuest.threadManager.markForDeletion("Njeri Thread");
                 
                 Global.currentMap = new Map("src/res/House.tmx");
-                VoyageQuest.player.r = new DoubleRect(620, 1430, 64, 128);
+                VoyageQuest.player.r = new DoubleRect(620, 1300, 64, 128);
                 Global.currentMap.entities.add(player);
                 Global.currentMap.collisions.addEntity(player);
                 VoyageQuest.haschangedmaps = true;
@@ -107,13 +107,18 @@ public abstract class EventListener {
         double clickedMapY =  Global.camera.getViewRect().y + y;
         
         System.out.println(clickedMapX + " " + clickedMapY);
+        
+        
         //Later this will be configured so that this is ONLY EXECUTED
         //when the GUI isn't hit, but for now, let's pretend ...
+        
+        //////////////////////////////////////////////////////////
+        //CLICKING AN EVENT BOUNDARY
+        //////////////////////////////////////////////////////////
         LinkedList<GroupObjectWrapper> possibleBoundaries = 
                 Global.currentMap.events.rectQuery(
                     new DoubleRect(clickedMapX, clickedMapY, 0, 0));
         
-        System.out.println(possibleBoundaries.size());
         GroupObjectWrapper clickedBoundary = null;
         for (GroupObjectWrapper b : possibleBoundaries)
         {
@@ -124,13 +129,43 @@ public abstract class EventListener {
             }
         }
         
-        if (clickedBoundary == null) return;
+        if (clickedBoundary != null &&
+            clickedBoundary.getObject().type.equals("onClick"))
+        {   
+            //From here on, clickedBoundary should contain a valid BoundaryWrapper
+            new Interaction(clickedBoundary.getObject().props);
+        }
         
-        //From here on, clickedBoundary should contain a valid BoundaryWrapper
-        new Interaction(clickedBoundary.getObject().props);
-       
         
-        System.out.println("CLICKED LOL");
+        //////////////////////////////////////////////////////////
+        //CLICKING AN ENTITY
+        //////////////////////////////////////////////////////////
+        //Get all closeby collisions...
+        LinkedList<Rectangular> possibleEntities = 
+                Global.currentMap.collisions.rectQuery(
+                    new DoubleRect(clickedMapX, clickedMapY, 0, 0));
+        
+        Entity clickedEntity = null;
+        
+        //Get the first Entity which collides
+        for (Rectangular b : possibleEntities)
+        {
+            if (b instanceof Entity &&
+                b.getRect().contains(clickedMapX, clickedMapY)) 
+            {
+                clickedEntity = (Entity)b;
+                break;
+            }
+        }
+        
+        
+        
+        if (clickedEntity != null &&
+            clickedEntity.onClickScript != -1)
+        {   
+            //From here on, clickedBoundary should contain a valid BoundaryWrapper
+            new Interaction(clickedEntity.onClickScript);
+        }
         
     }
 }

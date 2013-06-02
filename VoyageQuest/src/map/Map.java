@@ -22,6 +22,8 @@ import scripting.Thread;
  * @author Edmund
  */
 public class Map {
+    public String mapName;
+    
     //The tile based map provided by slick and tiled
     public TiledMapPlus tileMap;
     
@@ -148,6 +150,9 @@ public class Map {
             
             int mainScriptID = l.getMainScriptID();
             String mainThreadName = l.getMainThreadName();
+            
+            e.onClickScript = l.getOnClickScript();
+            e.onTouchScript = l.getOnTouchScript();
             
             Thread newThread = new Thread(mainScriptID);  
                 newThread.setName(mainThreadName);

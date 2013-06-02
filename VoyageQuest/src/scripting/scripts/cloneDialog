@@ -1,0 +1,4 @@
+
+-- Nothing happens. Yay.
+playerMessageBox "Please get out of my way..."
+endthread

@@ -173,5 +173,12 @@ unfreezeInputs 134
 
 -- mapChange NameOfNewMap playernewLocX playernewLocY
 mapChange 145
+
+-- For entities to say their specific things
 messageBox 150
 
+-- General boxes that pop up and say something, nobody in particular
+genericMessageBox 151
+
+-- 
+playerMessageBox 152

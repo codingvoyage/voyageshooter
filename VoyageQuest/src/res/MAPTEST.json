@@ -1,6 +1,8 @@
 {
     "about_file": "This file spawns the Entities located in the map \"MAPTEST\"",
             
+    "mapName" : "Desert Town",
+    
     "allEntities": [
         {
             "name" : "Njeri",
@@ -13,7 +15,9 @@
             "animations" : [
                 "Njeri Forward", "Njeri Backwards", "Njeri Left", "Njeri Right"
             ],
-            "startingAnimationDirection" : 0
+            "startingAnimationDirection" : 0,
+            "onClickScript" : 30,
+            "onTouchScript" : 15
         }
     ]
 }

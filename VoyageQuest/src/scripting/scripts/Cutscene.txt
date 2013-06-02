@@ -1,8 +1,9 @@
+
 freezeInputs
 
 freezeThreads
-messageBox "Alright... this is the town, I guess... "
-messageBox "The boss told me that Njeri would be in the fort."
+playerMessageBox "Alright... this is the town, I guess... "
+playerMessageBox "The boss told me that Njeri would be in the fort."
 unfreezeThreads
 
 -- walk into the city

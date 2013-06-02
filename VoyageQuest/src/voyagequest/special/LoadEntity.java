@@ -18,6 +18,8 @@ public class LoadEntity {
     private String mainThreadName;
     private LinkedList<String> animations;
     private int startingAnimationDirection;
+    private int onClickScript;
+    private int onTouchScript;
     
     public String getName() {
         return name;
@@ -54,4 +56,13 @@ public class LoadEntity {
     public int getStartingAnimationDirection() {
         return startingAnimationDirection;
     }
+    
+    public int getOnClickScript() {
+        return onClickScript;
+    }
+    
+    public int getOnTouchScript() {
+        return onTouchScript;
+    }
+    
 }

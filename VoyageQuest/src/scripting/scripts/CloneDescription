@@ -1,0 +1,5 @@
+freeze
+playerMessageBox "That's my evil twin right here..."
+playerMessageBox "... this doesn't even make sense. It's just for testing purposes."
+
+endthread

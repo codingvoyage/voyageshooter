@@ -178,6 +178,9 @@ public class ScriptReader
                 result = ((Entity)currentScriptable).continueSpeak();
                 break;
                 
+            case 152:
+                result = VoyageQuest.player.continueSpeak();
+                break;
                 
         }
         
@@ -855,6 +858,10 @@ public class ScriptReader
                 continueExecuting = false;
                 break;
                 
+            case 152:
+                VoyageQuest.player.speak(identifierCheck(currentLine, 0).getStringValue());
+                continueExecuting = false;
+                break;
         }
         
         

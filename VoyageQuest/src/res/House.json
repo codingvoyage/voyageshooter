@@ -1,6 +1,8 @@
 {
     "about_file": "This file spawns the Entities located in the map \"House\"",
             
+    "mapName" : "My House",
+    
     "allEntities": [
         {
             "name" : "Njeri",
@@ -13,7 +15,9 @@
             "animations" : [
                 "Njeri Forward", "Njeri Backwards", "Njeri Left", "Njeri Right"
             ],
-            "startingAnimationDirection" : 0
+            "startingAnimationDirection" : 0,
+            "onClickScript" : 30,
+            "onTouchScript" : 15
         },
         {
             
@@ -27,7 +31,10 @@
             "animations" : [
                 "Sebastian Forward", "Sebastian Backwards", "Sebastian Left", "Sebastian Right"
             ],
-            "startingAnimationDirection" : 0
+            "startingAnimationDirection" : 0,
+            "onClickScript" : 31,
+            "onTouchScript" : 16
+            
         }
     ]
 }

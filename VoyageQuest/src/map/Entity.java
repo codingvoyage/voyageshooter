@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.tiled.GroupObject;
 
 import gui.GuiManager;
 import gui.special.DialogBox;
@@ -52,6 +53,9 @@ public class Entity extends ScriptableClass implements Rectangular {
     public Animation backward;
     public Animation left;
     public Animation right;
+    
+    public int onClickScript;
+    public int onTouchScript;
             
 
     /**
@@ -64,6 +68,10 @@ public class Entity extends ScriptableClass implements Rectangular {
     {
         this.r = boundaryRect;
         this.collRect = new DoubleRect(5.0d, 70.0d, 50.0d, 50.0d);
+        
+        //-1 unless set otherwise later.
+        onTouchScript = -1;
+        onClickScript = -1;
     }
     
     public void setAnimation(int index)
@@ -243,9 +251,14 @@ public class Entity extends ScriptableClass implements Rectangular {
         {
             if (collCandidate.intersects(e.getRect()))
             {
-                Properties asdf = ((GroupObjectWrapper)e).getObject().props;
-                if (asdf != null)
-                    new Interaction(asdf);
+                GroupObject thisObject = ((GroupObjectWrapper)e).getObject();
+                
+                if (thisObject.type.equals("onTouch"))
+                {
+                    Properties asdf = ((GroupObjectWrapper)e).getObject().props;
+                    if (asdf != null)
+                        new Interaction(asdf);
+                }
             }
         }
 
@@ -255,23 +268,15 @@ public class Entity extends ScriptableClass implements Rectangular {
         {
             //Could not move
             
-            //How we interact depends on our identity and what we collided with...
-            
-            //We were the player and we collided with an Entity
-            if (this instanceof Player && collRectangular instanceof Entity)
+            //If we were the player and we collided with an Entity, then see
+            //if there is a TouchScript associated with the Entity and
+            //respond accordingly.
+            if (this instanceof Player && 
+                collRectangular instanceof Entity &&
+                ((Entity)collRectangular).onTouchScript != -1)
             {
-                //
+                new Interaction(((Entity)collRectangular).onTouchScript);
             }
-            //Collision grou object wrappers.
-            else if (this instanceof Player && collRectangular instanceof GroupObjectWrapper)
-            {
-                Properties asdf = ((GroupObjectWrapper)collRectangular).getObject().props;
-                if (asdf != null)
-                    new Interaction(asdf);
-            }
-            
-            
-            
             
             return false;
         }

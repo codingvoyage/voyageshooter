@@ -1,0 +1,10 @@
+freezeThreads
+freezeInputs
+
+playerMessageBox "This is a potted plant."
+playerMessageBox "Why am I staring at it?"
+
+unfreezeInputs
+unfreezeThreads
+
+endthread   
