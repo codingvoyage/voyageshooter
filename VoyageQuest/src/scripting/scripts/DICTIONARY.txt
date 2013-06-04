@@ -165,6 +165,11 @@ setVelocityStandard 102
 moveTileAmount 103
 movePixelAmount 104
 
+-- existsGlobal "StringName" --> boolVar
+existsGlobal 120
+
+-- writeGlobal NEW_VALUE --> "StringName"
+writeGlobal 121
 
 freezeThreads 130
 freezeInputs 131
@@ -173,6 +178,9 @@ unfreezeInputs 134
 
 -- mapChange NameOfNewMap playernewLocX playernewLocY
 mapChange 145
+
+-- freezeCamera ULX ULY
+freezeCamera 146
 
 -- For entities to say their specific things
 messageBox 150

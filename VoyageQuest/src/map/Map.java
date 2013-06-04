@@ -27,6 +27,9 @@ public class Map {
     //The tile based map provided by slick and tiled
     public TiledMapPlus tileMap;
     
+    //The script associated with this map...
+    public String mapBackgroundScript;
+    
     //For collision detection and such
     public QuadTree collisions;
     public QuadTree boundaries;

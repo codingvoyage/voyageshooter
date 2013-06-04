@@ -817,6 +817,24 @@ public class ScriptReader
                 
                 break;
                 
+            //existsGlobal "StringName" --> boolVar
+            case 120:
+                String variableName = identifierCheck(currentLine, 0).getStringValue();
+                boolean exists = Global.globalMemory.containsKey(variableName);
+                currentThread.setVariable(
+                        currentLine.getParameter(2).getStringValue(), 
+                        new Parameter(exists));
+                break;
+                
+            //writeGlobal NEW_VALUE --> "VariableName"
+            case 121:
+                Parameter newValue = currentLine.getParameter(0);
+                Global.globalMemory.put(
+                        currentLine.getParameter(2).getStringValue(), 
+                        newValue);
+                break;
+                
+                
             //freezeThreads 130
             case 130:
                 Global.isFrozen = true;
@@ -857,6 +875,13 @@ public class ScriptReader
                 player.r.y = identifierCheck(currentLine, 2).getDoubleValue();
                 Global.currentMap.entities.add(player);
                 Global.currentMap.collisions.addEntity(player);
+                break;
+                
+            //freezeCamera ULX ULY
+            case 146:
+                Global.camera.freezeAt(
+                        (int)identifierCheck(currentLine, 0).getDoubleValue(),
+                        (int)identifierCheck(currentLine, 1).getDoubleValue());
                 break;
                 
             case 150:

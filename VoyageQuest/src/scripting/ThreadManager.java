@@ -113,7 +113,7 @@ public class ThreadManager {
             }
             
             //Stop when we've reached the last thread.
-            if (index == getThreadCount()) {
+            if (index >= getThreadCount()) {
                 continueStepping = false;
             }
         }

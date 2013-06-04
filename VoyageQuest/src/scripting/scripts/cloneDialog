@@ -1,7 +1,18 @@
 freezeInputs
 
 -- Nothing happens. Yay.
-playerMessageBox "GET OUT OF MY WAY."
+
+print "herp"
+existsGlobal "EVIL_CLONE" --> result
+print "herp"
+if result == false
+    playerMessageBox "GET OUT OF MY WAY."
+    writeGlobal 0 --> "EVIL_CLONE"
+    goto [done]
+endif
+-- else
+    playerMessageBox "FUCK YOU."
+label [done]
 
 unfreezeInputs
 

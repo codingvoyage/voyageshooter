@@ -88,11 +88,7 @@ public class VoyageQuest extends BasicGame {
         // IDK what this is for.
         EventListener.initGc(gc);
         
-        // Create the current Map
-        Global.currentMap = new Map("src/res/MAPTEST.tmx");
-        // Global.currentMap = new Map("res/House.tmx");
-        
-        //Create and add the player to the Map
+        //Create the player
         player = new Player(new DoubleRect(1400, 4300, 64, 128));
         
             player.setMainScriptID(1);
@@ -104,21 +100,25 @@ public class VoyageQuest extends BasicGame {
             player.right = Res.animations.get("Sebastian Right");
             
             player.setAnimation(0);
-        
-        Global.currentMap.entities.add(player);
-        Global.currentMap.collisions.addEntity(player);
-        
-        threadManager.getThreadAtName("Sebastian test").setScriptable(player);
-        
+      
         //Now create the Camera.
         Global.camera = new Camera();
         
-        String lorem = "Welcome to VoyageQuest! I am your commander, Bakesale. I will now guide you through this test "
-                + "of my dialog box system. When this dialog box is finished, press E to create a new one. "
-                + "This box should automatically disappear after you press Z for the last time when it's done printing. "
-                + "This has been a successful test of my dialog box system. Remember, press E gently or it will spawn multiple ones stacked on top of each other for now. ! "
-                + "Thank you and I hope you enjoy your adventure, which beings NOW!";
-        dialog = new DialogBox(lorem);
+        //Now that we're done with the player and camera, we can load the map itself...
+        threadManager.clear();
+        Thread loadingThread = new Thread(42);
+        loadingThread.setName("LOADINITIALSCRIPT");
+        loadingThread.setLineNumber(0);
+        threadManager.addThread(loadingThread);
+        threadManager.act(0.0);
+       
+        
+//        String lorem = "Welcome to VoyageQuest! I am your commander, Bakesale. I will now guide you through this test "
+//                + "of my dialog box system. When this dialog box is finished, press E to create a new one. "
+//                + "This box should automatically disappear after you press Z for the last time when it's done printing. "
+//                + "This has been a successful test of my dialog box system. Remember, press E gently or it will spawn multiple ones stacked on top of each other for now. ! "
+//                + "Thank you and I hope you enjoy your adventure, which beings NOW!";
+//        dialog = new DialogBox(lorem);
         //dialog.start();
         
     }
@@ -144,23 +144,10 @@ public class VoyageQuest extends BasicGame {
         //Now create a thread that uses the loading script, 
         //adding it to threadManager and running it
         Thread loadingThread = new Thread(0);
-        loadingThread.setName("loadingThread");
+        loadingThread.setName("LOADINGTHREAD");
         loadingThread.setLineNumber(0);
         threadManager.addThread(loadingThread);
         threadManager.act(0.0);
-        
-        //scriptReader.setEntityHandle(entities);
-        
-        //Create a thread which governs this entity with Script 
-        Thread testThread = new Thread(1);
-        
-        //Set the details of the thread
-        testThread.setLineNumber(0);
-        testThread.setName("Sebastian test");
-        testThread.setRunningState(false);
-        
-        //Add this thread to the collection of threads
-        threadManager.addThread(testThread);
     }
     
     /**

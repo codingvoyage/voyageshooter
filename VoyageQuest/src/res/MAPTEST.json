@@ -3,6 +3,8 @@
             
     "mapName" : "Desert Town",
     
+    "mapBackgroundScript": "desertTown",
+    
     "allEntities": [
         {
             "name" : "Njeri",

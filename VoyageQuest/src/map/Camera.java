@@ -27,16 +27,40 @@ public class Camera {
     private double screenCenterX;
     private double screenCenterY;
     
+    private boolean frozen;
+    
     public Camera() 
     {
         //Calculate some useful things...
         screenCenterX = VoyageQuest.X_RESOLUTION/2.0;
         screenCenterY = VoyageQuest.Y_RESOLUTION/2.0;
+        
+        frozen = false;
+        x = 0.0d;
+        y = 0.0d;
+    }
+    
+    public void freezeAt(int screenUL_X, int screenUL_Y)
+    {
+        frozen = true;
+        x = screenUL_X;
+        y = screenUL_Y;
+    }
+    
+    public void unfreeze()
+    {
+        frozen = false;
     }
     
     //Center around the player
     public DoubleRect getViewRect()
     {
+        if (frozen) return new DoubleRect(
+                x,
+                y, 
+                VoyageQuest.X_RESOLUTION,
+                VoyageQuest.Y_RESOLUTION);
+        
         //Using the width and height of the player, arrive at the 
         double playerCenterX = VoyageQuest.player.r.getX() + VoyageQuest.player.r.width/2.0;
         double playerCenterY = VoyageQuest.player.r.getY() + VoyageQuest.player.r.height/2.0;
