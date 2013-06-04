@@ -297,14 +297,20 @@ public class Entity extends ScriptableClass implements Rectangular {
         
         
             //Move to the proposed location
-            Global.currentMap.collisions.removeEntity(this);
-            r.x = r.x + xMove;
-            r.y = r.y + yMove;
-            Global.currentMap.collisions.addEntity(this);
+            this.place(r.x + xMove, r.y + yMove);;
             
             return true;
         }
         
+    }
+    
+    public void place(double newX, double newY)
+    {
+        //Move to the proposed location
+        Global.currentMap.collisions.removeEntity(this);
+        r.x = newX;
+        r.y = newY;
+        Global.currentMap.collisions.addEntity(this);
     }
     
     /**

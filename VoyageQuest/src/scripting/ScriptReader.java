@@ -817,6 +817,15 @@ public class ScriptReader
                 
                 break;
                 
+                
+            //entitySetLocation x y
+            case 107:
+                
+                double newX = identifierCheck(currentLine, 0).getDoubleValue();
+                double newY = identifierCheck(currentLine, 1).getDoubleValue();
+                ((Entity)currentScriptable).place(newX, newY);
+                break;
+                
             //existsGlobal "StringName" --> boolVar
             case 120:
                 String variableName = identifierCheck(currentLine, 0).getStringValue();
@@ -834,6 +843,12 @@ public class ScriptReader
                         newValue);
                 break;
                 
+            //getGlobal "GlobalVariableName" --> localvariablename
+            case 122:
+                currentThread.setVariable(
+                        currentLine.getStringParameter(2),
+                        Global.globalMemory.get(currentLine.getStringParameter(0)));
+                break;
                 
             //freezeThreads 130
             case 130:
@@ -857,6 +872,13 @@ public class ScriptReader
                 Global.isInputFrozen = false;
                 break;
                 
+            //assumeControlOfPlayer
+            case 136:
+                System.out.println("ASSUMING DIRECT CONTROL");
+                currentThread.setScriptable(VoyageQuest.player);
+                VoyageQuest.player.setMainThread(currentThread);
+                break;
+                
                 //mapChange NameOfNewMap playernewLocX playernewLocY
             case 145:
                 //Clear the threads of the current map
@@ -867,7 +889,9 @@ public class ScriptReader
                 Global.currentMap = 
                         new Map(identifierCheck(currentLine, 0).getStringValue());
                 } 
-                catch (Exception e) {}  //Swallow any exceptions because I'm a rebel like that.
+                catch (Exception e) {
+                    System.out.println("fuck");
+                }  //Swallow any exceptions because I'm a rebel like that.
                 
                 //Now put the player where the player is supposed to be
                 Entity player = VoyageQuest.player;
@@ -875,6 +899,7 @@ public class ScriptReader
                 player.r.y = identifierCheck(currentLine, 2).getDoubleValue();
                 Global.currentMap.entities.add(player);
                 Global.currentMap.collisions.addEntity(player);
+                
                 break;
                 
             //freezeCamera ULX ULY
@@ -882,6 +907,11 @@ public class ScriptReader
                 Global.camera.freezeAt(
                         (int)identifierCheck(currentLine, 0).getDoubleValue(),
                         (int)identifierCheck(currentLine, 1).getDoubleValue());
+                break;
+                
+            //unfreezeCamera
+            case 147:
+                Global.camera.unfreeze();
                 break;
                 
             case 150:

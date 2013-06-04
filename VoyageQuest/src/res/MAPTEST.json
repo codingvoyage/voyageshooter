@@ -3,7 +3,7 @@
             
     "mapName" : "Desert Town",
     
-    "mapBackgroundScript": "desertTown",
+    "mapBackgroundScript": 1,
     
     "allEntities": [
         {

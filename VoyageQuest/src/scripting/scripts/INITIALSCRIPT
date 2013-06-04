@@ -1,2 +1,6 @@
-mapChange "src/res/althouse.tmx" 620 1300
+mapChange "src/res/SCENE1.tmx" 5000 5000
+freezeCamera 100 500
+writeGlobal 0 --> GAME_STATE
+freezeInputs
+
 endthread

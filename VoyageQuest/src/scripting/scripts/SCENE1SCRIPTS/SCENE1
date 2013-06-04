@@ -1,0 +1,80 @@
+playerMessageBox "Well, it looks like we should be safe for now..."
+playerMessageBox "Sebastian! Calm down for a moment."
+
+-- Sebastian will stop walking
+writeGlobal 5 --> GAME_STATE
+playerMessageBox "Yes, commander. I'm listening?"
+
+var m1 "The barricades we put up aren't going to last for that much longer... "
+var m2 "I'd say we have around 4 minutes at best before their troops break through. "
+
+
+eval m1 + m2 --> msg
+playerMessageBox msg
+
+playerMessageBox "We're screwed."
+
+var m1 "Even if we run the other way, they'll probably get to us. As of "
+var m2 "this point I have no way of coordinating the other troops."
+
+eval m1 + m2 --> msg
+playerMessageBox msg
+
+var m1 "Shit... if only we had more intelligence on the field, we would have been able to anticipate "
+var m2 "Maelloc kingdom's preemptive strike on our capital, commander. They just sent their entire naval fleet "
+var m3 "and blitzed us out of nowhere."
+
+eval [ m1 + m2 ] + m3 --> msg
+playerMessageBox msg
+
+playerMessageBox "Ugh... I guess we really have no choice now, Sebastian."
+
+var m1 "I was thinking the same. I was really hoping for a chance to test it out before using it... "
+var m2 "gauge the safety, and see if there are any side effects on living things. But now, it's sink or "
+var m3 "swim. I'll use time travel in order to prevent this disaster from happening."
+
+eval [ m1 + m2 ] + m3 --> msg
+playerMessageBox msg
+
+playerMessageBox "..."
+playerMessageBox "... ..."
+playerMessageBox "... ... ..."
+
+var m1 "Alright, then. I have suspicions that my past self might not take you very "
+var m2 "seriously with this time travel thing at face value, so I'm going to write a letter to myself "
+var m3 "which will outline what has happened today, as well as some indicator which will inform me "
+var m4 "of the authenticity of the warning. Give me a moment..."
+
+eval [ m1 + m2 ] + [ m3 + m4 ] --> msg
+playerMessageBox msg
+
+playerMessageBox "* scribble scribble scribble *"
+playerMessageBox "* scribble scribble scribble *"
+playerMessageBox "* scribble scribble scribble *"
+
+playerMessageBox "COMMANDER PLACED LETTER IN YOUR COAT POCKET"
+
+playerMessageBox "Alright, Sebastian. It's done. Hurry to your office right now before they break through."
+playerMessageBox "I'll try to hold them back before they can get to you."
+
+playerMessageBox "..."
+playerMessageBox "Alright, Commander. Try to get out in one piece."
+
+
+writeGlobal 10 --> GAME_STATE
+
+-- Wait for walking to be over
+
+wait 5000
+
+playerMessageBox "Here they come ..."
+
+wait 1000
+
+label [DEBUGSKIP]
+
+unfreezeCamera
+mapChange "src/res/SCENE2.tmx" -64 1200
+
+
+endthread

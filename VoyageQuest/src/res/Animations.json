@@ -74,6 +74,42 @@
                     "nr1","nr2","nr3","nr4","nr5","nr6","nr7","nr8"
             ],
             "duration" : 50
+        },
+        {
+            "name" : "Soldier Forward",
+            "packedSheetID" : "soldier",
+            "id" : "solf",
+            "images" : [
+                    "solf1","solf2","solf3","solf4","solf5","solf6"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Soldier Backwards",
+            "packedSheetID" : "soldier",
+            "id" : "solb",
+            "images" : [
+                    "solb1","solb2","solb3","solb4","solb5","solb6"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Soldier Left",
+            "packedSheetID" : "soldier",
+            "id" : "soll",
+            "images" : [
+                    "soll1","soll2","soll3","soll4","soll5","soll6"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "Soldier Right",
+            "packedSheetID" : "soldier",
+            "id" : "solr",
+            "images" : [
+                    "solr1","solr2","solr3","solr4","solr5","solr6"
+            ],
+            "duration" : 50
         }
     ]
 }

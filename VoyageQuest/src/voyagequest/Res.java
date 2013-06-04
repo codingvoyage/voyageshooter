@@ -20,11 +20,13 @@ public class Res {
     /** Sprite sheet for Sebastian */
     public static XMLPackedSheet sebastian; 
     public static XMLPackedSheet njeri; 
+    public static XMLPackedSheet soldier; 
     
     static {
         try {
             sebastian = new XMLPackedSheet("src/res/sebastian.png", "src/res/sebastian.xml");
             njeri = new XMLPackedSheet("src/res/njeri.png", "src/res/njeri.xml");
+            soldier = new XMLPackedSheet("src/res/soldier_npc01_walk.png", "src/res/soldier.xml");
         } catch (SlickException e) {}
     }
     
@@ -62,6 +64,7 @@ public class Res {
             System.out.println(next.getPackedSheetID());
             if (next.getPackedSheetID().equals("njeri")) currentPackedSheet = njeri;
             if (next.getPackedSheetID().equals("sebastian")) currentPackedSheet = sebastian;
+            if (next.getPackedSheetID().equals("soldier")) currentPackedSheet = soldier;
             
             Image[] frames = new Image[next.getImages().size()];
             int i = 0;

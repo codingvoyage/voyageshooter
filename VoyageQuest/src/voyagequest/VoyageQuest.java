@@ -89,10 +89,15 @@ public class VoyageQuest extends BasicGame {
         EventListener.initGc(gc);
         
         //Create the player
+        //The player needs to have a thread...
+        Thread playerThread = new Thread(1);
+        playerThread.setLineNumber(0);
+        playerThread.setName("SebastianThread");
+        threadManager.addThread(playerThread);
         player = new Player(new DoubleRect(1400, 4300, 64, 128));
-        
+                
             player.setMainScriptID(1);
-            player.setMainThread(threadManager.getThreadAtName("Sebastian test"));
+            player.setMainThread(threadManager.getThreadAtName("SebastianThread"));
 
             player.forward = Res.animations.get("Sebastian Forward");
             player.backward = Res.animations.get("Sebastian Backwards");

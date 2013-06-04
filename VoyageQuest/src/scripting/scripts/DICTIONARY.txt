@@ -165,22 +165,32 @@ setVelocityStandard 102
 moveTileAmount 103
 movePixelAmount 104
 
--- existsGlobal "StringName" --> boolVar
+entitySetLocation 107
+
+-- existsGlobal "VariableName" --> boolVar
 existsGlobal 120
 
--- writeGlobal NEW_VALUE --> "StringName"
+-- writeGlobal NEW_VALUE --> "VariableName"
 writeGlobal 121
+
+-- getGlobal "VariableName" --> variable
+getGlobal 122
 
 freezeThreads 130
 freezeInputs 131
 unfreezeThreads 133
 unfreezeInputs 134
 
+-- Basically associates this thread with the player and vice versa. 
+assumeControlOfPlayer 136
+
 -- mapChange NameOfNewMap playernewLocX playernewLocY
 mapChange 145
 
 -- freezeCamera ULX ULY
 freezeCamera 146
+
+unfreezeCamera 147
 
 -- For entities to say their specific things
 messageBox 150

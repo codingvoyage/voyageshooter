@@ -28,7 +28,7 @@ public class Map {
     public TiledMapPlus tileMap;
     
     //The script associated with this map...
-    public String mapBackgroundScript;
+    public static int mapBackgroundScript;
     
     //For collision detection and such
     public QuadTree collisions;
@@ -83,7 +83,6 @@ public class Map {
         ArrayList<GroupObject> collisionLayer = objLayers.get(0).getObjects();
         ArrayList<GroupObject> boundaryLayer = objLayers.get(1).getObjects();
         ArrayList<GroupObject> eventLayer = objLayers.get(2).getObjects();
-        
         
         //First up, fill the collisionlayer. I favor the wrapper over the GroupObject approach, since 
         //that enables easy access to the properties and other methods provided by GroupObject.
@@ -144,6 +143,13 @@ public class Map {
         
         JsonReader<Map> reader = new JsonReader<>(Map.class, jsonFileLocation);
         reader.readJson();
+        
+        //Run the background Script for this map...
+        Thread backgroundThread = new Thread(this.mapBackgroundScript);
+            backgroundThread.setName("MAPSCRIPT" + this.mapBackgroundScript);
+            backgroundThread.setLineNumber(0);
+            backgroundThread.setRunningState(false);
+        threadManager.addThread(backgroundThread);
         
         for (LoadEntity l : allEntities)
         {
