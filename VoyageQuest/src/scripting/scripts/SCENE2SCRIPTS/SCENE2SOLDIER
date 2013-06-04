@@ -63,5 +63,8 @@ wait 700
 
 -- Game state 35 means that we're done with this scene.
 writeGlobal 35 --> GAME_STATE
+getGlobal GAME_STATE --> asdfasdf
+print "yoo"
+print asdfasdf
 
 endthread

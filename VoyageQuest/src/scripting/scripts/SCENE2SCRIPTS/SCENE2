@@ -1,6 +1,8 @@
 assumeControlOfPlayer
 wait 20
 
+-- goto [DEBUG]
+
 -- Move right
 setAnimationDirection 3
 setVelocity 0.25 0
@@ -101,6 +103,15 @@ wend
 
 label [break]
 
-playerMessageBox "And now we move on..."
+mapChange "src/res/FOREST.tmx" 1000 1700
+endthread
 
+
+
+
+
+label [DEBUG]
+
+writeGlobal 35 --> GAME_STATE
+mapChange "src/res/FOREST.tmx" 1000 1700
 endthread

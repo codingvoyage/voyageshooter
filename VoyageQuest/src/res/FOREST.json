@@ -1,0 +1,24 @@
+{
+    "about_file": "This file spawns the Entities located in the map \"FOREST\"",
+            
+    "mapName" : "Ze Forest",
+    
+    "mapBackgroundScript": 10,
+    
+    "allEntities": [
+        {
+            "name" : "Njeri",
+            "initialX" : 515,
+            "initialY" : 700,
+            "width" : 64,
+            "height" : 128,
+            "mainScriptID" : 5,
+            "mainThreadName" : "Njeri forest Thread",
+            "animations" : [
+                "Njeri Forward", "Njeri Backwards", "Njeri Left", "Njeri Right"
+            ],
+            "startingAnimationDirection" : 0,
+            "onClickScript" : 15
+        }
+    ]
+}
