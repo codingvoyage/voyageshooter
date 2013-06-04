@@ -4,6 +4,7 @@ import gui.GuiManager;
 import gui.VoyageGuiException;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.UnicodeFont;
@@ -68,6 +69,9 @@ public class DialogParser {
     /** status */
     private boolean continuePrinting = true;
     
+    /** profile animation */
+    private Animation profile;
+    
     /**
      * Print a new dialog message
      * @param text the text to print
@@ -121,6 +125,8 @@ public class DialogParser {
             wordIterator.next();
         printedChars = new LinkedList<>();
         
+        profile = box.getSpeaker().profile;
+        
     }
     
     /**
@@ -134,17 +140,14 @@ public class DialogParser {
             Input input = gc.getInput();
             if (input.isKeyDown(Input.KEY_Z)) {
                 
-                //Bakesale, I moved continuePrinting here.
-                //Before, it used to be in next(), but what we're really looking
-                //for is not next character, but whether we move on (next Z)
-                continuePrinting = false;
-                
                 waiting = false;
                 printedChars.clear();
                 x = xStart;
                 y = yStart;
                 if (!hasNext()) {
+                    // the box has no more to print. close it.
                     GuiManager.close(box.getWindow());
+                    continuePrinting = false;
                     return;
                 }
             }
@@ -179,7 +182,6 @@ public class DialogParser {
             return next();
         } else {
             waiting = true;
-            //continuePrinting = false;
             return ""; 
         }
     }
@@ -189,6 +191,8 @@ public class DialogParser {
      */
     public void drawNext() throws VoyageGuiException {
         
+        if (profile != null)
+            drawProfile();
         printPrevious();
         if (!waiting) {
             if (time >= PRINT_SPEED) {
@@ -235,13 +239,21 @@ public class DialogParser {
     /**
      * Render what is already printed
      */
-    public void printPrevious() {
+    private void printPrevious() {
         
         ListIterator<Coordinate> print = printedChars.listIterator();
         while (print.hasNext()) {
             Coordinate<String> next = print.next();
             FONT.drawString(next.getPosition()[0], next.getPosition()[1], next.getObject());
         }
+        
+    }
+    
+    /**
+     * Draw profile
+     */
+    private void drawProfile() {
+        
         
     }
     

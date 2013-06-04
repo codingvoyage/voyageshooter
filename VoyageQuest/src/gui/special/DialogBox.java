@@ -3,6 +3,7 @@ package gui.special;
 import gui.Gui;
 import gui.VoyageGuiException;
 import gui.types.Dialog;
+import map.Entity;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 
@@ -39,6 +40,28 @@ public class DialogBox {
      * @param end 
      */
     public DialogBox(String text, Color start, Color end) {
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
+        dialog.setWindow(window);
+    }
+    
+    /**
+     * Default dialog box with default coordinates
+     * @param text 
+     */
+    public DialogBox(String text, Entity e) {
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, dialog);
+        dialog.setWindow(window);
+    }
+    
+    /**
+     * Dialog box with default coordinates and specified color
+     * @param text
+     * @param start
+     * @param end 
+     */
+    public DialogBox(String text, Entity e, Color start, Color end) {
         dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
         dialog.setWindow(window);

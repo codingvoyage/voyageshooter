@@ -1,4 +1,4 @@
-playerMessageBox "Well, it looks like we should be safe for now..."
+playerMessageBox "Well, it looks like we should be safe for now...
 playerMessageBox "Sebastian! Calm down for a moment."
 
 -- goto [DEBUGSKIP]

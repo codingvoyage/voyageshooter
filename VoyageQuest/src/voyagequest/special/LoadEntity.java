@@ -17,6 +17,7 @@ public class LoadEntity {
     private int mainScriptID;
     private String mainThreadName;
     private LinkedList<String> animations;
+    private boolean profLeft;
     private int startingAnimationDirection;
     private int onClickScript;
     private int onTouchScript;
@@ -51,6 +52,10 @@ public class LoadEntity {
     
     public LinkedList<String> getAnimations() {
         return animations;
+    }
+    
+    public boolean getOrientation() {
+        return profLeft;
     }
     
     public int getStartingAnimationDirection() {

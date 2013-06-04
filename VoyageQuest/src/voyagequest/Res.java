@@ -3,12 +3,10 @@ package voyagequest;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
-
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.XMLPackedSheet;
-
 import voyagequest.special.LoadAnimations;
 
 /**

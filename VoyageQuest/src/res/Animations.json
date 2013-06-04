@@ -76,6 +76,15 @@
             "duration" : 50
         },
         {
+            "name" : "Njeri Profile",
+            "packedSheetID" : "njeri",
+            "id" : "nr",
+            "images" : [
+                    "np1","np2","np3"
+            ],
+            "duration" : 50
+        },
+        {
             "name" : "Soldier Forward",
             "packedSheetID" : "soldier",
             "id" : "solf",

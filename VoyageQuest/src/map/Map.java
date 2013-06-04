@@ -178,6 +178,13 @@ public class Map {
                 e.backward = Res.animations.get(animations.get(1));
                 e.left = Res.animations.get(animations.get(2));
                 e.right = Res.animations.get(animations.get(3));
+                
+                if (animations.size() > 4) {
+                    e.profile = Res.animations.get(animations.get(4));
+                    e.profLeft = l.getOrientation();
+                    
+                }
+                
                 e.setAnimation(l.getStartingAnimationDirection());
             
             entities.add(e);

@@ -1,21 +1,18 @@
 package map;
 
-import java.util.LinkedList;
 import java.util.Properties;
 
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.tiled.GroupObject;
 
-import gui.GuiManager;
 import gui.special.DialogBox;
+import java.util.LinkedList;
 
 import voyagequest.*;
 import scripting.*;
-import voyagequest.Res;
 
 /**
  *
@@ -53,6 +50,9 @@ public class Entity extends ScriptableClass implements Rectangular {
     public Animation backward;
     public Animation left;
     public Animation right;
+    
+    public Animation profile;
+    public boolean profLeft;
     
     public int onClickScript;
     public int onTouchScript;
@@ -336,7 +336,7 @@ public class Entity extends ScriptableClass implements Rectangular {
      * @param text the dialog text
      */
     public void speak(String text) {
-        dialog = new DialogBox(text);
+        dialog = new DialogBox(text, this);
         dialog.start();
         mainThread.setRunningState(true);
         

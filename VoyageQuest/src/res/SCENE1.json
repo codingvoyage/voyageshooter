@@ -16,8 +16,9 @@
             "mainScriptID" : 6,
             "mainThreadName" : "CommanderScene1Thread",
             "animations" : [
-                "Njeri Forward", "Njeri Backwards", "Njeri Left", "Njeri Right"
+                "Njeri Forward", "Njeri Backwards", "Njeri Left", "Njeri Right", "Njeri Profile"
             ],
+            "profLeft" : true,
             "startingAnimationDirection" : 3,
             "onClickScript" : 31,
             "onTouchScript" : 16

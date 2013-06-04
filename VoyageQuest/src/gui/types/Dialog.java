@@ -4,7 +4,9 @@ import gui.Gui;
 import gui.Displayable;
 import gui.Gui;
 import gui.VoyageGuiException;
+import map.Entity;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 
 /**
  * Dialog box GUI element
@@ -28,6 +30,8 @@ public class Dialog implements Displayable {
     private DialogParser parser;
     /** the current Gui window */
     private Gui<Dialog> window;
+    /** speaker */
+    private Entity speaker;
     
     /**
      * 
@@ -39,6 +43,22 @@ public class Dialog implements Displayable {
      */
     public Dialog(float x, float y, String text, int width, int height) {
         this.text = text;
+        this.width = width;
+        this.height = height;
+        parser = new DialogParser(text, this, x, y);
+    }
+    
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param text 
+     */
+    public Dialog(float x, float y, String text, Entity speaker, int width, int height) {
+        this.text = text;
+        this.speaker = speaker;
         this.width = width;
         this.height = height;
         parser = new DialogParser(text, this, x, y);
@@ -89,6 +109,13 @@ public class Dialog implements Displayable {
      */
     public String getText() {
         return text;
+    }
+    
+    /**
+     * @return speaker entity object
+     */
+    public Entity getSpeaker() {
+        return speaker;
     }
     
     /**
