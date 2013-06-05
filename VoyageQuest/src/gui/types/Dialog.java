@@ -33,6 +33,8 @@ public class Dialog implements Displayable {
     /** speaker */
     private Entity speaker;
     
+    public String animationId;
+    
     /**
      * 
      * @param x
@@ -62,6 +64,22 @@ public class Dialog implements Displayable {
         this.width = width;
         this.height = height;
         parser = new DialogParser(text, this, x, y);
+    }
+    
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param text 
+     */
+    public Dialog(float x, float y, String text, int width, int height, String animationId) {
+        this.text = text;
+        this.width = width;
+        this.height = height;
+        parser = new DialogParser(text, this, x, y, animationId);
+        this.animationId = animationId;
     }
     
     /**

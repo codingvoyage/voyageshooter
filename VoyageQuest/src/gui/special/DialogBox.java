@@ -23,6 +23,8 @@ public class DialogBox {
     public static final int DEFAULT_WIDTH = 750;
     public static final int DEFAULT_HEIGHT = 160;
     
+    public String animationId;
+    
     /**
      * Default dialog box with default coordinates
      * @param text 
@@ -89,6 +91,14 @@ public class DialogBox {
         dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
         dialog.setWindow(window);
+    }
+    
+    public DialogBox(String text, String[] options, Color start, Color end, String AnimationId) {
+        this.animationId = animationId;
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT, animationId);
+        this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
+        dialog.setWindow(window);
+        
     }
     
     /**

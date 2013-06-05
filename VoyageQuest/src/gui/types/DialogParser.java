@@ -8,6 +8,7 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.UnicodeFont;
+import voyagequest.Res;
 import voyagequest.Util;
 
 /**
@@ -132,6 +133,64 @@ public class DialogParser {
             profileLeft = box.getSpeaker().profLeft;
             name = box.getSpeaker().name;
         }
+    }
+    
+    /**
+     * Print a new dialog message
+     * @param text the text to print
+     * @param box the box to print it in
+     * @param x x-coordinate of this
+     * @param y y-coordinate of this
+     */
+    public DialogParser(String text, Dialog box, float x, float y, String animationId) {
+        this.box = box;
+        
+        this.x = x;
+        this.y = y;
+        
+        // Split the text up into different words
+        String[] words = text.split(" ");
+        
+        xStart = x + DIALOG_PADDING;
+        yStart = y + DIALOG_PADDING;
+        this.x += DIALOG_PADDING;
+        this.y += DIALOG_PADDING;
+        totalWidth = box.getWidth() + (int)xStart - (int)DIALOG_PADDING * 3;
+        totalHeight = box.getHeight() + (int)yStart - (int)DIALOG_PADDING * 3;
+        
+        chars = new LinkedList<>();
+        
+        newWord = true;
+        
+        boolean first = true;
+        // For each word, split into characters
+        for (String s : words) {
+            char[] tempChars = s.toCharArray();
+            
+            // For each character array, make a new linked list
+            LinkedList<String> charList = new LinkedList<>();
+            for (char c : tempChars) {
+                charList.add(Character.toString(c));
+            }
+            // Add a space after each word
+            charList.add(" ");
+            // Add this character list to the outer list of words
+            chars.add(charList);
+            // Start the character iterator with the first word
+            if (first) {
+                charIterator = charList.listIterator();
+                first = false;
+            }
+        }
+        
+        wordIterator = chars.listIterator();
+        if (wordIterator.hasNext())
+            wordIterator.next();
+        printedChars = new LinkedList<>();
+        
+        profile = Res.animations.get(animationId);
+        profileLeft = box.getSpeaker().profLeft;
+        name = "Njeri";
     }
     
     /**
