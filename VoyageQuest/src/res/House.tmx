@@ -66,7 +66,7 @@
    H4sIAAAAAAAAC+3BAQ0AAADCoPdPbQ43oAAAeDP5i1XpxAkAAA==
   </data>
  </layer>
- <objectgroup name="Collisions" width="25" height="25" visible="0">
+ <objectgroup name="Collisions" width="25" height="25">
   <object x="768" y="1323" width="60" height="272"/>
   <object x="463" y="1561" width="383" height="56"/>
   <object x="445" y="1323" width="61" height="241"/>
@@ -101,7 +101,7 @@
   <object x="1218" y="1290" width="105" height="37"/>
   <object x="1282" y="515" width="19" height="188"/>
  </objectgroup>
- <objectgroup name="Boundaries" width="25" height="25" visible="0">
+ <objectgroup name="Boundaries" width="25" height="25">
   <object x="580" y="835" width="183" height="185"/>
   <object x="964" y="522" width="56" height="178"/>
   <object x="1218" y="526" width="60" height="173"/>
@@ -117,6 +117,11 @@
   <object type="onClick" x="380" y="1150" width="71" height="70">
    <properties>
     <property name="runScript" value="28"/>
+   </properties>
+  </object>
+  <object name="warpp" type="onTouch" x="1155" y="476" width="59" height="97">
+   <properties>
+    <property name="runScript" value="48"/>
    </properties>
   </object>
  </objectgroup>

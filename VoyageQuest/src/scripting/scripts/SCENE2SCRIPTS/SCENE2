@@ -113,5 +113,8 @@ endthread
 label [DEBUG]
 
 writeGlobal 35 --> GAME_STATE
-mapChange "src/res/FOREST.tmx" 1000 1700
+mapChange "src/res/HOUSE.tmx" 500 1000
+unfreezeInputs
+
+-- mapChange "src/res/FOREST.tmx" 1000 1700
 endthread
