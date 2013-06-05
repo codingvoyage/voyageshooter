@@ -58,6 +58,16 @@ public class DialogBox {
     }
     
     /**
+     * Default dialog box with default coordinates
+     * @param text 
+     */
+    public DialogBox(String text, String animationId) {
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT, animationId);
+        this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, dialog);
+        dialog.setWindow(window);
+    }
+    
+    /**
      * Dialog box with default coordinates and specified color
      * @param text
      * @param start
