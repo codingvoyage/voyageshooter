@@ -45,4 +45,9 @@
     <sprite name="nr3" x="320" y="384" width="64" height="128" />
     <sprite name="nr2" x="384" y="384" width="64" height="128" />
     <sprite name="nr1" x="448" y="384" width="64" height="128" />
+    
+    <!-- Njeri Profile -->
+    <sprite name="np1" x="0" y="512" width="316" height="500" />
+    <sprite name="np2" x="316" y="512" width="316" height="500" />
+    <sprite name="np3" x="632" y="512" width="316" height="500" />
 </sheet>

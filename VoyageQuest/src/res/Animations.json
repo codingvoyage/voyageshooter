@@ -40,6 +40,15 @@
             "duration" : 50
         },
         {
+            "name" : "Sebastian Profile",
+            "packedSheetID" : "sebastian",
+            "id" : "sr",
+            "images" : [
+                    "sp1","sp2","sp3"
+            ],
+            "duration" : 200
+        },
+        {
             "name" : "Njeri Forward",
             "packedSheetID" : "njeri",
             "id" : "nf",
@@ -78,7 +87,7 @@
         {
             "name" : "Njeri Profile",
             "packedSheetID" : "njeri",
-            "id" : "nr",
+            "id" : "np",
             "images" : [
                     "np1","np2","np3"
             ],

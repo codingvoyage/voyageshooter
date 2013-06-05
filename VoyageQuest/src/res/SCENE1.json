@@ -34,8 +34,9 @@
             "mainScriptID" : 7,
             "mainThreadName" : "SebastianScene1Thread",
             "animations" : [
-                "Sebastian Forward", "Sebastian Backwards", "Sebastian Left", "Sebastian Right"
+                "Sebastian Forward", "Sebastian Backwards", "Sebastian Left", "Sebastian Right", "Sebastian Profile"
             ],
+            "profLeft" : false,
             "startingAnimationDirection" : 0,
             "onClickScript" : 31,
             "onTouchScript" : 16

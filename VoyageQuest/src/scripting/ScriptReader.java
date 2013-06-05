@@ -3,9 +3,7 @@ package scripting;
 import java.util.HashMap;
 import java.util.ArrayList;
 import map.*;
-import voyagequest.DoubleRect;
 import voyagequest.Global;
-import voyagequest.Util;
 import voyagequest.VoyageQuest;
 
 //
@@ -893,12 +891,18 @@ public class ScriptReader
                     System.out.println("fuck");
                 }  //Swallow any exceptions because I'm a rebel like that.
                 
+               
+                
                 //Now put the player where the player is supposed to be
                 Entity player = VoyageQuest.player;
                 player.r.x = identifierCheck(currentLine, 1).getDoubleValue();
                 player.r.y = identifierCheck(currentLine, 2).getDoubleValue();
                 Global.currentMap.entities.add(player);
                 Global.currentMap.collisions.addEntity(player);
+                
+                 // play teleport music
+                //voyagequest.Res.teleport.play();
+                //System.out.println("Sound play");
                 
                 break;
                 

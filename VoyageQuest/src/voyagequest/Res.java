@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.XMLPackedSheet;
 import voyagequest.special.LoadAnimations;
@@ -37,11 +38,28 @@ public class Res {
     /** The actual animations, mapped by ID strings */
     public static HashMap<String, Animation> animations = new HashMap<>();
     
+    /** Main background music */
+    public static Music mainmusic;
+    static {
+        try {
+            mainmusic = new Music("src/res/sounds/main.ogg");
+        } catch (SlickException e) {}
+    }
+    
+    /** Teleport music - credit: Wizet (Maplestory) */
+    public static Music teleport;
+    static {
+        try {
+            teleport = new Music("src/res/sounds/teleport.ogg");
+        } catch (SlickException e) {}
+    }
+    
     /**
      * Initialize all the remaining resources. 
      * Must be called <em>after</em> data is loaded from JSON
      */
     public static void init() {
+        mainmusic.loop();
         
         ListIterator<LoadAnimations> animationIterator = animationData.listIterator();
         while (animationIterator.hasNext()) {

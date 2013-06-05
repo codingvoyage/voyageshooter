@@ -15,6 +15,7 @@ import voyagequest.VoyageQuest;
 
 import static voyagequest.VoyageQuest.threadManager;
 import scripting.Thread;
+import voyagequest.Util;
 
 
 /**
@@ -173,19 +174,21 @@ public class Map {
             e.setMainThread(newThread);
             e.setMainScriptID(mainScriptID);
         
+            e.name = l.getName();
+            
             LinkedList<String> animations = l.getAnimations();
-                e.forward = Res.animations.get(animations.get(0));
-                e.backward = Res.animations.get(animations.get(1));
-                e.left = Res.animations.get(animations.get(2));
-                e.right = Res.animations.get(animations.get(3));
-                
-                if (animations.size() > 4) {
-                    e.profile = Res.animations.get(animations.get(4));
-                    e.profLeft = l.getOrientation();
-                    
-                }
-                
-                e.setAnimation(l.getStartingAnimationDirection());
+            e.forward = Res.animations.get(animations.get(0));
+            e.backward = Res.animations.get(animations.get(1));
+            e.left = Res.animations.get(animations.get(2));
+            e.right = Res.animations.get(animations.get(3));
+
+            if (animations.size() > 4) {
+                e.profile = Res.animations.get(animations.get(4));
+                e.profLeft = l.getOrientation();
+
+            }
+
+            e.setAnimation(l.getStartingAnimationDirection());
             
             entities.add(e);
             collisions.addEntity(e);

@@ -13,12 +13,15 @@ import java.util.LinkedList;
 
 import voyagequest.*;
 import scripting.*;
+import static voyagequest.VoyageQuest.player;
 
 /**
  *
  * @author user
  */
 public class Entity extends ScriptableClass implements Rectangular {
+    public String name;
+    
     /** The entity's boundary rectangle. For this, r.x and r.y are
       * the actual coordinates of the Entity in Map space. Width and
       * height are the width and height of the entity, which are likely

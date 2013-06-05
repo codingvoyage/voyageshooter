@@ -45,4 +45,9 @@
     <sprite name="sr3" x="320" y="384" width="64" height="128" />
     <sprite name="sr2" x="384" y="384" width="64" height="128" />
     <sprite name="sr1" x="448" y="384" width="64" height="128" />
+    
+    <!-- Sebastian Profile -->
+    <sprite name="sp1" x="0" y="512" width="316" height="500" />
+    <sprite name="sp2" x="316" y="512" width="316" height="500" />
+    <sprite name="sp3" x="632" y="512" width="316" height="500" />
 </sheet>

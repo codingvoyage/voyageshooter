@@ -15,6 +15,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
 import scripting.ScriptManager;
@@ -96,15 +97,22 @@ public class VoyageQuest extends BasicGame {
         threadManager.addThread(playerThread);
         player = new Player(new DoubleRect(1400, 4300, 64, 128));
                 
-            player.setMainScriptID(1);
-            player.setMainThread(threadManager.getThreadAtName("SebastianThread"));
+        player.setMainScriptID(1);
+        player.setMainThread(threadManager.getThreadAtName("SebastianThread"));
 
-            player.forward = Res.animations.get("Sebastian Forward");
-            player.backward = Res.animations.get("Sebastian Backwards");
-            player.left = Res.animations.get("Sebastian Left");
-            player.right = Res.animations.get("Sebastian Right");
-            
-            player.setAnimation(0);
+        player.forward = Res.animations.get("Sebastian Forward");
+        player.backward = Res.animations.get("Sebastian Backwards");
+        player.left = Res.animations.get("Sebastian Left");
+        player.right = Res.animations.get("Sebastian Right");
+        
+        player.name = "Sebastian";
+
+        player.profile = Res.animations.get("Sebastian Profile");
+        if (player.profile == null)
+            System.out.println("Still null");
+
+
+        player.setAnimation(0);
       
         //Now create the Camera.
         Global.camera = new Camera();

@@ -71,6 +71,8 @@ public class DialogParser {
     
     /** profile animation */
     private Animation profile;
+    private boolean profileLeft;
+    private String name;
     
     /**
      * Print a new dialog message
@@ -125,8 +127,11 @@ public class DialogParser {
             wordIterator.next();
         printedChars = new LinkedList<>();
         
-        profile = box.getSpeaker().profile;
-        
+        if (box.getSpeaker() != null) {
+            profile = box.getSpeaker().profile;
+            profileLeft = box.getSpeaker().profLeft;
+            name = box.getSpeaker().name;
+        }
     }
     
     /**
@@ -253,7 +258,14 @@ public class DialogParser {
      * Draw profile
      */
     private void drawProfile() {
-        
+        profile.setSpeed((float)Math.random() * 4);
+        if (profileLeft) {
+            profile.draw(xStart, yStart - 530);
+            Util.FONT.drawString(xStart, yStart - 256, name);
+        } else {
+            profile.draw(totalWidth - 305, yStart - 525);
+            Util.FONT.drawString(totalWidth - 305, yStart - 256, name);
+        }
         
     }
     

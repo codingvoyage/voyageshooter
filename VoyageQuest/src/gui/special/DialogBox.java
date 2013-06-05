@@ -50,7 +50,7 @@ public class DialogBox {
      * @param text 
      */
     public DialogBox(String text, Entity e) {
-        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, e, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, dialog);
         dialog.setWindow(window);
     }
@@ -62,7 +62,7 @@ public class DialogBox {
      * @param end 
      */
     public DialogBox(String text, Entity e, Color start, Color end) {
-        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, e, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
         dialog.setWindow(window);
     }
