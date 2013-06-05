@@ -3,7 +3,7 @@
             
     "mapName" : "My House",
     
-    "mapBackgroundScript": "house",
+    "mapBackgroundScript": 22,
     
     "allEntities": [
         {

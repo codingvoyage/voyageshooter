@@ -38,7 +38,7 @@
  </layer>
  <layer name="Entity Layer" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+1Vuw3CMBS0jDIYMAHQ0AINg4CAHpSkBwEDACVsABvAKByFhfX0/Essp8lJ11jxvXt+zlmIFk0jz4QowDJLW/eCelfwlrhuixYmLKQQS5m+7hY1d6RuCi976B/AFbgGN5L3EhuqtxwswFL+vdRFFxo9sM9oqd6O4Ak8R+xzAK0hOGI0q/R27/itTaA7BWce+mPyzYPRe3quhWBO6r4YvbfnWlX8ev1U1LPdKRe4Xm3QZ2S7Uy6E9qrPKOROceDuVQqEnnUshJ61Ldv1LI4NPdupBz2LbR652breKj3/lAe1h2ax6f3hZmt7q6gn5YHuUf+bKaO52dry3OSJ7qGZWBex3s8m8QVinvsfEA4AAA==
+   H4sIAAAAAAAAC+2VQRLBMBSGM+n0YDgBNrbYOAiDPdN2z+AAWHIDDmCGAziChb+LjMzzmiaViU2/mX+RaP/3Xl+8CFHzb5JYiBTK4rBx94h3gI6B49bUFDGWQkxk+LgLxFySuCFyWcF/DU2hGTSXfC6+UbUlUApl8pPLrzTg0YRajJeqbQNtoZ3HOtvw6kBdxrNKbafIbq8P3wE0tPDvkWfOjN/Fcs+FEYl7ZfzulntVyWt9VPQznakyuFpN6D0ynakyXGvVe+Rypji4cxUC12/tC9dvbZrt+iz2jT7baQ76LDblyPW27K7S55/KQb1DZ3HR/cP11nRX0ZxUDvQd9X8rmtFcb9WzN/Jbvi7KifrTmejCM/pe+7o/Tbwi8/pX3jIEodAQDgAA
   </data>
  </layer>
  <layer name="Above entity" width="30" height="30">
@@ -109,6 +109,8 @@
   <object x="584" y="972" width="27" height="63"/>
   <object x="384" y="860" width="57" height="80"/>
   <object x="584" y="862" width="54" height="84"/>
+  <object x="393" y="1876" width="45" height="30"/>
+  <object x="649" y="1878" width="45" height="27"/>
  </objectgroup>
  <objectgroup name="Boundaries" width="30" height="30">
   <object x="257" y="1601" width="123" height="188"/>
@@ -134,6 +136,24 @@
   <object x="453" y="197" width="183" height="119"/>
   <object x="7" y="1348" width="50" height="181"/>
   <object x="7" y="1029" width="52" height="182"/>
+  <object x="643" y="1731" width="57" height="186"/>
+  <object x="387" y="1731" width="58" height="187"/>
  </objectgroup>
- <objectgroup name="Events" width="30" height="30"/>
+ <objectgroup name="Events" width="30" height="30">
+  <object name="warpToCoast" type="onTouch" x="452" y="1870" width="181" height="39">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </object>
+  <object name="toIodolm" type="onTouch" x="7" y="1218" width="45" height="273">
+   <properties>
+    <property name="runScript" value="44"/>
+   </properties>
+  </object>
+  <object name="warp" type="onTouch" x="1861" y="1291" width="49" height="386">
+   <properties>
+    <property name="runScript" value="46"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

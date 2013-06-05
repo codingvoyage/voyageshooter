@@ -1,15 +1,15 @@
 {
     "about_file": "This file spawns the Entities located in the map \"MAPTEST\"",
             
-    "mapName" : "Desert Town",
+    "mapName" : "Iodolm Capital",
     
-    "mapBackgroundScript": 1,
+    "mapBackgroundScript": 19,
     
     "allEntities": [
         {
             "name" : "Njeri",
-            "initialX" : 1800,
-            "initialY" : 3000,
+            "initialX" : 1735,
+            "initialY" : 1750,
             "width" : 64,
             "height" : 128,
             "mainScriptID" : 5,
