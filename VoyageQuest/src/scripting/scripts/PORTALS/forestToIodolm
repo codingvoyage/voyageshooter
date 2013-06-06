@@ -8,6 +8,15 @@ if gameState == 50
     var m3 "Malentia's capital town."
     eval [ m1 + m2 ] + m3 --> msg
     playerMessageBox msg
+
+    assumeControlOfPlayer
+
+    -- WALK BACK RIGHT
+    setAnimationDirection 3
+    setVelocity 0.25 0
+    moveTileAmount 2
+    setAnimationDirection 1
+
     unfreezeInputs
 
     endthread

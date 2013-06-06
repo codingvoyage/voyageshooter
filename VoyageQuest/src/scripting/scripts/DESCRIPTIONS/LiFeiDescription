@@ -13,6 +13,7 @@ if gameState >= 60
     playerMessageBox message1
 endif
 
+
 unfreezeInputs
 
 endthread

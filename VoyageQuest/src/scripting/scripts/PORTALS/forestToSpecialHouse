@@ -7,6 +7,15 @@ if gameState < 65
 
     freezeInputs
     playerMessageBox "Uh... why would I go here? I'm busy now..."
+
+    assumeControlOfPlayer
+
+    -- WALK BACK DOWN
+    setAnimationDirection 1
+    setVelocity 0 0.25
+    moveTileAmount 1
+    setAnimationDirection 1
+
     unfreezeInputs
     endthread
 endif

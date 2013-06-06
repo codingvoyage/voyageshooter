@@ -19,7 +19,7 @@
  </layer>
  <layer name="Walls" width="25" height="25">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2SOwoCQRBE6wwaiCaCBqKJoIho4h2M/VzADxh6DI00VAz0lNYihcvCQveOK4Jb8IIeBt5QPUCRf02JlEnFSJXUnI4GaZKWkTbpOB090idDIyMydjqmzvtR6rD1GuLowtZriGOCd3cDpPca4vDmVx3LnB0bsiU3A1kdUfbO+99wHMiRzMg8J8eFXMmKrGPnC7x2K7fmEzk7HcouMWu3cmu+k0dGhzpT9N74vrwdJaPO9O/03k860lI4gCfx4njbxAkAAA==
+   H4sIAAAAAAAAC+2SOwrCUBBFxy1oIdoIWog2ghJEG/dg7WcDfkA7l2EqLRULXaU3hIsh8GDmPRXBXDjFhIHzuBORIv+aMqiAqpIaqBsdTdACbSUd0DU6+mAAhkpGYGx0TI37SRqi6zXE0RNdryGOiby6i8Tda4jDml91LD/s2IAtuCnwdSQ5GPe/4TiCGMzA3LGzL6X4Oi7gClZgnfm+kPS2dHM+gbPRwexyM29LN+c7eHg62BnD92bvZe0oH3bG/47vfafDlcIh8gQKEJtxxAkAAA==
   </data>
  </layer>
  <layer name="Below entities" width="25" height="25">
@@ -29,7 +29,7 @@
  </layer>
  <layer name="Entity Level" width="25" height="25">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjYOSAVEYGhjRG2tpRCjS/jMZ2DBd/jIJRQE1QzAjBo2AUjBQAAPCboFLECQAA
+   H4sIAAAAAAAAC2NgGAWjYOSAVEYGhjRG2tpRCjS/jMZ2DBd/jIJRMApGwSggHwAAC2lD+MQJAAA=
   </data>
  </layer>
  <layer name="Above Entities" width="25" height="25">
@@ -59,11 +59,10 @@
   <object x="953" y="337" width="40" height="361"/>
   <object x="799" y="335" width="183" height="171"/>
   <object x="673" y="1419" width="25" height="183"/>
-  <object x="714" y="1125" width="105" height="17"/>
+  <object x="965" y="932" width="41" height="289"/>
+  <object x="704" y="1088" width="125" height="63"/>
  </objectgroup>
- <objectgroup name="Boundaries" width="25" height="25">
-  <object x="707" y="1092" width="121" height="56"/>
- </objectgroup>
+ <objectgroup name="Boundaries" width="25" height="25"/>
  <objectgroup name="Events" width="25" height="25">
   <object type="onTouch" x="1014" y="703" width="36" height="191">
    <properties>

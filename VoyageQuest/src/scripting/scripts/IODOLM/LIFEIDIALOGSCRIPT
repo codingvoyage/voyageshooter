@@ -36,5 +36,23 @@ if gameState == 65
 endif
 
 
+-- Once you've obtained the artifact, gameState should equal 75
+if gameState == 75
+    freezeInputs
+    playerMessageBox "You found it?"
+    playerMessageBox "... Yes... yes I did. What exactly is this for?"
+    playerMessageBox "Alright, thanks! The next thing I need you to do is find Edmund's hat."
+    playerMessageBox "Sure, where is it?"
+    var m1 "I'm pretty sure he left it in the warehouse of Iodolm. Just go into the main administrative "
+    var m2 "building and take the stairs."
+    eval m1 + m2 --> msg
+    playerMessageBox msg
+    playerMessageBox "Alright, I'll go look for it."
+    playerMessageBox "Thanks again!"
+    unfreezeInputs
+
+endif
+
+
 
 endthread

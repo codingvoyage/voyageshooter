@@ -1,4 +1,24 @@
-mapChange "src/res/CRATEEXPECTATIONS.tmx" 1535 175
+getGlobal GAME_STATE --> gameState
+
+if gameState < 75
+    freezeInputs
+    playerMessageBox "I don't need to go there... that would be trespassing too."
+
+    assumeControlOfPlayer
+
+    -- WALK BACK DOWN
+    setAnimationDirection 1
+    setVelocity 0 0.25
+    movePixelAmount 30
+    setAnimationDirection 1
+
+    unfreezeInputs
+    endthread
+endif
+
+if gameState == 75
+    mapChange "src/res/CRATEEXPECTATIONS.tmx" 1535 175
+endif
 
 
 endthread

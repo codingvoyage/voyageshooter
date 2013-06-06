@@ -10,7 +10,27 @@ if result == false
     playerMessageBox "The amount of crates in this room... "
     playerMessageBox "Is. Too. Damn. High!" 
     writeGlobal true --> "DAMN_CRATES"
+
+    playerMessageBox "But hold on a second... I can see the hat all the way across the room..."
+    freezeCamera -100 1900
+    wait 1000
+    playerMessageBox "... damn, it's a really shiny hat. Oh look, Panther's sabre-sword is there too!"
+    playerMessageBox "I just need to make my way through this maze of crap to get there."
+    playerMessageBox "Maybe I can climb over some of the crates..."
+    wait 500
+    unfreezeCamera
     unfreezeInputs
+
+    wait 15000
+    playerMessageBox "Way... too many crates"
+
+    wait 10000
+    playerMessageBox "Crate Expectations, by Charles Dickens..."
+
+    wait 10000
+    playerMessageBox "UGH"
+
+
 endif
 
 
