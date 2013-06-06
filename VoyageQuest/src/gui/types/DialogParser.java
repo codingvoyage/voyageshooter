@@ -189,8 +189,9 @@ public class DialogParser {
         printedChars = new LinkedList<>();
         
         profile = Res.animations.get(animationId);
-        profileLeft = box.getSpeaker().profLeft;
-        name = "Njeri";
+        // profileLeft = box.getSpeaker().profLeft;
+        int namePart = animationId.indexOf(" Profile");
+        name = animationId.substring(0, namePart);
     }
     
     /**

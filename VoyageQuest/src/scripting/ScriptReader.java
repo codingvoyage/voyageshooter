@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import map.*;
 import voyagequest.Global;
+import voyagequest.Util;
 import voyagequest.VoyageQuest;
 
 //
@@ -931,6 +932,18 @@ public class ScriptReader
                 //know of this, so it wouldn't be able to detect whether Thread is running or not
                 currentThread.setRunningState(true);
                 VoyageQuest.player.speak(identifierCheck(currentLine, 0).getStringValue());
+                continueExecuting = false;
+                break;
+                
+            case 153:
+                //Need to make this clear for now
+                currentThread.setScriptable(VoyageQuest.player);
+                //Again, we need to monkey around with the currentThread because the player does not
+                //know of this, so it wouldn't be able to detect whether Thread is running or not
+                currentThread.setRunningState(true);
+                // Util.p(identifierCheck(currentLine, 1).getStringValue()); 
+                VoyageQuest.player.speak(identifierCheck(currentLine, 0).getStringValue(), identifierCheck(currentLine, 1).getStringValue());
+                
                 continueExecuting = false;
                 break;
         }
