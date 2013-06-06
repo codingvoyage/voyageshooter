@@ -91,7 +91,7 @@
             "images" : [
                     "np1","np2","np3"
             ],
-            "duration" : 50
+            "duration" : 200
         },
         {
             "name" : "Soldier Forward",

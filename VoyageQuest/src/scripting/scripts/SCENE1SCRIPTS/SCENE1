@@ -1,7 +1,10 @@
 playerMessageBox "Well, it looks like we should be safe for now..."
 playerMessageBox "Sebastian! Calm down for a moment."
 
--- goto [DEBUGSKIP]
+-- Njeri pops out of nowhere just because Bakesale wants to test stuff
+messageBox "Hi I'm Njeri!" "Njeri Profile"
+
+goto [DEBUGSKIP]
 
 -- Sebastian will stop walking
 writeGlobal 5 --> GAME_STATE

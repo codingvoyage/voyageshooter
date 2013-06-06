@@ -108,7 +108,6 @@ public class DialogBox {
         dialog = new Dialog(DEFAULT_X, DEFAULT_Y, text, DEFAULT_WIDTH, DEFAULT_HEIGHT, animationId);
         this.window = new Gui<>(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, start, end, dialog);
         dialog.setWindow(window);
-        
     }
     
     /**
