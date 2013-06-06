@@ -1,7 +1,7 @@
 messageBox "Well, it looks like we should be safe for now..." "Anika Profile"
 messageBox "Sebastian! Calm down for a moment." "Anika Profile"
 
-goto [DEBUGSKIP]
+-- goto [DEBUGSKIP]
 
 -- Njeri pops out of nowhere just because Bakesale wants to test stuff
 -- messageBox "Hi I'm Njeri!" "Anika Profile"
