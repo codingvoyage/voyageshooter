@@ -18,6 +18,9 @@ import voyagequest.VoyageQuest;
 
 public class ScriptReader
 {
+    //Dear God no.
+    private Scriptable previSpeakScriptable;
+    
     private ScriptManager scr;
     private ThreadManager threadManager;
     
@@ -188,6 +191,7 @@ public class ScriptReader
                 //to denote that the Thread is paused.
                 if (result == false)
                     currentThread.setRunningState(false);
+                    currentThread.setScriptable(previSpeakScriptable);
                 break;
                 
         }
@@ -929,6 +933,8 @@ public class ScriptReader
                 
             case 151:
                 //Need to make this clear for now
+                previSpeakScriptable = currentThread.getScriptable();
+                
                 currentThread.setScriptable(VoyageQuest.player);
                 //Again, we need to monkey around with the currentThread because the player does not
                 //know of this, so it wouldn't be able to detect whether Thread is running or not
@@ -939,6 +945,8 @@ public class ScriptReader
                 
             case 152:
                 //Need to make this clear for now
+                previSpeakScriptable = currentThread.getScriptable();
+                
                 currentThread.setScriptable(VoyageQuest.player);
                 //Again, we need to monkey around with the currentThread because the player does not
                 //know of this, so it wouldn't be able to detect whether Thread is running or not
@@ -950,6 +958,8 @@ public class ScriptReader
                 
             case 153:
                 //Need to make this clear for now
+                previSpeakScriptable = currentThread.getScriptable();
+                
                 currentThread.setScriptable(VoyageQuest.player);
                 //Again, we need to monkey around with the currentThread because the player does not
                 //know of this, so it wouldn't be able to detect whether Thread is running or not

@@ -1,8 +1,10 @@
-messageBox "Well, it looks like we should be safe for now..." "Njeri Profile"
-messageBox "Sebastian! Calm down for a moment." "Njeri Profile"
+messageBox "Well, it looks like we should be safe for now..." "Anika Profile"
+messageBox "Sebastian! Calm down for a moment." "Anika Profile"
+
+goto [DEBUGSKIP]
 
 -- Njeri pops out of nowhere just because Bakesale wants to test stuff
--- messageBox "Hi I'm Njeri!" "Njeri Profile"
+-- messageBox "Hi I'm Njeri!" "Anika Profile"
 
 -- Sebastian will stop walking
 writeGlobal 5 --> GAME_STATE
@@ -13,15 +15,15 @@ var m2 "I'd say we have around 4 minutes at best before their troops break throu
 
 
 eval m1 + m2 --> msg
-messageBox msg "Njeri Profile"
+messageBox msg "Anika Profile"
 
-messageBox "We're screwed." "Njeri Profile"
+messageBox "We're screwed." "Anika Profile"
 
 var m1 "Even if we run the other way, they'll probably get to us. As of "
 var m2 "this point I have no way of coordinating the other troops."
 
 eval m1 + m2 --> msg
-messageBox msg "Njeri Profile"
+messageBox msg "Anika Profile"
 
 var m1 "Shit... if only we had more intelligence on the field, we would have been able to anticipate "
 var m2 "Maelloc kingdom's preemptive strike on our capital, commander."
@@ -31,7 +33,7 @@ playerMessageBox msg
 
 playerMessageBox "They just sent their entire naval fleet and blitzed us out of nowhere."
 
-messageBox "Ugh... I guess we really have no choice now, Sebastian." "Njeri Profile"
+messageBox "Ugh... I guess we really have no choice now, Sebastian." "Anika Profile"
 
 var m1 "I was thinking the same. I was really hoping for a chance to test it out before using it... "
 var m2 "gauge the safety, and see if there are any side effects on living things."
@@ -40,27 +42,27 @@ var m2 "gauge the safety, and see if there are any side effects on living things
 
 playerMessageBox "But now, it's sink or swim. I'll use time travel in order to prevent this disaster from happening."
 
-messageBox "..." "Njeri Profile"
-messageBox "... ..." "Njeri Profile"
-messageBox "... ... ..." "Njeri Profile"
+messageBox "..." "Anika Profile"
+messageBox "... ..." "Anika Profile"
+messageBox "... ... ..." "Anika Profile"
 
 var m1 "Alright, then. I have suspicions that my past self might not take you very "
 var m2 "seriously with this time travel thing at face value, so I'm going to write a letter to myself"
     eval m1 + m2 --> msg
-    messageBox msg "Njeri Profile"
+    messageBox msg "Anika Profile"
 var m1 "which will outline what has happened today, as well as some indicator which will inform me "
 var m2 "of the authenticity of the warning. Give me a moment..."
     eval m1 + m2 --> msg
-    messageBox msg "Njeri Profile"
+    messageBox msg "Anika Profile"
 
-messageBox "* scribble scribble scribble *" "Njeri Profile"
-messageBox "* scribble scribble scribble *" "Njeri Profile"
-messageBox "* scribble scribble scribble *" "Njeri Profile"
+messageBox "* scribble scribble scribble *" "Anika Profile"
+messageBox "* scribble scribble scribble *" "Anika Profile"
+messageBox "* scribble scribble scribble *" "Anika Profile"
 
 genericMessageBox "COMMANDER PLACED LETTER IN MY COAT POCKET"
 
-messageBox "Alright, Sebastian. It's done. Hurry to your office right now before they break through." "Njeri Profile"
-messageBox "I'll try to hold them back before they can get to you." "Njeri Profile"
+messageBox "Alright, Sebastian. It's done. Hurry to your office right now before they break through." "Anika Profile"
+messageBox "I'll try to hold them back before they can get to you." "Anika Profile"
 
 playerMessageBox "..."
 playerMessageBox "Alright, Commander. Try to stay alive."
@@ -69,7 +71,7 @@ writeGlobal 10 --> GAME_STATE
 -- Wait for walking to be over
 
 wait 5000
-messageBox "Here they come ..." "Njeri Profile"
+messageBox "Here they come ..." "Anika Profile"
 
 wait 1000
 

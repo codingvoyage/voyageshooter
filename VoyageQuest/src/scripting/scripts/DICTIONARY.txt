@@ -191,8 +191,6 @@ mapChange 145
 freezeCamera 146
 unfreezeCamera 147
 
--- For entities to say their specific things
-messageBox 150
 
 -- General boxes that pop up and say something, nobody in particular
 genericMessageBox 151

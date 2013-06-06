@@ -12,13 +12,13 @@ wend
 -- warp him to outside sebastian's room
 entitySetLocation 600 1100
 
-genericMessageBox "Stop right there!"
-
 -- move up now to apprehend sebastian
 setAnimationDirection 0
 setVelocity 0 -0.25
 moveTileAmount 8
 setAnimationDirection 3
+
+genericMessageBox "Stop right there!"
 
 playerMessageBox "(Oh shit...!)"
 genericMessageBox "Hey, we've got someone here!"
@@ -27,7 +27,7 @@ genericMessageBox "Hey, we've got someone here!"
 var m1 "I don't know what you're trying to pull, but I have orders to apprehend every officer "
 var m2 "of the Malentia kingdom I can find. Please stop casting your spell, and surrender immediately."
 eval m1 + m2 --> msg
-messageBox msg
+genericMessageBox msg
 
 -- SPIN FASTER
 writeGlobal 20 --> GAME_STATE

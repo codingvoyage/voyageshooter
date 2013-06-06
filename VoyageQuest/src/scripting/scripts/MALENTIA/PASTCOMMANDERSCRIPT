@@ -4,18 +4,18 @@ if gameState == 50
 
     freezeInputs
 -- goto [SKIPDIALOGDEBUGGING]
-    playerMessageBox "Oh, Sebastian, what is it? I thought you had just left on some mission or something..."
-    playerMessageBox "..."
-    playerMessageBox "... ..."
-    playerMessageBox "... ... ..."
+    messageBox "Oh, Sebastian, what is it? I thought you had just left on some mission or something..." "Anika Profile"
+    messageBox "..." "Anika Profile"
+    messageBox "... ..." "Anika Profile"
+    messageBox "... ... ..." "Anika Profile"
 
-    playerMessageBox "Wow. Okay..."
+    messageBox "Wow. Okay..." "Anika Profile"
 
     var m1 "If being attacked is inevitable, then we're going to have to mobilize the Malentian "
     var m2 "army to get ready to intercept Maelloc. We really need reinforcements at this point, "
     var m3 "especially since our standing army is somewhat small now."
     eval [ m1 + m2 ] + m3 --> msg
-    playerMessageBox msg
+    messageBox msg "Anika Profile"
 
     playerMessageBox "Right, commander. We need to recruit more people at this point."
 
@@ -24,7 +24,7 @@ if gameState == 50
     var m3 "governess of the state of Iodolm, one of the major components of the hegemony. "
     var m4 "Please ask her for reinforcements."
     eval [ m1 + m2 ] + [ m3 + m4 ] --> msg
-    playerMessageBox msg
+    messageBox msg "Anika Profile"
 
 -- label [SKIPDIALOGDEBUGGING]
 
@@ -37,7 +37,7 @@ endif
 
 if gameState == 55
     freezeInputs
-    playerMessageBox "Please head off to Iodolm soon. It's located to the west."
+    messageBox "Please head off to Iodolm soon. It's located to the west." "Anika Profile"
     unfreezeInputs
 endif
 
