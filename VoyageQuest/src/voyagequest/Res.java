@@ -31,7 +31,7 @@ public class Res {
             njeri = new XMLPackedSheet("src/res/njeri.png", "src/res/njeri.xml");
             soldier = new XMLPackedSheet("src/res/soldier_npc01_walk.png", "src/res/soldier.xml");
             lifei = new XMLPackedSheet("src/res/lifei.png", "src/res/lifei.xml");
-            lifeisprite = new XMLPackedSheet("src/res/Sprites_LiFeiFRONT.png", "src/res/lifeisprite.xml");
+            lifeisprite = new XMLPackedSheet("src/res/lifeifront.png", "src/res/lifeisprite.xml");
             young = new XMLPackedSheet("src/res/test/surprisetiles.png","src/res/young.xml");
             anika = new XMLPackedSheet("src/res/anika.png","src/res/anika.xml");
         
