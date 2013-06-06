@@ -1,3 +1,9 @@
+-- mapChange "src/res/MALENTIA.tmx" 2280 2500
+-- writeGlobal 50 --> GAME_STATE
+-- endthread
+
+
+
 mapChange "src/res/SCENE1.tmx" 5000 5000
 freezeCamera 100 500
 writeGlobal 0 --> GAME_STATE

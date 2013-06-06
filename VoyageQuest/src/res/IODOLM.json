@@ -18,7 +18,8 @@
                 "Njeri Forward", "Njeri Backwards", "Njeri Left", "Njeri Right"
             ],
             "startingAnimationDirection" : 0,
-            "onClickScript" : 30
+            "onClickScript" : 30,
+            "onTouchScript" : 56
         }
     ]
 }

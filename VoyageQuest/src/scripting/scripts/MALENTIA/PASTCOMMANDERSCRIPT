@@ -1,0 +1,38 @@
+getGlobal GAME_STATE --> gameState
+
+if gameState == 50
+
+goto [SKIPDIALOGDEBUGGING]
+    playerMessageBox "Oh, Sebastian, what is it? I thought you had just left on some mission or something..."
+    playerMessageBox "..."
+    playerMessageBox "... ..."
+    playerMessageBox "... ... ..."
+
+    playerMessageBox "Wow. Okay..."
+
+    var m1 "If being attacked is inevitable, then we're going to have to mobilize the Malentian "
+    var m2 "army to get ready to intercept Maelloc. We really need reinforcements at this point, "
+    var m3 "especially since our standing army is somewhat small now."
+    eval [ m1 + m2 ] + m3 --> msg
+    playerMessageBox msg
+
+    playerMessageBox "Right, commander. We need to recruit more people at this point."
+
+    var m1 "... Actually, I have an idea. Are you familiar with the Telfrinz Hegemony? They are a "
+    var m2 "powerful group of city-states located to the west. I am in contact with Njeri, the "
+    var m3 "governess of the state of Iodolm, one of the major components of the hegemony. "
+    var m4 "Please ask her for reinforcements."
+    eval [ m1 + m2 ] + [ m3 + m4 ] --> msg
+    playerMessageBox msg
+
+label [SKIPDIALOGDEBUGGING]
+
+    -- indicates that we are now going to talk to Njeri
+    writeGlobal 55 --> GAME_STATE
+endif
+
+if gameState == 55
+    playerMessageBox "Please head off to Iodolm soon. It's located to the west."
+endif
+
+endthread

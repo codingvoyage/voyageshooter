@@ -41,6 +41,7 @@ public class Map {
     //all the entities
     public static LinkedList<Entity> entities;
     
+            
     //The length and width of each tile.
     public static int TILE_LENGTH;
     

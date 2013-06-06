@@ -888,7 +888,6 @@ public class ScriptReader
                         new Map(identifierCheck(currentLine, 0).getStringValue());
                 } 
                 catch (Exception e) {
-                    System.out.println("fuck");
                 }  //Swallow any exceptions because I'm a rebel like that.
                 
                
