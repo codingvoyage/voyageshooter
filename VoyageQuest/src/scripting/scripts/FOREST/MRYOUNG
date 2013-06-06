@@ -20,12 +20,16 @@ if gameState == 65
     -- GAME_STATE is now 70. DISPLAY
     writeGlobal 70 --> GAME_STATE
 
-    playerMessageBox "Oh my God. I ... uh... ?? "
+    playerMessageBox "Oh God what is this."
     playerMessageBox "Whut."
 
     wait 1000
 
-    playerMessageBox "Ooookay then."
+    playerMessageBox "Whut."
+
+    wait 1000
+
+    playerMessageBox "... ooookay then."
 
     -- STOP DISPLAYING
     writeGlobal 75 --> GAME_STATE

@@ -2,6 +2,7 @@ getGlobal GAME_STATE --> gameState
 
 if gameState == 50
 
+    freezeInputs
 -- goto [SKIPDIALOGDEBUGGING]
     playerMessageBox "Oh, Sebastian, what is it? I thought you had just left on some mission or something..."
     playerMessageBox "..."
@@ -29,10 +30,15 @@ if gameState == 50
 
     -- indicates that we are now going to talk to Njeri
     writeGlobal 55 --> GAME_STATE
+
+    unfreezeInputs
+    endthread
 endif
 
 if gameState == 55
+    freezeInputs
     playerMessageBox "Please head off to Iodolm soon. It's located to the west."
+    unfreezeInputs
 endif
 
 endthread
