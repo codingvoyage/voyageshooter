@@ -1,6 +1,6 @@
-mapChange "src/res/HOUSE.tmx" 1170 530
-writeGlobal 75 --> GAME_STATE
-endthread
+-- mapChange "src/res/CRATEEXPECTATIONS.tmx" 350 2100
+-- writeGlobal 75 --> GAME_STATE
+-- endthread
 
 
 

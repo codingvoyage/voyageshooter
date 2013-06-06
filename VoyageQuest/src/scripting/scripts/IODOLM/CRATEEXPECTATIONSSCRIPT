@@ -1,11 +1,11 @@
-
+endthread
 
 -- There is an obligatory comment about the sheer number of crates that must 
 -- be made here..
 existsGlobal "DAMN_CRATES" --> result
 if result == false
     wait 3000
-    -- freezeInputs
+    freezeInputs
     playerMessageBox " ... wow... "
     playerMessageBox "The amount of crates in this room... "
     playerMessageBox "Is. Too. Damn. High!" 

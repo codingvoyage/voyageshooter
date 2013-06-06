@@ -20,5 +20,20 @@ if gameState == 75
     mapChange "src/res/CRATEEXPECTATIONS.tmx" 1535 175
 endif
 
+if gameState >= 75
+    freezeInputs
+    playerMessageBox "Oh my God. I swear I will never enter that hell-hole of crates again!! "
+
+    assumeControlOfPlayer
+
+    -- WALK BACK DOWN
+    setAnimationDirection 1
+    setVelocity 0 0.25
+    movePixelAmount 30
+    setAnimationDirection 1
+
+    unfreezeInputs
+    endthread
+endif
 
 endthread

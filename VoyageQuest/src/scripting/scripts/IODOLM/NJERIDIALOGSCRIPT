@@ -59,4 +59,31 @@ if gameState == 60
         unfreezeInputs
 endif
 
+if gameState == 80
+        freezeInputs
+        playerMessageBox "Hold on... I need to talk to Li Fei first!"
+        unfreezeInputs
+endif
+
+-- At this point, Njeri finds out about the time travel shenanigans
+-- You could say that at this point, shit has gotten real.
+if gameState == 85
+        freezeInputs
+
+        var l1 "Sebastian... when you were passed out, a letter fell out of your coat. I thought maybe "
+        var l2 "you'd forgotten to show it to me, but upon reading it, I realized just what was going on. "
+        var l3 "You're from the future! For hiding that, I really don't blame you, but the problem is "
+        var l4 "that that isn't all! That's not the least of it! ... Do you know what steganography is? "
+        var l5 "No? Well, it's a way of hiding secrets in your messages. It's not like normal ciphers. "
+        var l6 "Long story short, your commander sent a hidden message to herself in her letter, just so that "
+        var l7 "nobody else could read it but her! And in the hours in which you were passed out, I figured out "
+        var l8 "what was hidden!"
+            eval [ [ l1 + l2 ] + [ l3 + l4 ] ] + [ [ l5 + l6 ] + [ l7 + l8 ] ] --> herspeech
+            playerMessageBox herspeech
+
+        playerMessageBox "*takes a deep breath*"
+
+        unfreezeInputs
+endif
+
 endthread

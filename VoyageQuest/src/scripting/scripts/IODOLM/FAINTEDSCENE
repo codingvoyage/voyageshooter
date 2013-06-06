@@ -1,0 +1,16 @@
+freezeInputs
+
+playerMessageBox "Just a little bit further..."
+playerMessageBox "... *SLUMP* (That's the sound of Sebastian falling onto the floor)"
+
+wait 3000
+
+writeGlobal 80 --> GAME_STATE
+
+mapChange "src/res/IODOLM.tmx" 1200 1400
+assumeControlOfPlayer
+setAnimationDirection 2
+
+unfreezeInputs
+
+endthread

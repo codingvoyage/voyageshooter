@@ -50,9 +50,43 @@ if gameState == 75
     playerMessageBox "Alright, I'll go look for it."
     playerMessageBox "Thanks again!"
     unfreezeInputs
-
+    endthread
 endif
 
+if gameState == 80
+    freezeInputs
+    var m1 "Hey, Sebastian... We started to grow real concerned after you didn't get back to us "
+    var m2 "after over three hours, so we sent somebody to look for you in the warehouse. "
+    var m3 "What you just experienced was crate-fatigue disorder. It's what happens when you "
+    var m4 "are exposed to way too many crates in too short a time-span. Goddamn crates are everywhere. "
+    var m5 "It's like you can't turn a corner without seeing a freaking crate."
+    eval [ m1 + m2 ] + [ m3 + [ m4 + m5 ] ] --> msg
+    playerMessageBox msg
+
+    playerMessageBox "Wow, tell me about it. There are crates everywhere and it doesn't even make sense..."
+    playerMessageBox "Oh yeah, you found Edmund's hat, right?"
+
+    var m1 "Of course, yeah... Anyway I'm glad you're feeling better now. Just report to Njeri. " 
+    var m2 "Actually, yeah, something really important came up while you were passed out. "
+    var m3 "Please report to her immediately. I'm really busy so I can't explain more, but go to her NOW."
+    eval m1 + [ m2 + m3 ] --> msg
+    playerMessageBox msg
+
+    unfreezeInputs 
+
+    -- 85 means report to Njeri
+    writeGlobal 85 --> GAME_STATE
+
+    endthread
+endif
+
+-- Insist in talking to Njeri now...
+if gameState == 85
+    freezeInputs
+    playerMessageBox "Sebastian, please talk to Njeri as soon as possible."
+    unfreezeInputs 
+    endthread
+endif
 
 
 endthread

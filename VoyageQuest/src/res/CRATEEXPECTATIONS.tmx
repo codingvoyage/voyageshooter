@@ -330,10 +330,15 @@
   <object x="1218" y="161" width="59" height="93"/>
   <object x="1155" y="195" width="58" height="121"/>
  </objectgroup>
- <objectgroup name="Events" width="30" height="80" visible="0">
+ <objectgroup name="Events" width="30" height="80">
   <object name="le Warp" type="onTouch" x="1497" y="61" width="138" height="144">
    <properties>
     <property name="runScript" value="50"/>
+   </properties>
+  </object>
+  <object type="onTouch" x="447" y="2119" width="65" height="363">
+   <properties>
+    <property name="runScript" value="70"/>
    </properties>
   </object>
  </objectgroup>
