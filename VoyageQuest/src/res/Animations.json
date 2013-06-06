@@ -131,10 +131,10 @@
         },
         {
             "name" : "Li Fei",
-            "packedSheetID" : "lifei",
-            "id" : "lifei",
+            "packedSheetID" : "lifeisprite",
+            "id" : "lifeisprite",
             "images" : [
-                    "lifei"
+                    "lifeisprite"
             ],
             "duration" : 50
         },

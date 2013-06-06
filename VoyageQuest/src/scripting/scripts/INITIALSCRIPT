@@ -1,6 +1,6 @@
--- mapChange "src/res/CRATEEXPECTATIONS.tmx" 350 2100
--- writeGlobal 75 --> GAME_STATE
--- endthread
+writeGlobal 55 --> GAME_STATE
+mapChange "src/res/IODOLM.tmx" 400 400
+endthread
 
 
 

@@ -181,9 +181,9 @@ public class ScriptReader
                 break;
                 
             case 151:
-            case 152:
             case 153:
                 result = VoyageQuest.player.continueSpeak();
+                
                 
                 //Temporary, but we have to monkey around with currentThread because
                 //opcode 152 does something that usually doesn't happen - it manipulates
@@ -192,6 +192,19 @@ public class ScriptReader
                 if (result == false)
                     currentThread.setRunningState(false);
                     currentThread.setScriptable(previSpeakScriptable);
+                break;
+                
+                
+            case 152:
+                result = VoyageQuest.player.continueSpeak();
+                
+                
+                //Temporary, but we have to monkey around with currentThread because
+                //opcode 152 does something that usually doesn't happen - it manipulates
+                //an entity that the Thread is not associated with, so we have to do this
+                //to denote that the Thread is paused.
+                if (result == false)
+                    currentThread.setRunningState(false);
                 break;
                 
         }
@@ -945,8 +958,6 @@ public class ScriptReader
                 
             case 152:
                 //Need to make this clear for now
-                previSpeakScriptable = currentThread.getScriptable();
-                
                 currentThread.setScriptable(VoyageQuest.player);
                 //Again, we need to monkey around with the currentThread because the player does not
                 //know of this, so it wouldn't be able to detect whether Thread is running or not

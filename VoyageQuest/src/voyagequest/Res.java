@@ -21,6 +21,7 @@ public class Res {
     public static XMLPackedSheet njeri; 
     public static XMLPackedSheet soldier; 
     public static XMLPackedSheet lifei; 
+    public static XMLPackedSheet lifeisprite; 
     public static XMLPackedSheet young;
     public static XMLPackedSheet anika;
     
@@ -30,6 +31,7 @@ public class Res {
             njeri = new XMLPackedSheet("src/res/njeri.png", "src/res/njeri.xml");
             soldier = new XMLPackedSheet("src/res/soldier_npc01_walk.png", "src/res/soldier.xml");
             lifei = new XMLPackedSheet("src/res/lifei.png", "src/res/lifei.xml");
+            lifeisprite = new XMLPackedSheet("src/res/Sprites_LiFeiFRONT.png", "src/res/lifeisprite.xml");
             young = new XMLPackedSheet("src/res/test/surprisetiles.png","src/res/young.xml");
             anika = new XMLPackedSheet("src/res/anika.png","src/res/anika.xml");
         
@@ -89,6 +91,7 @@ public class Res {
             if (next.getPackedSheetID().equals("sebastian")) currentPackedSheet = sebastian;
             if (next.getPackedSheetID().equals("soldier")) currentPackedSheet = soldier;
             if (next.getPackedSheetID().equals("lifei")) currentPackedSheet = lifei;
+            if (next.getPackedSheetID().equals("lifeisprite")) currentPackedSheet = lifeisprite;
             if (next.getPackedSheetID().equals("young")) currentPackedSheet = young;
             if (next.getPackedSheetID().equals("anika")) currentPackedSheet = anika;
             

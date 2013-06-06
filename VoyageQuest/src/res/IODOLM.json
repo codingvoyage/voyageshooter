@@ -29,7 +29,7 @@
             "mainScriptID" : 58,
             "mainThreadName" : "Li Fei Thread",
             "animations" : [
-                "Li Fei", "Li Fei", "Li Fei", "Li Fei"
+                "lifeisprite", "lifeisprite", "lifeisprite", "lifeisprite"
             ],
             "startingAnimationDirection" : 0,
             "onClickScript" : 59,
