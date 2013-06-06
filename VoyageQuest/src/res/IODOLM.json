@@ -29,7 +29,7 @@
             "mainScriptID" : 58,
             "mainThreadName" : "Li Fei Thread",
             "animations" : [
-                "lifeisprite", "lifeisprite", "lifeisprite", "lifeisprite"
+                "lifeisprite", "Njeri Backwards", "Njeri Left", "Njeri Right"
             ],
             "startingAnimationDirection" : 0,
             "onClickScript" : 59,

@@ -1,6 +1,6 @@
---writeGlobal 55 --> GAME_STATE
---mapChange "src/res/IODOLM.tmx" 400 400
---endthread
+-- writeGlobal 55 --> GAME_STATE
+-- mapChange "src/res/IODOLM.tmx" 400 400
+-- endthread
 
 
 mapChange "src/res/SCENE1.tmx" 5000 5000
