@@ -54,7 +54,7 @@
  </layer>
  <layer name="above all" width="50" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3SSwrCMBRG4TtNF+CmfaD4mGiLUnXiA6XVdegOdCf+gwZLtA5rC+eDQ8qFQhJiBgAAgK4z66m+Grj3fKzviZqqmav+v25xZJZEn/O59rhQsUrUTd1VqtZqo7YNOkeVnfa4Vwd1VA/1VJnK1UVdv5xjqNmoBef7t6r37u+vLfcYvve0aKlWpdXPmyp871nRSZ1Lq58DAAAAAAAAAAAAAH7rBCsAAACAer0AisXd/bA2AAA=
+   H4sIAAAAAAAAC+3SawoBURiH8fN1LMBaLUG5RC6pMaLBF5dosA52wE78P5hMhykaMw49v3o6ekvNeTvGAAAAoOYZU1cN1fTu845+d1VP9b30/xctKBkzKj3OfX3jUAVqpI7qpEI1VTM1d+geaRb6xqVaqbU6q4uK1E7t1eHJPVqatX/gft+W9t7j/f3KHu33Ht4aq0nijOeust97dGujtokzngMA/lclw8wl1QyzT7L39O7eBhlmn2TvKe+95cXeU957AwC4r/bizHX+izMAAAAAQLHK1gkAAACgWFd15fSZsDYAAA==
   </data>
  </layer>
  <objectgroup name="Collisions" width="50" height="70">

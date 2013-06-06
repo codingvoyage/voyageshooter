@@ -64,6 +64,7 @@
   <object x="890" y="0" width="717" height="9"/>
   <object x="1594" y="4" width="4" height="842"/>
   <object x="1592" y="843" width="4" height="379"/>
+  <object x="1694" y="730"/>
  </objectgroup>
  <objectgroup name="Boundaries" width="25" height="25">
   <object x="515" y="1412" width="57" height="185"/>

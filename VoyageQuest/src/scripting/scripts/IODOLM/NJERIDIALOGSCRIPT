@@ -1,26 +1,58 @@
-freezeInputs
 
-var l1 "... Sebastian, is it? It's a pleasure to meet you. I was reading a report the other day about the "
-var l2 "violence erupting in Tenfulrin. I have a real suspicion that the king of Mallael is after the "
-var l3 "mineral deposits in your country. I know that there's really no time to waste but right now "
-var l4 "I am unfortunately very preoccupied with some urgent matters here."
-eval [ l1 + l2 ] + [ l3 + l4 ] --> herspeech
 
-playerMessageBox herspeech
-playerMessageBox "..."
-playerMessageBox "... ..."
-playerMessageBox "... ... ..."
 
-playerMessageBox "Oh wait, you're willing to help us out?"
+getGlobal GAME_STATE --> gameState
 
-var l1 "Alright, basically I am about to send you on a wild goose chase that will occupy a lot of time "
-var l2 "and make it look like the game actually has some semblance of a story, and to make the players "
-var l3 "think that there was a lot of thought put into this game and that it wasn't made in the last minute. "
-var l4 "So yeah. Thanks a lot for agreeing to help out!"
-eval [ l1 + l2 ] + [ l3 + l4 ] --> herspeech
+-- When we're supposed to talk to her
+if gameState == 55
+        freezeInputs
 
-playerMessageBox herspeech
+        playerMessageBox "... Sebastian, is it? It's a pleasure to meet you. What seems to be the matter?"
 
-unfreezeInputs
+        playerMessageBox "..."
+        playerMessageBox "... ..."
+        playerMessageBox "... ... ..."
+
+        var l1 "This is terrible... but unfortunately, unsurprising. I've heard reports of the "
+        var l2 "recent military coup during which the king of Maelloc was overthrown by his advisors "
+        var l3 "and commanders. I have a real suspicion that the current ruling body of Maelloc is after "
+        var l4 "the mineral deposits in your country. I know that there's really no time to waste but right now "
+        var l5 "I am unfortunately very preoccupied with some urgent matters here. "
+        eval [ l1 + l2 ] + [ l3 + [ l4 + l5 ] ] --> herspeech
+        playerMessageBox herspeech
+
+        playerMessageBox "..."
+        playerMessageBox "Oh wait, you're willing to help us out?"
+
+        var l1 "Alright, basically I am about to send you on a wild goose chase that will occupy a lot of time "
+        var l2 "and make it look like the game actually has some semblance of a story, and to make the players "
+        var l3 "think that there was a lot of thought put into this game and that it wasn't made in the last minute. "
+        var l4 "So yeah. Thanks a lot for agreeing to help out!"
+        eval [ l1 + l2 ] + [ l3 + l4 ] --> herspeech
+        playerMessageBox herspeech
+
+        playerMessageBox "So, here's what I need you to do..."
+        playerMessageBox "An associate of mine, Li Fei, is currently in the city..."
+
+        var l1 "Isn't he the guy who negotiated some treaty between Malentia and the "
+        var l2 "Telfrinz Hegemony?"
+        eval l1 + l2 --> msg
+        playerMessageBox msg
+
+        playerMessageBox "Yeah, same guy. He's currently looking for some help. Go to him, Sebastian."
+
+        playerMessageBox "Okay. Coolbeanz."
+
+        unfreezeInputs
+        writeGlobal 60 --> GAME_STATE
+
+        endthread
+endif
+
+if gameState == 60
+        freezeInputs
+        playerMessageBox "Weren't you supposed to meet with Li Fei?"
+        unfreezeInputs
+endif
 
 endthread
