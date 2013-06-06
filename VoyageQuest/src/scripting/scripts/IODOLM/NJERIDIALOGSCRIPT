@@ -9,7 +9,7 @@ if gameState == 55
 
         -- goto [SKIPDIALOGLOL]
 
-        playerMessageBox "... Sebastian, is it? It's a pleasure to meet you. What seems to be the matter?"
+        messageBox "... Sebastian, is it? It's a pleasure to meet you. What seems to be the matter?" "Njeri Profile"
 
         playerMessageBox "..."
         playerMessageBox "... ..."
@@ -21,27 +21,27 @@ if gameState == 55
         var l4 "the mineral deposits in your country. I know that there's really no time to waste but right now "
         var l5 "I am unfortunately very preoccupied with some urgent matters here. "
         eval [ l1 + l2 ] + [ l3 + [ l4 + l5 ] ] --> herspeech
-        playerMessageBox herspeech
+        messageBox herspeech "Njeri Profile"
 
-        playerMessageBox "..."
-        playerMessageBox "Oh wait, you're willing to help us out?"
+        messageBox "..." "Njeri Profile"
+        messageBox "Oh wait, you're willing to help us out?" "Njeri Profile"
 
         var l1 "Alright, basically I am about to send you on a wild goose chase that will occupy a lot of time "
         var l2 "and make it look like the game actually has some semblance of a story, and to make the players "
         var l3 "think that there was a lot of thought put into this game and that it wasn't made in the last minute. "
         var l4 "So yeah. Thanks a lot for agreeing to help out!"
         eval [ l1 + l2 ] + [ l3 + l4 ] --> herspeech
-        playerMessageBox herspeech
+        messageBox herspeech "Njeri Profile"
 
-        playerMessageBox "So, here's what I need you to do..."
-        playerMessageBox "An associate of mine, Li Fei, is currently in the city..."
+        messageBox "So, here's what I need you to do..." "Njeri Profile"
+        messageBox "An associate of mine, Li Fei, is currently in the city..." "Njeri Profile"
 
         var l1 "Isn't he the guy who negotiated some treaty between Malentia and the "
         var l2 "Telfrinz Hegemony?"
         eval l1 + l2 --> msg
         playerMessageBox msg
 
-        playerMessageBox "Yeah, same guy. He's currently looking for some help. Go to him, Sebastian."
+        messageBox "Yeah, same guy. He's currently looking for some help. Go to him, Sebastian." "Njeri Profile"
 
         playerMessageBox "Okay. Coolbeanz."
 
@@ -55,13 +55,13 @@ endif
 
 if gameState == 60
         freezeInputs
-        playerMessageBox "Weren't you supposed to meet with Li Fei?"
+        messageBox "Weren't you supposed to meet with Li Fei?" "Njeri Profile"
         unfreezeInputs
 endif
 
 if gameState == 80
         freezeInputs
-        playerMessageBox "Hold on... I need to talk to Li Fei first!"
+        messageBox "Hold on... I need to talk to Li Fei first!" "Njeri Profile"
         unfreezeInputs
 endif
 
@@ -79,9 +79,9 @@ if gameState == 85
         var l7 "nobody else could read it but her! And in the hours in which you were passed out, I figured out "
         var l8 "what was hidden!"
             eval [ [ l1 + l2 ] + [ l3 + l4 ] ] + [ [ l5 + l6 ] + [ l7 + l8 ] ] --> herspeech
-            playerMessageBox herspeech
+            messageBox herspeech "Njeri Profile"
 
-        playerMessageBox "*takes a deep breath*"
+        messageBox "*takes a deep breath*" "Njeri Profile"
 
         genericMessageBox "OMG WHAT WILL SEBASTIAN DISCOVER NOW??"
         genericMessageBox "THE FINAL MYSTERY WILL BE REVEALED... NEXT TIME. WE WILL INFORM THE CLASS WHEN ALL IS COMPLETE FOR REALZ."
