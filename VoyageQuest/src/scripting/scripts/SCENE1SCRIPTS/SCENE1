@@ -1,4 +1,3 @@
-genericMessageBox "hai"
 messageBox "Well, it looks like we should be safe for now..." "Njeri Profile"
 messageBox "Sebastian! Calm down for a moment." "Njeri Profile"
 
@@ -58,7 +57,7 @@ messageBox "* scribble scribble scribble *" "Njeri Profile"
 messageBox "* scribble scribble scribble *" "Njeri Profile"
 messageBox "* scribble scribble scribble *" "Njeri Profile"
 
-playerMessageBox "COMMANDER PLACED LETTER IN MY COAT POCKET"
+genericMessageBox "COMMANDER PLACED LETTER IN MY COAT POCKET"
 
 messageBox "Alright, Sebastian. It's done. Hurry to your office right now before they break through." "Njeri Profile"
 messageBox "I'll try to hold them back before they can get to you." "Njeri Profile"

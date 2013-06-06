@@ -83,6 +83,8 @@ if gameState == 85
 
         playerMessageBox "*takes a deep breath*"
 
+        genericMessageBox "OMG WHAT WILL SEBASTIAN DISCOVER NOW??"
+        genericMessageBox "THE FINAL MYSTERY WILL BE REVEALED... NEXT TIME. WE WILL INFORM THE CLASS WHEN ALL IS COMPLETE FOR REALZ."
         unfreezeInputs
 endif
 

@@ -189,7 +189,6 @@ mapChange 145
 
 -- freezeCamera ULX ULY
 freezeCamera 146
-
 unfreezeCamera 147
 
 -- For entities to say their specific things
@@ -198,6 +197,8 @@ messageBox 150
 -- General boxes that pop up and say something, nobody in particular
 genericMessageBox 151
 
--- 
+-- the player only.
 playerMessageBox 152
+
+-- the one with the animation
 messageBox 153
