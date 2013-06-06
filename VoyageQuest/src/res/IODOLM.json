@@ -18,8 +18,22 @@
                 "Njeri Forward", "Njeri Backwards", "Njeri Left", "Njeri Right"
             ],
             "startingAnimationDirection" : 0,
-            "onClickScript" : 30,
-            "onTouchScript" : 56
+            "onClickScript" : 30
+        },
+        {
+            "name" : "Li Fei",
+            "initialX" : 1100                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ,
+            "initialY" : 1365,
+            "width" : 64,
+            "height" : 128,
+            "mainScriptID" : 58,
+            "mainThreadName" : "Li Fei Thread",
+            "animations" : [
+                "Li Fei", "Li Fei", "Li Fei", "Li Fei"
+            ],
+            "startingAnimationDirection" : 0,
+            "onClickScript" : 59,
+            "onTouchScript" : 60
         }
     ]
 }

@@ -1,6 +1,6 @@
--- mapChange "src/res/MALENTIA.tmx" 2280 2500
--- writeGlobal 50 --> GAME_STATE
--- endthread
+mapChange "src/res/MALENTIA.tmx" 2280 2500
+writeGlobal 50 --> GAME_STATE
+endthread
 
 
 

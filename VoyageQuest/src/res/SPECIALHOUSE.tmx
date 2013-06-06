@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="VILINT" tilewidth="64" tileheight="64">
+  <image source="test/VILINT.png" trans="4b637f" width="1024" height="768"/>
+ </tileset>
+ <tileset firstgid="193" name="Castle2" tilewidth="64" tileheight="64">
+  <image source="test/Castle2.png" trans="4b637f" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="449" name="PAVEANDVILFLR" tilewidth="64" tileheight="64">
+  <image source="test/PAVEANDVILFLR.png" trans="4b637f" width="1024" height="768"/>
+ </tileset>
+ <tileset firstgid="641" name="hyptosis_tile-art-batch-4" tilewidth="64" tileheight="64">
+  <image source="test/hyptosis_tile-art-batch-4.png" trans="4b637f" width="1920" height="1920"/>
+ </tileset>
+ <layer name="Background tiles" width="25" height="25">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2RUQpAIQgEo7NIxLv/Ad9XEEumxUZ9OCAUUeNaSkEQWNS8V0yHEBzeLOjacRSHQ8vkmefoXHPKgq/ny5wS2FuOoqzxrpdRP9gT22G5mA5mDnTN5sRy4HuMtzVHo/3LSZg5bjtendUPL6RZysQJAAA=
+  </data>
+ </layer>
+ <layer name="Walls" width="25" height="25">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2SOwoCQRBE6wwaiCaCBqKJoIho4h2M/VzADxh6DI00VAz0lNYihcvCQveOK4Jb8IIeBt5QPUCRf02JlEnFSJXUnI4GaZKWkTbpOB090idDIyMydjqmzvtR6rD1GuLowtZriGOCd3cDpPca4vDmVx3LnB0bsiU3A1kdUfbO+99wHMiRzMg8J8eFXMmKrGPnC7x2K7fmEzk7HcouMWu3cmu+k0dGhzpT9N74vrwdJaPO9O/03k860lI4gCfx4njbxAkAAA==
+  </data>
+ </layer>
+ <layer name="Below entities" width="25" height="25">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjgLbAnBGTjS6GzB8Fo2AUjIJRMApGAWEAADN+O8PECQAA
+  </data>
+ </layer>
+ <layer name="Entity Level" width="25" height="25">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYOSAVEYGhjRG2tpRCjS/jMZ2DBd/jIJRQE1QzAjBo2AUjBQAAPCboFLECQAA
+  </data>
+ </layer>
+ <layer name="Above Entities" width="25" height="25">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMglEwCoYHWMEy0C4YBaOAfgAAD22E/8QJAAA=
+  </data>
+ </layer>
+ <layer name="Way above" width="25" height="25">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BAQ0AAADCoPdPbQ43oAAAeDP5i1XpxAkAAA==
+  </data>
+ </layer>
+ <objectgroup name="Collisions" width="25" height="25">
+  <object x="151" y="335" width="676" height="171"/>
+  <object x="129" y="441" width="61" height="768"/>
+  <object x="179" y="1163" width="129" height="47"/>
+  <object x="169" y="1155" width="144" height="24"/>
+  <object x="279" y="1161" width="41" height="213"/>
+  <object x="299" y="1348" width="311" height="32"/>
+  <object x="571" y="1211" width="44" height="171"/>
+  <object x="603" y="1216" width="97" height="40"/>
+  <object x="671" y="1232" width="28" height="200"/>
+  <object x="829" y="1216" width="44" height="461"/>
+  <object x="856" y="1216" width="149" height="52"/>
+  <object x="965" y="896" width="665" height="63"/>
+  <object x="963" y="541" width="675" height="159"/>
+  <object x="953" y="337" width="40" height="361"/>
+  <object x="799" y="335" width="183" height="171"/>
+  <object x="673" y="1419" width="25" height="183"/>
+  <object x="714" y="1125" width="105" height="17"/>
+ </objectgroup>
+ <objectgroup name="Boundaries" width="25" height="25">
+  <object x="707" y="1092" width="121" height="56"/>
+ </objectgroup>
+ <objectgroup name="Events" width="25" height="25">
+  <object type="onTouch" x="1014" y="703" width="36" height="191">
+   <properties>
+    <property name="runScript" value="65"/>
+   </properties>
+  </object>
+  <object type="onTouch" x="709" y="1132" width="122" height="34">
+   <properties>
+    <property name="runScript" value="64"/>
+   </properties>
+  </object>
+  <object type="onTouch" x="703" y="1537" width="123" height="59">
+   <properties>
+    <property name="runScript" value="61"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

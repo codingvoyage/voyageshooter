@@ -1,0 +1,40 @@
+getGlobal GAME_STATE --> gameState
+
+
+if gameState < 60
+    endthread
+endif
+
+if gameState == 60
+    freezeInputs
+    playerMessageBox "Hello... Sebastian. Nice to meet you."
+    playerMessageBox "Yeah, I requested a little help from Njeri. "
+
+    var m1 "First, I need you to retrieve a certain artifact for me. "
+    var m2 "It's found in some old ruins in the forest area or something."
+    eval m1 + m2 --> msg
+    playerMessageBox msg
+
+    playerMessageBox "Please find it for me. It's like a picture or so..."
+
+    -- We are sent to find the artifact.
+    writeGlobal 65 --> GAME_STATE
+
+    unfreezeInputs
+    endthread
+endif
+
+
+-- Looking for artifact now
+if gameState == 65
+
+    freezeInputs
+    playerMessageBox "Hey, any luck finding the artifact yet?"
+    unfreezeInputs
+    endthread
+
+endif
+
+
+
+endthread

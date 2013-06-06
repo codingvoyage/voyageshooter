@@ -2,7 +2,7 @@ getGlobal GAME_STATE --> gameState
 
 if gameState == 50
 
-goto [SKIPDIALOGDEBUGGING]
+-- goto [SKIPDIALOGDEBUGGING]
     playerMessageBox "Oh, Sebastian, what is it? I thought you had just left on some mission or something..."
     playerMessageBox "..."
     playerMessageBox "... ..."
@@ -25,7 +25,7 @@ goto [SKIPDIALOGDEBUGGING]
     eval [ m1 + m2 ] + [ m3 + m4 ] --> msg
     playerMessageBox msg
 
-label [SKIPDIALOGDEBUGGING]
+-- label [SKIPDIALOGDEBUGGING]
 
     -- indicates that we are now going to talk to Njeri
     writeGlobal 55 --> GAME_STATE

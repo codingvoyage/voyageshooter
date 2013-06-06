@@ -167,5 +167,10 @@
     <property name="runScript" value="46"/>
    </properties>
   </object>
+  <object name="warp" type="onTouch" x="509" y="289" width="68" height="42">
+   <properties>
+    <property name="runScript" value="66"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

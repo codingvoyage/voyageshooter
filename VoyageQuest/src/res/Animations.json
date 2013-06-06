@@ -128,6 +128,24 @@
                     "solr1","solr2","solr3","solr4","solr5","solr6"
             ],
             "duration" : 50
+        },
+        {
+            "name" : "Li Fei",
+            "packedSheetID" : "lifei",
+            "id" : "lifei",
+            "images" : [
+                    "lifei"
+            ],
+            "duration" : 50
+        },
+        {
+            "name" : "young",
+            "packedSheetID" : "young",
+            "id" : "young",
+            "images" : [
+                    "young"
+            ],
+            "duration" : 50
         }
     ]
 }

@@ -20,12 +20,17 @@ public class Res {
     public static XMLPackedSheet sebastian; 
     public static XMLPackedSheet njeri; 
     public static XMLPackedSheet soldier; 
+    public static XMLPackedSheet lifei; 
+    public static XMLPackedSheet young;
     
     static {
         try {
             sebastian = new XMLPackedSheet("src/res/sebastian.png", "src/res/sebastian.xml");
             njeri = new XMLPackedSheet("src/res/njeri.png", "src/res/njeri.xml");
             soldier = new XMLPackedSheet("src/res/soldier_npc01_walk.png", "src/res/soldier.xml");
+            lifei = new XMLPackedSheet("src/res/Sprites_LiFeiFRONT.png", "src/res/lifei.xml");
+            young = new XMLPackedSheet("src/res/test/surprisetiles.png","src/res/young.xml");
+        
         } catch (SlickException e) {}
     }
     
@@ -81,6 +86,8 @@ public class Res {
             if (next.getPackedSheetID().equals("njeri")) currentPackedSheet = njeri;
             if (next.getPackedSheetID().equals("sebastian")) currentPackedSheet = sebastian;
             if (next.getPackedSheetID().equals("soldier")) currentPackedSheet = soldier;
+            if (next.getPackedSheetID().equals("lifei")) currentPackedSheet = lifei;
+            if (next.getPackedSheetID().equals("young")) currentPackedSheet = young;
             
             Image[] frames = new Image[next.getImages().size()];
             int i = 0;

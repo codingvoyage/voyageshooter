@@ -1,7 +1,7 @@
 assumeControlOfPlayer
 wait 20
 
-goto [DEBUG]
+-- goto [DEBUG]
 
 -- Move right
 setAnimationDirection 3
@@ -112,6 +112,7 @@ endthread
 
 label [DEBUG]
 
+writeGlobal 65 --> GAME_STATE
 unfreezeInputs
 mapChange "src/res/FOREST.tmx" 1000 1700
 endthread

@@ -7,6 +7,8 @@ getGlobal GAME_STATE --> gameState
 if gameState == 55
         freezeInputs
 
+        -- goto [SKIPDIALOGLOL]
+
         playerMessageBox "... Sebastian, is it? It's a pleasure to meet you. What seems to be the matter?"
 
         playerMessageBox "..."
@@ -42,6 +44,8 @@ if gameState == 55
         playerMessageBox "Yeah, same guy. He's currently looking for some help. Go to him, Sebastian."
 
         playerMessageBox "Okay. Coolbeanz."
+
+        label [SKIPDIALOGLOL]
 
         unfreezeInputs
         writeGlobal 60 --> GAME_STATE
