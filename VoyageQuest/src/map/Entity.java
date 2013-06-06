@@ -339,10 +339,9 @@ public class Entity extends ScriptableClass implements Rectangular {
      * @param text the dialog text
      */
     public void speak(String text) {
-        dialog = new DialogBox(text, this);
+        dialog = new DialogBox(text);
         dialog.start();
         mainThread.setRunningState(true);
-        
     }
     
     /**

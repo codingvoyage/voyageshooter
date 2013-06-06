@@ -177,7 +177,9 @@ public class ScriptReader
                 result = ((Entity)currentScriptable).continueSpeak();
                 break;
                 
+            case 151:
             case 152:
+            case 153:
                 result = VoyageQuest.player.continueSpeak();
                 
                 //Temporary, but we have to monkey around with currentThread because
@@ -924,13 +926,25 @@ public class ScriptReader
                 continueExecuting = false;
                 break;
                 
-            case 152:
+                
+            case 151:
                 //Need to make this clear for now
                 currentThread.setScriptable(VoyageQuest.player);
                 //Again, we need to monkey around with the currentThread because the player does not
                 //know of this, so it wouldn't be able to detect whether Thread is running or not
                 currentThread.setRunningState(true);
                 VoyageQuest.player.speak(identifierCheck(currentLine, 0).getStringValue());
+                continueExecuting = false;
+                break;
+                
+            case 152:
+                //Need to make this clear for now
+                currentThread.setScriptable(VoyageQuest.player);
+                //Again, we need to monkey around with the currentThread because the player does not
+                //know of this, so it wouldn't be able to detect whether Thread is running or not
+                currentThread.setRunningState(true);
+                VoyageQuest.player.speak(identifierCheck(currentLine, 0).getStringValue(), 
+                        "Sebastian Profile");
                 continueExecuting = false;
                 break;
                 
