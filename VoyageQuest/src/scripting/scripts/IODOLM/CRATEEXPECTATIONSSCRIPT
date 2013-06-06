@@ -1,13 +1,16 @@
+
+
 -- There is an obligatory comment about the sheer number of crates that must 
 -- be made here..
-
-
 existsGlobal "DAMN_CRATES" --> result
 if result == false
-    wait 1000
+    wait 3000
+    -- freezeInputs
+    playerMessageBox " ... wow... "
     playerMessageBox "The amount of crates in this room... "
-    playerMessageBox "Wow. This is just unacceptable..." 
+    playerMessageBox "Is. Too. Damn. High!" 
     writeGlobal true --> "DAMN_CRATES"
+    unfreezeInputs
 endif
 
 

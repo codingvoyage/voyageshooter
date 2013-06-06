@@ -6,27 +6,39 @@
  <tileset firstgid="257" name="TOWNBOT" tilewidth="64" tileheight="64">
   <image source="test/TOWNBOT.png" width="1024" height="768"/>
  </tileset>
+ <tileset firstgid="449" name="hyptosis_tile-art-batch-3" tilewidth="64" tileheight="64">
+  <image source="../../../../../../Desktop/test/hyptosis_tile-art-batch-3.png" trans="4b637f" width="1920" height="1920"/>
+ </tileset>
+ <tileset firstgid="1349" name="hyptosis_tile-art-batch-4" tilewidth="64" tileheight="64">
+  <image source="../../../../../../Desktop/test/hyptosis_tile-art-batch-4.png" trans="4b637f" width="1920" height="1920"/>
+ </tileset>
+ <tileset firstgid="2249" name="PAVEANDVILFLR" tilewidth="64" tileheight="64">
+  <image source="../../../../../../Desktop/test/PAVEANDVILFLR.png" trans="4b637f" width="1024" height="768"/>
+ </tileset>
+ <tileset firstgid="2441" name="TOWNBOT2" tilewidth="64" tileheight="64">
+  <image source="../../../../../../Desktop/test/TOWNBOT2.png" trans="4b637f" width="1024" height="768"/>
+ </tileset>
  <layer name="tiles" width="50" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3TXQqAIBBGUfe/oWpHtQN9y6hABn9Qw6m4B+ZJpPlsxhgAQI3J13zVotxLyeprS5x9KYf15RJnpRy5Nxgt7EX2VcoRvoF2prAX+W9q5ko7R+9+3Pdz8zlC7/e1+/+LJ+ZZeycOch5aerKRe9rZWudc3mNfgNPbdrwVOw4AAAAAiNkBYz/anUAfAAA=
+   H4sIAAAAAAAAC+3TMQ6AIAyFYUa4goP3PxMT5zDGqDEOaBzAFnjN+xJGSX8bnCMiImTRlx2J+9A7NFnYR2nDqPto2aHNWkftd1L9f0m+394dWrO3fuvS943agbQX7blbzl8Dde4vyzHz+jgbWMf536fw3sUcsHZydyR/HfSO6PMW1I5kpMPK+0DvICIiIqL+dtkrk85AHwAA
   </data>
  </layer>
  <layer name="background]" width="50" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
+   H4sIAAAAAAAAC+3OMREAMAzEsOcPJQh6QZelGJoO0uLVCfBSbw+Qc1urFwAAAAAAAPxmAPcgIdVAHwAA
   </data>
  </layer>
  <layer name="below entit" width="50" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3PNwpCYRRE4f9t0YBiaAwohsaAor7GgGJoDCiGxoBi2KNnCXaPK3Pg62ecC66Q51wYEUQRQxwJJJFC2gtw4I9l2JhFDnkUUEQJZVRQNfCjxsY6GmiihTY66KIH38CPPhsHGGKEMSaYYoY5FgZ+LNm4whobbLHDHgcccTLw48zGC6644Y4HnnjhjY+BH0oppZRSSimllFJKKaWUUur/+wKmFerxQB8AAA==
+   H4sIAAAAAAAAC+3Vx0oDURiG4ZOVjjeg8Qb0eiwolo0FxbKxoFg2FhSTuLCgmIIVxSSiO+/BgmIFCxHrZfiOyYCYBAyck5kJ54OH7Cb/xz/njBDOzoUhxCWucI0b3OIO94bd0/0/CWZ9wSveCqjHOz7wiS+JPYpQDPORJSkyk/jzXqnqUYoyeFO/5fIe/ZN87cPscSySHUzWfn7LJT5m8yOAecOeHt4sckmQ2UIII2Kk31eqelSI5JmwdlGZQS6JMlsMcRxk2IfK+8raiYyzccJspzjDOdaxkafvh8weD8z2iCc84xBHeTgfZlTuI9v3XEVU7iPbfaUieh/pKZR9VHmEqEYNalGHejSgEU1o9kj4owyR2aOFGVvRhnZ0oBNd6EYPel3Qo48Z+zGAQQxhGCMYxRjGXdBjghknMYVpzGAWc/DBj4ALeiww4yKWsIwVrGINQYQQdkGPTWbcwjZ2sIs97COKGOIu6GFndA9nRfdwVgqlh46Ojo6Ojo6Ojo5T8w3kxL7eQB8AAA==
   </data>
  </layer>
  <layer name="entity level" width="50" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3TuQ2AQAxE0c04GligAY4GOPovjCFAckK2Bgv9J0061gROCYivUmqlUdoXb5WWlU7plcGh/+mWR/ekzMri0G+N5lZp145N2ZXDod9aza3SskPnF+4d3r/hjR2xsCMWdsTCjljYEQs7YmFHLOwAAAAA8Hcn9+iJxUAfAAA=
+   H4sIAAAAAAAAC+3OoRGAMBQFwTigAqCCQAVA/43xJAYV8c3uzPlrDfia0pyW6pFBa9rSXj0yqKcjndUjg650p6d6BAAAAAAAgF8veMTXeEAfAAA=
   </data>
  </layer>
- <layer name="above entity" width="50" height="40">
+ <layer name="above entity" width="50" height="40" visible="0">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
   </data>
@@ -37,26 +49,13 @@
   </data>
  </layer>
  <objectgroup name="Collisions" width="50" height="40">
-  <object x="1940" y="650" width="92" height="38"/>
-  <object x="1742" y="646" width="99" height="38"/>
-  <object x="1745" y="774" width="96" height="47"/>
-  <object x="1740" y="518" width="98" height="32"/>
-  <object x="2702" y="583" width="101" height="42"/>
-  <object x="2763" y="779" width="104" height="43"/>
   <object x="1988" y="293" width="635" height="22"/>
   <object x="1988" y="5" width="21" height="300"/>
   <object x="1996" y="168" width="109" height="132"/>
   <object x="2607" y="3" width="13" height="305"/>
   <object x="2593" y="196" width="24" height="105"/>
  </objectgroup>
- <objectgroup name="Boundaries" width="50" height="40">
-  <object x="1736" y="580" width="112" height="112"/>
-  <object x="1738" y="711" width="111" height="114"/>
-  <object x="1734" y="453" width="110" height="105"/>
-  <object x="1929" y="584" width="110" height="111"/>
-  <object x="2694" y="516" width="114" height="117"/>
-  <object x="2755" y="705" width="120" height="122"/>
- </objectgroup>
+ <objectgroup name="Boundaries" width="50" height="40"/>
  <objectgroup name="Events" width="50" height="40">
   <object type="onTouch" x="2193" y="178" width="221" height="165">
    <properties>
