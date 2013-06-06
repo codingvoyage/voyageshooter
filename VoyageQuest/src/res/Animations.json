@@ -146,6 +146,24 @@
                     "young"
             ],
             "duration" : 50
+        },
+        {
+            "name" : "Li Fei Profile",
+            "packedSheetID" : "lifei",
+            "id" : "lifei",
+            "images" : [
+                    "lfp1","lfp2","lfp3"
+            ],
+            "duration" : 200
+        },
+        {
+            "name" : "Anika Profile",
+            "packedSheetID" : "anika",
+            "id" : "anika",
+            "images" : [
+                    "akp1","akp2","akp3"
+            ],
+            "duration" : 200
         }
     ]
 }

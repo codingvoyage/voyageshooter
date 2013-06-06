@@ -48,6 +48,16 @@ public class VoyageQuest extends BasicGame {
     /** Manages all the scripting threads */
     public static ThreadManager threadManager;
     
+    /** menu */
+    public static final int MENU = 0;
+    /** regular RPG */
+    public static final int RPG = 1;
+    /** navy shooter */
+    public static final int SHOOTER = 2;
+    
+    /** status */
+    public static int state;
+    
     public static Entity player;
     double time;
     public DialogBox dialog;
