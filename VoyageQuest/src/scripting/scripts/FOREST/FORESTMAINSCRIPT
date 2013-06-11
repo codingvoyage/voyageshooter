@@ -1,6 +1,6 @@
 getGlobal GAME_STATE --> asdfasdf
 
--- goto [debug]
+goto [debug]
 
 -- Sebastian will have to make a comment about having traveled to the past
 -- only if it's right after SCENE2, after which the global GAME_STATE = 35
@@ -39,6 +39,7 @@ endif
 endthread
 
 label [debug]
+writeGlobal 50 --> GAME_STATE
 
 unfreezeInputs
 endthread

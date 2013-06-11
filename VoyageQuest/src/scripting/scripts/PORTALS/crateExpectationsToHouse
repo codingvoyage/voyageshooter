@@ -1,4 +1,3 @@
-print "ASDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
 
 mapChange "src/res/HOUSE.tmx" 1170 530
 endthread

@@ -1,7 +1,7 @@
 assumeControlOfPlayer
 wait 20
 
--- goto [DEBUG]
+goto [DEBUG]
 
 -- Move right
 setAnimationDirection 3

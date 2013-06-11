@@ -1,7 +1,9 @@
+goto [DEBUGSKIP]
+
 dialogBox "Anika Profile" "Well, it looks like we should be safe for now..."
 dialogBox "Anika Profile" "Sebastian! Calm down for a moment."
 
--- goto [DEBUGSKIP]
+
 
 -- Njeri pops out of nowhere just because Bakesale wants to test stuff
 -- messageBox "Hi I'm Njeri!" "Anika Profile"

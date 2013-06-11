@@ -192,7 +192,6 @@ public class Thread {
         dialog = new DialogBox(text);
         dialog.start();
         setRunningState(true);
-        
     }
     
     /**

@@ -6,9 +6,10 @@ if gameState < 65
     print gameState
 
     freezeInputs
-    playerMessageBox "Uh... why would I go here? I'm busy now..."
+    dialogBox "Sebastian Profile" "Uh... why would I go here? I'm busy now..."
 
     assumeControlOfPlayer
+    wait 20
 
     -- WALK BACK DOWN
     setAnimationDirection 1
