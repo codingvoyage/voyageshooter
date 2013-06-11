@@ -7,15 +7,15 @@ endif
 
 if gameState == 60
     freezeInputs
-    messageBox "Hello... Sebastian. Nice to meet you."
-    messageBox "Yeah, I requested a little help from Njeri. "
+    dialogBox "Li Fei Profile" "Hello... Sebastian. Nice to meet you."
+    dialogBox "Li Fei Profile" "Yeah, I requested a little help from Njeri. "
 
     var m1 "First, I need you to retrieve a certain artifact for me. "
     var m2 "It's found in some old ruins in the forest area or something."
-    eval m1 + m2 --> msg
-    messageBox msg
+        eval m1 + m2 --> msg
+        dialogBox "Li Fei Profile" msg
 
-    messageBox "Please find it for me. It's like a picture or so..."
+    dialogBox "Li Fei Profile" "Please find it for me. It's like a picture or so..."
 
     -- We are sent to find the artifact.
     writeGlobal 65 --> GAME_STATE
@@ -29,7 +29,7 @@ endif
 if gameState == 65
 
     freezeInputs
-    messagBox "Hey, any luck finding the artifact yet?"
+    dialogBox "Li Fei Profile" "Hey, any luck finding the artifact yet?"
     unfreezeInputs
     endthread
 
@@ -39,16 +39,16 @@ endif
 -- Once you've obtained the artifact, gameState should equal 75
 if gameState == 75
     freezeInputs
-    messageBox "You found it?" "Li Fei Profile"
-    messageBox "... Yes... yes I did. What exactly is this for?" "Li Fei Profile"
-    messageBox "Alright, thanks! The next thing I need you to do is find Edmund's hat." "Li Fei Profile"
-    playerMessageBox "Sure, where is it?"
+    dialogBox "Li Fei Profile" "You found it?"
+    dialogBox "Sebastian Profile" "... Yes... yes I did. What exactly is this for?"
+    dialogBox "Li Fei Profile" "Alright, thanks! The next thing I need you to do is find Edmund's hat."
+    dialogBox "Sebastian Profile" "Sure, where is it?"
     var m1 "I'm pretty sure he left it in the warehouse of Iodolm. Just go into the main administrative "
     var m2 "building and take the stairs."
-    eval m1 + m2 --> msg
-    messageBox msg "Li Fei Profile"
-    playerMessageBox "Alright, I'll go look for it."
-    messageBox "Thanks again!"
+        eval m1 + m2 --> msg
+        dialogBox "Li Fei Profile" msg
+    dialogBox "Sebastian Profile" "Alright, I'll go look for it."
+    dialogBox "Li Fei Profile" "Thanks again!"
     unfreezeInputs
     endthread
 endif
@@ -61,16 +61,16 @@ if gameState == 80
     var m4 "are exposed to way too many crates in too short a time-span. Goddamn crates are everywhere. "
     var m5 "It's like you can't turn a corner without seeing a freaking crate."
     eval [ m1 + m2 ] + [ m3 + [ m4 + m5 ] ] --> msg
-    messageBox msg "Li Fei Profile"
+    dialogBox "Li Fei Profile" msg
 
-    playerMessageBox "Wow, tell me about it. There are crates everywhere and it doesn't even make sense..."
-    playerMessageBox "Oh yeah, you found Edmund's hat, right?"
+    dialogBox "Sebastian Profile" "Wow, tell me about it. There are crates everywhere and it doesn't even make sense..."
+    dialogBox "Sebastian Profile" "Oh yeah, you found Edmund's hat, right?"
 
     var m1 "Of course, yeah... Anyway I'm glad you're feeling better now. Just report to Njeri. " 
     var m2 "Actually, yeah, something really important came up while you were passed out. "
     var m3 "Please report to her immediately. I'm really busy so I can't explain more, but go to her NOW."
     eval m1 + [ m2 + m3 ] --> msg
-    messageBox msg "Li Fei Profile"
+    dialogBox "Li Fei Profile" msg
 
     unfreezeInputs 
 
@@ -83,7 +83,7 @@ endif
 -- Insist in talking to Njeri now...
 if gameState == 85
     freezeInputs
-    playerMessageBox "Sebastian, please talk to Njeri as soon as possible."
+    dialogBox "Li Fei Profile" "Sebastian, please talk to Njeri as soon as possible."
     unfreezeInputs 
     endthread
 endif

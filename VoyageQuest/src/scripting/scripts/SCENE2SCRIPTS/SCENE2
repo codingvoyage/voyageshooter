@@ -28,11 +28,10 @@ wait 400
 
 var m1 "Ugh... the Maelloc soldiers probably intend to jack all my shit. "
 var m2 "I hope that through time travel, I can prevent that from happening."
+    eval m1 + m2 --> msg
+    dialogBox "Sebastian Profile" msg
 
-eval m1 + m2 --> msg
-playerMessageBox msg
-
-playerMessageBox "For now, I had better prepare myself with some supplies..."
+dialogBox "Sebastian Profile" "For now, I had better prepare myself with some supplies..."
 
 -- Move left
 setAnimationDirection 2
@@ -40,7 +39,7 @@ setVelocity -0.25 0.02
 moveTileAmount 5
 setAnimationDirection 1
 
-playerMessageBox "It's been a while since I've actively fought, but some armor'd be nice..."
+dialogBox "Sebastian Profile" "It's been a while since I've actively fought, but some armor'd be nice..."
 
 wait 300
 
@@ -49,7 +48,7 @@ setAnimationDirection 0
 setVelocity 0.175 -0.125
 moveTileAmount 3
 
-playerMessageBox "Spellbooks... spellbooks..."
+dialogBox "Sebastian Profile" "Spellbooks... spellbooks..."
 
 -- Move right
 setAnimationDirection 3
@@ -57,7 +56,7 @@ setVelocity 0.25 0
 moveTileAmount 5
 setAnimationDirection 0
 
-playerMessageBox "And there they are."
+dialogBox "Sebastian Profile" "And there they are."
 
 -- Move right to fit in between the place we will fly away
 setAnimationDirection 3
@@ -65,8 +64,8 @@ setVelocity 0.25 0
 movePixelAmount 95
 setAnimationDirection 0
 
-playerMessageBox "Alright, time to get ready. Here goes nothing..."
-playerMessageBox "I AM CHANNELING MY INNER CHI"
+dialogBox "Sebastian Profile" "Alright, time to get ready. Here goes nothing..."
+dialogBox "Sebastian Profile" "I AM CHANNELING MY INNER CHI"
 
 writeGlobal 15 --> GAME_STATE
 
@@ -105,9 +104,6 @@ label [break]
 
 mapChange "src/res/FOREST.tmx" 1000 1700
 endthread
-
-
-
 
 
 label [DEBUG]

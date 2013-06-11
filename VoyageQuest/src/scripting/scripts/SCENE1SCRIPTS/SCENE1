@@ -1,5 +1,5 @@
-messageBox "Well, it looks like we should be safe for now..." "Anika Profile"
-messageBox "Sebastian! Calm down for a moment." "Anika Profile"
+dialogBox "Anika Profile" "Well, it looks like we should be safe for now..."
+dialogBox "Anika Profile" "Sebastian! Calm down for a moment."
 
 -- goto [DEBUGSKIP]
 
@@ -8,70 +8,67 @@ messageBox "Sebastian! Calm down for a moment." "Anika Profile"
 
 -- Sebastian will stop walking
 writeGlobal 5 --> GAME_STATE
-playerMessageBox "Yes, commander. I'm listening?"
+dialogBox "Sebastian Profile" "Yes, commander. I'm listening?"
 
 var m1 "The barricades we put up aren't going to last for that much longer... "
 var m2 "I'd say we have around 4 minutes at best before their troops break through. "
-
-
 eval m1 + m2 --> msg
-messageBox msg "Anika Profile"
+dialogBox "Anika Profile" msg
 
-messageBox "We're screwed." "Anika Profile"
+messageBox "We're screwed."
 
 var m1 "Even if we run the other way, they'll probably get to us. As of "
 var m2 "this point I have no way of coordinating the other troops."
 
 eval m1 + m2 --> msg
-messageBox msg "Anika Profile"
+messageBox msg 
 
 var m1 "Shit... if only we had more intelligence on the field, we would have been able to anticipate "
 var m2 "Maelloc kingdom's preemptive strike on our capital, commander."
 
 eval m1 + m2 --> msg
-playerMessageBox msg
+dialogBox "Sebastian Profile" msg
 
-playerMessageBox "They just sent their entire naval fleet and blitzed us out of nowhere."
-
-messageBox "Ugh... I guess we really have no choice now, Sebastian." "Anika Profile"
+dialogBox "Sebastian Profile" "They just sent their entire naval fleet and blitzed us out of nowhere."
+dialogBox "Anika Profile" "Ugh... I guess we really have no choice now, Sebastian." 
 
 var m1 "I was thinking the same. I was really hoping for a chance to test it out before using it... "
 var m2 "gauge the safety, and see if there are any side effects on living things."
     eval m1 + m2 --> msg
-    playerMessageBox msg
+    dialogBox "Sebastian Profile" msg
 
-playerMessageBox "But now, it's sink or swim. I'll use time travel in order to prevent this disaster from happening."
+dialogBox "Sebastian Profile" "But now, it's sink or swim. I'll use time travel in order to prevent this disaster from happening."
 
-messageBox "..." "Anika Profile"
-messageBox "... ..." "Anika Profile"
-messageBox "... ... ..." "Anika Profile"
+dialogBox "Anika Profile" "..." 
+dialogBox "Anika Profile" "... ..." 
+dialogBox "Anika Profile" "... ... ..." 
 
 var m1 "Alright, then. I have suspicions that my past self might not take you very "
 var m2 "seriously with this time travel thing at face value, so I'm going to write a letter to myself"
     eval m1 + m2 --> msg
-    messageBox msg "Anika Profile"
+    dialogBox "Anika Profile" msg 
 var m1 "which will outline what has happened today, as well as some indicator which will inform me "
 var m2 "of the authenticity of the warning. Give me a moment..."
     eval m1 + m2 --> msg
-    messageBox msg "Anika Profile"
+    dialogBox "Anika Profile" msg 
 
-messageBox "* scribble scribble scribble *" "Anika Profile"
-messageBox "* scribble scribble scribble *" "Anika Profile"
-messageBox "* scribble scribble scribble *" "Anika Profile"
+dialogBox "Anika Profile" "* scribble scribble scribble *" 
+dialogBox "Anika Profile" "* scribble scribble scribble *" 
+dialogBox "Anika Profile" "* scribble scribble scribble *" 
 
 genericMessageBox "COMMANDER PLACED LETTER IN MY COAT POCKET"
 
-messageBox "Alright, Sebastian. It's done. Hurry to your office right now before they break through." "Anika Profile"
-messageBox "I'll try to hold them back before they can get to you." "Anika Profile"
+dialogBox "Anika Profile" "Alright, Sebastian. It's done. Hurry to your office right now before they break through." 
+dialogBox "Anika Profile" "I'll try to hold them back before they can get to you." 
 
-playerMessageBox "..."
-playerMessageBox "Alright, Commander. Try to stay alive."
+dialogBox "Sebastian Profile" "..."
+dialogBox "Sebastian Profile" "Alright, Commander. Try to stay alive."
 
 writeGlobal 10 --> GAME_STATE
 -- Wait for walking to be over
 
 wait 5000
-messageBox "Here they come ..." "Anika Profile"
+dialogBox "Anika Profile" "Here they come ..." 
 
 wait 1000
 

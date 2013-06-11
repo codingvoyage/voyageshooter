@@ -9,11 +9,11 @@ if gameState == 55
 
         -- goto [SKIPDIALOGLOL]
 
-        messageBox "... Sebastian, is it? It's a pleasure to meet you. What seems to be the matter?" "Njeri Profile"
+        dialogBox "Njeri Profile" "... Sebastian, is it? It's a pleasure to meet you. What seems to be the matter?" 
 
-        playerMessageBox "..."
-        playerMessageBox "... ..."
-        playerMessageBox "... ... ..."
+        dialogBox "Sebastian Profile" "..."
+        dialogBox "Sebastian Profile" "... ..."
+        dialogBox "Sebastian Profile" "... ... ..."
 
         var l1 "This is terrible... but unfortunately, unsurprising. I've heard reports of the "
         var l2 "recent military coup during which the king of Maelloc was overthrown by his advisors "
@@ -21,29 +21,29 @@ if gameState == 55
         var l4 "the mineral deposits in your country. I know that there's really no time to waste but right now "
         var l5 "I am unfortunately very preoccupied with some urgent matters here. "
         eval [ l1 + l2 ] + [ l3 + [ l4 + l5 ] ] --> herspeech
-        messageBox herspeech "Njeri Profile"
+        dialogBox "Njeri Profile" herspeech 
 
-        messageBox "..." "Njeri Profile"
-        messageBox "Oh wait, you're willing to help us out?" "Njeri Profile"
+        dialogBox "Njeri Profile" "..." 
+        dialogBox "Njeri Profile" "Oh wait, you're willing to help us out?" 
 
         var l1 "Alright, basically I am about to send you on a wild goose chase that will occupy a lot of time "
         var l2 "and make it look like the game actually has some semblance of a story, and to make the players "
         var l3 "think that there was a lot of thought put into this game and that it wasn't made in the last minute. "
         var l4 "So yeah. Thanks a lot for agreeing to help out!"
         eval [ l1 + l2 ] + [ l3 + l4 ] --> herspeech
-        messageBox herspeech "Njeri Profile"
+        dialogBox "Njeri Profile" herspeech 
 
-        messageBox "So, here's what I need you to do..." "Njeri Profile"
-        messageBox "An associate of mine, Li Fei, is currently in the city..." "Njeri Profile"
+        dialogBox "Njeri Profile" "So, here's what I need you to do..." 
+        dialogBox "Njeri Profile" "An associate of mine, Li Fei, is currently in the city..." 
 
         var l1 "Isn't he the guy who negotiated some treaty between Malentia and the "
         var l2 "Telfrinz Hegemony?"
         eval l1 + l2 --> msg
-        playerMessageBox msg
+        dialogBox "Sebastian Profile" msg
 
-        messageBox "Yeah, same guy. He's currently looking for some help. Go to him, Sebastian." "Njeri Profile"
+        dialogBox "Njeri Profile" "Yeah, same guy. He's currently looking for some help. Go to him, Sebastian." 
 
-        playerMessageBox "Okay. Coolbeanz."
+        dialogBox "Sebastian Profile" "Okay. Coolbeanz."
 
         label [SKIPDIALOGLOL]
 
@@ -55,13 +55,13 @@ endif
 
 if gameState == 60
         freezeInputs
-        messageBox "Weren't you supposed to meet with Li Fei?" "Njeri Profile"
+        dialogBox "Njeri Profile" "Weren't you supposed to meet with Li Fei?" 
         unfreezeInputs
 endif
 
 if gameState == 80
         freezeInputs
-        messageBox "Hold on... I need to talk to Li Fei first!" "Njeri Profile"
+        dialogBox "Njeri Profile" "Hold on... I need to talk to Li Fei first!" 
         unfreezeInputs
 endif
 
@@ -79,9 +79,9 @@ if gameState == 85
         var l7 "nobody else could read it but her! And in the hours in which you were passed out, I figured out "
         var l8 "what was hidden!"
             eval [ [ l1 + l2 ] + [ l3 + l4 ] ] + [ [ l5 + l6 ] + [ l7 + l8 ] ] --> herspeech
-            messageBox herspeech "Njeri Profile"
+            dialogBox "Njeri Profile" herspeech 
 
-        messageBox "*takes a deep breath*" "Njeri Profile"
+        dialogBox "Njeri Profile" "*takes a deep breath*" 
 
         genericMessageBox "OMG WHAT WILL SEBASTIAN DISCOVER NOW??"
         genericMessageBox "THE FINAL MYSTERY WILL BE REVEALED... NEXT TIME. WE WILL INFORM THE CLASS WHEN ALL IS COMPLETE FOR REALZ."

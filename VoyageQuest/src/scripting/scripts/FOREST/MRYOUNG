@@ -9,32 +9,31 @@ if gameState == 65
     -- Just a bit of dialogue before displaying the picture
     var m1 "Alright... I guess this is the artifact? Looks really dusty, I should wipe it "
     var m2 "clean before giving it back to Li Fei."
-    eval m1 + m2 --> msg
-    playerMessageBox msg
-
-    playerMessageBox "*SEBASTIAN PICKS UP AND CLEANS THE ARTIFACT"
+        eval m1 + m2 --> msg
+        dialogBox "Sebastian Profile" msg
+    genericMessageBox "*SEBASTIAN PICKS UP AND CLEANS THE ARTIFACT"
     wait 600
-    playerMessageBox "Did I do it correctly? ................................"
+    dialogBox "Sebastian Profile" "Did I do it correctly? ................................"
     wait 600
 
     -- GAME_STATE is now 70. DISPLAY
     writeGlobal 70 --> GAME_STATE
 
-    playerMessageBox "Oh God what is this."
-    playerMessageBox "Whut."
+    dialogBox "Sebastian Profile" "Oh God what is this."
+    dialogBox "Sebastian Profile" "Whut."
 
     wait 1000
 
-    playerMessageBox "Whut."
+    dialogBox "Sebastian Profile" "Whut."
 
     wait 1000
 
-    playerMessageBox "... ooookay then."
+    dialogBox "Sebastian Profile" "... ooookay then."
 
     -- STOP DISPLAYING
     writeGlobal 75 --> GAME_STATE
 
-    playerMessageBox "Back to Li Fei..."
+    dialogBox "Sebastian Profile" "Back to Li Fei..."
 
     unfreezeInputs
 

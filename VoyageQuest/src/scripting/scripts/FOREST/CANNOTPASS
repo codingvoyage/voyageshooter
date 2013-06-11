@@ -3,7 +3,7 @@ freezeInputs
 var m1 "Oh wow, what is this. This is an intense magical field. "
 var m2 "Normally I'd be able to break though this but right now my mana still needs recovering... "
 eval m1 + m2 --> msg
-playerMessageBox msg
+dialogBox "Sebastian Profile" msg
 
 assumeControlOfPlayer
 

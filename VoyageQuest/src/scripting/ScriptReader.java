@@ -18,12 +18,8 @@ import voyagequest.VoyageQuest;
 
 public class ScriptReader
 {
-    //Dear God no.
-    private Scriptable previSpeakScriptable;
-    
     private ScriptManager scr;
     private ThreadManager threadManager;
-    
 //    
 //    private EntityGroup entities;
 //    
@@ -176,35 +172,12 @@ public class ScriptReader
                 result = ((Entity)currentScriptable).continueMove(currentDeltaTime);
                 break;
                 
+            //Dialogbox continue-speaks
             case 150:
-                result = ((Entity)currentScriptable).continueSpeak();
-                break;
-                
             case 151:
-            case 153:
-                result = VoyageQuest.player.continueSpeak();
-                
-                
-                //Temporary, but we have to monkey around with currentThread because
-                //opcode 152 does something that usually doesn't happen - it manipulates
-                //an entity that the Thread is not associated with, so we have to do this
-                //to denote that the Thread is paused.
-                if (result == false)
-                    currentThread.setRunningState(false);
-                    currentThread.setScriptable(previSpeakScriptable);
-                break;
-                
-                
             case 152:
-                result = VoyageQuest.player.continueSpeak();
-                
-                
-                //Temporary, but we have to monkey around with currentThread because
-                //opcode 152 does something that usually doesn't happen - it manipulates
-                //an entity that the Thread is not associated with, so we have to do this
-                //to denote that the Thread is paused.
-                if (result == false)
-                    currentThread.setRunningState(false);
+            case 153:
+                result = currentThread.continueSpeak();
                 break;
                 
         }
@@ -938,48 +911,22 @@ public class ScriptReader
                 break;
                 
             case 150:
-                ((Entity)currentScriptable).speak(
+            //genericMessageBox text
+                currentThread.speak(
                         identifierCheck(currentLine, 0).getStringValue());
                 continueExecuting = false;
                 break;
                 
                 
             case 151:
-                //Need to make this clear for now
-                previSpeakScriptable = currentThread.getScriptable();
-                
-                currentThread.setScriptable(VoyageQuest.player);
-                //Again, we need to monkey around with the currentThread because the player does not
-                //know of this, so it wouldn't be able to detect whether Thread is running or not
-                currentThread.setRunningState(true);
-                VoyageQuest.player.speak(identifierCheck(currentLine, 0).getStringValue());
-                continueExecuting = false;
-                break;
-                
-            case 152:
-                //Need to make this clear for now
-                currentThread.setScriptable(VoyageQuest.player);
-                //Again, we need to monkey around with the currentThread because the player does not
-                //know of this, so it wouldn't be able to detect whether Thread is running or not
-                currentThread.setRunningState(true);
-                VoyageQuest.player.speak(identifierCheck(currentLine, 0).getStringValue(), 
-                        "Sebastian Profile");
-                continueExecuting = false;
-                break;
-                
-            case 153:
-                //Need to make this clear for now
-                previSpeakScriptable = currentThread.getScriptable();
-                
-                currentThread.setScriptable(VoyageQuest.player);
-                //Again, we need to monkey around with the currentThread because the player does not
-                //know of this, so it wouldn't be able to detect whether Thread is running or not
-                currentThread.setRunningState(true);
-                // Util.p(identifierCheck(currentLine, 1).getStringValue()); 
-                VoyageQuest.player.speak(identifierCheck(currentLine, 0).getStringValue(), identifierCheck(currentLine, 1).getStringValue());
+            //dialogbox animationname text
+                currentThread.speak(
+                        identifierCheck(currentLine, 1).getStringValue(),
+                        identifierCheck(currentLine, 0).getStringValue());
                 
                 continueExecuting = false;
                 break;
+                
         }
         
         

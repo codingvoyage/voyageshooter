@@ -37,9 +37,6 @@ public class Entity extends ScriptableClass implements Rectangular {
     //Used for rendering Entities, set by another class.
     public RenderSetting renderSetting;
     
-    //The dialog box associated with this Entity
-    public DialogBox dialog;
-    
     //Animation
     double accumulatedDelta = 0.0d;
     int currentFrame = 0;
@@ -330,40 +327,6 @@ public class Entity extends ScriptableClass implements Rectangular {
     
     public void act(GameContainer gc, int delta)
     {
-        
-    }
-    
-    
-    /**
-     * Make the entity speak with a dialog box
-     * @param text the dialog text
-     */
-    public void speak(String text) {
-        dialog = new DialogBox(text);
-        dialog.start();
-        mainThread.setRunningState(true);
-    }
-    
-    /**
-     * Make the entity speak with a dialog box
-     * @param text the dialog text
-     */
-    public void speak(String text, String animation) {
-        dialog = new DialogBox(text, animation);
-        dialog.start();
-        mainThread.setRunningState(true);
-        
-    }
-    
-    public boolean continueSpeak()
-    {
-        if (dialog.continuePrinting() == false)
-        {
-            mainThread.setRunningState(false);
-            return false;
-        }
-        
-        return true;
         
     }
     

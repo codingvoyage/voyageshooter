@@ -193,10 +193,8 @@ unfreezeCamera 147
 
 
 -- General boxes that pop up and say something, nobody in particular
-genericMessageBox 151
+genericMessageBox 150
 
--- the player only.
-playerMessageBox 152
-
--- the one with the animation
-messageBox 153
+-- the one with a profile animation
+-- dialogbox animationname text
+dialogBox 151

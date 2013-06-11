@@ -4,27 +4,26 @@ if gameState == 50
 
     freezeInputs
 -- goto [SKIPDIALOGDEBUGGING]
-    messageBox "Oh, Sebastian, what is it? I thought you had just left on some mission or something..." "Anika Profile"
-    messageBox "..." "Anika Profile"
-    messageBox "... ..." "Anika Profile"
-    messageBox "... ... ..." "Anika Profile"
-
-    messageBox "Wow. Okay..." "Anika Profile"
+    dialogBox "Anika Profile" "Oh, Sebastian, what is it? I thought you had just left on some mission or something..."
+    dialogBox "Anika Profile" "..."
+    dialogBox "Anika Profile" "... ..."
+    dialogBox "Anika Profile" "... ... ..."
+    dialogBox "Anika Profile" "Wow. Okay..."
 
     var m1 "If being attacked is inevitable, then we're going to have to mobilize the Malentian "
     var m2 "army to get ready to intercept Maelloc. We really need reinforcements at this point, "
     var m3 "especially since our standing army is somewhat small now."
     eval [ m1 + m2 ] + m3 --> msg
-    messageBox msg "Anika Profile"
+    dialogBox "Anika Profile" msg
 
-    playerMessageBox "Right, commander. We need to recruit more people at this point."
+    dialogBox "Sebastian Profile" "Right, commander. We need to recruit more people at this point."
 
     var m1 "... Actually, I have an idea. Are you familiar with the Telfrinz Hegemony? They are a "
     var m2 "powerful group of city-states located to the west. I am in contact with Njeri, the "
     var m3 "governess of the state of Iodolm, one of the major components of the hegemony. "
     var m4 "Please ask her for reinforcements."
-    eval [ m1 + m2 ] + [ m3 + m4 ] --> msg
-    messageBox msg "Anika Profile"
+        eval [ m1 + m2 ] + [ m3 + m4 ] --> msg
+        dialogBox "Anika Profile" msg
 
 -- label [SKIPDIALOGDEBUGGING]
 
@@ -37,7 +36,7 @@ endif
 
 if gameState == 55
     freezeInputs
-    messageBox "Please head off to Iodolm soon. It's located to the west." "Anika Profile"
+    dialogBox "Anika Profile" "Please head off to Iodolm soon. It's located to the west."
     unfreezeInputs
 endif
 

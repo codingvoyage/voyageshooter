@@ -6,29 +6,29 @@ existsGlobal "DAMN_CRATES" --> result
 if result == false
     wait 3000
     freezeInputs
-    playerMessageBox " ... wow... "
-    playerMessageBox "The amount of crates in this room... "
-    playerMessageBox "Is. Too. Damn. High!" 
+    dialogBox "Sebastian Profile" " ... wow... "
+    dialogBox "Sebastian Profile" "The amount of crates in this room... "
+    dialogBox "Sebastian Profile" "Is. Too. Damn. High!" 
     writeGlobal true --> "DAMN_CRATES"
 
-    playerMessageBox "But hold on a second... I can see the hat all the way across the room..."
+    dialogBox "Sebastian Profile" "But hold on a second... I can see the hat all the way across the room..."
     freezeCamera -100 1900
     wait 1000
-    playerMessageBox "... damn, it's a really shiny hat. Oh look, Panther's sabre-sword is there too!"
-    playerMessageBox "I just need to make my way through this maze of crap to get there."
-    playerMessageBox "Maybe I can climb over some of the crates..."
+    dialogBox "Sebastian Profile" "... damn, it's a really shiny hat. Oh look, Panther's sabre-sword is there too!"
+    dialogBox "Sebastian Profile" "I just need to make my way through this maze of crap to get there."
+    dialogBox "Sebastian Profile" "Maybe I can climb over some of the crates..."
     wait 500
     unfreezeCamera
     unfreezeInputs
 
     wait 15000
-    playerMessageBox "Way... too many crates"
+    dialogBox "Sebastian Profile" "Way... too many crates"
 
     wait 10000
-    playerMessageBox "Crate Expectations, by Charles Dickens..."
+    dialogBox "Sebastian Profile" "Crate Expectations, by Charles Dickens..."
 
     wait 10000
-    playerMessageBox "UGH"
+    dialogBox "Sebastian Profile" "UGH"
 
 
 endif

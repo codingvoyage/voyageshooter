@@ -1,8 +1,8 @@
 freezeInputs
 
-playerMessageBox "A generic potted plant."
-playerMessageBox "I just clicked on a potted plant."
-playerMessageBox "What is my life??"
+dialogBox "Sebastian Profile" "A generic potted plant."
+dialogBox "Sebastian Profile" "I just clicked on a potted plant."
+dialogBox "Sebastian Profile" "What is my life??"
 
 unfreezeInputs
 

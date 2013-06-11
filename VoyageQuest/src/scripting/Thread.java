@@ -2,6 +2,7 @@ package scripting;
 
 import java.util.HashMap;
 import java.util.Stack;
+import gui.special.DialogBox;
 /**
  *
  * @author Edmund
@@ -22,6 +23,9 @@ public class Thread {
     /** Whether the Scriptable is in the middle of the indicated command */
     private boolean inProgress;
     
+    //The dialog box associated with this Thread
+    public DialogBox dialog;
+    
     /** A reference to the Scriptable class which this Thread may control */
     private Scriptable linkedScriptable;
     
@@ -39,8 +43,6 @@ public class Thread {
     
     /** Holds the variables of the current function of this Thread. */
     private HashMap<String, Parameter> temporaryVariables;
-    
-    
     
     //For jumping back to whence we came 
     //private
@@ -180,6 +182,39 @@ public class Thread {
         
         //Alright, we still have milliseconds left to wait. Keep going
         return true;
+    }
+    
+    /**
+     * Speak with a dialogue box from nobody in particular
+     * @param text the dialog text
+     */
+    public void speak(String text) {
+        dialog = new DialogBox(text);
+        dialog.start();
+        setRunningState(true);
+        
+    }
+    
+    /**
+     * Make a person speak using an Animation Profile
+     * @param text the dialog text
+     */
+    public void speak(String text, String animation) {
+        dialog = new DialogBox(text, animation);
+        dialog.start();
+        setRunningState(true);
+    }
+    
+    public boolean continueSpeak()
+    {
+        if (dialog.continuePrinting() == false)
+        {
+            setRunningState(false);
+            return false;
+        }
+        
+        return true;
+        
     }
     
     //Memory/variable magic

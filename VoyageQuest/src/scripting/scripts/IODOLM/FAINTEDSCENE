@@ -1,7 +1,7 @@
 freezeInputs
 
-playerMessageBox "Just a little bit further..."
-playerMessageBox "... *SLUMP* (That's the sound of Sebastian falling onto the floor)"
+dialogBox "Sebastian Profile" "Just a little bit further..."
+genericMessageBox "... *SLUMP*"
 
 wait 3000
 

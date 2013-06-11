@@ -20,7 +20,7 @@ setAnimationDirection 3
 
 genericMessageBox "Stop right there!"
 
-playerMessageBox "(Oh shit...!)"
+dialogBox "Sebastian Profile" "(Oh shit...!)"
 genericMessageBox "Hey, we've got someone here!"
 
 
