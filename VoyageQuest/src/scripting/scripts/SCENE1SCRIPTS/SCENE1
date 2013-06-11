@@ -1,4 +1,4 @@
-goto [DEBUGSKIP]
+-- goto [DEBUGSKIP]
 
 dialogBox "Anika Profile" "Well, it looks like we should be safe for now..."
 dialogBox "Anika Profile" "Sebastian! Calm down for a moment."
@@ -54,9 +54,9 @@ var m2 "of the authenticity of the warning. Give me a moment..."
     eval m1 + m2 --> msg
     dialogBox "Anika Profile" msg 
 
-dialogBox "Anika Profile" "* scribble scribble scribble *" 
-dialogBox "Anika Profile" "* scribble scribble scribble *" 
-dialogBox "Anika Profile" "* scribble scribble scribble *" 
+genericMessageBox "* scribble scribble scribble *" 
+genericMessageBox "* scribble scribble scribble *" 
+genericMessageBox "* scribble scribble scribble *" 
 
 genericMessageBox "COMMANDER PLACED LETTER IN MY COAT POCKET"
 

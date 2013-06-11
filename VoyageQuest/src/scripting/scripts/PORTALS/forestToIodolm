@@ -1,4 +1,5 @@
 getGlobal GAME_STATE --> gameState
+print gameState
 
 -- confused player just spawned and went west. Nonono go East now.
 -- at 55, Anika sent us to talk to Njeri, so then allow movement.

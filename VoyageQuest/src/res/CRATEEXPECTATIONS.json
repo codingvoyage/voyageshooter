@@ -6,19 +6,5 @@
     "mapBackgroundScript": 49,
     
     "allEntities": [
-        {
-            "name" : "Njeri",
-            "initialX" : 515,
-            "initialY" : 730,
-            "width" : 64,
-            "height" : 128,
-            "mainScriptID" : 5,
-            "mainThreadName" : "Njeri House Thread",
-            "animations" : [
-                "Njeri Forward", "Njeri Backwards", "Njeri Left", "Njeri Right"
-            ],
-            "startingAnimationDirection" : 0,
-            "onClickScript" : 15
-        }
     ]
 }

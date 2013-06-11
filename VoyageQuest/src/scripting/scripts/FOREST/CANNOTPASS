@@ -6,6 +6,7 @@ eval m1 + m2 --> msg
 dialogBox "Sebastian Profile" msg
 
 assumeControlOfPlayer
+wait 20
 
 -- WALK BACK LEFT
 setAnimationDirection 2

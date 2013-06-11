@@ -12,15 +12,16 @@ wend
 -- warp him to outside sebastian's room
 entitySetLocation 600 1100
 
+genericMessageBox "Stop right there!"
+
+dialogBox "Sebastian Profile" "(Oh shit...!)"
+
 -- move up now to apprehend sebastian
 setAnimationDirection 0
 setVelocity 0 -0.25
 moveTileAmount 8
 setAnimationDirection 3
 
-genericMessageBox "Stop right there!"
-
-dialogBox "Sebastian Profile" "(Oh shit...!)"
 genericMessageBox "Hey, we've got someone here!"
 
 

@@ -21,7 +21,7 @@ if gameState == 75
     mapChange "src/res/CRATEEXPECTATIONS.tmx" 1535 175
 endif
 
-if gameState >= 75
+if gameState > 75
     freezeInputs
     dialogBox "Sebastian Profile" "Oh my God. I swear I will never enter that hell-hole again!! "
 
