@@ -1,0 +1,16 @@
+freezeInputs
+
+dialogBox "Sebastian Profile" "Just a little bit further..."
+genericMessageBox "... *SLUMP*"
+
+wait 3000
+
+writeGlobal 80 --> GAME_STATE
+
+mapChange "src/res/IODOLM.tmx" 1200 1400
+assumeControlOfPlayer
+setAnimationDirection 2
+
+unfreezeInputs
+
+endthread
