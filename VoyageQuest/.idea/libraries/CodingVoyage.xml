@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="CodingVoyage">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/slick.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/jorbis-0.0.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/jogg-0.0.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/gson-2.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/slick-util.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/Slick-javadoc.zip!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/originalSlick.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/lwjgl-2.9/jar/lwjgl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/lwjgl-2.9/jar/lwjgl_util.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CodingVoyage/lwjgl-2.9/jar/jinput.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
