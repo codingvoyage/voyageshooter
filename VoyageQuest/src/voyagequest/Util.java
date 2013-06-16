@@ -1,5 +1,7 @@
 package voyagequest;
 
+import java.awt.Font;
+import java.io.InputStream;
 import org.newdawn.slick.UnicodeFont;
 
 /**
@@ -15,11 +17,13 @@ public final class Util {
     static {
         UnicodeFont newFont;
         try {
-            newFont = new UnicodeFont("/src/voyagequest/DroidSans.ttf", 24, false, false);
+            InputStream is = Util.class.getClassLoader().getResourceAsStream("voyagequest/DroidSans.ttf");
+            Font droid = Font.createFont(Font.TRUETYPE_FONT, is);
+            newFont = new UnicodeFont(droid, 24, false, false);
             newFont.addAsciiGlyphs();
             newFont.getEffects().add(new org.newdawn.slick.font.effects.ColorEffect(new java.awt.Color(218, 249, 248))); 
             newFont.loadGlyphs(); 
-        } catch (org.newdawn.slick.SlickException e) {
+        } catch (Exception e) {
             newFont = new UnicodeFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 24));
         }
         FONT = newFont;

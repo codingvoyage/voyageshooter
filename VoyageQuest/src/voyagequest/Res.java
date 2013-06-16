@@ -9,7 +9,6 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.XMLPackedSheet;
 import voyagequest.special.LoadAnimations;
 
 /**
@@ -19,25 +18,25 @@ import voyagequest.special.LoadAnimations;
 public class Res {
     
     /** Sprite sheet for Sebastian */
-    public static XMLPackedSheet sebastian; 
-    public static XMLPackedSheet njeri; 
-    public static XMLPackedSheet soldier; 
-    public static XMLPackedSheet lifei; 
-    public static XMLPackedSheet lifeisprite; 
-    public static XMLPackedSheet young;
-    public static XMLPackedSheet anika;
+    public static StreamXMLPackedSheet sebastian; 
+    public static StreamXMLPackedSheet njeri; 
+    public static StreamXMLPackedSheet soldier; 
+    public static StreamXMLPackedSheet lifei; 
+    public static StreamXMLPackedSheet lifeisprite; 
+    public static StreamXMLPackedSheet young;
+    public static StreamXMLPackedSheet anika;
     
     static {
         try {
-            sebastian = new XMLPackedSheet("src/res/sebastian.png", "src/res/sebastian.xml");
-            njeri = new XMLPackedSheet("src/res/njeri.png", "src/res/njeri.xml");
-            soldier = new XMLPackedSheet("src/res/soldier_npc01_walk.png", "src/res/soldier.xml");
-            lifei = new XMLPackedSheet("src/res/lifei.png", "src/res/lifei.xml");
-            lifeisprite = new XMLPackedSheet("src/res/lifeifront.png", "src/res/lifeisprite.xml");
-            young = new XMLPackedSheet("src/res/test/surprisetiles.png","src/res/young.xml");
-            anika = new XMLPackedSheet("src/res/anika.png","src/res/anika.xml");
-        
-        } catch (SlickException e) {}
+            sebastian = new StreamXMLPackedSheet("res/sebastian.png", "res/sebastian.xml");
+            njeri = new StreamXMLPackedSheet("res/njeri.png", "res/njeri.xml");
+            soldier = new StreamXMLPackedSheet("res/soldier_npc01_walk.png", "res/soldier.xml");
+            lifei = new StreamXMLPackedSheet("res/lifei.png", "res/lifei.xml");
+            lifeisprite = new StreamXMLPackedSheet("res/lifeifront.png", "res/lifeisprite.xml");
+            young = new StreamXMLPackedSheet("res/test/surprisetiles.png","res/young.xml");
+            anika = new StreamXMLPackedSheet("res/anika.png","res/anika.xml");
+            System.out.println("XML Loaded");
+        } catch (SlickException ex) {}
     }
     
     /** Sebastian animation, data mapped by JSON */
@@ -62,7 +61,8 @@ public class Res {
     public static Music teleport;
     static {
         try {
-            teleport = new Music("src/res/sounds/teleport.ogg");
+            URL is = Res.class.getClassLoader().getResource("res/sounds/teleport.ogg");
+            teleport = new Music(is);
         } catch (SlickException e) {}
     }
     
@@ -80,15 +80,15 @@ public class Res {
             //For lack of better implementation, I will hardcode this now.
             //Here's the problem: before, it was sebastian.getSprite(frameIterator.next());
             //Basically, since you didn't write something that transferred the images from
-            //the XMLPackedSheets into a huge HashMap of Image objects, you went directly from
-            //XMLPackedSheet --> Animation with this method. Unfortunately, we end up with two
+            //the StreamXMLPackedSheets into a huge HashMap of Image objects, you went directly from
+            //StreamXMLPackedSheet --> Animation with this method. Unfortunately, we end up with two
             //issues: 
             //     1. How do we load any images that don't belong with Animations?
-            //     2. How do we tell between which XMLPackedSheet to choose from? I decided to give
+            //     2. How do we tell between which StreamXMLPackedSheet to choose from? I decided to give
             //     a new JSON field called packedSheetID which solves the problem for now, but please
             //     later help me write something that creates a huge Hashmap<String, Image> please.
             
-            XMLPackedSheet currentPackedSheet = null;
+            StreamXMLPackedSheet currentPackedSheet = null;
             System.out.println(next.getPackedSheetID());
             if (next.getPackedSheetID().equals("njeri")) currentPackedSheet = njeri;
             if (next.getPackedSheetID().equals("sebastian")) currentPackedSheet = sebastian;

@@ -61,10 +61,9 @@ public class Map {
     public Map(String mapFileLocation) throws SlickException
     {
         //Load the TiledMapPlus and extract dimensions from it
-        System.out.println("MAP BEING CONSTRCUTED IS : " + mapFileLocation);
         
         InputStream is = getClass().getClassLoader().getResourceAsStream(mapFileLocation);
-        tileMap = new TiledMapPlus(is);
+        tileMap = new TiledMapPlus(is, "res");
         TILE_LENGTH = tileMap.getTileHeight();
         MAP_WIDTH = tileMap.getWidth() * TILE_LENGTH;
         MAP_HEIGHT = tileMap.getHeight() * TILE_LENGTH;
