@@ -1,15 +1,23 @@
+-- This is the part where Sebastian faints after being overwhelmed by the crates.
+
 freezeInputs
 
 dialogBox "Sebastian Profile" "Just a little bit further..."
 genericMessageBox "... *SLUMP*"
 
-wait 3000
-
 writeGlobal 80 --> GAME_STATE
 
-mapChange "res/IODOLM.tmx" 1200 1400
+-- Face left, if not already...
 assumeControlOfPlayer
+wait 20
 setAnimationDirection 2
+
+wait 1500
+
+
+
+mapChange "res/IODOLM.tmx" 1200 1400
+
 
 unfreezeInputs
 
