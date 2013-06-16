@@ -3,8 +3,9 @@ package voyagequest;
 import com.google.gson.*;
 import java.lang.reflect.Modifier;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Reads JSON Data Files with the GSON Library<br/><br/>
@@ -45,23 +46,19 @@ public class JsonReader<T> {
      * @return boolean indicating whether or not the JSON file was successfully parsed
      */
     public boolean readJson(){
-        try {
-           
-            // read the JSON file
-            BufferedReader read = new BufferedReader(new FileReader(file));
+        
 
-            // pass the file to Gson and create a group of Entities from that
-            // by default, Gson skips static fields, so we need to modify that
+        // read the JSON file
+        InputStream jsonPath = getClass().getClassLoader().getResourceAsStream(file);
+        try (BufferedReader read = new BufferedReader(new InputStreamReader(jsonPath))) {
+
             Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE).create();
             data = gson.fromJson(read, type);
-            read.close();
             
-        } catch(IOException e) {
-            
+        } catch (IOException ex) {
             return false;
-            
-        } 
-        
+        }
+
         return true;
     }
     

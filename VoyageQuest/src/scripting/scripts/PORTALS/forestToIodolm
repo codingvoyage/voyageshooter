@@ -26,6 +26,6 @@ if gameState <= 50
     endthread
 endif
 
-mapChange "src/res/IODOLM.tmx" 3000 4000
+mapChange "res/IODOLM.tmx" 3000 4000
 
 endthread

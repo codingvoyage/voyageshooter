@@ -18,7 +18,7 @@ if gameState < 75
 endif
 
 if gameState == 75
-    mapChange "src/res/CRATEEXPECTATIONS.tmx" 1535 175
+    mapChange "res/CRATEEXPECTATIONS.tmx" 1535 175
 endif
 
 if gameState > 75

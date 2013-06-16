@@ -1,5 +1,6 @@
 package map;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -60,7 +61,10 @@ public class Map {
     public Map(String mapFileLocation) throws SlickException
     {
         //Load the TiledMapPlus and extract dimensions from it
-        tileMap = new TiledMapPlus(mapFileLocation);
+        System.out.println("MAP BEING CONSTRCUTED IS : " + mapFileLocation);
+        
+        InputStream is = getClass().getClassLoader().getResourceAsStream(mapFileLocation);
+        tileMap = new TiledMapPlus(is);
         TILE_LENGTH = tileMap.getTileHeight();
         MAP_WIDTH = tileMap.getWidth() * TILE_LENGTH;
         MAP_HEIGHT = tileMap.getHeight() * TILE_LENGTH;
@@ -139,8 +143,8 @@ public class Map {
         //Bakesale! I understand your JsonReader class now! I understand why you did all of this.
         //Json is INCREDIBLE. It's such a convenient way of defining data. Thank you.  
         
-        //Alright, if the map file is at "src/res/mapname.tmx" the json will be at
-        //"src/res/mapname.json". so...
+        //Alright, if the map file is at "res/mapname.tmx" the json will be at
+        //"res/mapname.json". so...
         String jsonFileLocation = mapFileLocation.replaceFirst(".tmx",".json");
         
         JsonReader<Map> reader = new JsonReader<>(Map.class, jsonFileLocation);

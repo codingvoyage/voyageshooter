@@ -7,7 +7,7 @@ wait 3000
 
 writeGlobal 80 --> GAME_STATE
 
-mapChange "src/res/IODOLM.tmx" 1200 1400
+mapChange "res/IODOLM.tmx" 1200 1400
 assumeControlOfPlayer
 setAnimationDirection 2
 

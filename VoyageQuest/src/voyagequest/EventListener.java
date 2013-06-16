@@ -74,7 +74,7 @@ public abstract class EventListener {
             {
                 VoyageQuest.threadManager.markForDeletion("Njeri Thread");
                 
-                Global.currentMap = new Map("src/res/House.tmx");
+                Global.currentMap = new Map("res/House.tmx");
                 VoyageQuest.player.r = new DoubleRect(620, 1300, 64, 128);
                 Global.currentMap.entities.add(player);
                 Global.currentMap.collisions.addEntity(player);

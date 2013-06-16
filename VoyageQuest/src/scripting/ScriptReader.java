@@ -889,6 +889,14 @@ public class ScriptReader
                 Entity player = VoyageQuest.player;
                 player.r.x = identifierCheck(currentLine, 1).getDoubleValue();
                 player.r.y = identifierCheck(currentLine, 2).getDoubleValue();
+                
+                if (Global.currentMap == null)
+                    Util.p("currentMap null");
+                else if (Global.currentMap.entities == null)
+                    Util.p("entities null");
+                else if (player == null)
+                    Util.p("player null");
+                
                 Global.currentMap.entities.add(player);
                 Global.currentMap.collisions.addEntity(player);
                 

@@ -1,7 +1,10 @@
 package scripting;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +31,7 @@ public class Script {
     private HashMap<String, Integer> commandDictionary;
     
     /** path to scripts folder */
-    public final String SCRIPT_FOLDER = "src/scripting/scripts/";
+    public final String SCRIPT_FOLDER = "scripting/scripts/";
 
     public Script(String filename, HashMap<String, Integer> commandDictionary)
     {
@@ -54,67 +57,64 @@ public class Script {
      */
     private void loadFile(String filename)
     {
-        try {
-            //So like script.txt would end up being scripts/script.txt
-            //which is where it should be...
-            FileReader reader = new FileReader(SCRIPT_FOLDER + filename);
-            Scanner in = new Scanner(reader);
+        //So like script.txt would end up being scripts/script.txt
+        //which is where it should be...
+        InputStream is = getClass().getClassLoader().getResourceAsStream(SCRIPT_FOLDER + filename);
+        
+        if (is == null)
+            System.out.println("Script don't exist");
+        else {
+        
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            try (Scanner in = new Scanner(reader)) {
 
-            while (in.hasNextLine())
-            {
-                String myNextLine = in.nextLine();
-                
-                System.out.println(myNextLine);
-
-                //Of course, if the next line contains nothing, then ignore
-                //Everything else that happens will happen if the line isn't ""
-                if (!myNextLine.equals("")) {
-
-                    //Alright, first trim any whitespace at the ends
-                    myNextLine = myNextLine.trim();
-
-                    //The formatLine class will work its magic and take the
-                    //line as a String and make a Line object with properly
-                    //formatted Parameters
-                    Line formattedLineObject = formatLine(myNextLine);
-
-                    //If it's null, then that means it hit a comment and
-                    //decided to ignore the line. Otherwise, maybe it screwed
-                    //up. Then just ignore the line.
-                    if (formattedLineObject != null)
-                        //Add this to the master list of Lines
-                        lineList.add(formattedLineObject);
-
-                }
-            }
-
-            //Close the input now.
-            in.close();
-
-            //If we're done loading the lines, now we find the labels
-            for (int i = 0; i < getLineCount(); i++)
-            {
-                Line currentLine = lineList.get(i);
-
-                //If it's either a goto branch or a function branch...
-                if (currentLine.getCommandID() == 2 ||
-                        currentLine.getCommandID() == 3)
+                while (in.hasNextLine())
                 {
-                    //The key will be the name of the branch
-                    String labelKey = currentLine.getStringParameter(0);
+                    String myNextLine = in.nextLine();
 
-                    //The value is the line number
-                    labelMap.put(labelKey, i);
+                    System.out.println(myNextLine);
+
+                    //Of course, if the next line contains nothing, then ignore
+                    //Everything else that happens will happen if the line isn't ""
+                    if (!myNextLine.equals("")) {
+
+                        //Alright, first trim any whitespace at the ends
+                        myNextLine = myNextLine.trim();
+
+                        //The formatLine class will work its magic and take the
+                        //line as a String and make a Line object with properly
+                        //formatted Parameters
+                        Line formattedLineObject = formatLine(myNextLine);
+
+                        //If it's null, then that means it hit a comment and
+                        //decided to ignore the line. Otherwise, maybe it screwed
+                        //up. Then just ignore the line.
+                        if (formattedLineObject != null)
+                            //Add this to the master list of Lines
+                            lineList.add(formattedLineObject);
+
+                    }
                 }
 
+
+                //If we're done loading the lines, now we find the labels
+                for (int i = 0; i < getLineCount(); i++)
+                {
+                    Line currentLine = lineList.get(i);
+
+                    //If it's either a goto branch or a function branch...
+                    if (currentLine.getCommandID() == 2 ||
+                            currentLine.getCommandID() == 3)
+                    {
+                        //The key will be the name of the branch
+                        String labelKey = currentLine.getStringParameter(0);
+
+                        //The value is the line number
+                        labelMap.put(labelKey, i);
+                    }
+
+                }
             }
-
-
-        }
-        catch (FileNotFoundException e)
-        {
-            //Somehow, we have screwed up and inputted the wrong filename
-            e.printStackTrace();
         }
 
     }

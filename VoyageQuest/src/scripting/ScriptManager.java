@@ -1,8 +1,11 @@
 package scripting;
 
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -22,7 +25,7 @@ public class ScriptManager {
     public final int SCRIPT_CAPACITY = 100;
     
     /** path to scripts folder */
-    public final String SCRIPT_FOLDER = "src/scripting/scripts/";
+    public final String SCRIPT_FOLDER = "scripting/scripts/";
     
     public ScriptManager() 
     {
@@ -44,45 +47,37 @@ public class ScriptManager {
     {
         //Create a HashMap which holds function and commandID pairs
         HashMap<String, Integer> newDictionary = new HashMap<String, Integer>();
-        
-        try {
-            FileReader reader = new FileReader(SCRIPT_FOLDER + dictionaryFilename);
-            Scanner in = new Scanner(reader);
 
+        InputStream is = getClass().getClassLoader().getResourceAsStream(SCRIPT_FOLDER + dictionaryFilename);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        try (Scanner in = new Scanner(reader)) {
             while (in.hasNextLine())
             {
                 String myNextLine = in.nextLine();
-                
+
                 //Ignore if the next Line is a comment (--) or if it is blank
                 if (!(myNextLine.equals("")||(myNextLine.substring(0,2).equals("--"))))
                 {
                     //Get the name of the command
                     int indexOfSpace = myNextLine.indexOf(" ");
                     String commandNameKey = myNextLine.substring(0, indexOfSpace);
-                    
+
                     //Except we need to be not-case-specific, so let's make it
                     //lowercase!
                     commandNameKey = commandNameKey.toLowerCase();
-                    
+
                     //Find out the number, basically from ahead of the space 
                     //one step until the length of the line should be the number
                     String commandIDNumber = myNextLine.substring(indexOfSpace + 1,
                             myNextLine.length());
-                    
+
                     //Now I need the number in integer form
                     int commandIDInteger = Integer.parseInt(commandIDNumber);
-                    
+
                     //Now I can stick this in the HashMap!
                     newDictionary.put(commandNameKey, commandIDInteger);
                 }
             }
-        
-            //Close the input now.
-            in.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
         }
         
         return newDictionary;

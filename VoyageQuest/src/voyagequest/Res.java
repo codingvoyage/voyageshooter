@@ -1,5 +1,7 @@
 package voyagequest;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -51,7 +53,8 @@ public class Res {
     public static Music mainmusic;
     static {
         try {
-            mainmusic = new Music("src/res/sounds/main.ogg");
+            URL is = Res.class.getClassLoader().getResource("res/sounds/main.ogg");
+            mainmusic = new Music(is);
         } catch (SlickException e) {}
     }
     

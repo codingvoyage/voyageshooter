@@ -87,7 +87,7 @@ public class VoyageQuest extends BasicGame {
         gc.setMaximumLogicUpdateInterval(20);
         
         // Load animation data
-        JsonReader<Res> reader = new JsonReader<>(Res.class, "src/res/Animations.json");
+        JsonReader<Res> reader = new JsonReader<>(Res.class, "res/Animations.json");
         reader.readJson();
         
         // Initialize the rest of the resource manager

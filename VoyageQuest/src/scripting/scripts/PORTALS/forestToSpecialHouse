@@ -22,6 +22,6 @@ if gameState < 65
 endif
 
 
-mapChange "src/res/SPECIALHOUSE.tmx" 730 1400
+mapChange "res/SPECIALHOUSE.tmx" 730 1400
 
 endthread
