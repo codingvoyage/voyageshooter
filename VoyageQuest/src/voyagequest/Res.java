@@ -9,7 +9,10 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tiled.TiledMapPlus;
 import voyagequest.special.LoadAnimations;
+import voyagequest.special.LoadMaps;
+
 
 /**
  * Global resources, like animations, sprites, etc...
@@ -26,6 +29,10 @@ public class Res {
     public static StreamXMLPackedSheet young;
     public static StreamXMLPackedSheet anika;
     
+    public static HashMap<String, TiledMapPlus> allMaps;
+    public static HashMap<String, String> idToJsonUrlMappings;
+    public static LinkedList<LoadMaps> mapLoadingMappings;
+    
     static {
         try {
             sebastian = new StreamXMLPackedSheet("res/sebastian.png", "res/sebastian.xml");
@@ -36,7 +43,33 @@ public class Res {
             young = new StreamXMLPackedSheet("res/test/surprisetiles.png","res/young.xml");
             anika = new StreamXMLPackedSheet("res/anika.png","res/anika.xml");
             System.out.println("XML Loaded");
+            
+            
+            //Loading the maps
+            allMaps = new HashMap<>();
+            idToJsonUrlMappings = new HashMap<>();
+            
+            JsonReader<Res> reader = new JsonReader<>(Res.class, "res/mapMappings.json");
+            reader.readJson();
+
+            ListIterator<LoadMaps> iterator = mapLoadingMappings.listIterator();
+            while (iterator.hasNext())
+            {
+                LoadMaps currentMap = iterator.next();
+
+                InputStream is = Res.class.getClassLoader().getResourceAsStream(
+                        currentMap.mapURL);
+                TiledMapPlus tileMap = new TiledMapPlus(is, "res");
+                
+                allMaps.put(currentMap.mapID, tileMap);
+                idToJsonUrlMappings.put(currentMap.mapID, currentMap.mapJsonURL);
+                
+            }
+            
         } catch (SlickException ex) {}
+        
+        
+            
     }
     
     /** Sebastian animation, data mapped by JSON */
@@ -71,8 +104,10 @@ public class Res {
      * Must be called <em>after</em> data is loaded from JSON
      */
     public static void init() {
-        mainmusic.loop();
         
+        mainmusic.loop();
+            
+            
         ListIterator<LoadAnimations> animationIterator = animationData.listIterator();
         while (animationIterator.hasNext()) {
             LoadAnimations next = animationIterator.next();

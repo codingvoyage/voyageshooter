@@ -72,12 +72,11 @@ public class VoyageQuest extends BasicGame {
     
     
     
-   /** The alpha map being applied */
+   // The alpha map being applied for cave effect
    private Image alphaMap;
    
-   int faded = 255;
-   int dir = -1;
-   
+   //Fade is how visible the screen is. 255 for max, 0 for completely dark.
+   public static int fade = 255;
     
     
     /**
@@ -228,8 +227,6 @@ public class VoyageQuest extends BasicGame {
            
         GuiManager.update(gc, delta);
         
-        if (dir > 0) { faded-=2; if (faded < 50) dir *= -1; }
-        if (dir < 0) { faded+=2; if (faded > 255) dir *= -1; }
         
     }
 
@@ -246,7 +243,7 @@ public class VoyageQuest extends BasicGame {
         //If there isn't a full screen GUI... draw what the Camera sees
         Global.camera.display(g);
         
-        lightingTest(g);
+        fading(g);
         
         try {
             GuiManager.draw();
@@ -266,7 +263,7 @@ public class VoyageQuest extends BasicGame {
      * Basically, drawing black makes things light
      * Drawing white makes things dark.
      */
-    private void lightingTest(Graphics g) {
+    private void fading(Graphics g) {
 
         //Scale the light map down so it can be a small light map
         float invSizeX = 1f / 20;
@@ -279,12 +276,13 @@ public class VoyageQuest extends BasicGame {
 
         //This light map works because of reasons stated below - it is like a light source,
         //revealing a part of the map where the AlphaMap image is dark. Black = light, basically
-        //AlphaMap.drawCentered(X_RESOLUTION/2 * invSizeX, Y_RESOLUTION/2 * invSizeY);
+        //drawCentered(X_RESOLUTION/2 * invSizeX, Y_RESOLUTION/2 * invSizeY);
         
         //The faded variable... the color is black, but the alpha channel basically changes,
         //Taking the color from black, to grey, to white. As a result because of the alpha channel
         //the game environment grows from bright to dark.
-        g.setColor(new Color(0, 0, 0, faded)); 
+        //255 --> 0
+        g.setColor(new Color(0, 0, 0, fade)); 
 
         //#faded
         g.fill(new Rectangle(0, 0, X_RESOLUTION * invSizeX, Y_RESOLUTION * invSizeY));
