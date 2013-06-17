@@ -3,6 +3,7 @@ package voyagequest;
 import gui.GuiManager;
 import gui.VoyageGuiException;
 import gui.special.DialogBox;
+import java.io.InputStream;
 
 import map.Camera;
 import map.Entity;
@@ -23,6 +24,7 @@ import scripting.ScriptReader;
 import scripting.Thread;
 import scripting.ThreadManager;
 
+import org.lwjgl.opengl.GL11;
 /**
  * Voyage Quest RPG
  * Copyright (c) 2013 Team Coding Voyage.
@@ -64,6 +66,14 @@ public class VoyageQuest extends BasicGame {
     
     //testing
     public static boolean haschangedmaps = false;
+    
+    
+    
+   /** The alpha map being applied */
+   private Image alphaMap;
+   
+   
+    
     
     /**
      * Construct a new game
@@ -171,6 +181,11 @@ public class VoyageQuest extends BasicGame {
         loadingThread.setLineNumber(0);
         threadManager.addThread(loadingThread);
         threadManager.act(0.0);
+        
+        
+        InputStream is = getClass().getClassLoader().getResourceAsStream("res/alphamini.png");
+        alphaMap = new Image(is, "res/alphamini.png", false, Image.FILTER_NEAREST);
+      
     }
     
     /**
@@ -219,26 +234,51 @@ public class VoyageQuest extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException
     {
+        
         //If there isn't a full screen GUI... draw what the Camera sees
         Global.camera.display(g);
+        
+        lights(g, 20);
         
         try {
             GuiManager.draw();
             GuiManager.display();
         } catch (VoyageGuiException ex) {}
-        
-        
+      
         Util.FONT.drawString(10, 10, "FPS: " + gc.getFPS());
+        Util.FONT.drawString(10, 40,
+                "Coordinates of player: (" + player.r.x + ", " + player.r.y + ")");
         
-        double entityX = player.r.x;
-        double entityY = player.r.y;
-        
-        
-        Util.FONT.drawString(10, 40, "Coordinates of player: (" + entityX + ", " + entityY + ")");
-        
-        // Res.sebastian.getSprite("sf1").draw(200, 500);
     }
 
+    
+    private void lights(Graphics g, int size) {
+
+      //Scaling stuff down */
+      float invSizeX = 1f / 20;
+      float invSizeY = 1f / 15;
+      g.scale(20, 15);
+
+      //setting alpha channel ready so lights add up instead of clipping */
+      g.clearAlphaMap();
+      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+      
+      alphaMap.drawCentered(X_RESOLUTION/2 * invSizeX, Y_RESOLUTION/2 * invSizeY);
+      
+      //Scaling back stuff so we don't have to use big alpha map image */
+      g.scale(invSizeX, invSizeY);
+
+      //setting alpha channel for clearing everything but light map just added
+      GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
+
+      //paint everything else with black
+      g.fillRect(0, 0, X_RESOLUTION, Y_RESOLUTION);
+      
+      //setting drawing mode back to normal
+      g.setDrawMode(Graphics.MODE_NORMAL);
+
+   }
+    
     /**
      * The main method<br/>
      * Create the game window and start the game!
