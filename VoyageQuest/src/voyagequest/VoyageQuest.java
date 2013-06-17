@@ -17,6 +17,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
+import org.newdawn.slick.ShapeFill;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
 import scripting.ScriptManager;
@@ -72,6 +75,8 @@ public class VoyageQuest extends BasicGame {
    /** The alpha map being applied */
    private Image alphaMap;
    
+   int faded = 255;
+   int dir = -1;
    
     
     
@@ -223,6 +228,9 @@ public class VoyageQuest extends BasicGame {
            
         GuiManager.update(gc, delta);
         
+        if (dir > 0) { faded-=2; if (faded < 50) dir *= -1; }
+        if (dir < 0) { faded+=2; if (faded > 255) dir *= -1; }
+        
     }
 
     /**
@@ -238,7 +246,7 @@ public class VoyageQuest extends BasicGame {
         //If there isn't a full screen GUI... draw what the Camera sees
         Global.camera.display(g);
         
-        lights(g, 20);
+        lightingTest(g);
         
         try {
             GuiManager.draw();
@@ -252,30 +260,46 @@ public class VoyageQuest extends BasicGame {
     }
 
     
-    private void lights(Graphics g, int size) {
+    /*
+     * This technique I gained from the slick2D forums - Edmund
+     * The idea is to draw to the alpha channel.
+     * Basically, drawing black makes things light
+     * Drawing white makes things dark.
+     */
+    private void lightingTest(Graphics g) {
 
-      //Scaling stuff down */
-      float invSizeX = 1f / 20;
-      float invSizeY = 1f / 15;
-      g.scale(20, 15);
+        //Scale the light map down so it can be a small light map
+        float invSizeX = 1f / 20;
+        float invSizeY = 1f / 15;
+        g.scale(20, 15);
 
-      //setting alpha channel ready so lights add up instead of clipping */
-      g.clearAlphaMap();
-      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-      
-      alphaMap.drawCentered(X_RESOLUTION/2 * invSizeX, Y_RESOLUTION/2 * invSizeY);
-      
-      //Scaling back stuff so we don't have to use big alpha map image */
-      g.scale(invSizeX, invSizeY);
+        //Setting alpha channel ready
+        g.clearAlphaMap();
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 
-      //setting alpha channel for clearing everything but light map just added
-      GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
+        //This light map works because of reasons stated below - it is like a light source,
+        //revealing a part of the map where the AlphaMap image is dark. Black = light, basically
+        //AlphaMap.drawCentered(X_RESOLUTION/2 * invSizeX, Y_RESOLUTION/2 * invSizeY);
+        
+        //The faded variable... the color is black, but the alpha channel basically changes,
+        //Taking the color from black, to grey, to white. As a result because of the alpha channel
+        //the game environment grows from bright to dark.
+        g.setColor(new Color(0, 0, 0, faded)); 
 
-      //paint everything else with black
-      g.fillRect(0, 0, X_RESOLUTION, Y_RESOLUTION);
-      
-      //setting drawing mode back to normal
-      g.setDrawMode(Graphics.MODE_NORMAL);
+        //#faded
+        g.fill(new Rectangle(0, 0, X_RESOLUTION * invSizeX, Y_RESOLUTION * invSizeY));
+
+        //Now scale the light map up again
+        g.scale(invSizeX, invSizeY);
+
+        //Setting alpha channel for clearing everything but light map just added
+        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
+
+        //Paint everything else with black
+        g.fillRect(0, 0, X_RESOLUTION, Y_RESOLUTION);
+
+        //Setting drawing mode back to normal
+        g.setDrawMode(Graphics.MODE_NORMAL);
 
    }
     
